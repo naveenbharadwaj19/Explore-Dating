@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1011164142447",
+    "firebase_url": "https://exploreapp-3572c.firebaseio.com",
+    "project_id": "exploreapp-3572c",
+    "storage_bucket": "exploreapp-3572c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1011164142447:android:714b7c57eb1c5dfd52669a",
+        "android_client_info": {
+          "package_name": "com.example.Explore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1011164142447-kdrtr921a2ee8djhedcjb3kmmdd0deqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7wwTKqgChBA3b_9DAeKM_vLNTJdEzaj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1011164142447-kdrtr921a2ee8djhedcjb3kmmdd0deqf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
