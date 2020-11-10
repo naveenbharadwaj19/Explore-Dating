@@ -64,7 +64,7 @@ Widget emailTextField() {
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
-      child: TextField(
+      child: TextFormField(
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         enabled: true,
         cursorColor: Colors.white,
@@ -96,7 +96,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle) {
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
-      child: TextField(
+      child: TextFormField(
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         obscureText: !_passwordvisible,
         enabled: true,

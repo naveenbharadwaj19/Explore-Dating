@@ -8,6 +8,7 @@ void main() {
 
 // * hex code for black - 0xff121212
 // * hex code for yellow - 0xffF8C80D
+// * Headline font - Domine Regular
 
 class MyApp extends StatelessWidget {
   @override
