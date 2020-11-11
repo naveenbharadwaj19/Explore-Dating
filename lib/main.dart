@@ -68,6 +68,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
               emailTextField(),
               passwordTextField(showPasswordText,toggle),
               loginButton(),
+              googleSignUp(),
               navigateToSignUpPage(),
               Spacer(),
               navigateToWebLink()

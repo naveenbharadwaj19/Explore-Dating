@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 Widget logoAppName() {
   return Row(
@@ -138,7 +139,10 @@ Widget loginButton() {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(7),
           side: BorderSide(color: Color(0xffF8C80D))),
-      child: Text("Login",style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.w700),),
+      child: Text(
+        "Login",
+        style: TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w700),
+      ),
       onPressed: () {},
     ),
   );
@@ -153,7 +157,8 @@ Widget navigateToSignUpPage() {
         Container(
           child: Text(
             "Don't have an account ?",
-            style: TextStyle(color: Colors.white, fontSize: 18,fontWeight: FontWeight.w600),
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
         Container(
@@ -170,6 +175,20 @@ Widget navigateToSignUpPage() {
           ),
         ),
       ],
+    ),
+  );
+}
+
+Widget googleSignUp() {
+  return Align(
+    alignment: Alignment.center,
+    child: FlatButton(
+      child: SvgPicture.asset(
+        "lib/icons/google_icon.svg",
+        height: 45,
+        fit: BoxFit.cover,
+      ),
+      onPressed: () {},
     ),
   );
 }

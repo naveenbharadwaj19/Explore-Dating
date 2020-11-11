@@ -48,6 +48,7 @@ flutter:
     - assets/app_images/explore_plain_logo.png
     - assets/app_background_img/welcome_bg_2.png
     - lib/icons/explore_logo_svg.svg
+    - lib/icons/google_icon.svg
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
