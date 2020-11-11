@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-Widget backgroundImageText() {
+Widget logoAppName() {
   return Row(
     // ? logo and text
     children: [
@@ -47,9 +47,10 @@ Widget catchyText() {
     child: Text(
       "Ready to Explore ?",
       style: TextStyle(
-          fontFamily: "Roboto",
+          fontFamily: "OpenSans",
           fontSize: 25,
           color: Colors.white,
+          fontWeight: FontWeight.w500,
           decoration: TextDecoration.none),
     ),
   );
@@ -137,7 +138,7 @@ Widget loginButton() {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(7),
           side: BorderSide(color: Color(0xffF8C80D))),
-      child: Text("Login"),
+      child: Text("Login",style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.w700),),
       onPressed: () {},
     ),
   );
@@ -152,7 +153,7 @@ Widget navigateToSignUpPage() {
         Container(
           child: Text(
             "Don't have an account ?",
-            style: TextStyle(color: Colors.white, fontSize: 18),
+            style: TextStyle(color: Colors.white, fontSize: 18,fontWeight: FontWeight.w600),
           ),
         ),
         Container(
@@ -162,7 +163,7 @@ Widget navigateToSignUpPage() {
               style: TextStyle(
                   color: Color(0xffF8C80D),
                   fontSize: 18,
-                  // fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline),
             ),
             onPressed: () {},

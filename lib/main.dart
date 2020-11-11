@@ -9,6 +9,7 @@ void main() {
 // * hex code for black - 0xff121212
 // * hex code for yellow - 0xffF8C80D
 // * Headline font - Domine Regular
+// * Body font - OpenSans Light
 
 class MyApp extends StatelessWidget {
   @override
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Explore",
+      theme: ThemeData(
+        fontFamily: "OpenSans"
+      ),
       home: WelcomeLoginScreen(),
       routes: {},
     );
@@ -52,7 +56,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
           ),
           child: Column(
             children: [
-              backgroundImageText(),
+              logoAppName(),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 20),
               ),

@@ -65,9 +65,10 @@ flutter:
         - asset: assets/fonts/Domine-Bold.ttf
           style: italic
 
-    - family: Roboto
+    - family: OpenSans
       fonts:
-        - asset: assets/fonts/Roboto-Light.ttf
+        - asset: assets/fonts/OpenSans-Light.ttf
+          weight: 600
         # - asset: assets/fonts/Domine-Bold.ttf
           # style: italic
   #   - family: Trajan Pro
