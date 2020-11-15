@@ -83,7 +83,8 @@ Widget emailTextField() {
               borderSide: BorderSide(color: Colors.white),
             ),
             hintText: "Email address",
-            hintStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.w700)),
+            hintStyle:
+                TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
       ),
     ),
   );
@@ -116,7 +117,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle) {
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Password",
-          hintStyle: TextStyle(color: Colors.grey,fontWeight: FontWeight.w700),
+          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
           suffixIcon: IconButton(
             color: Color(0xffF8C80D),
             icon: Icon(_passwordvisible

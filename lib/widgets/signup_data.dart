@@ -184,7 +184,7 @@ Widget signupButton() {
           borderRadius: BorderRadius.circular(7),
           side: BorderSide(color: Color(0xffF8C80D))),
       child: Text(
-        "SignUp",
+        "Next",
         style: TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w700),
       ),
       onPressed: () {},

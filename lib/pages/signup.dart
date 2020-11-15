@@ -1,7 +1,6 @@
 import 'package:Explore/widgets/Signup_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:gender_selection/gender_selection.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -10,18 +9,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Explore",
       theme: ThemeData(fontFamily: "OpenSans"),
-      home: WelcomeLoginScreen(),
+      home: SignupScreen(),
       routes: {},
     );
   }
 }
 
-class WelcomeLoginScreen extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
   @override
   _WelcomeLoginScreenState createState() => _WelcomeLoginScreenState();
 }
 
-class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
+class _WelcomeLoginScreenState extends State<SignupScreen> {
   bool showPasswordText = false;
   void toggle() {
     setState(() {
@@ -49,39 +48,14 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
             children: [
               logoAppName(),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
+                padding: EdgeInsets.symmetric(vertical: 5),
               ),
               fullnameTextField(),
               emailTextField(),
-              GenderSelection(
-                maleText: "", //default Male
-                femaleText: "", //default Female
-                linearGradient: pinkRedGradient,
-                selectedGenderIconBackgroundColor: Colors.indigo, // default red
-                checkIconAlignment:
-                    Alignment.centerRight, // default bottomRight
-                selectedGenderCheckIcon: null, // default Icons.check
-                onChanged: (Gender gender) {
-                  print(gender);
-                },
-                equallyAligned: true,
-                animationDuration: Duration(milliseconds: 400),
-                isCircular: true, // default : true,
-                isSelectedGenderIconCircular: true,
-                opacityOfGradient: 0.6,
-                padding: const EdgeInsets.all(3),
-                size: 120, //default : 120
-              ),
               passwordTextField(showPasswordText, toggle),
               cpasswordTextField(showPasswordText, toggle),
               signupButton(),
-              googleSignUp(),
-              navigateToSignUpPage(),
-              Spacer(),
-              navigateToWebLink()
+              navigateToSignInPage(),
             ],
           ),
         ),
