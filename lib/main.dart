@@ -1,6 +1,8 @@
-import 'package:Explore/widgets/logo_text.dart';
+import 'package:Explore/screens/signup_screen.dart';
+import 'package:Explore/widgets/login_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,12 +23,28 @@ class MyApp extends StatelessWidget {
         fontFamily: "OpenSans"
       ),
       home: WelcomeLoginScreen(),
-      routes: {},
+      routes: {
+        // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
+        // SignUpScreen.routeName : (context) => SignUpScreen(),
+      },
+      onGenerateRoute: (settings){
+        switch (settings.name){
+          case WelcomeLoginScreen.routeName :
+          return PageTransition(child: WelcomeLoginScreen(), type: PageTransitionType.rightToLeftWithFade,);
+          break;
+          case SignUpScreen.routeName :
+          return PageTransition(child: SignUpScreen(), type: PageTransitionType.leftToRightWithFade);
+          break;
+          default :
+          return null;
+        }
+      },
     );
   }
 }
 
 class WelcomeLoginScreen extends StatefulWidget {
+  static const routeName = "login-screen";
   @override
   _WelcomeLoginScreenState createState() => _WelcomeLoginScreenState();
 }
@@ -69,7 +87,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
               passwordTextField(showPasswordText,toggle),
               loginButton(),
               googleSignUp(),
-              navigateToSignUpPage(),
+              navigateToSignUpPage(context),
               Spacer(),
               navigateToWebLink()
             ],

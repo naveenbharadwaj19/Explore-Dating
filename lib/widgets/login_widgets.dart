@@ -1,3 +1,4 @@
+import 'package:Explore/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -149,7 +150,7 @@ Widget loginButton() {
   );
 }
 
-Widget navigateToSignUpPage() {
+Widget navigateToSignUpPage(BuildContext context) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 25),
     child: Row(
@@ -172,7 +173,7 @@ Widget navigateToSignUpPage() {
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: () {},
+            onPressed: ()=> Navigator.pushReplacementNamed(context, SignUpScreen.routeName),
           ),
         ),
       ],
@@ -201,6 +202,7 @@ Widget navigateToWebLink() {
       icon: Icon(Icons.language_rounded),
       color: Colors.white,
       iconSize: 27,
+      tooltip: "Website",
       onPressed: () {},
     ),
   );
