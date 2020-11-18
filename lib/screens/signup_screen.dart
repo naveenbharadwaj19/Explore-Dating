@@ -9,6 +9,15 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController name = TextEditingController();
+  final TextEditingController emailAddress = TextEditingController();
+  final TextEditingController userName = TextEditingController();
+  final TextEditingController password = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
+  bool success;
+  String userEmail;
+
   bool showPasswordText = false;
   bool agreeAge = false;
   bool agreeTerms = false;
@@ -19,22 +28,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
-  void toggleAge(){
+  void toggleAge() {
     setState(() {
       agreeAge = !agreeAge;
     });
   }
 
-  void toogleTerms(){
+  void toogleTerms() {
     setState(() {
       agreeTerms = !agreeTerms;
     });
   }
 
+  // @override
+  // void initState() {
+  // ignore: todo
+  //   // TODO: implement initState
+  //   super.initState();
+  //   name.dispose();
+  //   emailAddress.dispose();
+  //   userName.dispose();
+  //   password.dispose();
+  //   confirmPassword.dispose();
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-          child: Material(
+      child: Material(
         child: ColorFiltered(
           colorFilter: ColorFilter.mode(
               Color(0xff121212).withOpacity(1), BlendMode.difference),
@@ -48,24 +70,32 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 fit: BoxFit.cover,
               ),
             ),
-            child: Column(
-              children: [
-                logoAppName(),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 3),
-                ),
-                fullnameTextField(),
-                emailTextField(),
-                userName(),
-                passwordTextField(showPasswordText, toggle),
-                confirmPasswordTextField(showPasswordText, toggle),
-                DOB(),
-                ageCondition(agreeAge,toggleAge),
-                termsAndConditions(agreeTerms, toogleTerms),
-                nextButton(),
-                navigateToLoginPage(context),
-                helpGuide(),
-              ],
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  logoAppName(),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 3),
+                  ),
+                  nameTextField(name),
+                  emailTextField(emailAddress),
+                  userNameTextField(userName),
+                  passwordTextField(
+                      showPasswordText, toggle, password, confirmPassword),
+                  confirmPasswordTextField(
+                      showPasswordText, toggle, confirmPassword, password),
+                  DOB(),
+                  ageCondition(agreeAge, toggleAge),
+                  termsAndConditions(agreeTerms, toogleTerms),
+                  nextButton(
+                      formKey: formKey,
+                      agreeAge: agreeAge,
+                      agreeTerms: agreeTerms),
+                  navigateToLoginPage(context),
+                  helpGuide(),
+                ],
+              ),
             ),
           ),
         ),

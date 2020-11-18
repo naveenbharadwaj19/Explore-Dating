@@ -56,6 +56,13 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
       showPasswordText = !showPasswordText;
     });
   }
+  // @override
+  // void initState() {
+  // ignore: todo
+  //   // TODO: implement initState
+  //   super.initState();
+
+  // }
 
   @override
   Widget build(BuildContext context) {

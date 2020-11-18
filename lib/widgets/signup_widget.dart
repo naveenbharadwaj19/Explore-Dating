@@ -1,5 +1,6 @@
 import 'package:Explore/main.dart';
 import 'package:circular_check_box/circular_check_box.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
@@ -29,8 +30,8 @@ Widget logoAppName() {
   );
 }
 
-Widget fullnameTextField() {
-  // ? Full name
+Widget nameTextField(TextEditingController _name) {
+  // ? name
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
@@ -39,6 +40,7 @@ Widget fullnameTextField() {
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
       child: TextFormField(
+        controller: _name,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         enabled: true,
         cursorColor: Colors.white,
@@ -46,23 +48,31 @@ Widget fullnameTextField() {
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            hintText: "Full Name",
-            hintStyle:
-                TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          hintText: "Name",
+          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return "Enter Some Text";
+          } else if (value.length > 20) {
+            return "Cannot Be More Than 20 Characters";
+          }
+          return null;
+        },
       ),
     ),
   );
 }
 
-Widget emailTextField() {
+Widget emailTextField(TextEditingController _email) {
   // ? Email address
   return Align(
     alignment: Alignment(-0.3, 0.0),
@@ -72,6 +82,7 @@ Widget emailTextField() {
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
       child: TextFormField(
+        controller: _email,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         enabled: true,
         cursorColor: Colors.white,
@@ -79,23 +90,31 @@ Widget emailTextField() {
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            hintText: "Email address",
-            hintStyle:
-                TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          hintText: "Email address",
+          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return "Enter Email Address";
+          } else if (!EmailValidator.validate(value)) {
+            return "Enter Valid Email Address";
+          }
+          return null;
+        },
       ),
     ),
   );
 }
 
-Widget userName() {
+Widget userNameTextField(TextEditingController _username) {
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
@@ -104,6 +123,7 @@ Widget userName() {
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
       child: TextFormField(
+        controller: _username,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         enabled: true,
         cursorColor: Colors.white,
@@ -111,23 +131,37 @@ Widget userName() {
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            hintText: "User Name",
-            hintStyle:
-                TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          hintText: "User Name",
+          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+        ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return "Enter Some Text";
+          }
+          if (value.contains(" ")) {
+            return "Cannot Use Space";
+          } else if (value.length < 4) {
+            return "Enter Above 4 Characters";
+          } else if (value.length > 15) {
+            return "Cannot Be More Than 12 Characters";
+          }
+          return null;
+        },
       ),
     ),
   );
 }
 
-Widget passwordTextField(bool _passwordvisible, Function _toggle) {
+Widget passwordTextField(bool _passwordvisible, Function _toggle,
+    TextEditingController _password, TextEditingController _confirmPassword) {
   // ? password
   return Align(
     alignment: Alignment(-0.3, 0.0),
@@ -137,6 +171,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle) {
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
       child: TextFormField(
+        controller: _password,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         obscureText: !_passwordvisible,
         enabled: true,
@@ -163,12 +198,23 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle) {
             onPressed: _toggle,
           ),
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return "Enter Some Text";
+          } else if (value.length < 6) {
+            return "Enter Above 6 Characters";
+          } else if (_confirmPassword.text != value) {
+            return "Password Does not Match";
+          }
+          return null;
+        },
       ),
     ),
   );
 }
 
-Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle) {
+Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
+    TextEditingController _confirmPassword, TextEditingController _password) {
   // ? password
   return Align(
     alignment: Alignment(-0.3, 0.0),
@@ -178,6 +224,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle) {
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
       child: TextFormField(
+        controller: _confirmPassword,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         obscureText: !_passwordvisible,
         enabled: true,
@@ -204,6 +251,16 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle) {
             onPressed: _toggle,
           ),
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return "Enter Some Text";
+          } else if (value.length < 6) {
+            return "Enter Above 6 Characters";
+          } else if (_password.text != value) {
+            return "Password Does Not Match";
+          }
+          return null;
+        },
       ),
     ),
   );
@@ -222,12 +279,23 @@ class _DOBState extends State<DOB> {
     return DateFormat("dd/MM/yyyy").format(today).toString();
   }
 
+  int _findAge() {
+    // ? check whether user is above 18+
+    String getYear = formattedDate().substring(formattedDate().length - 4);
+    int strToIntYear = int.parse(getYear);
+    DateTime currentTimeStamp = DateTime.now();
+    String formatYear = DateFormat("yyyy").format(currentTimeStamp).toString();
+    int formatYearToInt = int.parse(formatYear);
+    int findAge = formatYearToInt - strToIntYear;
+    return findAge;
+  }
+
   _selectDate(BuildContext context) async {
     // ? holo date picker
     final DateTime picked = await DatePicker.showSimpleDatePicker(
       context,
       initialDate: today,
-      firstDate: DateTime(1990),
+      firstDate: DateTime(1940),
       dateFormat: "dd-MMMM-yyyy",
       lastDate: DateTime.now(),
       looping: true,
@@ -275,7 +343,7 @@ class _DOBState extends State<DOB> {
                   borderRadius: BorderRadius.circular(7),
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
-                formattedDate(),
+                _findAge() < 18 ? "Enter age 18+" : formattedDate(),
                 style: TextStyle(
                     fontFamily: "OpenSans", fontWeight: FontWeight.w700),
               ),
@@ -288,42 +356,46 @@ class _DOBState extends State<DOB> {
   }
 }
 
-Widget ageCondition(bool agreeAge,Function toogleAge) {
+Widget ageCondition(bool agreeAge, Function toogleAge) {
   return Container(
-        margin: EdgeInsets.only(top: 15,left: 20),
-          child: Row(
-          children: [
-            CircularCheckBox(
-              // ? circle check box
-              value: agreeAge,
-              checkColor: Color(0xffF8C80D),
-              activeColor: Color(0xff121212),
-              inactiveColor: Colors.white,
-              onChanged: (val) => toogleAge(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Text("I agree i'm above 18+",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.w700),),
-            )
-          ],
+    margin: EdgeInsets.only(top: 15, left: 20),
+    child: Row(
+      children: [
+        CircularCheckBox(
+          // ? circle check box
+          value: agreeAge,
+          checkColor: Color(0xffF8C80D),
+          activeColor: Color(0xff121212),
+          inactiveColor: Colors.white,
+          onChanged: (val) => toogleAge(),
         ),
-      );
+        Padding(
+          padding: const EdgeInsets.all(15),
+          child: Text(
+            "I agree i'm above 18+",
+            style: TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+          ),
+        )
+      ],
+    ),
+  );
 }
 
-Widget termsAndConditions(bool tAndC, Function toogleTerms){
+Widget termsAndConditions(bool tAndC, Function toogleTerms) {
   return Container(
-      margin: EdgeInsets.only(top: 5,left: 20),
-        child: Row(
-        children: [
-          CircularCheckBox(
-            // ? circle check box
-            value: tAndC,
-            checkColor: Color(0xffF8C80D),
-            activeColor: Color(0xff121212),
-            inactiveColor: Colors.white,
-            onChanged: (val) => toogleTerms(),
-          ),
-          FlatButton(
+    margin: EdgeInsets.only(top: 5, left: 20),
+    child: Row(
+      children: [
+        CircularCheckBox(
+          // ? circle check box
+          value: tAndC,
+          checkColor: Color(0xffF8C80D),
+          activeColor: Color(0xff121212),
+          inactiveColor: Colors.white,
+          onChanged: (val) => toogleTerms(),
+        ),
+        FlatButton(
             child: Text(
               "I agree to terms and conditions",
               style: TextStyle(
@@ -333,12 +405,13 @@ Widget termsAndConditions(bool tAndC, Function toogleTerms){
                   decoration: TextDecoration.underline),
             ),
             onPressed: () {}),
-        ],
-      ),
-    );
+      ],
+    ),
+  );
 }
 
-Widget nextButton() {
+Widget nextButton(
+    {GlobalKey<FormState> formKey, bool agreeAge, bool agreeTerms}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 25),
     child: RaisedButton(
@@ -351,7 +424,14 @@ Widget nextButton() {
         "Next",
         style: TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w700),
       ),
-      onPressed: () {},
+      onPressed: () {
+        // ! Fix D.O.B logic
+        if (formKey.currentState.validate() &&
+            agreeAge == true &&
+            agreeTerms == true) {
+          print("In...");
+        }
+      },
     ),
   );
 }

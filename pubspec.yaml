@@ -30,6 +30,7 @@ dependencies:
   intl: ^0.16.1
   circular_check_box: ^1.0.4
   page_transition: ^1.1.7+2
+  email_validator: ^1.0.6
 
 dev_dependencies:
   flutter_test:
