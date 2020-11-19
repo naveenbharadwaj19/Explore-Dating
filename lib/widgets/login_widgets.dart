@@ -173,7 +173,7 @@ Widget navigateToSignUpPage(BuildContext context) {
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: ()=> Navigator.pushReplacementNamed(context, SignUpScreen.routeName),
+            onPressed: ()=> Navigator.pushNamed(context, SignUpScreen.routeName),
           ),
         ),
       ],

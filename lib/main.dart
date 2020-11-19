@@ -1,10 +1,15 @@
+import 'package:Explore/screens/emai_verf.dart';
 import 'package:Explore/screens/signup_screen.dart';
 import 'package:Explore/widgets/login_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -26,6 +31,7 @@ class MyApp extends StatelessWidget {
       routes: {
         // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
         // SignUpScreen.routeName : (context) => SignUpScreen(),
+        // EmailVerificationScreen.routeName : (context) => EmailVerificationScreen(),
       },
       onGenerateRoute: (settings){
         switch (settings.name){
@@ -34,6 +40,9 @@ class MyApp extends StatelessWidget {
           break;
           case SignUpScreen.routeName :
           return PageTransition(child: SignUpScreen(), type: PageTransitionType.leftToRightWithFade);
+          break;
+          case EmailVerificationScreen.routeName :
+          return PageTransition(child: EmailVerificationScreen(), type: PageTransitionType.rightToLeftWithFade,);
           break;
           default :
           return null;
@@ -56,48 +65,43 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
       showPasswordText = !showPasswordText;
     });
   }
-  // @override
-  // void initState() {
-  // ignore: todo
-  //   // TODO: implement initState
-  //   super.initState();
 
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: ColorFiltered(
-        colorFilter: ColorFilter.mode(Color(0xff121212).withOpacity(1), BlendMode.difference),
-        // ? difference, overlay, softlight ---> suitable blendmodes
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                "assets/app_background_img/welcome_bg_2.png",
+    return SingleChildScrollView(
+          child: Material(
+        child: ColorFiltered(
+          colorFilter: ColorFilter.mode(Color(0xff121212).withOpacity(1), BlendMode.difference),
+          // ? difference, overlay, softlight ---> suitable blendmodes
+          child: Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(
+                  "assets/app_background_img/welcome_bg_2.png",
+                ),
+                fit: BoxFit.cover,
               ),
-              fit: BoxFit.cover,
             ),
-          ),
-          child: Column(
-            children: [
-              logoAppName(),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-              ),
-              greetText(),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 10),
-              ),
-              catchyText(),
-              emailTextField(),
-              passwordTextField(showPasswordText,toggle),
-              loginButton(),
-              googleSignUp(),
-              navigateToSignUpPage(context),
-              Spacer(),
-              navigateToWebLink()
-            ],
+            child: Column(
+              children: [
+                logoAppName(),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                ),
+                greetText(),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+                catchyText(),
+                emailTextField(),
+                passwordTextField(showPasswordText,toggle),
+                loginButton(),
+                googleSignUp(),
+                navigateToSignUpPage(context),
+                navigateToWebLink()
+              ],
+            ),
           ),
         ),
       ),

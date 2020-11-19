@@ -15,12 +15,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController userName = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
-  bool success;
+  bool isLoading = false;
   String userEmail;
 
   bool showPasswordText = false;
   bool agreeAge = false;
   bool agreeTerms = false;
+
+  void loadingOn(){
+    setState(() {
+      isLoading = true;
+    });
+  }
+
+  void loadingOff(){
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   void toggle() {
     setState(() {
@@ -37,21 +49,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void toogleTerms() {
     setState(() {
       agreeTerms = !agreeTerms;
+      
     });
   }
 
-  // @override
-  // void initState() {
-  // ignore: todo
-  //   // TODO: implement initState
-  //   super.initState();
-  //   name.dispose();
-  //   emailAddress.dispose();
-  //   userName.dispose();
-  //   password.dispose();
-  //   confirmPassword.dispose();
-  // }
-
+  @override
+  void dispose() {
+    // ignore: todo
+    // TODO: implement dispose
+    super.dispose();
+    name.dispose();
+    emailAddress.dispose();
+    userName.dispose();
+    password.dispose();
+    confirmPassword.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +103,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   nextButton(
                       formKey: formKey,
                       agreeAge: agreeAge,
-                      agreeTerms: agreeTerms),
+                      agreeTerms: agreeTerms,
+                      emailAddress: emailAddress,
+                      password: password,
+                      loadingOn: loadingOn,
+                      loadingOff: loadingOff,
+                      isLoading: isLoading,
+                      context: context,
+                      
+                      ),
                   navigateToLoginPage(context),
                   helpGuide(),
                 ],

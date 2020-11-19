@@ -1,9 +1,13 @@
 import 'package:Explore/main.dart';
+import 'package:Explore/models/auth.dart';
+import 'package:Explore/screens/emai_verf.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 Widget logoAppName() {
@@ -411,10 +415,15 @@ Widget termsAndConditions(bool tAndC, Function toogleTerms) {
 }
 
 Widget nextButton(
-    {GlobalKey<FormState> formKey, bool agreeAge, bool agreeTerms}) {
+    {@required GlobalKey<FormState> formKey, @required bool agreeAge, @required bool agreeTerms,@required TextEditingController emailAddress , @required TextEditingController password,@required Function loadingOn ,@required  Function loadingOff,@required bool isLoading,@required BuildContext context}) {
+      
+      final cubeGrid = SpinKitCubeGrid(
+        color: Colors.white,
+        size: 40,
+      );
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 25),
-    child: RaisedButton(
+    child: isLoading == true ? cubeGrid : RaisedButton(
       color: Color(0xffF8C80D),
       textColor: Color(0xff121212),
       shape: RoundedRectangleBorder(
@@ -425,11 +434,12 @@ Widget nextButton(
         style: TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w700),
       ),
       onPressed: () {
-        // ! Fix D.O.B logic
         if (formKey.currentState.validate() &&
             agreeAge == true &&
             agreeTerms == true) {
-          print("In...");
+          print("Successfull");
+          AuthenticationFirebase.signInUser(emailAddress: emailAddress,password: password,loadingOn: loadingOn, loadingOff: loadingOff,ctx: context);
+          FocusScope.of(context).unfocus();
         }
       },
     ),
