@@ -1,6 +1,9 @@
+import 'package:Explore/models/auth.dart';
 import 'package:Explore/screens/signup_screen.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 Widget logoAppName() {
@@ -58,7 +61,7 @@ Widget catchyText() {
   );
 }
 
-Widget emailTextField() {
+Widget emailTextField(TextEditingController emailAddress) {
   // ? Email address
   return Align(
     alignment: Alignment(-0.3, 0.0),
@@ -68,6 +71,7 @@ Widget emailTextField() {
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
       child: TextFormField(
+        controller: emailAddress,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         enabled: true,
         cursorColor: Colors.white,
@@ -86,12 +90,20 @@ Widget emailTextField() {
             hintText: "Email address",
             hintStyle:
                 TextStyle(color: Colors.grey, fontWeight: FontWeight.w700)),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return "Enter Email Address";
+          } else if (!EmailValidator.validate(value)) {
+            return "Enter Valid Email Address";
+          }
+          return null;
+        },
       ),
     ),
   );
 }
 
-Widget passwordTextField(bool _passwordvisible, Function _toggle) {
+Widget passwordTextField(bool _passwordvisible, Function _toggle,TextEditingController password) {
   // ? password
   return Align(
     alignment: Alignment(-0.3, 0.0),
@@ -101,6 +113,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle) {
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
       child: TextFormField(
+        controller: password,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
         obscureText: !_passwordvisible,
         enabled: true,
@@ -127,26 +140,53 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle) {
             onPressed: _toggle,
           ),
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return "Enter Some Text";
+          } else if (value.length < 6) {
+            return "Enter Above 6 Characters";
+          }
+          return null;
+        },
       ),
     ),
   );
 }
 
-Widget loginButton() {
+Widget loginButton(
+    {@required GlobalKey<FormState> formKey,
+    @required TextEditingController emailAddress,
+    @required TextEditingController password,
+    @required Function loadingOn,
+    @required Function loadingOff,
+    @required bool isloading,
+    @required BuildContext context}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 25),
-    child: RaisedButton(
-      color: Color(0xffF8C80D),
-      textColor: Color(0xff121212),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(7),
-          side: BorderSide(color: Color(0xffF8C80D))),
-      child: Text(
-        "Login",
-        style: TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w700),
-      ),
-      onPressed: () {},
-    ),
+    child: isloading == true
+        ? SpinKitCubeGrid(
+            color: Colors.white,
+            size: 40,
+          )
+        : RaisedButton(
+            color: Color(0xffF8C80D),
+            textColor: Color(0xff121212),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(7),
+                side: BorderSide(color: Color(0xffF8C80D))),
+            child: Text(
+              "Login",
+              style: TextStyle(
+                  fontFamily: "OpenSans", fontWeight: FontWeight.w700),
+            ),
+            onPressed: () {
+              if (formKey.currentState.validate()) {
+                print("Successful login");
+                FocusScope.of(context).unfocus();
+                AuthenticationFirebase.loginUser(emailAddress: emailAddress, password: password, loadingOn: loadingOn, loadingOff: loadingOff, ctx: context);
+              }
+            },
+          ),
   );
 }
 
@@ -173,7 +213,8 @@ Widget navigateToSignUpPage(BuildContext context) {
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: ()=> Navigator.pushNamed(context, SignUpScreen.routeName),
+            onPressed: () =>
+                Navigator.pushNamed(context, SignUpScreen.routeName),
           ),
         ),
       ],

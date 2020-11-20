@@ -16,7 +16,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
   bool isLoading = false;
-  String userEmail;
+  // String userEmail;
 
   bool showPasswordText = false;
   bool agreeAge = false;

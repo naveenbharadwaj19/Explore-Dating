@@ -1,4 +1,5 @@
 import 'package:Explore/screens/emai_verf.dart';
+import 'package:Explore/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class AuthenticationFirebase {
   static void signInUser(
-      { @required TextEditingController emailAddress,
+      {@required TextEditingController emailAddress,
       @required TextEditingController password,
       @required Function loadingOn,
       @required Function loadingOff,
@@ -19,14 +20,13 @@ class AuthenticationFirebase {
       userResult = await auth.createUserWithEmailAndPassword(
           email: emailAddress.text, password: password.text);
       loadingOff();
-      
-      auth.authStateChanges().listen((User user) { 
-        if (user != null){
+
+      auth.authStateChanges().listen((User user) {
+        if (user != null) {
           print("User acc created ...");
           Navigator.pushNamed(ctx, EmailVerificationScreen.routeName);
         }
       });
-
     } on PlatformException catch (err) {
       var message = 'An error occurred, pelase check your credentials!';
 
@@ -36,32 +36,165 @@ class AuthenticationFirebase {
 
       Flushbar(
         backgroundColor: Color(0xff121212),
-        messageText: Text(message.toString(),style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.w700,color: Colors.white),),
+        messageText: Text(
+          message.toString(),
+          style: TextStyle(
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w700,
+              color: Colors.white),
+        ),
         duration: Duration(seconds: 3),
       )..show(ctx);
 
       loadingOff();
-
     } catch (err) {
       print("Error : $err");
       if (err.toString().contains(
           "The email address is already in use by another account.")) {
         Flushbar(
-          messageText: Text("Email address exist",style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.w700,color: Colors.white),),
+          messageText: Text(
+            "Email address exist",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
         )..show(ctx);
-
       } else if (err.toString().contains(
           " The password is invalid or the user does not have a password.")) {
         Flushbar(
-          messageText: Text("Incorrect password",style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.w700,color: Colors.white),),
+          messageText: Text(
+            "Incorrect password",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
         )..show(ctx);
       } else {
         Flushbar(
-          messageText: Text("Something went wrong try again",style: TextStyle(fontFamily: "OpenSans",fontWeight: FontWeight.w700,color: Colors.white),),
+          messageText: Text(
+            "Something went wrong try again",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(ctx);
+      }
+      loadingOff();
+    }
+  }
+
+  static void loginUser(
+      {@required TextEditingController emailAddress,
+      @required TextEditingController password,
+      @required Function loadingOn,
+      @required Function loadingOff,
+      @required BuildContext ctx}) async {
+    final auth = FirebaseAuth.instance;
+    UserCredential userResult;
+    try {
+      loadingOn();
+      userResult = await auth.signInWithEmailAndPassword(
+          email: emailAddress.text, password: password.text);
+      loadingOff();
+
+      auth.authStateChanges().listen((User user) {
+        if (user != null) {
+          print("User logged in...");
+          Navigator.pushNamed(ctx, HomeScreen.routeName);
+        }
+      });
+    } on PlatformException catch (err) {
+      var message = 'An error occurred, pelase check your credentials!';
+
+      if (err.message != null) {
+        message = err.message;
+      }
+
+      Flushbar(
+        backgroundColor: Color(0xff121212),
+        messageText: Text(
+          message.toString(),
+          style: TextStyle(
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w700,
+              color: Colors.white),
+        ),
+        duration: Duration(seconds: 3),
+      )..show(ctx);
+
+      loadingOff();
+    } catch (err) {
+      print("Error : $err");
+      if (err.toString().contains(
+          "The email address is already in use by another account.")) {
+        Flushbar(
+          messageText: Text(
+            "Email address exist",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(ctx);
+      } else if (err.toString().contains(
+          "The password is invalid or the user does not have a password.")) {
+        Flushbar(
+          messageText: Text(
+            "Incorrect password",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(ctx);
+      } else if (err.toString().contains(
+          "There is no user record corresponding to this identifier. The user may have been deleted")) {
+        Flushbar(
+          messageText: Text(
+            "Account does not exist create one",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(ctx);
+      } else if (err.toString().contains(
+          "The user account has been disabled by an administrator.")) {
+        Flushbar(
+          messageText: Text(
+            "Account is disabled please visit our website",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(ctx);
+      } else {
+        Flushbar(
+          messageText: Text(
+            "Something went wrong try again",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
         )..show(ctx);

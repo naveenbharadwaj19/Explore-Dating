@@ -1,9 +1,7 @@
 import 'package:Explore/main.dart';
 import 'package:Explore/models/auth.dart';
-import 'package:Explore/screens/emai_verf.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
@@ -437,9 +435,10 @@ Widget nextButton(
         if (formKey.currentState.validate() &&
             agreeAge == true &&
             agreeTerms == true) {
-          print("Successfull");
-          AuthenticationFirebase.signInUser(emailAddress: emailAddress,password: password,loadingOn: loadingOn, loadingOff: loadingOff,ctx: context);
+          print("Successfully signed in...");
           FocusScope.of(context).unfocus();
+          AuthenticationFirebase.signInUser(emailAddress: emailAddress,password: password,loadingOn: loadingOn, loadingOff: loadingOff,ctx: context);
+          
         }
       },
     ),
