@@ -27,8 +27,17 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Explore",
-      theme: ThemeData(fontFamily: "OpenSans"),
-      home: WelcomeLoginScreen(),
+      theme: ThemeData(
+        fontFamily: "OpenSans",
+      ),
+      home: StreamBuilder(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (ctx, userSnapShot) {
+            if (userSnapShot.hasData) {
+              return HomeScreen();
+            }
+            return WelcomeLoginScreen();
+          }),
       routes: {
         // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
         // SignUpScreen.routeName : (context) => SignUpScreen(),
@@ -54,7 +63,7 @@ class MyApp extends StatelessWidget {
               type: PageTransitionType.rightToLeftWithFade,
             );
             break;
-             case HomeScreen.routeName:
+          case HomeScreen.routeName:
             return PageTransition(
               child: HomeScreen(),
               type: PageTransitionType.rightToLeftWithFade,
@@ -139,8 +148,16 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
                   ),
                   catchyText(),
                   emailTextField(emailAddress),
-                  passwordTextField(showPasswordText, toggle,password),
-                  loginButton(formKey: formKey,emailAddress: emailAddress,password: password,loadingOn: loadingOn, loadingOff: loadingOff,isloading: isLoading ,context: context),
+                  passwordTextField(showPasswordText, toggle, password),
+                  forgotPassword(),
+                  loginButton(
+                      formKey: formKey,
+                      emailAddress: emailAddress,
+                      password: password,
+                      loadingOn: loadingOn,
+                      loadingOff: loadingOff,
+                      isloading: isLoading,
+                      context: context),
                   googleSignUp(),
                   navigateToSignUpPage(context),
                   navigateToWebLink()

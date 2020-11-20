@@ -153,6 +153,16 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,TextEditingCont
   );
 }
 
+Widget forgotPassword() {
+  return Align(
+    alignment: Alignment(0.65,0.0),
+    child: FlatButton(
+      child: Text("Forgot password ?" , style: TextStyle(color: Color(0xffF8C80D),fontWeight: FontWeight.w700),),
+      onPressed: () {},
+    ),
+  );
+}
+
 Widget loginButton(
     {@required GlobalKey<FormState> formKey,
     @required TextEditingController emailAddress,
