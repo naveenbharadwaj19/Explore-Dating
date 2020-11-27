@@ -1,11 +1,12 @@
+import 'package:Explore/data/auth_data.dart';
 import 'package:Explore/main.dart';
-import 'package:Explore/models/auth.dart';
+import 'package:Explore/screens/emai_verf.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 Widget logoAppName() {
@@ -310,6 +311,7 @@ class _DOBState extends State<DOB> {
     if (picked != null && picked != today)
       setState(() {
         today = picked;
+        dobM = formattedDate();
       });
   }
 
@@ -413,15 +415,25 @@ Widget termsAndConditions(bool tAndC, Function toogleTerms) {
 }
 
 Widget nextButton(
-    {@required GlobalKey<FormState> formKey, @required bool agreeAge, @required bool agreeTerms,@required TextEditingController emailAddress , @required TextEditingController password,@required Function loadingOn ,@required  Function loadingOff,@required bool isLoading,@required BuildContext context}) {
-      
-      final cubeGrid = SpinKitCubeGrid(
-        color: Colors.white,
-        size: 40,
-      );
+    {@required GlobalKey<FormState> formKey,
+    @required bool agreeAge,
+    @required bool agreeTerms,
+    @required TextEditingController emailAddress,
+    @required TextEditingController password,
+    @required Function loadingOn,
+    @required Function loadingOff,
+    @required bool isLoading,
+    @required BuildContext context,
+    @required TextEditingController name,
+    @required TextEditingController userName}) {
+  
+  // final cubeGrid = SpinKitCubeGrid(
+  //   color: Colors.white,
+  //   size: 40,
+  // );
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 25),
-    child: isLoading == true ? cubeGrid : RaisedButton(
+    child: RaisedButton(
       color: Color(0xffF8C80D),
       textColor: Color(0xff121212),
       shape: RoundedRectangleBorder(
@@ -435,10 +447,28 @@ Widget nextButton(
         if (formKey.currentState.validate() &&
             agreeAge == true &&
             agreeTerms == true) {
+          if (dobM == null) {
+            return Flushbar(
+              backgroundColor: Color(0xff121212),
+              messageText: Text(
+                "Enter birth date",
+                style: TextStyle(
+                    fontFamily: "OpenSans",
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+              ),
+              duration: Duration(seconds: 3),
+            )..show(context);
+          }
           print("Successfully signed in...");
           FocusScope.of(context).unfocus();
-          AuthenticationFirebase.signInUser(emailAddress: emailAddress,password: password,loadingOn: loadingOn, loadingOff: loadingOff,ctx: context);
-          
+          nameM = name.text;
+          emailAddressM = emailAddress.text;
+          userNameM = userName.text;
+          passwordM = password.text;
+          Navigator.pushNamed(context, EmailVerificationScreen.routeName);
+          // AuthenticationFirebase.signInUser(emailAddress: emailAddress,password: password,loadingOn: loadingOn, loadingOff: loadingOff,ctx: context);
+
         }
       },
     ),

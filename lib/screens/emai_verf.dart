@@ -18,7 +18,7 @@ class EmailVerificationScreen extends StatelessWidget {
               color: Colors.red,
               iconSize: 50,
               onPressed: (){
-                FirebaseAuth.instance.signOut();
+                // FirebaseAuth.instance.signOut();
                 Navigator.pushReplacementNamed(context, WelcomeLoginScreen.routeName);
               },
             ),

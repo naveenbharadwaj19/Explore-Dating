@@ -109,6 +109,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       loadingOn: loadingOn,
                       loadingOff: loadingOff,
                       isLoading: isLoading,
+                      name: name,
+                      userName: userName,
                       context: context,
                       
                       ),
