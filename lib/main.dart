@@ -1,3 +1,4 @@
+import 'package:Explore/screens/acc_create_screen.dart';
 import 'package:Explore/screens/emai_verf.dart';
 import 'package:Explore/screens/home_screen.dart';
 import 'package:Explore/screens/signup_screen.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         // SignUpScreen.routeName : (context) => SignUpScreen(),
         // EmailVerificationScreen.routeName : (context) => EmailVerificationScreen(),
         // HomeScreen.routeName : (context) => HomeScreen(),
+        // AccCreatedScreen.routeName : (context) => AccCreatedScreen(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
@@ -67,6 +69,12 @@ class MyApp extends StatelessWidget {
             return PageTransition(
               child: HomeScreen(),
               type: PageTransitionType.rightToLeftWithFade,
+            );
+            break;
+          case AccCreatedScreen.routeName:
+            return PageTransition(
+              child: AccCreatedScreen(),
+              type: PageTransitionType.bottomToTop,
             );
             break;
           default:

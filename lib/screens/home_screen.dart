@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
               iconSize: 50,
               onPressed: (){
                 FirebaseAuth.instance.signOut();
-                Navigator.pushReplacementNamed(context, WelcomeLoginScreen.routeName);
+                Navigator.pushNamed(context, WelcomeLoginScreen.routeName);
               },
             ),
           ],

@@ -461,7 +461,6 @@ Widget nextButton(
             )..show(context);
           }
           print("Successfully signed in...");
-          FocusScope.of(context).unfocus();
           nameM = name.text;
           emailAddressM = emailAddress.text;
           userNameM = userName.text;

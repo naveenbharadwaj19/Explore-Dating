@@ -192,7 +192,6 @@ Widget loginButton(
             onPressed: () {
               if (formKey.currentState.validate()) {
                 print("Successful login");
-                FocusScope.of(context).unfocus();
                 AuthenticationFirebase.loginUser(emailAddress: emailAddress, password: password, loadingOn: loadingOn, loadingOff: loadingOff, ctx: context);
               }
             },
