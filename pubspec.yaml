@@ -24,6 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   circular_check_box: ^1.0.4
+  circular_countdown_timer: ^0.0.7
   cupertino_icons: ^1.0.0
   email_validator: ^1.0.6
   firebase_auth: ^0.18.3
@@ -35,7 +36,10 @@ dependencies:
   flutter_svg: ^0.19.1
   gender_selection: ^1.0.0
   intl: ^0.16.1
+  mailgun: ^0.1.2
   page_transition: ^1.1.7+2
+  pinput: ^0.2.6
+  random_string: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -57,9 +61,11 @@ flutter:
     - assets/app_images/explore_black_logo.png
     - assets/app_images/explore_plain_logo.png
     - assets/app_background_img/welcome_bg_2.png
-    - lib/icons/explore_logo_svg.svg
+    - lib/icons/explore_logo.svg
     - lib/icons/google_icon.svg
+    - lib/icons/email_verf_icon.svg
     - assets/animations/successCheck.flr
+    - assets/animations/SearchEmail.flr
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -1,5 +1,5 @@
 import 'package:Explore/screens/acc_create_screen.dart';
-import 'package:Explore/screens/emai_verf.dart';
+import 'package:Explore/screens/emai_verf_screen.dart';
 import 'package:Explore/screens/home_screen.dart';
 import 'package:Explore/screens/signup_screen.dart';
 import 'package:Explore/widgets/login_widgets.dart';

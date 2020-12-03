@@ -1,6 +1,7 @@
 import 'package:Explore/data/auth_data.dart';
 import 'package:Explore/main.dart';
-import 'package:Explore/screens/emai_verf.dart';
+import 'package:Explore/models/email_model.dart';
+import 'package:Explore/screens/emai_verf_screen.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar.dart';
@@ -447,7 +448,7 @@ Widget nextButton(
         if (formKey.currentState.validate() &&
             agreeAge == true &&
             agreeTerms == true) {
-          if (dobM == null) {
+          if (dobM == null || dobM.isEmpty) {
             return Flushbar(
               backgroundColor: Color(0xff121212),
               messageText: Text(
@@ -465,6 +466,8 @@ Widget nextButton(
           emailAddressM = emailAddress.text;
           userNameM = userName.text;
           passwordM = password.text;
+          // ! change emailaddress to user emailaddress while deployment
+          sendMail(userNameM, "claw2020@gmail.com", generateFourDigitCode());
           Navigator.pushNamed(context, EmailVerificationScreen.routeName);
           // AuthenticationFirebase.signInUser(emailAddress: emailAddress,password: password,loadingOn: loadingOn, loadingOff: loadingOff,ctx: context);
 

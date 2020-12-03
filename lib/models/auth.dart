@@ -1,4 +1,4 @@
-import 'package:Explore/screens/emai_verf.dart';
+import 'package:Explore/screens/acc_create_screen.dart';
 import 'package:Explore/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
@@ -7,8 +7,8 @@ import 'package:flutter/services.dart';
 
 class AuthenticationFirebase {
   static void signInUser(
-      {@required TextEditingController emailAddress,
-      @required TextEditingController password,
+      {@required String emailAddress,
+      @required String password,
       @required Function loadingOn,
       @required Function loadingOff,
       @required BuildContext ctx}) async {
@@ -18,13 +18,13 @@ class AuthenticationFirebase {
     try {
       loadingOn();
       userResult = await auth.createUserWithEmailAndPassword(
-          email: emailAddress.text, password: password.text);
+          email: emailAddress, password: password);
       loadingOff();
 
       auth.authStateChanges().listen((User user) {
         if (user != null) {
           print("User acc created ...");
-          Navigator.pushNamed(ctx, EmailVerificationScreen.routeName);
+          Navigator.pushNamed(ctx, AccCreatedScreen.routeName);
         }
       });
     } on PlatformException catch (err) {
