@@ -202,4 +202,36 @@ class AuthenticationFirebase {
       loadingOff();
     }
   }
+
+  static resetPassword(TextEditingController emailAddress,BuildContext context) async {
+    final auth = FirebaseAuth.instance;
+    UserCredential userResult;
+    try {
+      await auth.sendPasswordResetEmail(email: emailAddress.text);
+      Flushbar(
+          messageText: Text(
+            "Check provided email address",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(context);
+    } catch (error) {
+      print(error.toString());
+      Flushbar(
+          messageText: Text(
+            "Try resetting the password later",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(context);
+    }
+  }
 }

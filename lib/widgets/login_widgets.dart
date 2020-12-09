@@ -103,7 +103,8 @@ Widget emailTextField(TextEditingController emailAddress) {
   );
 }
 
-Widget passwordTextField(bool _passwordvisible, Function _toggle,TextEditingController password) {
+Widget passwordTextField(
+    bool _passwordvisible, Function _toggle, TextEditingController password) {
   // ? password
   return Align(
     alignment: Alignment(-0.3, 0.0),
@@ -153,12 +154,20 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,TextEditingCont
   );
 }
 
-Widget forgotPassword() {
+Widget forgotPassword(
+    GlobalKey<FormState> formKey, TextEditingController emailAddress,BuildContext context) {
   return Align(
-    alignment: Alignment(0.65,0.0),
+    alignment: Alignment(0.65, 0.0),
     child: FlatButton(
-      child: Text("Forgot password ?" , style: TextStyle(color: Color(0xffF8C80D),fontWeight: FontWeight.w700),),
-      onPressed: () {},
+      child: Text(
+        "Forgot password ?",
+        style: TextStyle(color: Color(0xffF8C80D), fontWeight: FontWeight.w700),
+      ),
+      onPressed: () {
+        if (formKey.currentState.validate()) {
+          AuthenticationFirebase.resetPassword(emailAddress,context);
+        }
+      },
     ),
   );
 }
@@ -192,7 +201,12 @@ Widget loginButton(
             onPressed: () {
               if (formKey.currentState.validate()) {
                 print("Successful login");
-                AuthenticationFirebase.loginUser(emailAddress: emailAddress, password: password, loadingOn: loadingOn, loadingOff: loadingOff, ctx: context);
+                AuthenticationFirebase.loginUser(
+                    emailAddress: emailAddress,
+                    password: password,
+                    loadingOn: loadingOn,
+                    loadingOff: loadingOff,
+                    ctx: context);
               }
             },
           ),

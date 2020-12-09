@@ -9,17 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
 
+// * hex code for black - 0xff121212
+// * hex code for yellow - 0xffF8C80D
+// * Headline font - Domine Regular
+// * Body font - OpenSans Light
+// * loading spinner - cubegrid
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
 
-// * hex code for black - 0xff121212
-// * hex code for yellow - 0xffF8C80D
-// * Headline font - Domine Regular
-// * Body font - OpenSans Light
-// * loading spinner - cubegrid
 
 class MyApp extends StatelessWidget {
   @override
@@ -157,7 +158,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
                   catchyText(),
                   emailTextField(emailAddress),
                   passwordTextField(showPasswordText, toggle, password),
-                  forgotPassword(),
+                  forgotPassword(formKey,emailAddress,context),
                   loginButton(
                       formKey: formKey,
                       emailAddress: emailAddress,
