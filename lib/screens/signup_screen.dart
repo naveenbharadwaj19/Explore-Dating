@@ -4,6 +4,9 @@ import 'package:flutter/widgets.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = "signup-screen";
+  final Function pressedLogin;
+  SignUpScreen(this.pressedLogin);
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -16,7 +19,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
   bool isLoading = false;
-  // String userEmail;
 
   bool showPasswordText = false;
   bool agreeAge = false;
@@ -52,6 +54,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
       
     });
   }
+
+  @override
+  // ? Check setstate disposed properly 
+  void setState(fn) {
+    // ignore: todo
+    // TODO: implement setState
+    if (mounted){
+      super.setState(fn);
+    }
+    
+  }
+
 
   @override
   void dispose() {
@@ -114,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       context: context,
                       
                       ),
-                  navigateToLoginPage(context),
+                  navigateToLoginPage(context , widget.pressedLogin),
                   helpGuide(),
                 ],
               ),

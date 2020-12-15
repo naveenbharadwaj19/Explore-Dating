@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:Explore/data/auth_data.dart';
-import 'package:Explore/main.dart';
-import 'package:Explore/models/auth.dart';
 import 'package:Explore/models/email_model.dart';
+import 'package:Explore/models/firestore_signup.dart';
+import 'package:Explore/models/handle_delete.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -33,6 +36,16 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+  @override
+  // ? Check setstate disposed properly 
+  void setState(fn) {
+    // ignore: todo
+    // TODO: implement setState
+    if (mounted){
+      super.setState(fn);
+    }
+    
   }
 
   @override
@@ -66,6 +79,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               Container(
                 padding: EdgeInsets.all(15),
                 child: Text(
+                  // ! Fetch from database for emailaddress or add some other logic 
                   "Verification code has been sent to your email : $emailAddressM",
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -150,6 +164,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 ),
                 onPressed: () {
                   // ! change email address to user email address while deployment
+                  // ! when user close the app .While on this screen there might be no emailaddress on the menory so fix it while deployment
                   sendMail(
                       userNameM, "claw2020@gmail.com", generateFourDigitCode());
                   _controller.restart(duration: 120);
@@ -179,12 +194,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         onPressed: () {
                           if (_formKey.currentState.validate()) {
                             print("Verified...");
-                            AuthenticationFirebase.signInUser(
-                                emailAddress: emailAddressM,
-                                password: passwordM,
-                                loadingOn: loadingOn,
-                                loadingOff: loadingOff,
-                                ctx: context);
+                            OnlyDuringSignupFirestore.updateEmailAddress(loadingOn ,loadingOff,context);
                           }
                         },
                       ),
@@ -201,7 +211,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.underline),
                   ),
-                  onPressed: () => _showAlertDialog(context),
+                  onPressed: () => _showAlertDialog(context,loadingOn,loadingOff),
                 ),
               ),
             ],
@@ -212,7 +222,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   }
 }
 
-_showAlertDialog(BuildContext context) {
+_showAlertDialog(BuildContext context,Function loadingOn , Function loadingOff) {
   Widget goBack = FlatButton(
     child: Text(
       "Go Back",
@@ -225,7 +235,13 @@ _showAlertDialog(BuildContext context) {
       userNameM = "";
       passwordM = "";
       dobM = "";
-      Navigator.pushNamed(context, WelcomeLoginScreen.routeName);
+      manageSigninLogin = false;
+      FirebaseAuth.instance.currentUser.delete();
+      print("User auth account deleted !");
+      Navigator.pop(context);
+      // ! try to change to future delay if it leads to any app performance issue
+      sleep(Duration(seconds:3));
+      deleteUserDuringSignUpProcess(context);
     },
   );
   Widget stayHere = FlatButton(

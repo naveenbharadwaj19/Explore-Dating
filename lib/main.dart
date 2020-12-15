@@ -1,6 +1,11 @@
+import 'package:Explore/data/auth_data.dart';
+import 'package:Explore/models/spinner.dart';
 import 'package:Explore/screens/acc_create_screen.dart';
 import 'package:Explore/screens/emai_verf_screen.dart';
+import 'package:Explore/screens/gender_screen.dart';
 import 'package:Explore/screens/home_screen.dart';
+import 'package:Explore/screens/location_screen.dart';
+import 'package:Explore/screens/pick_photos_screen.dart';
 import 'package:Explore/screens/signup_screen.dart';
 import 'package:Explore/widgets/login_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,11 +26,25 @@ void main() async {
   runApp(MyApp());
 }
 
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
 
-class MyApp extends StatelessWidget {
+class _MyAppState extends State<MyApp> {
+  void pressedSignIn(){
+    setState(() {
+      manageSigninLogin = true;
+    });
+  
+  }
+  void pressedLogIn(){
+      setState(() {
+        manageSigninLogin = false;
+      });
+    }
   @override
   Widget build(BuildContext context) {
-    // print("Current user uid : ${FirebaseAuth.instance.currentUser.uid}");
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Explore",
@@ -34,30 +53,30 @@ class MyApp extends StatelessWidget {
       ),
       home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (ctx, userSnapShot) {
-            if (userSnapShot.hasData) {
+          builder: (ctx, snapShot1) {
+            if (snapShot1.connectionState == ConnectionState.waiting ||
+            snapShot1.hasError){
+              return loadingSpinner();
+            }
+            if (snapShot1.hasData) {
               return HomeScreen();
             }
-            return WelcomeLoginScreen();
+            return manageSigninLogin == false ? WelcomeLoginScreen(pressedSignIn) : SignUpScreen(pressedLogIn);
           }),
       routes: {
         // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
-        // SignUpScreen.routeName : (context) => SignUpScreen(),
-        // EmailVerificationScreen.routeName : (context) => EmailVerificationScreen(),
-        // HomeScreen.routeName : (context) => HomeScreen(),
-        // AccCreatedScreen.routeName : (context) => AccCreatedScreen(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case WelcomeLoginScreen.routeName:
             return PageTransition(
-              child: WelcomeLoginScreen(),
+              child: WelcomeLoginScreen(pressedSignIn),
               type: PageTransitionType.rightToLeftWithFade,
             );
             break;
           case SignUpScreen.routeName:
             return PageTransition(
-                child: SignUpScreen(),
+                child: SignUpScreen(pressedLogIn),
                 type: PageTransitionType.leftToRightWithFade);
             break;
           case EmailVerificationScreen.routeName:
@@ -78,6 +97,24 @@ class MyApp extends StatelessWidget {
               type: PageTransitionType.bottomToTop,
             );
             break;
+          case GenderScreen.routeName:
+            return PageTransition(
+              child: GenderScreen(),
+              type: PageTransitionType.bottomToTop,
+            );
+            break;
+          case LocationScreen.routeName:
+            return PageTransition(
+              child: LocationScreen(),
+              type: PageTransitionType.bottomToTop,
+            );
+            break;
+          case PickPhotoScreen.routeName:
+            return PageTransition(
+              child: PickPhotoScreen(),
+              type: PageTransitionType.bottomToTop,
+            );
+            break;
           default:
             return null;
         }
@@ -88,6 +125,9 @@ class MyApp extends StatelessWidget {
 
 class WelcomeLoginScreen extends StatefulWidget {
   static const routeName = "login-screen";
+  final Function pressedSignin;
+  WelcomeLoginScreen(this.pressedSignin);
+
   @override
   _WelcomeLoginScreenState createState() => _WelcomeLoginScreenState();
 }
@@ -158,7 +198,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
                   catchyText(),
                   emailTextField(emailAddress),
                   passwordTextField(showPasswordText, toggle, password),
-                  forgotPassword(formKey,emailAddress,context),
+                  forgotPassword(formKey, emailAddress, context),
                   loginButton(
                       formKey: formKey,
                       emailAddress: emailAddress,
@@ -168,7 +208,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
                       isloading: isLoading,
                       context: context),
                   googleSignUp(),
-                  navigateToSignUpPage(context),
+                  navigateToSignUpPage(context , widget.pressedSignin),
                   navigateToWebLink()
                 ],
               ),

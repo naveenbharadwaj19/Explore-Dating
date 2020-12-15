@@ -1,5 +1,4 @@
 import 'package:Explore/models/auth.dart';
-import 'package:Explore/screens/signup_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -154,8 +153,8 @@ Widget passwordTextField(
   );
 }
 
-Widget forgotPassword(
-    GlobalKey<FormState> formKey, TextEditingController emailAddress,BuildContext context) {
+Widget forgotPassword(GlobalKey<FormState> formKey,
+    TextEditingController emailAddress, BuildContext context) {
   return Align(
     alignment: Alignment(0.65, 0.0),
     child: FlatButton(
@@ -165,7 +164,7 @@ Widget forgotPassword(
       ),
       onPressed: () {
         if (formKey.currentState.validate()) {
-          AuthenticationFirebase.resetPassword(emailAddress,context);
+          AuthenticationFirebase.resetPassword(emailAddress, context);
         }
       },
     ),
@@ -200,7 +199,7 @@ Widget loginButton(
             ),
             onPressed: () {
               if (formKey.currentState.validate()) {
-                print("Successful login");
+                print("Validation passed for login");
                 AuthenticationFirebase.loginUser(
                     emailAddress: emailAddress,
                     password: password,
@@ -213,7 +212,7 @@ Widget loginButton(
   );
 }
 
-Widget navigateToSignUpPage(BuildContext context) {
+Widget navigateToSignUpPage(BuildContext context , Function pressedSignin) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 25),
     child: Row(
@@ -236,8 +235,10 @@ Widget navigateToSignUpPage(BuildContext context) {
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: () =>
-                Navigator.pushNamed(context, SignUpScreen.routeName),
+            onPressed: (){
+              pressedSignin();
+            },
+
           ),
         ),
       ],

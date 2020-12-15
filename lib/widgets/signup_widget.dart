@@ -1,13 +1,12 @@
 import 'package:Explore/data/auth_data.dart';
-import 'package:Explore/main.dart';
-import 'package:Explore/models/email_model.dart';
-import 'package:Explore/screens/emai_verf_screen.dart';
+import 'package:Explore/models/auth.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 Widget logoAppName() {
@@ -147,6 +146,7 @@ Widget userNameTextField(TextEditingController _username) {
           hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
         ),
         validator: (String value) {
+          // ! Need to check database whether username is available or not
           if (value.isEmpty) {
             return "Enter Some Text";
           }
@@ -427,57 +427,63 @@ Widget nextButton(
     @required BuildContext context,
     @required TextEditingController name,
     @required TextEditingController userName}) {
-  
-  // final cubeGrid = SpinKitCubeGrid(
-  //   color: Colors.white,
-  //   size: 40,
-  // );
+  final cubeGrid = SpinKitCubeGrid(
+    color: Colors.white,
+    size: 40,
+  );
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 25),
-    child: RaisedButton(
-      color: Color(0xffF8C80D),
-      textColor: Color(0xff121212),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(7),
-          side: BorderSide(color: Color(0xffF8C80D))),
-      child: Text(
-        "Next",
-        style: TextStyle(fontFamily: "OpenSans", fontWeight: FontWeight.w700),
-      ),
-      onPressed: () {
-        if (formKey.currentState.validate() &&
-            agreeAge == true &&
-            agreeTerms == true) {
-          if (dobM == null || dobM.isEmpty) {
-            return Flushbar(
-              backgroundColor: Color(0xff121212),
-              messageText: Text(
-                "Enter birth date",
-                style: TextStyle(
-                    fontFamily: "OpenSans",
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white),
-              ),
-              duration: Duration(seconds: 3),
-            )..show(context);
-          }
-          print("Successfully signed in...");
-          nameM = name.text;
-          emailAddressM = emailAddress.text;
-          userNameM = userName.text;
-          passwordM = password.text;
-          // ! change emailaddress to user emailaddress while deployment
-          sendMail(userNameM, "claw2020@gmail.com", generateFourDigitCode());
-          Navigator.pushNamed(context, EmailVerificationScreen.routeName);
-          // AuthenticationFirebase.signInUser(emailAddress: emailAddress,password: password,loadingOn: loadingOn, loadingOff: loadingOff,ctx: context);
-
-        }
-      },
-    ),
+    child: isLoading == true
+        ? cubeGrid
+        : RaisedButton(
+            color: Color(0xffF8C80D),
+            textColor: Color(0xff121212),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(7),
+                side: BorderSide(color: Color(0xffF8C80D))),
+            child: Text(
+              "Next",
+              style: TextStyle(
+                  fontFamily: "OpenSans", fontWeight: FontWeight.w700),
+            ),
+            onPressed: () {
+              if (formKey.currentState.validate() &&
+                  agreeAge == true &&
+                  agreeTerms == true) {
+                if (dobM == null || dobM.isEmpty) {
+                  return Flushbar(
+                    backgroundColor: Color(0xff121212),
+                    messageText: Text(
+                      "Enter birth date",
+                      style: TextStyle(
+                          fontFamily: "OpenSans",
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                    duration: Duration(seconds: 3),
+                  )..show(context);
+                }
+                print("Validation passed for signup");
+                // * storing in memory
+                nameM = name.text;
+                emailAddressM = emailAddress.text;
+                userNameM = userName.text;
+                passwordM = password.text;
+                // Navigator.pushNamed(context, EmailVerificationScreen.routeName);
+                AuthenticationFirebase.signInUser(
+                    emailAddress: emailAddressM,
+                    password: passwordM,
+                    loadingOn: loadingOn,
+                    loadingOff: loadingOff,
+                    username: userNameM,
+                    ctx: context);
+              }
+            },
+          ),
   );
 }
 
-Widget navigateToLoginPage(BuildContext context) {
+Widget navigateToLoginPage(BuildContext context, Function pressedLogin) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 15),
     child: Row(
@@ -500,8 +506,9 @@ Widget navigateToLoginPage(BuildContext context) {
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: () => Navigator.pushReplacementNamed(
-                context, WelcomeLoginScreen.routeName),
+            onPressed: (){
+              pressedLogin();
+            },
           ),
         ),
       ],

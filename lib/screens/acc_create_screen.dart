@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Explore/models/firestore_signup.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
-import 'package:Explore/main.dart';
 
 class AccCreatedScreen extends StatelessWidget {
   static const routeName = "acc-created";
@@ -37,6 +36,7 @@ class AccCreatedScreen extends StatelessWidget {
             ),
             Spacer(),
             Align(
+              // ! Place continue button in center of the screen
               alignment: Alignment.bottomCenter,
               child: RaisedButton(
                 color: Color(0xffF8C80D),
@@ -49,8 +49,8 @@ class AccCreatedScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
                 ),
                 onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.pushNamed(context, WelcomeLoginScreen.routeName);
+                  // manageSigninLogin = false;
+                  OnlyDuringSignupFirestore.updateAccSuccPage(context);
                 },
               ),
             )

@@ -40,7 +40,8 @@ dependencies:
   page_transition: ^1.1.7+2
   pinput: ^0.2.6
   random_string: ^2.1.0
-
+  cloud_firestore: ^0.14.4
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

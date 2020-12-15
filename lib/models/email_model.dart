@@ -30,7 +30,7 @@ void sendMail(String userName,String toEmailAddress, String fourDigitCode) async
 
   if (response.status.toString() == "SendResponseStatus.QUEUED" ||
       response.status.toString() == "SendResponseStatus.OK") {
-    print("Successfull");
+    print("Successfully email sent");
     print(response.status.toString());
   } else {
     print(response.status.toString());

@@ -1,5 +1,6 @@
-import 'package:Explore/screens/acc_create_screen.dart';
-import 'package:Explore/screens/home_screen.dart';
+import 'package:Explore/data/auth_data.dart';
+import 'package:Explore/models/email_model.dart';
+import 'package:Explore/models/firestore_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -11,22 +12,28 @@ class AuthenticationFirebase {
       @required String password,
       @required Function loadingOn,
       @required Function loadingOff,
+      @required String username,
       @required BuildContext ctx}) async {
     final auth = FirebaseAuth.instance;
     UserCredential userResult;
-    // userResult = await auth.createUserWithEmailAndPassword(email: emailAddress.text, password: password.text);
+
     try {
       loadingOn();
       userResult = await auth.createUserWithEmailAndPassword(
           email: emailAddress, password: password);
+      OnlyDuringSignupFirestore.signUpWrite(
+          loadingOn: loadingOn,
+          loadingOff: loadingOff,
+          emailaddess: emailAddressM,
+          username: userNameM,
+          dob: dobM,
+          name: nameM,
+          context: ctx);
       loadingOff();
 
-      auth.authStateChanges().listen((User user) {
-        if (user != null) {
-          print("User acc created ...");
-          Navigator.pushNamed(ctx, AccCreatedScreen.routeName);
-        }
-      });
+      // ! change emailaddress to user emailaddress while deployment
+      sendMail(username, "claw2020@gmail.com", generateFourDigitCode());
+
     } on PlatformException catch (err) {
       var message = 'An error occurred, please check your credentials!';
 
@@ -105,13 +112,8 @@ class AuthenticationFirebase {
       userResult = await auth.signInWithEmailAndPassword(
           email: emailAddress.text, password: password.text);
       loadingOff();
+      print("User logged in...");
 
-      auth.authStateChanges().listen((User user) {
-        if (user != null) {
-          print("User logged in...");
-          Navigator.pushNamed(ctx, HomeScreen.routeName);
-        }
-      });
     } on PlatformException catch (err) {
       var message = 'An error occurred, please check your credentials!';
 
@@ -203,27 +205,31 @@ class AuthenticationFirebase {
     }
   }
 
-  static resetPassword(TextEditingController emailAddress,BuildContext context) async {
+  static resetPassword(
+      TextEditingController emailAddress, BuildContext context) async {
     final auth = FirebaseAuth.instance;
     UserCredential userResult;
+    
     try {
       await auth.sendPasswordResetEmail(email: emailAddress.text);
       Flushbar(
-          messageText: Text(
-            "Check provided email address",
-            style: TextStyle(
-                fontFamily: "OpenSans",
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(context);
+        messageText: Text(
+          "Check provided email address",
+          style: TextStyle(
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w700,
+              color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
     } catch (error) {
       print(error.toString());
-      Flushbar(
+      if (error.toString().contains(
+          "There is no user record corresponding to this identifier. The user may have been deleted")) {
+        Flushbar(
           messageText: Text(
-            "Try resetting the password later",
+            "Cannot reset account does not exist",
             style: TextStyle(
                 fontFamily: "OpenSans",
                 fontWeight: FontWeight.w700,
@@ -232,6 +238,19 @@ class AuthenticationFirebase {
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
         )..show(context);
+      } else {
+        Flushbar(
+          messageText: Text(
+            "Something went wrong try again later",
+            style: TextStyle(
+                fontFamily: "OpenSans",
+                fontWeight: FontWeight.w700,
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(context);
+      }
     }
   }
 }
