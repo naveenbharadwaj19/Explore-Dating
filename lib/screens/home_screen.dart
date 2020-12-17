@@ -40,9 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
           print("In account success page");
           return AccCreatedScreen();
         }
-        if (genderCheck["gender"].isEmpty) {
+        if (genderCheck["gender"]["m_f"].isEmpty) {
           print("In gender page");
           return GenderScreen();
+        }
+        if (!genderCheck["gender"]["other"]["clicked_other"]) {
+          print("In other gender page");
+          return OtherGenderScreen();
         }
         if (!accessCheck["locationaccess"]) {
           print("In location page");

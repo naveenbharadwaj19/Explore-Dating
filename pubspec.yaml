@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   circular_check_box: ^1.0.4
   circular_countdown_timer: ^0.0.7
+  cloud_firestore: ^0.14.4
   cupertino_icons: ^1.0.0
   email_validator: ^1.0.6
   firebase_auth: ^0.18.3
@@ -40,8 +41,7 @@ dependencies:
   page_transition: ^1.1.7+2
   pinput: ^0.2.6
   random_string: ^2.1.0
-  cloud_firestore: ^0.14.4
-  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -60,6 +60,8 @@ flutter:
     - assets/app_background_img/welcome_bg.jpg
     - assets/app_images/explore_logo.png
     - assets/app_images/explore_black_logo.png
+    - assets/app_images/male.png
+    - assets/app_images/female.png
     - assets/app_images/explore_plain_logo.png
     - assets/app_background_img/welcome_bg_2.png
     - lib/icons/explore_logo.svg
@@ -88,6 +90,14 @@ flutter:
       fonts:
         - asset: assets/fonts/OpenSans-Light.ttf
           weight: 700
+
+    - family: MaleIcon
+      fonts:
+        - asset: assets/fonts/MaleIcon.ttf
+
+    - family: FemaleIcon
+      fonts:
+        - asset: assets/fonts/FemaleIcon.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro

@@ -52,7 +52,10 @@ class OnlyDuringSignupFirestore {
           "account_verified": false,
           "top_notch_photo_using": "",
           "body_photo_using": "",
-          "gender": "",
+          "gender": {
+            "m_f": "",
+            "other": {"clicked_other": true, "other_gender": ""},
+          },
         }
       });
       print("User bio created in Firestore successfully");
@@ -75,13 +78,14 @@ class OnlyDuringSignupFirestore {
     // loadingOff();
   }
 
-  static updateEmailAddress(Function loadingOn , Function loadingOff , BuildContext context) async {
+  static updateEmailAddress(
+      Function loadingOn, Function loadingOff, BuildContext context) async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     loadingOn();
     try {
       DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
       await user.update({
-        "access_check.email_address_verified" : true,
+        "access_check.email_address_verified": true,
       });
       print("Email address field updated");
     } catch (error) {
@@ -107,9 +111,61 @@ class OnlyDuringSignupFirestore {
     try {
       DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
       await user.update({
-        "access_check.account_success_page" : true,
+        "access_check.account_success_page": true,
       });
       print("Acc success field updated");
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      Flushbar(
+        messageText: Text(
+          "Something went wrong try again",
+          style: TextStyle(
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w700,
+              color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
+    }
+    // loadingOff();
+  }
+
+  static updateGenderPage(String selectedGender, BuildContext context) async {
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    // loadingOn();
+    try {
+      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
+      await user.update({
+        "bio.gender.m_f": selectedGender,
+      });
+      print("Gender field updated");
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      Flushbar(
+        messageText: Text(
+          "Something went wrong try again",
+          style: TextStyle(
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w700,
+              color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
+    }
+    // loadingOff();
+  }
+  static pressedOtherGender(BuildContext context) async {
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    // loadingOn();
+    try {
+      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
+      await user.update({
+        "bio.gender.m_f": "other",
+        "bio.gender.other.clicked_other" : false,
+      });
+      print("Pressed other gender , gender 'm_f' field updated");
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
