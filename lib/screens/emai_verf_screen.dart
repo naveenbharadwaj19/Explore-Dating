@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:Explore/data/auth_data.dart';
 import 'package:Explore/models/email_model.dart';
 import 'package:Explore/models/firestore_signup.dart';
-import 'package:Explore/models/handle_delete.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -37,7 +34,17 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       isLoading = false;
     });
   }
+  
+
   @override
+  void dispose() {
+    // ignore: todo
+    // TODO: implement dispose
+    super.dispose();
+    _storeFourDigits.dispose();
+  }
+
+   @override
   // ? Check setstate disposed properly 
   void setState(fn) {
     // ignore: todo
@@ -46,14 +53,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       super.setState(fn);
     }
     
-  }
-
-  @override
-  void dispose() {
-    // ignore: todo
-    // TODO: implement dispose
-    super.dispose();
-    _storeFourDigits.dispose();
   }
 
   @override
@@ -240,8 +239,8 @@ _showAlertDialog(BuildContext context,Function loadingOn , Function loadingOff) 
       print("User auth account deleted !");
       Navigator.pop(context);
       // ! try to change to future delay if it leads to any app performance issue
-      sleep(Duration(seconds:3));
-      deleteUserDuringSignUpProcess(context);
+      // sleep(Duration(seconds:3));
+      // deleteUserDuringSignUpProcess(context);
     },
   );
   Widget stayHere = FlatButton(

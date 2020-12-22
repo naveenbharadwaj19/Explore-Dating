@@ -58,6 +58,7 @@ class OnlyDuringSignupFirestore {
           },
         }
       });
+
       print("User bio created in Firestore successfully");
 
       // Navigator.pushNamed(context, AccCreatedScreen.routeName);
@@ -156,6 +157,7 @@ class OnlyDuringSignupFirestore {
     }
     // loadingOff();
   }
+
   static pressedOtherGender(BuildContext context) async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
@@ -163,9 +165,61 @@ class OnlyDuringSignupFirestore {
       DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
       await user.update({
         "bio.gender.m_f": "other",
-        "bio.gender.other.clicked_other" : false,
+        "bio.gender.other.clicked_other": false,
       });
       print("Pressed other gender , gender 'm_f' field updated");
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      Flushbar(
+        messageText: Text(
+          "Something went wrong try again",
+          style: TextStyle(
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w700,
+              color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
+    }
+    // loadingOff();
+  }
+  static updateOtherGender(String selectedOtherGender ,BuildContext context) async {
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    // loadingOn();
+    try {
+      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
+      await user.update({
+        "bio.gender.other.other_gender": selectedOtherGender,
+        "bio.gender.other.clicked_other": true,
+      });
+      print("Other gender updated");
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      Flushbar(
+        messageText: Text(
+          "Something went wrong try again",
+          style: TextStyle(
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w700,
+              color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
+    }
+    // loadingOff();
+  }
+  static backToMaleFemaleGenderPage(BuildContext context) async {
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    // loadingOn();
+    try {
+      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
+      await user.update({
+        "bio.gender.m_f": "",
+        "bio.gender.other.clicked_other" : true,
+      });
+      print("Back to male / female gender  page");
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(

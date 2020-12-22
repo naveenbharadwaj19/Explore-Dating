@@ -41,6 +41,7 @@ dependencies:
   page_transition: ^1.1.7+2
   pinput: ^0.2.6
   random_string: ^2.1.0
+  geolocator: ^6.1.13
 
 dev_dependencies:
   flutter_test:
@@ -98,6 +99,10 @@ flutter:
     - family: FemaleIcon
       fonts:
         - asset: assets/fonts/FemaleIcon.ttf
+
+    - family: OtherGenders
+      fonts:
+        - asset: assets/fonts/OtherGenders.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro

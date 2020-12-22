@@ -1,4 +1,3 @@
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +7,7 @@ class LocationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
           child: Container(
-            color: Colors.black,
+            color: Color(0xff121212),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

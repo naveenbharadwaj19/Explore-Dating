@@ -43,6 +43,17 @@ class _MyAppState extends State<MyApp> {
         manageSigninLogin = false;
       });
     }
+
+  @override
+  // ? Check setstate disposed properly 
+  void setState(fn) {
+    // ignore: todo
+    // TODO: implement setState
+    if (mounted){
+      super.setState(fn);
+    }
+    
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -164,6 +175,17 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
     super.dispose();
     emailAddress.dispose();
     password.dispose();
+  }
+
+  @override
+  // ? Check setstate disposed properly 
+  void setState(fn) {
+    // ignore: todo
+    // TODO: implement setState
+    if (mounted){
+      super.setState(fn);
+    }
+    
   }
 
   @override

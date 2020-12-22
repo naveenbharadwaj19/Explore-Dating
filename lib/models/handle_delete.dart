@@ -1,13 +1,11 @@
 // todo : Handle all deletes
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
-Future<void> deleteUserDuringSignUpProcess(
-   BuildContext context) async {
+Future<void> deleteUserDuringSignUpProcess(BuildContext context) async {
   String uid = FirebaseAuth.instance.currentUser.uid;
   // loadingOn();
   try {
@@ -30,3 +28,4 @@ Future<void> deleteUserDuringSignUpProcess(
   }
   // loadingOff();
 }
+

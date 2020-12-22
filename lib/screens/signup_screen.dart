@@ -24,13 +24,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool agreeAge = false;
   bool agreeTerms = false;
 
-  void loadingOn(){
+  void loadingOn() {
     setState(() {
       isLoading = true;
     });
   }
 
-  void loadingOff(){
+  void loadingOff() {
     setState(() {
       isLoading = false;
     });
@@ -51,21 +51,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void toogleTerms() {
     setState(() {
       agreeTerms = !agreeTerms;
-      
     });
   }
-
-  @override
-  // ? Check setstate disposed properly 
-  void setState(fn) {
-    // ignore: todo
-    // TODO: implement setState
-    if (mounted){
-      super.setState(fn);
-    }
-    
-  }
-
 
   @override
   void dispose() {
@@ -77,6 +64,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     userName.dispose();
     password.dispose();
     confirmPassword.dispose();
+  }
+
+  @override
+  // ? Check setstate disposed properly
+  void setState(fn) {
+    // ignore: todo
+    // TODO: implement setState
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
@@ -115,20 +112,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ageCondition(agreeAge, toggleAge),
                   termsAndConditions(agreeTerms, toogleTerms),
                   nextButton(
-                      formKey: formKey,
-                      agreeAge: agreeAge,
-                      agreeTerms: agreeTerms,
-                      emailAddress: emailAddress,
-                      password: password,
-                      loadingOn: loadingOn,
-                      loadingOff: loadingOff,
-                      isLoading: isLoading,
-                      name: name,
-                      userName: userName,
-                      context: context,
-                      
-                      ),
-                  navigateToLoginPage(context , widget.pressedLogin),
+                    formKey: formKey,
+                    agreeAge: agreeAge,
+                    agreeTerms: agreeTerms,
+                    emailAddress: emailAddress,
+                    password: password,
+                    loadingOn: loadingOn,
+                    loadingOff: loadingOff,
+                    isLoading: isLoading,
+                    name: name,
+                    userName: userName,
+                    context: context,
+                  ),
+                  navigateToLoginPage(context, widget.pressedLogin),
                   helpGuide(),
                 ],
               ),

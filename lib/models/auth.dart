@@ -31,7 +31,8 @@ class AuthenticationFirebase {
           context: ctx);
       loadingOff();
 
-      // ! change emailaddress to user emailaddress while deployment
+      // ! change emailaddress to user emailaddress while deployment & when user kills the app and open the email verf
+      // ! page and hit send code again username will be availabe as it was not in memory fix it 
       sendMail(username, "claw2020@gmail.com", generateFourDigitCode());
 
     } on PlatformException catch (err) {
