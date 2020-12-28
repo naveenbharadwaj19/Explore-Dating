@@ -6,7 +6,9 @@ import 'package:Explore/screens/location_screen.dart';
 import 'package:Explore/screens/pick_photos_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "home-page";
@@ -16,6 +18,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final String _animationName = "SearchLocation";
+  bool openCloseLocationPage = false;
+
+  void updateLocationBool() {
+    setState(() {
+      openCloseLocationPage = true;
+    });
+  }
+
+  @override
+  // ? Check setstate disposed properly
+  void setState(fn) {
+    // ignore: todo
+    // TODO: implement setState
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -48,42 +69,88 @@ class _HomeScreenState extends State<HomeScreen> {
           print("In other gender page");
           return OtherGenderScreen();
         }
-        if (!accessCheck["locationaccess"]) {
-          print("In location page");
-          return LocationScreen();
-        }
+        // if (!accessCheck["locationaccess"]) {
+        //   print("In location page");
+        //   return LocationScreen();
+        // }
         if (!accessCheck["top_notch_photo"] || !accessCheck["body_photo"]) {
           print("In photo page");
           return PickPhotoScreen();
         }
-        return Material(
-          child: Container(
-            color: Colors.black,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Home Screen",
-                    style: TextStyle(color: Colors.white, fontSize: 40)),
-                IconButton(
-                  icon: Icon(Icons.delete),
-                  color: Colors.red,
-                  iconSize: 50,
-                  onPressed: () {
-                    FirebaseAuth.instance.currentUser.delete();
-                    print("account deleted");
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.exit_to_app_outlined),
-                  color: Colors.red,
-                  iconSize: 50,
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                ),
-              ],
-            ),
+        return StreamBuilder<Position>(
+          stream: Geolocator.getPositionStream(
+            desiredAccuracy: LocationAccuracy.best,
+            intervalDuration: Duration(seconds: 60),
+            // ! change interval duration to min (3min or 5min) before deployment
           ),
+          builder: (context, locationSnapShot) {
+            if (locationSnapShot.connectionState == ConnectionState.waiting) {
+              // print("waiting for the location stream");
+              return Center(
+                child: Container(
+                  height: 300,
+                  // width: 300,
+                  child: FlareActor(
+                    "assets/animations/location_pin.flr",
+                    fit: BoxFit.cover,
+                    animation: _animationName,
+                  ),
+                ),
+              );
+            }
+            // if (locationSnapShot.hasError) {
+            //   print("Facing error in location stream");
+            //   return Center(
+            //     child: Container(
+            //       height: 300,
+            //       // width: 300,
+            //       child: FlareActor(
+            //         "assets/animations/location_pin.flr",
+            //         fit: BoxFit.cover,
+            //         animation: _animationName,
+            //       ),
+            //     ),
+            //   );
+            // }
+            final Position currentCoordinates = locationSnapShot.data;
+            print("CurrentCoordinates : $currentCoordinates");
+            if (currentCoordinates == null && openCloseLocationPage == false) {
+              print("In Location page");
+              return LocationScreen(
+                  updatedOpenCloseLocation: updateLocationBool);
+            }
+            // ? reason assigning false is because when user in current state the bool check will always be true . Until user restart / kills the app
+            openCloseLocationPage = false;
+            return Material(
+              child: Container(
+                color: Colors.black,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Home Screen",
+                        style: TextStyle(color: Colors.white, fontSize: 40)),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Colors.red,
+                      iconSize: 50,
+                      onPressed: () {
+                        FirebaseAuth.instance.currentUser.delete();
+                        print("account deleted");
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.exit_to_app_outlined),
+                      color: Colors.red,
+                      iconSize: 50,
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
     );

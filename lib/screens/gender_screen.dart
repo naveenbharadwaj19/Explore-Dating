@@ -1,4 +1,3 @@
-import 'package:Explore/icons/male_icon_icons.dart';
 import 'package:Explore/icons/other_genders_icons.dart';
 import 'package:Explore/models/firestore_signup.dart';
 import 'package:flushbar/flushbar.dart';
@@ -34,11 +33,11 @@ class GenderScreen extends StatelessWidget {
               femaleImage: AssetImage("assets/app_images/female.png"),
               selectedGenderTextStyle: TextStyle(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.w700),
               unSelectedGenderTextStyle: TextStyle(
                   color: Colors.white,
-                  fontSize: 22,
+                  fontSize: 18,
                   fontWeight: FontWeight.w700),
               size: 150,
               // selectedGenderCheckIcon: maleChoosen ? MaleIcon.male : FemaleIcon.female ,
@@ -75,46 +74,58 @@ class GenderScreen extends StatelessWidget {
                     side: BorderSide(color: Color(0xffF8C80D))),
                 child: Text(
                   "Other",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                    fontSize: 20,
+                    // fontWeight: FontWeight.w700,
+                  ),
                 ),
                 onPressed: () =>
                     OnlyDuringSignupFirestore.pressedOtherGender(context),
               ),
             ),
             Spacer(),
-            RaisedButton(
-              color: Color(0xffF8C80D),
-              textColor: Color(0xff121212),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7),
-                  side: BorderSide(color: Color(0xffF8C80D))),
-              child: Text(
-                "Confirm",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+            Container(
+              width: 180,
+              child: RaisedButton(
+                color: Color(0xffF8C80D),
+                textColor: Color(0xff121212),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(color: Color(0xffF8C80D))),
+                child: Text(
+                  "Confirm",
+                  style: TextStyle(
+                    fontSize: 20,
+                    // fontWeight: FontWeight.w600,
+                  ),
+                ),
+                onPressed: () {
+                  if (selectedGender.isEmpty) {
+                    return Flushbar(
+                      messageText: Text(
+                        "Select your gender",
+                        style: TextStyle(
+                            // fontFamily: "OpenSans",
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
+                      backgroundColor: Color(0xff121212),
+                      duration: Duration(seconds: 2),
+                    )..show(context);
+                  } else {
+                    OnlyDuringSignupFirestore.updateGenderPage(
+                        selectedGender, context);
+                  }
+                },
               ),
-              onPressed: () {
-                if (selectedGender.isEmpty) {
-                  return Flushbar(
-                    messageText: Text(
-                      "Select your gender",
-                      style: TextStyle(
-                          fontFamily: "OpenSans",
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
-                    backgroundColor: Color(0xff121212),
-                    duration: Duration(seconds: 2),
-                  )..show(context);
-                } else {
-                  OnlyDuringSignupFirestore.updateGenderPage(
-                      selectedGender, context);
-                }
-              },
             ),
             Spacer(),
-            Text(
-              "Note : Once selected cannot be reversed",
-              style: TextStyle(fontSize: 15, color: Colors.white),
+            Container(
+              margin: EdgeInsets.only(bottom: 25),
+              child: Text(
+                "Note : Once selected cannot be reversed",
+                style: TextStyle(fontSize: 15, color: Colors.white),
+              ),
             )
           ],
         ),
@@ -326,15 +337,16 @@ class _OtherGenderScreenState extends State<OtherGenderScreen> {
                     messageText: Text(
                       "Select your gender",
                       style: TextStyle(
-                          fontFamily: "OpenSans",
+                          // fontFamily: "OpenSans",
                           fontWeight: FontWeight.w700,
                           color: Colors.white),
                     ),
                     backgroundColor: Color(0xff121212),
                     duration: Duration(seconds: 2),
                   )..show(context);
-                } else{
-                  OnlyDuringSignupFirestore.updateOtherGender(selectedOtherGender, context);
+                } else {
+                  OnlyDuringSignupFirestore.updateOtherGender(
+                      selectedOtherGender, context);
                 }
               },
             ),
@@ -351,7 +363,8 @@ class _OtherGenderScreenState extends State<OtherGenderScreen> {
                     fontWeight: FontWeight.w500,
                     decoration: TextDecoration.underline),
               ),
-              onPressed: () => OnlyDuringSignupFirestore.backToMaleFemaleGenderPage(context),
+              onPressed: () =>
+                  OnlyDuringSignupFirestore.backToMaleFemaleGenderPage(context),
             ),
           ),
         ],

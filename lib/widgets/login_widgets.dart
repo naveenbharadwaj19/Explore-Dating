@@ -75,6 +75,7 @@ Widget emailTextField(TextEditingController emailAddress) {
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
+        // ! change input letters to WORDSANS
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -119,6 +120,7 @@ Widget passwordTextField(
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
+        // ! change input letters to WORDSANS
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -160,7 +162,10 @@ Widget forgotPassword(GlobalKey<FormState> formKey,
     child: FlatButton(
       child: Text(
         "Forgot password ?",
-        style: TextStyle(color: Color(0xffF8C80D), fontWeight: FontWeight.w700),
+        style: TextStyle(
+          color: Color(0xffF8C80D),
+          // fontWeight: FontWeight.w700,
+        ),
       ),
       onPressed: () {
         if (formKey.currentState.validate()) {
@@ -186,33 +191,38 @@ Widget loginButton(
             color: Colors.white,
             size: 40,
           )
-        : RaisedButton(
-            color: Color(0xffF8C80D),
-            textColor: Color(0xff121212),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7),
-                side: BorderSide(color: Color(0xffF8C80D))),
-            child: Text(
-              "Login",
-              style: TextStyle(
-                  fontFamily: "OpenSans", fontWeight: FontWeight.w700),
+        : Container(
+            width: 125,
+            child: RaisedButton(
+              color: Color(0xffF8C80D),
+              textColor: Color(0xff121212),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(color: Color(0xffF8C80D))),
+              child: Text(
+                "Login",
+                style: TextStyle(
+                    fontFamily: "Nunito",
+                    // fontWeight: FontWeight.w600,
+                    fontSize: 16),
+              ),
+              onPressed: () {
+                if (formKey.currentState.validate()) {
+                  print("Validation passed for login");
+                  AuthenticationFirebase.loginUser(
+                      emailAddress: emailAddress,
+                      password: password,
+                      loadingOn: loadingOn,
+                      loadingOff: loadingOff,
+                      ctx: context);
+                }
+              },
             ),
-            onPressed: () {
-              if (formKey.currentState.validate()) {
-                print("Validation passed for login");
-                AuthenticationFirebase.loginUser(
-                    emailAddress: emailAddress,
-                    password: password,
-                    loadingOn: loadingOn,
-                    loadingOff: loadingOff,
-                    ctx: context);
-              }
-            },
           ),
   );
 }
 
-Widget navigateToSignUpPage(BuildContext context , Function pressedSignin) {
+Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
   return Container(
     margin: EdgeInsets.symmetric(vertical: 25),
     child: Row(
@@ -235,10 +245,9 @@ Widget navigateToSignUpPage(BuildContext context , Function pressedSignin) {
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: (){
+            onPressed: () {
               pressedSignin();
             },
-
           ),
         ),
       ],

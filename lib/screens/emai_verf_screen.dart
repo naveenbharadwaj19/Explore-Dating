@@ -34,7 +34,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
       isLoading = false;
     });
   }
-  
 
   @override
   void dispose() {
@@ -44,15 +43,14 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
     _storeFourDigits.dispose();
   }
 
-   @override
-  // ? Check setstate disposed properly 
+  @override
+  // ? Check setstate disposed properly
   void setState(fn) {
     // ignore: todo
     // TODO: implement setState
-    if (mounted){
+    if (mounted) {
       super.setState(fn);
     }
-    
   }
 
   @override
@@ -78,13 +76,13 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               Container(
                 padding: EdgeInsets.all(15),
                 child: Text(
-                  // ! Fetch from database for emailaddress or add some other logic 
+                  // ! Fetch from database for emailaddress or add some other logic
                   "Verification code has been sent to your email : $emailAddressM",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
-                      fontSize: 22),
+                      fontSize: 20),
                 ),
               ),
               Padding(
@@ -112,9 +110,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 fieldsAlignment: MainAxisAlignment.spaceEvenly,
                 pinAnimationType: PinAnimationType.rotation,
                 textStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w600),
+                  color: Colors.black,
+                  fontSize: 22,
+                  // fontWeight: FontWeight.w500,
+                ),
                 validator: (String value) {
                   if (value.isEmpty) {
                     return "Enter code";
@@ -172,32 +171,34 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               ),
               Container(
                 padding: const EdgeInsets.all(10),
-                width: 150,
+                width: 200,
                 child: isLoading == true
                     ? SpinKitCubeGrid(
                         color: Colors.white,
                         size: 40,
                       )
                     : RaisedButton(
-                        color: Color(0xffF8C80D),
-                        textColor: Color(0xff121212),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            side: BorderSide(color: Color(0xffF8C80D))),
-                        child: Text(
-                          "Verify",
-                          style: TextStyle(
-                              fontFamily: "OpenSans",
-                              fontWeight: FontWeight.w700),
+                          color: Color(0xffF8C80D),
+                          textColor: Color(0xff121212),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              side: BorderSide(color: Color(0xffF8C80D))),
+                          child: Text(
+                            "Verify",
+                            style: TextStyle(
+                                fontSize: 16,
+                                // fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              print("Verified...");
+                              OnlyDuringSignupFirestore.updateEmailAddress(
+                                  loadingOn, loadingOff, context);
+                            }
+                          },
                         ),
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            print("Verified...");
-                            OnlyDuringSignupFirestore.updateEmailAddress(loadingOn ,loadingOff,context);
-                          }
-                        },
                       ),
-              ),
               Spacer(),
               Align(
                 alignment: Alignment.bottomLeft,
@@ -210,7 +211,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.underline),
                   ),
-                  onPressed: () => _showAlertDialog(context,loadingOn,loadingOff),
+                  onPressed: () =>
+                      _showAlertDialog(context, loadingOn, loadingOff),
                 ),
               ),
             ],
@@ -221,7 +223,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   }
 }
 
-_showAlertDialog(BuildContext context,Function loadingOn , Function loadingOff) {
+_showAlertDialog(
+    BuildContext context, Function loadingOn, Function loadingOff) {
   Widget goBack = FlatButton(
     child: Text(
       "Go Back",

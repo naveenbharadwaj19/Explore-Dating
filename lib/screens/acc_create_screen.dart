@@ -17,6 +17,7 @@ class AccCreatedScreen extends StatelessWidget {
             Container(
               height: 200,
               width: 200,
+              margin: EdgeInsets.symmetric(vertical: 50),
               child: FlareActor(
                 "assets/animations/successCheck.flr",
                 fit: BoxFit.cover,
@@ -38,20 +39,27 @@ class AccCreatedScreen extends StatelessWidget {
             Align(
               // ! Place continue button in center of the screen
               alignment: Alignment.bottomCenter,
-              child: RaisedButton(
-                color: Color(0xffF8C80D),
-                textColor: Color(0xff121212),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7),
-                    side: BorderSide(color: Color(0xffF8C80D))),
-                child: Text(
-                  "Continue",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+              child: Container(
+                width: 180,
+                margin: EdgeInsets.only(bottom:30),
+                child: RaisedButton(
+                  color: Color(0xffF8C80D),
+                  textColor: Color(0xff121212),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(color: Color(0xffF8C80D))),
+                  child: Text(
+                    "Continue",
+                    style: TextStyle(
+                      fontSize: 20,
+                      // fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  onPressed: () {
+                    // manageSigninLogin = false;
+                    OnlyDuringSignupFirestore.updateAccSuccPage(context);
+                  },
                 ),
-                onPressed: () {
-                  // manageSigninLogin = false;
-                  OnlyDuringSignupFirestore.updateAccSuccPage(context);
-                },
               ),
             )
           ],

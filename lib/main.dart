@@ -60,9 +60,10 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: "Explore",
       theme: ThemeData(
-        fontFamily: "OpenSans",
+        fontFamily: "Nunito",
+        primaryColor: Color(0xff121212),
       ),
-      home: StreamBuilder(
+      home: StreamBuilder<User>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snapShot1) {
             if (snapShot1.connectionState == ConnectionState.waiting ||

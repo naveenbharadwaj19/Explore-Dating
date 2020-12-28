@@ -48,6 +48,7 @@ Widget nameTextField(TextEditingController _name) {
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
+        // ! Need to use input text as WORDSANS
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
@@ -90,6 +91,7 @@ Widget emailTextField(TextEditingController _email) {
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
+        // ! Need to use input text as WORDSANS
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -131,6 +133,7 @@ Widget userNameTextField(TextEditingController _username) {
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
+        // ! Need to use input text as WORDSANS
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -181,6 +184,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
+        // ! Need to use input text as WORDSANS
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -234,6 +238,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
+        // ! Need to use input text as WORDSANS
         style: TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
@@ -349,8 +354,9 @@ class _DOBState extends State<DOB> {
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 _findAge() < 18 ? "Enter age 18+" : formattedDate(),
-                style: TextStyle(
-                    fontFamily: "OpenSans", fontWeight: FontWeight.w700),
+                style: TextStyle(fontSize: 16
+                    // fontWeight: FontWeight.w700
+                    ),
               ),
               onPressed: () => _selectDate(context),
             ),
@@ -435,51 +441,57 @@ Widget nextButton(
     padding: const EdgeInsets.symmetric(vertical: 25),
     child: isLoading == true
         ? cubeGrid
-        : RaisedButton(
-            color: Color(0xffF8C80D),
-            textColor: Color(0xff121212),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(7),
-                side: BorderSide(color: Color(0xffF8C80D))),
-            child: Text(
-              "Next",
-              style: TextStyle(
-                  fontFamily: "OpenSans", fontWeight: FontWeight.w700),
-            ),
-            onPressed: () {
-              if (formKey.currentState.validate() &&
-                  agreeAge == true &&
-                  agreeTerms == true) {
-                if (dobM == null || dobM.isEmpty) {
-                  return Flushbar(
-                    backgroundColor: Color(0xff121212),
-                    messageText: Text(
-                      "Enter birth date",
-                      style: TextStyle(
-                          fontFamily: "OpenSans",
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
-                    duration: Duration(seconds: 3),
-                  )..show(context);
+        : Container(
+          width: 125,
+          child: RaisedButton(
+              color: Color(0xffF8C80D),
+              textColor: Color(0xff121212),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(color: Color(0xffF8C80D))),
+              child: Text(
+                "Next",
+                style: TextStyle(
+                  // fontFamily: "OpenSans",
+                  // fontWeight: FontWeight.w700,
+                  fontSize: 16
+                ),
+              ),
+              onPressed: () {
+                if (formKey.currentState.validate() &&
+                    agreeAge == true &&
+                    agreeTerms == true) {
+                  if (dobM == null || dobM.isEmpty) {
+                    return Flushbar(
+                      backgroundColor: Color(0xff121212),
+                      messageText: Text(
+                        "Enter birth date",
+                        style: TextStyle(
+                            fontFamily: "OpenSans",
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
+                      duration: Duration(seconds: 3),
+                    )..show(context);
+                  }
+                  print("Validation passed for signup");
+                  // * storing in memory
+                  nameM = name.text;
+                  emailAddressM = emailAddress.text;
+                  userNameM = userName.text;
+                  passwordM = password.text;
+                  // Navigator.pushNamed(context, EmailVerificationScreen.routeName);
+                  AuthenticationFirebase.signInUser(
+                      emailAddress: emailAddressM,
+                      password: passwordM,
+                      loadingOn: loadingOn,
+                      loadingOff: loadingOff,
+                      username: userNameM,
+                      ctx: context);
                 }
-                print("Validation passed for signup");
-                // * storing in memory
-                nameM = name.text;
-                emailAddressM = emailAddress.text;
-                userNameM = userName.text;
-                passwordM = password.text;
-                // Navigator.pushNamed(context, EmailVerificationScreen.routeName);
-                AuthenticationFirebase.signInUser(
-                    emailAddress: emailAddressM,
-                    password: passwordM,
-                    loadingOn: loadingOn,
-                    loadingOff: loadingOff,
-                    username: userNameM,
-                    ctx: context);
-              }
-            },
-          ),
+              },
+            ),
+        ),
   );
 }
 
@@ -506,7 +518,7 @@ Widget navigateToLoginPage(BuildContext context, Function pressedLogin) {
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: (){
+            onPressed: () {
               pressedLogin();
             },
           ),

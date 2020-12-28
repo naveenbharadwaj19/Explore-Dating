@@ -36,12 +36,15 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   flutter_svg: ^0.19.1
   gender_selection: ^1.0.0
+  geocoder: ^0.2.1
+  geolocator: ^6.1.13
   intl: ^0.16.1
   mailgun: ^0.1.2
+  modal_bottom_sheet: ^1.0.0+1
   page_transition: ^1.1.7+2
   pinput: ^0.2.6
   random_string: ^2.1.0
-  geolocator: ^6.1.13
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:
@@ -64,12 +67,14 @@ flutter:
     - assets/app_images/male.png
     - assets/app_images/female.png
     - assets/app_images/explore_plain_logo.png
+    - assets/app_images/location_img.png
     - assets/app_background_img/welcome_bg_2.png
     - lib/icons/explore_logo.svg
     - lib/icons/google_icon.svg
     - lib/icons/email_verf_icon.svg
     - assets/animations/successCheck.flr
     - assets/animations/SearchEmail.flr
+    - assets/animations/location_pin.flr
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -91,6 +96,10 @@ flutter:
       fonts:
         - asset: assets/fonts/OpenSans-Light.ttf
           weight: 700
+
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito-Regular.ttf
 
     - family: MaleIcon
       fonts:

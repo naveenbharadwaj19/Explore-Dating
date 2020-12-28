@@ -36,7 +36,6 @@ class OnlyDuringSignupFirestore {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
       await data.set({
         "access_check": {
-          "locationaccess": false,
           "top_notch_photo": false,
           "body_photo": false,
           "email_address_verified": false,
@@ -184,7 +183,9 @@ class OnlyDuringSignupFirestore {
     }
     // loadingOff();
   }
-  static updateOtherGender(String selectedOtherGender ,BuildContext context) async {
+
+  static updateOtherGender(
+      String selectedOtherGender, BuildContext context) async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
     try {
@@ -210,6 +211,7 @@ class OnlyDuringSignupFirestore {
     }
     // loadingOff();
   }
+
   static backToMaleFemaleGenderPage(BuildContext context) async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
@@ -217,9 +219,40 @@ class OnlyDuringSignupFirestore {
       DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
       await user.update({
         "bio.gender.m_f": "",
-        "bio.gender.other.clicked_other" : true,
+        "bio.gender.other.clicked_other": true,
       });
       print("Back to male / female gender  page");
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      Flushbar(
+        messageText: Text(
+          "Something went wrong try again",
+          style: TextStyle(
+              fontFamily: "OpenSans",
+              fontWeight: FontWeight.w700,
+              color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
+    }
+    // loadingOff();
+  }
+
+
+  static getLocationAddressAndCoordinates(String addressLine, double latitude,
+      double longitude, BuildContext context) async {
+    // * get user address , coordinates and write them on database
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    // loadingOn();
+    try {
+      DocumentReference storeUserLocation = FirebaseFirestore.instance
+          .doc("Users/$uid/Userlocation/fetchedlocation");
+      await storeUserLocation.set({
+        "current_coordinates": GeoPoint(latitude, longitude),
+        "current_address": addressLine,
+      });
+      print("Stored User address in firestore");
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
