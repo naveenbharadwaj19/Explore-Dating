@@ -51,10 +51,10 @@ Widget catchyText() {
     child: Text(
       "Ready to Explore ?",
       style: TextStyle(
-          fontFamily: "OpenSans",
+          // fontFamily: "OpenSans",
           fontSize: 25,
           color: Colors.white,
-          fontWeight: FontWeight.w500,
+          // fontWeight: FontWeight.w500,
           decoration: TextDecoration.none),
     ),
   );
@@ -65,7 +65,7 @@ Widget emailTextField(TextEditingController emailAddress) {
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
-      height: 50,
+      height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
@@ -109,7 +109,7 @@ Widget passwordTextField(
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
-      height: 50,
+      height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),

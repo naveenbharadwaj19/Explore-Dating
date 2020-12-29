@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:Explore/widgets/pick_photos_widgets.dart';
 import 'package:flutter/material.dart';
 
 class PickPhotoScreen extends StatelessWidget {
@@ -6,30 +6,41 @@ class PickPhotoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-          child: Container(
-            color: Colors.black,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Photos Screen",style:TextStyle(color: Colors.white,fontSize: 40)),
-            IconButton(
-              icon: Icon(Icons.delete),
-              color: Colors.red,
-              iconSize: 50,
-              onPressed: (){
-                FirebaseAuth.instance.currentUser.delete();
-                print("account deleted");
-                // Navigator.pushNamed(context, WelcomeLoginScreen.routeName);
-              },
+      color: Colors.white,
+      child: Container(
+        decoration: BoxDecoration(
+          // ? dot image
+          image: DecorationImage(
+            image: AssetImage(
+              "assets/app_images/photo_img_bg.png",
             ),
-            IconButton(
-              icon: Icon(Icons.exit_to_app_outlined),
-              color: Colors.red,
-              iconSize: 50,
-              onPressed: (){
-                FirebaseAuth.instance.signOut();
-                // Navigator.pushNamed(context, WelcomeLoginScreen.routeName);
-              },
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          // mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            headPhoto(context),
+            bodyPhoto(context),
+            Spacer(),
+            Container(
+              // ? confirm button
+              width: 180,
+              child: RaisedButton(
+                color: Color(0xffF8C80D),
+                textColor: Color(0xff121212),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(color: Color(0xffF8C80D))),
+                child: Text(
+                  "Confirm",
+                  style: TextStyle(
+                      // fontFamily: "OpenSans",
+                      // fontWeight: FontWeight.w700,
+                      fontSize: 16),
+                ),
+                onPressed: () {},
+              ),
             ),
           ],
         ),

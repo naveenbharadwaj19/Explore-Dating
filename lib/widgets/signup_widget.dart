@@ -38,7 +38,7 @@ Widget nameTextField(TextEditingController _name) {
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
-      height: 50,
+      height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
@@ -81,7 +81,7 @@ Widget emailTextField(TextEditingController _email) {
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
-      height: 50,
+      height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
@@ -123,7 +123,7 @@ Widget userNameTextField(TextEditingController _username) {
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
-      height: 50,
+      height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
@@ -173,7 +173,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
-      height: 50,
+      height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
@@ -227,7 +227,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
   return Align(
     alignment: Alignment(-0.3, 0.0),
     child: Container(
-      height: 50,
+      height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
       margin: EdgeInsets.only(top: 30),
@@ -327,7 +327,7 @@ class _DOBState extends State<DOB> {
       alignment: Alignment(-0.3, 0.0),
       child: Container(
         margin: EdgeInsets.only(top: 25),
-        height: 50,
+        height: 60,
         width: 300,
         decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
