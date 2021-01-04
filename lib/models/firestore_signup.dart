@@ -1,7 +1,13 @@
 // todo create data only when user signup and datas until home screen
 
+import 'dart:ffi';
+import 'dart:io';
+
+import 'package:Explore/models/assign_errors.dart';
+import 'package:Explore/models/handle_photos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,12 +51,11 @@ class OnlyDuringSignupFirestore {
           "user_id": uid,
           "username": username,
           "emailaddress": emailaddess,
+          "method_used_to_signin" : "email/password",
           "name": name,
           "dob": dob,
           "age": _findAge(),
           "account_verified": false,
-          "top_notch_photo_using": "",
-          "body_photo_using": "",
           "gender": {
             "m_f": "",
             "other": {"clicked_other": true, "other_gender": ""},
@@ -66,10 +71,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: Text(
           "Something went wrong try again",
-          style: TextStyle(
-              fontFamily: "OpenSans",
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -93,10 +95,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: Text(
           "Something went wrong try again",
-          style: TextStyle(
-              fontFamily: "OpenSans",
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -119,10 +118,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: Text(
           "Something went wrong try again",
-          style: TextStyle(
-              fontFamily: "OpenSans",
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -145,10 +141,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: Text(
           "Something went wrong try again",
-          style: TextStyle(
-              fontFamily: "OpenSans",
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -172,10 +165,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: Text(
           "Something went wrong try again",
-          style: TextStyle(
-              fontFamily: "OpenSans",
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -200,10 +190,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: Text(
           "Something went wrong try again",
-          style: TextStyle(
-              fontFamily: "OpenSans",
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -227,10 +214,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: Text(
           "Something went wrong try again",
-          style: TextStyle(
-              fontFamily: "OpenSans",
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -238,7 +222,6 @@ class OnlyDuringSignupFirestore {
     }
     // loadingOff();
   }
-
 
   static getLocationAddressAndCoordinates(String addressLine, double latitude,
       double longitude, BuildContext context) async {
@@ -258,15 +241,83 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: Text(
           "Something went wrong try again",
-          style: TextStyle(
-              fontFamily: "OpenSans",
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
       )..show(context);
     }
     // loadingOff();
+  }
+  static updatePhotoFields(BuildContext context) async {
+    // * get user address , coordinates and write them on database
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    // loadingOn();
+    try {
+      DocumentReference user = FirebaseFirestore.instance
+          .doc("Users/$uid");
+      await user.update({
+        "access_check.top_notch_photo": true,
+        "access_check.body_photo": true
+      });
+      print("Photo fields updated in firestore");
+
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      Flushbar(
+        messageText: Text(
+          "Something went wrong try again",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
+    }
+    // loadingOff();
+  }
+}
+
+void uploadHeadBodyPhotoTocloudStorage(
+    String imagePathForHead, String imagePathForBody, BuildContext context) {
+  // * ref1 = current head photo , ref2 = body photo , ref3 = all body photos
+  try {
+    FirebaseStorage _storage = FirebaseStorage.instance;
+    final auth = FirebaseAuth.instance;
+    final User user = auth.currentUser;
+    final uid = user.uid;
+    // * ref1 ----
+    String imgNameHead = "choosenheadphoto.jpg";
+    // imagePathForHead.split("/").last;
+    var reference1 =
+        _storage.ref().child("Userphotos/$uid/currentheadphoto/$imgNameHead");
+    reference1.putFile(File(imagePathForHead));
+    // * ref2 ----
+    String imgNameBody = "choosenbodyphoto.jpg";
+    // imagePathForBody.split("/").last;
+    var reference2 =
+        _storage.ref().child("Userphotos/$uid/currentbodyphoto/$imgNameBody");
+    reference2.putFile(File(imagePathForBody));
+    // * ref3 ----
+    String imgName = imagePathForBody.split("/").last;
+    var reference3 =
+        _storage.ref().child("Userphotos/$uid/bodyphotos/$imgName");
+    reference3.putFile(File(imagePathForBody));
+
+    print("Photos uploaded to storage");
+    OnlyDuringSignupFirestore.updatePhotoFields(context);
+    // * reset head and body photo to null
+    HandlePhotos.headPhoto = null;
+    HandlePhotos.bodyPhoto = null;
+
+  } catch (error) {
+    print("Error : ${error.toString()}");
+    Flushbar(
+      messageText: Text(
+        AssignErrors.expcldstr005,
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Color(0xff121212),
+      duration: Duration(seconds: 3),
+    )..show(context);
   }
 }

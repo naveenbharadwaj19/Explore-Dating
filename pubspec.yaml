@@ -23,6 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  app_settings: ^4.0.4
   circular_check_box: ^1.0.4
   circular_countdown_timer: ^0.0.7
   clippy_flutter: ^1.1.1
@@ -30,7 +31,9 @@ dependencies:
   cupertino_icons: ^1.0.0
   email_validator: ^1.0.6
   firebase_auth: ^0.18.3
-  firebase_core: ^0.5.2
+  firebase_core: ^0.5.1
+  firebase_ml_vision: ^0.9.8
+  firebase_storage: ^5.2.0
   flare_flutter: ^2.0.6
   flushbar: ^1.10.4
   flutter_holo_date_picker: ^0.2.1
@@ -46,6 +49,7 @@ dependencies:
   modal_bottom_sheet: ^1.0.0+1
   page_transition: ^1.1.7+2
   pinput: ^0.2.6
+  random_string: ^2.1.0
 
 dev_dependencies:
   flutter_test:

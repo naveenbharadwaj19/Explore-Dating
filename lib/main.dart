@@ -17,7 +17,7 @@ import 'package:page_transition/page_transition.dart';
 // * hex code for black - 0xff121212
 // * hex code for yellow - 0xffF8C80D
 // * Headline font - Domine Regular
-// * Body font - OpenSans Light
+// * Body font - nunito regular
 // * loading spinner - cubegrid
 
 void main() async {

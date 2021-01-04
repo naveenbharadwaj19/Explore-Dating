@@ -1,3 +1,4 @@
+import 'package:Explore/models/handle_delete.dart';
 import 'package:Explore/models/spinner.dart';
 import 'package:Explore/screens/acc_create_screen.dart';
 import 'package:Explore/screens/emai_verf_screen.dart';
@@ -134,8 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.red,
                       iconSize: 50,
                       onPressed: () {
-                        FirebaseAuth.instance.currentUser.delete();
-                        print("account deleted");
+                        deleteAuthDetails();
+                        deleteUserPhotosInCloudStorage();
                       },
                     ),
                     IconButton(

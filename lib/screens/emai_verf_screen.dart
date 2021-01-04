@@ -77,6 +77,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 padding: EdgeInsets.all(15),
                 child: Text(
                   // ! Fetch from database for emailaddress or add some other logic
+                  emailAddressM == null ? "Verification code has been sent to your email" :
                   "Verification code has been sent to your email : $emailAddressM",
                   textAlign: TextAlign.center,
                   style: TextStyle(
