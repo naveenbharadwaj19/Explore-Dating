@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 Future<void> deleteUserDuringSignUpProcess(BuildContext context) async {
   String uid = FirebaseAuth.instance.currentUser.uid;
@@ -63,6 +64,8 @@ Future<void> deleteUserPhotosInCloudStorage() async {
 
 Future<void> deleteAuthDetails() async {
   try {
+    // * signout user if they use google auth
+    GoogleSignIn().signOut();
     FirebaseAuth.instance.currentUser.delete();
     print("Account deleted successfully.Firestore User delete event will get triggred");
   } catch (error) {

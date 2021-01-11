@@ -1,21 +1,17 @@
-import 'package:Explore/models/auth.dart';
+import 'package:explore/models/auth.dart';
+import 'package:explore/models/spinner.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-Widget logoAppName() {
+Widget logoAppName(Image logoImage) {
   return Row(
     // ? logo and text
     children: [
       Container(
-        child: Image.asset(
-          "assets/app_images/explore_plain_logo.png",
-          fit: BoxFit.cover,
-          height: 200,
-          width: 170,
-        ),
+        child: logoImage,
       ),
       Text(
         "Explore",
@@ -255,17 +251,21 @@ Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
   );
 }
 
-Widget googleSignUp() {
+Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole, Function loadingOffGoole,
+    BuildContext context) {
   return Align(
     alignment: Alignment.center,
-    child: FlatButton(
-      child: SvgPicture.asset(
-        "lib/icons/google_icon.svg",
-        height: 45,
-        fit: BoxFit.cover,
-      ),
-      onPressed: () {},
-    ),
+    child: isLoadingGoole == true
+        ? loadingSpinner()
+        : FlatButton(
+            child: SvgPicture.asset(
+              "lib/icons/google_icon.svg",
+              height: 45,
+              fit: BoxFit.cover,
+            ),
+            onPressed: () => GoogleAuthenticationClass.signinWithGoogle(
+                loadingOnGoole, loadingOffGoole, context),
+          ),
   );
 }
 

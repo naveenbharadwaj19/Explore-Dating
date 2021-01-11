@@ -1,5 +1,5 @@
-import 'package:Explore/data/auth_data.dart';
-import 'package:Explore/models/auth.dart';
+import 'package:explore/data/auth_data.dart';
+import 'package:explore/models/auth.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flushbar/flushbar.dart';
@@ -9,17 +9,12 @@ import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
-Widget logoAppName() {
+Widget logoAppName(Image logoImage) {
   return Row(
     // ? logo and text
     children: [
       Container(
-        child: Image.asset(
-          "assets/app_images/explore_plain_logo.png",
-          fit: BoxFit.cover,
-          height: 200,
-          width: 170,
-        ),
+        child: logoImage,
       ),
       Text(
         "Explore",

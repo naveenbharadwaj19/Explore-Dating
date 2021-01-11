@@ -1,4 +1,6 @@
-import 'package:Explore/data/auth_data.dart';
+import 'package:explore/data/auth_data.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mailgun/mailgun.dart';
 import 'package:random_string/random_string.dart';
 
@@ -9,9 +11,12 @@ String generateFourDigitCode(){
 
 
 
-void sendMail(String userName,String toEmailAddress, String fourDigitCode) async {
+void sendMail(String toEmailAddress, String fourDigitCode) async {
   String domainName = "sandboxbced68cb03464b91bd7ddbc865c74279.mailgun.org";
   String apiKey = "c4b0231a96b32fedf9fc1c493813f8ea-95f6ca46-a779764f";
+  DocumentSnapshot userDetails = await FirebaseFirestore.instance.doc("Users/${FirebaseAuth.instance.currentUser.uid}").get();
+  // * fetching user name to show in email template
+  String userName = userDetails.get("bio.name");
   print("FourDigitCode : $fourDigitCode");
   storeGeneratedCode = fourDigitCode;
   var mailGun = MailgunMailer(domain: domainName, apiKey: apiKey);

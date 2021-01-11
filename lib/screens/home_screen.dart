@@ -1,15 +1,17 @@
-import 'package:Explore/models/handle_delete.dart';
-import 'package:Explore/models/spinner.dart';
-import 'package:Explore/screens/acc_create_screen.dart';
-import 'package:Explore/screens/emai_verf_screen.dart';
-import 'package:Explore/screens/gender_screen.dart';
-import 'package:Explore/screens/location_screen.dart';
-import 'package:Explore/screens/pick_photos_screen.dart';
+import 'package:explore/models/handle_delete.dart';
+import 'package:explore/models/spinner.dart';
+import 'package:explore/screens/acc_create_screen.dart';
+import 'package:explore/screens/google_dob_screen.dart';
+import 'package:explore/screens/emai_verf_screen.dart';
+import 'package:explore/screens/gender_screen.dart';
+import 'package:explore/screens/location_screen.dart';
+import 'package:explore/screens/pick_photos_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "home-page";
@@ -46,18 +48,25 @@ class _HomeScreenState extends State<HomeScreen> {
           .snapshots(),
       builder: (context, snapShot2) {
         if (snapShot2.connectionState == ConnectionState.waiting ||
-            snapShot2.hasError) {
+            snapShot2.hasError ||
+            !snapShot2.hasData) {
           return Center(
             child: loadingSpinner(),
           );
         }
-        final genderCheck = snapShot2.data["bio"];
-        final accessCheck = snapShot2.data["access_check"];
 
+        final genderCheck = snapShot2.data["bio"];
+        final dobCheck = snapShot2.data["bio"];
+        final accessCheck = snapShot2.data["access_check"];
         if (!accessCheck["email_address_verified"]) {
           print("In email verification");
           return EmailVerificationScreen();
         }
+        if (dobCheck["dob"].isEmpty) {
+          print("In dob page");
+          return GoogleDobScreen();
+        }
+
         if (!accessCheck["account_success_page"]) {
           print("In account success page");
           return AccCreatedScreen();
@@ -145,6 +154,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       iconSize: 50,
                       onPressed: () {
                         FirebaseAuth.instance.signOut();
+                        GoogleSignIn().signOut();
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.call),
+                      color: Colors.red,
+                      iconSize: 50,
+                      onPressed: () {
+                        print(FirebaseAuth.instance.currentUser.reload());
                       },
                     ),
                   ],

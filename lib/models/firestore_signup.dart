@@ -1,10 +1,10 @@
-// todo create data only when user signup and datas until home screen
+// todo create data only when user signup .
+// * All backend work is stored until user reach homescreen
 
-import 'dart:ffi';
 import 'dart:io';
-
-import 'package:Explore/models/assign_errors.dart';
-import 'package:Explore/models/handle_photos.dart';
+import 'package:explore/data/auth_data.dart'show dobM,ageM;
+import 'package:explore/models/assign_errors.dart';
+import 'package:explore/models/handle_photos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -51,7 +51,7 @@ class OnlyDuringSignupFirestore {
           "user_id": uid,
           "username": username,
           "emailaddress": emailaddess,
-          "method_used_to_signin" : "email/password",
+          "method_used_to_signin": "email/password",
           "name": name,
           "dob": dob,
           "age": _findAge(),
@@ -249,19 +249,18 @@ class OnlyDuringSignupFirestore {
     }
     // loadingOff();
   }
+
   static updatePhotoFields(BuildContext context) async {
     // * get user address , coordinates and write them on database
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
     try {
-      DocumentReference user = FirebaseFirestore.instance
-          .doc("Users/$uid");
+      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
       await user.update({
         "access_check.top_notch_photo": true,
         "access_check.body_photo": true
       });
       print("Photo fields updated in firestore");
-
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
@@ -308,7 +307,6 @@ void uploadHeadBodyPhotoTocloudStorage(
     // * reset head and body photo to null
     HandlePhotos.headPhoto = null;
     HandlePhotos.bodyPhoto = null;
-
   } catch (error) {
     print("Error : ${error.toString()}");
     Flushbar(
@@ -319,5 +317,77 @@ void uploadHeadBodyPhotoTocloudStorage(
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 3),
     )..show(context);
+  }
+}
+
+class GooglePath {
+  // * When user choose google signin method
+  static Future<void> signInWithGoogle(
+      BuildContext context,
+      String displayNameGoogle,
+      String emailAddressGoogle,
+      String userUid) async {
+    // * store data when user clicked signin with google
+    String uid = FirebaseAuth.instance.currentUser.uid;
+
+    // loadingOn();
+    try {
+      DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
+      await data.set({
+        "access_check": {
+          "top_notch_photo": false,
+          "body_photo": false,
+          "email_address_verified": true,
+          "account_success_page": false,
+        },
+        "bio": {
+          "user_id": userUid,
+          "username": "",
+          "emailaddress": emailAddressGoogle,
+          "method_used_to_signin": "Google",
+          "name": displayNameGoogle,
+          "dob": "",
+          "age": "",
+          "account_verified": false,
+          "gender": {
+            "m_f": "",
+            "other": {"clicked_other": true, "other_gender": ""},
+          },
+        }
+      });
+
+      print("User bio using google signin created successfully in firestore");
+
+      // Navigator.pushNamed(context, AccCreatedScreen.routeName);
+    } catch (error) {
+      print("Error ${error.toString()}");
+      Flushbar(
+        messageText: Text(
+          "Something went wrong try again",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
+    }
+    // loadingOff();
+  }
+
+  static Future<void> updateDobGoogle(String dateOfBirth, int age) async {
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    try {
+      DocumentReference updateDob =
+          FirebaseFirestore.instance.doc("Users/$uid");
+      await updateDob.update({
+        "bio.dob": dateOfBirth,
+        "bio.age": age,
+      });
+      print("DOB , age updated");
+      // * resetting memory of dob and age
+      dobM = null;
+      ageM = null;
+    } catch (error) {
+      print("Error : ${error.toString()}");
+    }
   }
 }

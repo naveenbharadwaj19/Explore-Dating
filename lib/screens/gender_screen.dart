@@ -1,5 +1,5 @@
-import 'package:Explore/icons/other_genders_icons.dart';
-import 'package:Explore/models/firestore_signup.dart';
+import 'package:explore/icons/other_genders_icons.dart';
+import 'package:explore/models/firestore_signup.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_selection/gender_selection.dart';

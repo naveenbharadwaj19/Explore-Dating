@@ -1,10 +1,13 @@
-import 'package:Explore/data/auth_data.dart';
-import 'package:Explore/models/email_model.dart';
-import 'package:Explore/models/firestore_signup.dart';
+import 'package:explore/data/auth_data.dart';
+import 'package:explore/models/assign_errors.dart';
+import 'package:explore/models/email_model.dart';
+import 'package:explore/models/firestore_signup.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthenticationFirebase {
   static void signInUser(
@@ -32,9 +35,8 @@ class AuthenticationFirebase {
       loadingOff();
 
       // ! change emailaddress to user emailaddress while deployment & when user kills the app and open the email verf
-      // ! page and hit send code again username will be availabe as it was not in memory fix it 
-      sendMail(username, "claw2020@gmail.com", generateFourDigitCode());
-
+      // ! page and hit send code again username will be availabe as it was not in memory fix it
+      sendMail("claw2020@gmail.com", generateFourDigitCode());
     } on PlatformException catch (err) {
       var message = 'An error occurred, please check your credentials!';
 
@@ -114,7 +116,6 @@ class AuthenticationFirebase {
           email: emailAddress.text, password: password.text);
       loadingOff();
       print("User logged in...");
-
     } on PlatformException catch (err) {
       var message = 'An error occurred, please check your credentials!';
 
@@ -210,7 +211,7 @@ class AuthenticationFirebase {
       TextEditingController emailAddress, BuildContext context) async {
     final auth = FirebaseAuth.instance;
     UserCredential userResult;
-    
+
     try {
       await auth.sendPasswordResetEmail(email: emailAddress.text);
       Flushbar(
@@ -253,5 +254,63 @@ class AuthenticationFirebase {
         )..show(context);
       }
     }
+  }
+}
+
+class GoogleAuthenticationClass {
+  // * Google auth
+  static signinWithGoogle(Function loadingOnGoogle,Function loadingOffGoogle,BuildContext context) async {
+    loadingOnGoogle();
+    try {
+      // * Trigger the authentication flow
+      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+
+      // * Obtain the auth details from the request
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      
+      // * Create a new credential
+      final GoogleAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      //  * Once signed in, return the UserCredential
+      UserCredential user = await FirebaseAuth.instance.signInWithCredential(credential);
+      // print("display name : ${user.user.displayName} , emailaddress : ${user.user.email}");
+      print("Using Google authentication");
+      // * Check for Uid exist in firestore
+      DocumentSnapshot checkUserUid = await FirebaseFirestore.instance.doc("Users/${user.user.uid}").get();
+      if(!checkUserUid.exists){
+        // * no Uid exist so creating one
+        print("No uid stored creating one...");
+        GooglePath.signInWithGoogle(context,user.user.displayName,user.user.email,user.user.uid);
+      }
+      
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      if (error.toString().contains(
+          "The user account has been disabled by an administrator.")) {
+        Flushbar(
+          messageText: Text(
+            "Account is disabled please visit our website",
+            style: TextStyle(
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(context);
+      }else{
+        Flushbar(
+          messageText: Text(
+            AssignErrors.expgogauth006,
+            style: TextStyle(
+                color: Colors.white),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(context);
+      }
+    }
+    loadingOffGoogle();
   }
 }

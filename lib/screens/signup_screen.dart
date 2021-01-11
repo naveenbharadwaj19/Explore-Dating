@@ -1,4 +1,4 @@
-import 'package:Explore/widgets/signup_widget.dart';
+import 'package:explore/widgets/signup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -19,10 +19,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
   bool isLoading = false;
-
   bool showPasswordText = false;
   bool agreeAge = false;
   bool agreeTerms = false;
+  final logoImage = Image.asset(
+    "assets/app_images/explore_org_logo.png",
+    fit: BoxFit.cover,
+    height: 200,
+    width: 170,
+  );
 
   void loadingOn() {
     setState(() {
@@ -67,6 +72,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   @override
+  // * precache image to reduce the loading time
+  void didChangeDependencies() {
+    // ignore: todo
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    precacheImage(logoImage.image, context);
+  }
+
+  @override
   // ? Check setstate disposed properly
   void setState(fn) {
     // ignore: todo
@@ -97,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               key: formKey,
               child: Column(
                 children: [
-                  logoAppName(),
+                  logoAppName(logoImage),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: 3),
                   ),

@@ -1,13 +1,13 @@
-import 'package:Explore/data/auth_data.dart';
-import 'package:Explore/models/spinner.dart';
-import 'package:Explore/screens/acc_create_screen.dart';
-import 'package:Explore/screens/emai_verf_screen.dart';
-import 'package:Explore/screens/gender_screen.dart';
-import 'package:Explore/screens/home_screen.dart';
-import 'package:Explore/screens/location_screen.dart';
-import 'package:Explore/screens/pick_photos_screen.dart';
-import 'package:Explore/screens/signup_screen.dart';
-import 'package:Explore/widgets/login_widgets.dart';
+import 'package:explore/models/spinner.dart';
+import 'package:explore/data/auth_data.dart';
+import 'package:explore/screens/acc_create_screen.dart';
+import 'package:explore/screens/emai_verf_screen.dart';
+import 'package:explore/screens/gender_screen.dart';
+import 'package:explore/screens/home_screen.dart';
+import 'package:explore/screens/location_screen.dart';
+import 'package:explore/screens/pick_photos_screen.dart';
+import 'package:explore/screens/signup_screen.dart';
+import 'package:explore/widgets/login_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +22,7 @@ import 'package:page_transition/page_transition.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(); 
   runApp(MyApp());
 }
 
@@ -32,28 +32,28 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  void pressedSignIn(){
+  void pressedSignIn() {
     setState(() {
       manageSigninLogin = true;
     });
-  
   }
-  void pressedLogIn(){
-      setState(() {
-        manageSigninLogin = false;
-      });
-    }
+
+  void pressedLogIn() {
+    setState(() {
+      manageSigninLogin = false;
+    });
+  }
 
   @override
-  // ? Check setstate disposed properly 
+  // ? Check setstate disposed properly
   void setState(fn) {
     // ignore: todo
     // TODO: implement setState
-    if (mounted){
+    if (mounted) {
       super.setState(fn);
     }
-    
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -67,13 +67,15 @@ class _MyAppState extends State<MyApp> {
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (ctx, snapShot1) {
             if (snapShot1.connectionState == ConnectionState.waiting ||
-            snapShot1.hasError){
+                snapShot1.hasError) {
               return loadingSpinner();
             }
             if (snapShot1.hasData) {
               return HomeScreen();
             }
-            return manageSigninLogin == false ? WelcomeLoginScreen(pressedSignIn) : SignUpScreen(pressedLogIn);
+            return manageSigninLogin == false
+                ? WelcomeLoginScreen(pressedSignin: pressedSignIn)
+                : SignUpScreen(pressedLogIn);
           }),
       routes: {
         // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
@@ -82,7 +84,7 @@ class _MyAppState extends State<MyApp> {
         switch (settings.name) {
           case WelcomeLoginScreen.routeName:
             return PageTransition(
-              child: WelcomeLoginScreen(pressedSignIn),
+              child: WelcomeLoginScreen(pressedSignin: pressedSignIn),
               type: PageTransitionType.rightToLeftWithFade,
             );
             break;
@@ -138,7 +140,7 @@ class _MyAppState extends State<MyApp> {
 class WelcomeLoginScreen extends StatefulWidget {
   static const routeName = "login-screen";
   final Function pressedSignin;
-  WelcomeLoginScreen(this.pressedSignin);
+  WelcomeLoginScreen({this.pressedSignin});
 
   @override
   _WelcomeLoginScreenState createState() => _WelcomeLoginScreenState();
@@ -150,6 +152,13 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
   final TextEditingController password = TextEditingController();
   bool showPasswordText = false;
   bool isLoading = false;
+  bool isLoadingGoogle = false;
+  final logoImage = Image.asset(
+    "assets/app_images/explore_org_logo.png",
+    fit: BoxFit.cover,
+    height: 200,
+    width: 170,
+  );
 
   void toggle() {
     setState(() {
@@ -168,6 +177,17 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
       isLoading = false;
     });
   }
+  void loadingOnGoogle() {
+    setState(() {
+      isLoadingGoogle = true;
+    });
+  }
+
+  void loadingOffGoole() {
+    setState(() {
+      isLoadingGoogle = false;
+    });
+  }
 
   @override
   void dispose() {
@@ -179,66 +199,73 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
   }
 
   @override
-  // ? Check setstate disposed properly 
+   // * precache image to reduce the loading time
+  void didChangeDependencies() {
+    // ignore: todo
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    precacheImage(logoImage.image, context);
+  }
+
+  @override
+  // ? Check setstate disposed properly
   void setState(fn) {
     // ignore: todo
     // TODO: implement setState
-    if (mounted){
+    if (mounted) {
       super.setState(fn);
     }
-    
   }
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Material(
-        child: ColorFiltered(
-          colorFilter: ColorFilter.mode(
-              Color(0xff121212).withOpacity(1), BlendMode.difference),
-          // ? difference, overlay, softlight ---> suitable blendmodes
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  "assets/app_background_img/welcome_bg_2.png",
-                ),
-                fit: BoxFit.cover,
+        child: Material(
+      child: ColorFiltered(
+        colorFilter: ColorFilter.mode(
+            Color(0xff121212).withOpacity(1), BlendMode.difference),
+        // ? difference, overlay, softlight ---> suitable blendmodes
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                "assets/app_background_img/welcome_bg_2.png",
               ),
+              fit: BoxFit.cover,
             ),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  logoAppName(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                  ),
-                  greetText(),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10),
-                  ),
-                  catchyText(),
-                  emailTextField(emailAddress),
-                  passwordTextField(showPasswordText, toggle, password),
-                  forgotPassword(formKey, emailAddress, context),
-                  loginButton(
-                      formKey: formKey,
-                      emailAddress: emailAddress,
-                      password: password,
-                      loadingOn: loadingOn,
-                      loadingOff: loadingOff,
-                      isloading: isLoading,
-                      context: context),
-                  googleSignUp(),
-                  navigateToSignUpPage(context , widget.pressedSignin),
-                  navigateToWebLink()
-                ],
-              ),
+          ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                logoAppName(logoImage),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                ),
+                greetText(),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10),
+                ),
+                catchyText(),
+                emailTextField(emailAddress),
+                passwordTextField(showPasswordText, toggle, password),
+                forgotPassword(formKey, emailAddress, context),
+                loginButton(
+                    formKey: formKey,
+                    emailAddress: emailAddress,
+                    password: password,
+                    loadingOn: loadingOn,
+                    loadingOff: loadingOff,
+                    isloading: isLoading,
+                    context: context),
+                googleSignUp(isLoadingGoogle,loadingOnGoogle,loadingOffGoole,context),
+                navigateToSignUpPage(context, widget.pressedSignin),
+                navigateToWebLink()
+              ],
             ),
           ),
         ),
       ),
-    );
+    ));
   }
 }

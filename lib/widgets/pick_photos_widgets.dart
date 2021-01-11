@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:Explore/icons/gallery_icon_icons.dart';
-import 'package:Explore/models/handle_photos.dart';
+import 'package:explore/icons/gallery_icon_icons.dart';
+import 'package:explore/models/handle_photos.dart';
 import 'package:clippy_flutter/arc.dart';
 import 'package:clippy_flutter/clippy_flutter.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +16,8 @@ Widget headPhoto(BuildContext context,Function updateHeadPhoto) {
     arcType: ArcType.CONVEY,
     clipShadows: [
       ClipShadow(
-        color: Color(0xff121212),
+        color: Color(0x80F8C80D),
+        elevation: 15
       ),
     ],
     child: Container(
@@ -29,7 +30,7 @@ Widget headPhoto(BuildContext context,Function updateHeadPhoto) {
           Container(
             margin: EdgeInsets.only(top: 30),
             child: Text(
-              "-Choose your style-",
+              "-Profile-",
               style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
             ),
           ),
@@ -97,7 +98,7 @@ Widget bodyPhoto(BuildContext context,Function updateBodyPhoto) {
           // ? outline border color
           border: Border.all(color: Color(0xffF8C80D), width: 4),
           borderRadius: BorderRadius.all(
-            Radius.circular(30),
+            Radius.circular(40),
           ),
           image: HandlePhotos.bodyPhoto != null
           // * fit the choosen image properly

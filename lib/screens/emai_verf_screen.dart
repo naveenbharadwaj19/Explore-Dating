@@ -1,6 +1,6 @@
-import 'package:Explore/data/auth_data.dart';
-import 'package:Explore/models/email_model.dart';
-import 'package:Explore/models/firestore_signup.dart';
+import 'package:explore/data/auth_data.dart';
+import 'package:explore/models/email_model.dart';
+import 'package:explore/models/firestore_signup.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -165,7 +165,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   // ! change email address to user email address while deployment
                   // ! when user close the app .While on this screen there might be no emailaddress on the menory so fix it while deployment
                   sendMail(
-                      userNameM, "claw2020@gmail.com", generateFourDigitCode());
+                      "claw2020@gmail.com", generateFourDigitCode());
                   _controller.restart(duration: 120);
                   _storeFourDigits.clear();
                 },

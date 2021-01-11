@@ -1,5 +1,5 @@
-import 'package:Explore/models/location.dart';
-import 'package:Explore/models/spinner.dart';
+import 'package:explore/models/location.dart';
+import 'package:explore/models/spinner.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

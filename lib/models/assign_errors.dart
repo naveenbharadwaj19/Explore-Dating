@@ -5,4 +5,5 @@ class AssignErrors {
   // * above code expsig003 is not used
   static String exphpml004 = "Exp-HPML-004";
   static String expcldstr005 = "Exp-CLDSTR-005";
+  static String expgogauth006 = "Exp-GoGAuth-006";
 }

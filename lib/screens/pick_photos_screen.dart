@@ -1,7 +1,7 @@
-import 'package:Explore/models/handle_photos.dart';
-import 'package:Explore/models/image_label_ml.dart';
-import 'package:Explore/models/spinner.dart';
-import 'package:Explore/widgets/pick_photos_widgets.dart';
+import 'package:explore/models/handle_photos.dart';
+import 'package:explore/models/image_label_ml.dart';
+import 'package:explore/models/spinner.dart';
+import 'package:explore/widgets/pick_photos_widgets.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 

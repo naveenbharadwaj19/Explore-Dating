@@ -1,4 +1,4 @@
-name: Explore
+name: explore
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -28,6 +28,7 @@ dependencies:
   circular_countdown_timer: ^0.0.7
   clippy_flutter: ^1.1.1
   cloud_firestore: ^0.14.4
+  cloud_functions: ^0.7.2
   cupertino_icons: ^1.0.0
   email_validator: ^1.0.6
   firebase_auth: ^0.18.3
@@ -42,6 +43,7 @@ dependencies:
   gender_selection: ^1.0.0
   geocoder: ^0.2.1
   geolocator: ^6.1.13
+  google_sign_in: ^4.5.6
   image_cropper: ^1.3.1
   image_picker: ^0.6.7+17
   intl: ^0.16.1
@@ -69,6 +71,7 @@ flutter:
     - assets/app_background_img/welcome_bg.jpg
     - assets/app_images/explore_logo.png
     - assets/app_images/explore_black_logo.png
+    - assets/app_images/explore_org_logo.png
     - assets/app_images/male.png
     - assets/app_images/female.png
     - assets/app_images/explore_plain_logo.png

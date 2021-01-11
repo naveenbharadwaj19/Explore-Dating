@@ -1,5 +1,5 @@
-import 'package:Explore/models/assign_errors.dart';
-import 'package:Explore/models/firestore_signup.dart';
+import 'package:explore/models/assign_errors.dart';
+import 'package:explore/models/firestore_signup.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
