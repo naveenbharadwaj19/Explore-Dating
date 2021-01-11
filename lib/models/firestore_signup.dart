@@ -56,12 +56,15 @@ class OnlyDuringSignupFirestore {
           "dob": dob,
           "age": _findAge(),
           "account_verified": false,
-          "gender": {
-            "m_f": "",
-            "other": {"clicked_other": true, "other_gender": ""},
-          },
+          "gender": "",
         }
       });
+
+      // Todo in future change this document field while other other screen:
+      // {
+      //       "m_f": "",
+      //       "other": {"clicked_other": true, "other_gender": ""},
+      //     }
 
       print("User bio created in Firestore successfully");
 
@@ -133,8 +136,10 @@ class OnlyDuringSignupFirestore {
     try {
       DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
       await user.update({
-        "bio.gender.m_f": selectedGender,
+        "bio.gender": selectedGender,
       });
+      // todo change the above the field to :
+      // bio.gender.m_f. -> field
       print("Gender field updated");
     } catch (error) {
       print("Error : ${error.toString()}");
@@ -150,78 +155,78 @@ class OnlyDuringSignupFirestore {
     // loadingOff();
   }
 
-  static pressedOtherGender(BuildContext context) async {
-    String uid = FirebaseAuth.instance.currentUser.uid;
-    // loadingOn();
-    try {
-      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
-      await user.update({
-        "bio.gender.m_f": "other",
-        "bio.gender.other.clicked_other": false,
-      });
-      print("Pressed other gender , gender 'm_f' field updated");
-    } catch (error) {
-      print("Error : ${error.toString()}");
-      Flushbar(
-        messageText: Text(
-          "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Color(0xff121212),
-        duration: Duration(seconds: 3),
-      )..show(context);
-    }
-    // loadingOff();
-  }
+  // static pressedOtherGender(BuildContext context) async {
+  //   String uid = FirebaseAuth.instance.currentUser.uid;
+  //   // loadingOn();
+  //   try {
+  //     DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
+  //     await user.update({
+  //       "bio.gender.m_f": "other",
+  //       "bio.gender.other.clicked_other": false,
+  //     });
+  //     print("Pressed other gender , gender 'm_f' field updated");
+  //   } catch (error) {
+  //     print("Error : ${error.toString()}");
+  //     Flushbar(
+  //       messageText: Text(
+  //         "Something went wrong try again",
+  //         style: TextStyle(color: Colors.white),
+  //       ),
+  //       backgroundColor: Color(0xff121212),
+  //       duration: Duration(seconds: 3),
+  //     )..show(context);
+  //   }
+  //   // loadingOff();
+  // }
 
-  static updateOtherGender(
-      String selectedOtherGender, BuildContext context) async {
-    String uid = FirebaseAuth.instance.currentUser.uid;
-    // loadingOn();
-    try {
-      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
-      await user.update({
-        "bio.gender.other.other_gender": selectedOtherGender,
-        "bio.gender.other.clicked_other": true,
-      });
-      print("Other gender updated");
-    } catch (error) {
-      print("Error : ${error.toString()}");
-      Flushbar(
-        messageText: Text(
-          "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Color(0xff121212),
-        duration: Duration(seconds: 3),
-      )..show(context);
-    }
-    // loadingOff();
-  }
+  // static updateOtherGender(
+  //     String selectedOtherGender, BuildContext context) async {
+  //   String uid = FirebaseAuth.instance.currentUser.uid;
+  //   // loadingOn();
+  //   try {
+  //     DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
+  //     await user.update({
+  //       "bio.gender.other.other_gender": selectedOtherGender,
+  //       "bio.gender.other.clicked_other": true,
+  //     });
+  //     print("Other gender updated");
+  //   } catch (error) {
+  //     print("Error : ${error.toString()}");
+  //     Flushbar(
+  //       messageText: Text(
+  //         "Something went wrong try again",
+  //         style: TextStyle(color: Colors.white),
+  //       ),
+  //       backgroundColor: Color(0xff121212),
+  //       duration: Duration(seconds: 3),
+  //     )..show(context);
+  //   }
+  //   // loadingOff();
+  // }
 
-  static backToMaleFemaleGenderPage(BuildContext context) async {
-    String uid = FirebaseAuth.instance.currentUser.uid;
-    // loadingOn();
-    try {
-      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
-      await user.update({
-        "bio.gender.m_f": "",
-        "bio.gender.other.clicked_other": true,
-      });
-      print("Back to male / female gender  page");
-    } catch (error) {
-      print("Error : ${error.toString()}");
-      Flushbar(
-        messageText: Text(
-          "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Color(0xff121212),
-        duration: Duration(seconds: 3),
-      )..show(context);
-    }
-    // loadingOff();
-  }
+  // static backToMaleFemaleGenderPage(BuildContext context) async {
+  //   String uid = FirebaseAuth.instance.currentUser.uid;
+  //   // loadingOn();
+  //   try {
+  //     DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
+  //     await user.update({
+  //       "bio.gender.m_f": "",
+  //       "bio.gender.other.clicked_other": true,
+  //     });
+  //     print("Back to male / female gender  page");
+  //   } catch (error) {
+  //     print("Error : ${error.toString()}");
+  //     Flushbar(
+  //       messageText: Text(
+  //         "Something went wrong try again",
+  //         style: TextStyle(color: Colors.white),
+  //       ),
+  //       backgroundColor: Color(0xff121212),
+  //       duration: Duration(seconds: 3),
+  //     )..show(context);
+  //   }
+  //   // loadingOff();
+  // }
 
   static getLocationAddressAndCoordinates(String addressLine, double latitude,
       double longitude, BuildContext context) async {
@@ -349,13 +354,14 @@ class GooglePath {
           "dob": "",
           "age": "",
           "account_verified": false,
-          "gender": {
-            "m_f": "",
-            "other": {"clicked_other": true, "other_gender": ""},
-          },
+          "gender": "",
         }
       });
-
+       // Todo in future change this document field while other other screen:
+        // {
+        //     "m_f": "",
+        //     "other": {"clicked_other": true, "other_gender": ""},
+        //   }
       print("User bio using google signin created successfully in firestore");
 
       // Navigator.pushNamed(context, AccCreatedScreen.routeName);

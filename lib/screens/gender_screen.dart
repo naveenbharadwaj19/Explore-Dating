@@ -1,4 +1,3 @@
-import 'package:explore/icons/other_genders_icons.dart';
 import 'package:explore/models/firestore_signup.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class GenderScreen extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 40),
               child: Text(
-                "-Choose your gender-",
+                "-I Am-",
                 style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
               ),
             ),
@@ -63,27 +62,27 @@ class GenderScreen extends StatelessWidget {
               },
             ),
             Spacer(),
-            Container(
-              alignment: Alignment.center,
-              // margin: EdgeInsets.only(top: 50),
-              child: RaisedButton(
-                color: Color(0xffF8C80D),
-                textColor: Color(0xff121212),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(7),
-                    side: BorderSide(color: Color(0xffF8C80D))),
-                child: Text(
-                  "Other",
-                  style: TextStyle(
-                    fontSize: 20,
-                    // fontWeight: FontWeight.w700,
-                  ),
-                ),
-                onPressed: () =>
-                    OnlyDuringSignupFirestore.pressedOtherGender(context),
-              ),
-            ),
-            Spacer(),
+            // Container(
+            //   alignment: Alignment.center,
+            //   // margin: EdgeInsets.only(top: 50),
+            //   child: RaisedButton(
+            //     color: Color(0xffF8C80D),
+            //     textColor: Color(0xff121212),
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(7),
+            //         side: BorderSide(color: Color(0xffF8C80D))),
+            //     child: Text(
+            //       "Other",
+            //       style: TextStyle(
+            //         fontSize: 20,
+            //         // fontWeight: FontWeight.w700,
+            //       ),
+            //     ),
+            //     onPressed: () =>
+            //         OnlyDuringSignupFirestore.pressedOtherGender(context),
+            //   ),
+            // ),
+            // Spacer(),
             Container(
               width: 180,
               child: RaisedButton(
@@ -134,241 +133,241 @@ class GenderScreen extends StatelessWidget {
   }
 }
 
-class OtherGenderScreen extends StatefulWidget {
-  @override
-  _OtherGenderScreenState createState() => _OtherGenderScreenState();
-}
+// class OtherGenderScreen extends StatefulWidget {
+//   @override
+//   _OtherGenderScreenState createState() => _OtherGenderScreenState();
+// }
 
-class _OtherGenderScreenState extends State<OtherGenderScreen> {
-  final double genderTextSize = 17;
-  final double spacing = 30;
-  final double _iconSize = 40;
-  String selectedOtherGender = "";
-  int trackGenderPressed = 0;
+// class _OtherGenderScreenState extends State<OtherGenderScreen> {
+//   final double genderTextSize = 17;
+//   final double spacing = 30;
+//   final double _iconSize = 40;
+//   String selectedOtherGender = "";
+//   int trackGenderPressed = 0;
 
-  void updateClickedGenderColor(int assignedGenderNumber) {
-    // * 0 - nothing clicked , 1 - gay , 2 - lesbian , 3 - homo , 4 - bi , 5 - trans
-    setState(() {
-      trackGenderPressed = assignedGenderNumber;
-    });
-  }
+//   void updateClickedGenderColor(int assignedGenderNumber) {
+//     // * 0 - nothing clicked , 1 - gay , 2 - lesbian , 3 - homo , 4 - bi , 5 - trans
+//     setState(() {
+//       trackGenderPressed = assignedGenderNumber;
+//     });
+//   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Material(
-      color: Color(0xff121212),
-      // ? main column for the screen
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 40),
-            child: Text(
-              "-Other-",
-              style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
-            ),
-          ),
-          // ? spacing between text and genders
-          // * gay , lesbian section
-          Padding(
-            padding: EdgeInsets.all(15),
-          ),
-          Column(
-            children: [
-              Row(
-                // ? icons - gay , lesbian
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: Icon(OtherGenders.gay),
-                    color: trackGenderPressed == 1
-                        ? Color(0xffF8C80D)
-                        : Colors.white,
-                    iconSize: _iconSize,
-                    splashColor: Color(0xffF8C80D),
-                    onPressed: () {
-                      selectedOtherGender = "Gay";
-                      updateClickedGenderColor(1);
-                      print("Selected gender: Gay");
-                    },
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: IconButton(
-                      icon: Icon(OtherGenders.lesbian),
-                      color: trackGenderPressed == 2
-                          ? Color(0xffF8C80D)
-                          : Colors.white,
-                      iconSize: _iconSize,
-                      // ? reason to use splash raidus , padding is to center the icon when pressing
-                      padding: EdgeInsets.only(right: 15),
-                      splashRadius: 45,
-                      splashColor: Color(0xffF8C80D),
-                      onPressed: () {
-                        selectedOtherGender = "Lesbian";
-                        updateClickedGenderColor(2);
-                        print("Selected gender: Lesbian");
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                // ? text section - gay , lesbian
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: spacing),
-                    child: Text(
-                      "Gay",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: genderTextSize,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: spacing),
-                    child: Text(
-                      "Lesbian",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: genderTextSize,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          // ? spacing between text and genders
-          //  * homoe , bisexual section
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 30),
-          ),
-          Column(
-            children: [
-              Row(
-                // ? icons - homo , bi
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  IconButton(
-                    icon: Icon(OtherGenders.homo),
-                    color: trackGenderPressed == 3
-                        ? Color(0xffF8C80D)
-                        : Colors.white,
-                    iconSize: _iconSize,
-                    // ? reason to use splash raidus , padding is to center the icon when pressing
-                    padding: EdgeInsets.only(right: 15),
-                    splashRadius: 42,
-                    splashColor: Color(0xffF8C80D),
-                    onPressed: () {
-                      selectedOtherGender = "Homosexual";
-                      updateClickedGenderColor(3);
-                      print("Selected gender: Homosexual");
-                    },
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: IconButton(
-                      icon: Icon(OtherGenders.bisexual),
-                      color: trackGenderPressed == 4
-                          ? Color(0xffF8C80D)
-                          : Colors.white,
-                      // ? bisexual icon is smaller compare to other genders icon so let the bixseual icon size be 45
-                      iconSize: 45,
-                      splashColor: Color(0xffF8C80D),
-                      onPressed: () {
-                        selectedOtherGender = "Bisexual";
-                        updateClickedGenderColor(4);
-                        print("Selected gender: Bisexual");
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                // ? text section - homo , bi
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: spacing),
-                    padding: EdgeInsets.only(left: 25),
-                    child: Text(
-                      "Homosexual",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: genderTextSize,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: spacing),
-                    padding: EdgeInsets.only(right: 25),
-                    child: Text(
-                      "Bisexual",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: genderTextSize,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Spacer(),
-          Container(
-            alignment: Alignment.center,
-            // margin: EdgeInsets.only(top: 50),
-            child: RaisedButton(
-              color: Color(0xffF8C80D),
-              textColor: Color(0xff121212),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7),
-                  side: BorderSide(color: Color(0xffF8C80D))),
-              child: Text(
-                "Confirm",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
-              ),
-              onPressed: () {
-                if (selectedOtherGender.isEmpty) {
-                  return Flushbar(
-                    messageText: Text(
-                      "Select your gender",
-                      style: TextStyle(
-                          // fontFamily: "OpenSans",
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
-                    ),
-                    backgroundColor: Color(0xff121212),
-                    duration: Duration(seconds: 2),
-                  )..show(context);
-                } else {
-                  OnlyDuringSignupFirestore.updateOtherGender(
-                      selectedOtherGender, context);
-                }
-              },
-            ),
-          ),
-          Spacer(),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: FlatButton(
-              child: Text(
-                "Back",
-                style: TextStyle(
-                    color: Color(0xffF8C80D),
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    decoration: TextDecoration.underline),
-              ),
-              onPressed: () =>
-                  OnlyDuringSignupFirestore.backToMaleFemaleGenderPage(context),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Material(
+//       color: Color(0xff121212),
+//       // ? main column for the screen
+//       child: Column(
+//         // mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           Container(
+//             margin: EdgeInsets.only(top: 40),
+//             child: Text(
+//               "-Other-",
+//               style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
+//             ),
+//           ),
+//           // ? spacing between text and genders
+//           // * gay , lesbian section
+//           Padding(
+//             padding: EdgeInsets.all(15),
+//           ),
+//           Column(
+//             children: [
+//               Row(
+//                 // ? icons - gay , lesbian
+//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                 children: [
+//                   IconButton(
+//                     icon: Icon(OtherGenders.gay),
+//                     color: trackGenderPressed == 1
+//                         ? Color(0xffF8C80D)
+//                         : Colors.white,
+//                     iconSize: _iconSize,
+//                     splashColor: Color(0xffF8C80D),
+//                     onPressed: () {
+//                       selectedOtherGender = "Gay";
+//                       updateClickedGenderColor(1);
+//                       print("Selected gender: Gay");
+//                     },
+//                   ),
+//                   Container(
+//                     margin: EdgeInsets.only(left: 30),
+//                     child: IconButton(
+//                       icon: Icon(OtherGenders.lesbian),
+//                       color: trackGenderPressed == 2
+//                           ? Color(0xffF8C80D)
+//                           : Colors.white,
+//                       iconSize: _iconSize,
+//                       // ? reason to use splash raidus , padding is to center the icon when pressing
+//                       padding: EdgeInsets.only(right: 15),
+//                       splashRadius: 45,
+//                       splashColor: Color(0xffF8C80D),
+//                       onPressed: () {
+//                         selectedOtherGender = "Lesbian";
+//                         updateClickedGenderColor(2);
+//                         print("Selected gender: Lesbian");
+//                       },
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Row(
+//                 // ? text section - gay , lesbian
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                 children: [
+//                   Container(
+//                     margin: EdgeInsets.only(top: spacing),
+//                     child: Text(
+//                       "Gay",
+//                       style: TextStyle(
+//                           color: Colors.white,
+//                           fontSize: genderTextSize,
+//                           fontWeight: FontWeight.w700),
+//                     ),
+//                   ),
+//                   Container(
+//                     margin: EdgeInsets.only(top: spacing),
+//                     child: Text(
+//                       "Lesbian",
+//                       style: TextStyle(
+//                           color: Colors.white,
+//                           fontSize: genderTextSize,
+//                           fontWeight: FontWeight.w700),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//           // ? spacing between text and genders
+//           //  * homoe , bisexual section
+//           Padding(
+//             padding: EdgeInsets.symmetric(vertical: 30),
+//           ),
+//           Column(
+//             children: [
+//               Row(
+//                 // ? icons - homo , bi
+//                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                 children: [
+//                   IconButton(
+//                     icon: Icon(OtherGenders.homo),
+//                     color: trackGenderPressed == 3
+//                         ? Color(0xffF8C80D)
+//                         : Colors.white,
+//                     iconSize: _iconSize,
+//                     // ? reason to use splash raidus , padding is to center the icon when pressing
+//                     padding: EdgeInsets.only(right: 15),
+//                     splashRadius: 42,
+//                     splashColor: Color(0xffF8C80D),
+//                     onPressed: () {
+//                       selectedOtherGender = "Homosexual";
+//                       updateClickedGenderColor(3);
+//                       print("Selected gender: Homosexual");
+//                     },
+//                   ),
+//                   Container(
+//                     margin: EdgeInsets.only(left: 30),
+//                     child: IconButton(
+//                       icon: Icon(OtherGenders.bisexual),
+//                       color: trackGenderPressed == 4
+//                           ? Color(0xffF8C80D)
+//                           : Colors.white,
+//                       // ? bisexual icon is smaller compare to other genders icon so let the bixseual icon size be 45
+//                       iconSize: 45,
+//                       splashColor: Color(0xffF8C80D),
+//                       onPressed: () {
+//                         selectedOtherGender = "Bisexual";
+//                         updateClickedGenderColor(4);
+//                         print("Selected gender: Bisexual");
+//                       },
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Row(
+//                 // ? text section - homo , bi
+//                 mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                 children: [
+//                   Container(
+//                     margin: EdgeInsets.only(top: spacing),
+//                     padding: EdgeInsets.only(left: 25),
+//                     child: Text(
+//                       "Homosexual",
+//                       style: TextStyle(
+//                           color: Colors.white,
+//                           fontSize: genderTextSize,
+//                           fontWeight: FontWeight.w700),
+//                     ),
+//                   ),
+//                   Container(
+//                     margin: EdgeInsets.only(top: spacing),
+//                     padding: EdgeInsets.only(right: 25),
+//                     child: Text(
+//                       "Bisexual",
+//                       style: TextStyle(
+//                           color: Colors.white,
+//                           fontSize: genderTextSize,
+//                           fontWeight: FontWeight.w700),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           ),
+//           Spacer(),
+//           Container(
+//             alignment: Alignment.center,
+//             // margin: EdgeInsets.only(top: 50),
+//             child: RaisedButton(
+//               color: Color(0xffF8C80D),
+//               textColor: Color(0xff121212),
+//               shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(7),
+//                   side: BorderSide(color: Color(0xffF8C80D))),
+//               child: Text(
+//                 "Confirm",
+//                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+//               ),
+//               onPressed: () {
+//                 if (selectedOtherGender.isEmpty) {
+//                   return Flushbar(
+//                     messageText: Text(
+//                       "Select your gender",
+//                       style: TextStyle(
+//                           // fontFamily: "OpenSans",
+//                           fontWeight: FontWeight.w700,
+//                           color: Colors.white),
+//                     ),
+//                     backgroundColor: Color(0xff121212),
+//                     duration: Duration(seconds: 2),
+//                   )..show(context);
+//                 } else {
+//                   OnlyDuringSignupFirestore.updateOtherGender(
+//                       selectedOtherGender, context);
+//                 }
+//               },
+//             ),
+//           ),
+//           Spacer(),
+//           Align(
+//             alignment: Alignment.bottomLeft,
+//             child: FlatButton(
+//               child: Text(
+//                 "Back",
+//                 style: TextStyle(
+//                     color: Color(0xffF8C80D),
+//                     fontSize: 18,
+//                     fontWeight: FontWeight.w500,
+//                     decoration: TextDecoration.underline),
+//               ),
+//               onPressed: () =>
+//                   OnlyDuringSignupFirestore.backToMaleFemaleGenderPage(context),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

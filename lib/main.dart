@@ -22,7 +22,7 @@ import 'package:page_transition/page_transition.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); 
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -56,83 +56,92 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Explore",
-      theme: ThemeData(
-        fontFamily: "Nunito",
-        primaryColor: Color(0xff121212),
-      ),
-      home: StreamBuilder<User>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (ctx, snapShot1) {
-            if (snapShot1.connectionState == ConnectionState.waiting ||
-                snapShot1.hasError) {
-              return loadingSpinner();
-            }
-            if (snapShot1.hasData) {
-              return HomeScreen();
-            }
-            return manageSigninLogin == false
-                ? WelcomeLoginScreen(pressedSignin: pressedSignIn)
-                : SignUpScreen(pressedLogIn);
-          }),
-      routes: {
-        // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
-      },
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case WelcomeLoginScreen.routeName:
-            return PageTransition(
-              child: WelcomeLoginScreen(pressedSignin: pressedSignIn),
-              type: PageTransitionType.rightToLeftWithFade,
-            );
-            break;
-          case SignUpScreen.routeName:
-            return PageTransition(
-                child: SignUpScreen(pressedLogIn),
-                type: PageTransitionType.leftToRightWithFade);
-            break;
-          case EmailVerificationScreen.routeName:
-            return PageTransition(
-              child: EmailVerificationScreen(),
-              type: PageTransitionType.rightToLeftWithFade,
-            );
-            break;
-          case HomeScreen.routeName:
-            return PageTransition(
-              child: HomeScreen(),
-              type: PageTransitionType.rightToLeftWithFade,
-            );
-            break;
-          case AccCreatedScreen.routeName:
-            return PageTransition(
-              child: AccCreatedScreen(),
-              type: PageTransitionType.bottomToTop,
-            );
-            break;
-          case GenderScreen.routeName:
-            return PageTransition(
-              child: GenderScreen(),
-              type: PageTransitionType.bottomToTop,
-            );
-            break;
-          case LocationScreen.routeName:
-            return PageTransition(
-              child: LocationScreen(),
-              type: PageTransitionType.bottomToTop,
-            );
-            break;
-          case PickPhotoScreen.routeName:
-            return PageTransition(
-              child: PickPhotoScreen(),
-              type: PageTransitionType.bottomToTop,
-            );
-            break;
-          default:
-            return null;
+    return GestureDetector(
+      onTap: () {
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+          print("Active keyboard dismissed");
+          FocusManager.instance.primaryFocus.unfocus();
         }
       },
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Explore",
+        theme: ThemeData(
+          fontFamily: "Nunito",
+          primaryColor: Color(0xff121212),
+        ),
+        home: StreamBuilder<User>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (ctx, snapShot1) {
+              if (snapShot1.connectionState == ConnectionState.waiting ||
+                  snapShot1.hasError) {
+                return loadingSpinner();
+              }
+              if (snapShot1.hasData) {
+                return HomeScreen();
+              }
+              return manageSigninLogin == false
+                  ? WelcomeLoginScreen(pressedSignin: pressedSignIn)
+                  : SignUpScreen(pressedLogIn);
+            }),
+        routes: {
+          // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
+        },
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case WelcomeLoginScreen.routeName:
+              return PageTransition(
+                child: WelcomeLoginScreen(pressedSignin: pressedSignIn),
+                type: PageTransitionType.rightToLeftWithFade,
+              );
+              break;
+            case SignUpScreen.routeName:
+              return PageTransition(
+                  child: SignUpScreen(pressedLogIn),
+                  type: PageTransitionType.leftToRightWithFade);
+              break;
+            case EmailVerificationScreen.routeName:
+              return PageTransition(
+                child: EmailVerificationScreen(),
+                type: PageTransitionType.rightToLeftWithFade,
+              );
+              break;
+            case HomeScreen.routeName:
+              return PageTransition(
+                child: HomeScreen(),
+                type: PageTransitionType.rightToLeftWithFade,
+              );
+              break;
+            case AccCreatedScreen.routeName:
+              return PageTransition(
+                child: AccCreatedScreen(),
+                type: PageTransitionType.bottomToTop,
+              );
+              break;
+            case GenderScreen.routeName:
+              return PageTransition(
+                child: GenderScreen(),
+                type: PageTransitionType.bottomToTop,
+              );
+              break;
+            case LocationScreen.routeName:
+              return PageTransition(
+                child: LocationScreen(),
+                type: PageTransitionType.bottomToTop,
+              );
+              break;
+            case PickPhotoScreen.routeName:
+              return PageTransition(
+                child: PickPhotoScreen(),
+                type: PageTransitionType.bottomToTop,
+              );
+              break;
+            default:
+              return null;
+          }
+        },
+      ),
     );
   }
 }
@@ -177,6 +186,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
       isLoading = false;
     });
   }
+
   void loadingOnGoogle() {
     setState(() {
       isLoadingGoogle = true;
@@ -199,7 +209,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
   }
 
   @override
-   // * precache image to reduce the loading time
+  // * precache image to reduce the loading time
   void didChangeDependencies() {
     // ignore: todo
     // TODO: implement didChangeDependencies
@@ -258,7 +268,8 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
                     loadingOff: loadingOff,
                     isloading: isLoading,
                     context: context),
-                googleSignUp(isLoadingGoogle,loadingOnGoogle,loadingOffGoole,context),
+                googleSignUp(
+                    isLoadingGoogle, loadingOnGoogle, loadingOffGoole, context),
                 navigateToSignUpPage(context, widget.pressedSignin),
                 navigateToWebLink()
               ],

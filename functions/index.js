@@ -36,3 +36,15 @@ exports.deleteUserCloudStorage = functions.region("asia-south1").runWith(runTime
     console.log("Error in processing : " + error.toString());
   }
 });
+
+// * Trigger when isdeleted == true && islogin == true in firestore -> these should happen in when user auth deleted
+// * will show error to user 
+exports.isDelLogFieldUpdated = functions.region(nearRegion).auth.user().onDelete((user)=>{
+  try{
+  var userId = user.uid;
+  console.log("User id : " + userId);
+  var check = admin.firestore.DocumentReference
+  } catch (error) {
+    console.log("er");
+  }
+});

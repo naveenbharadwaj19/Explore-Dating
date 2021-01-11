@@ -1,6 +1,7 @@
 import 'package:explore/models/handle_delete.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/acc_create_screen.dart';
+import 'package:explore/screens/error_screen.dart';
 import 'package:explore/screens/google_dob_screen.dart';
 import 'package:explore/screens/emai_verf_screen.dart';
 import 'package:explore/screens/gender_screen.dart';
@@ -43,6 +44,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
+      // ? helps to track of user status :
+      stream: FirebaseFirestore.instance.doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}").snapshots(),
+      builder: (context,snapShot1){
+        if (snapShot1.connectionState == ConnectionState.waiting ||
+            snapShot1.hasError ||
+            !snapShot1.hasData) {
+          return Center(
+            child: loadingSpinner(),
+          );
+        }
+        final checkUserStatus = snapShot1.data;
+        if (checkUserStatus["isloggedin"] == true && checkUserStatus["isdeleted"] == true){
+          print("No user data exist in firestore and in deletation page");
+          return WhenUserIdNotExistInFirestore();
+        }
+        return StreamBuilder(
+          // ? help to check all forums and fields are updated
       stream: FirebaseFirestore.instance
           .doc("Users/${FirebaseAuth.instance.currentUser.uid}")
           .snapshots(),
@@ -71,14 +89,14 @@ class _HomeScreenState extends State<HomeScreen> {
           print("In account success page");
           return AccCreatedScreen();
         }
-        if (genderCheck["gender"]["m_f"].isEmpty) {
+        if (genderCheck["gender"].isEmpty) {
           print("In gender page");
           return GenderScreen();
         }
-        if (!genderCheck["gender"]["other"]["clicked_other"]) {
-          print("In other gender page");
-          return OtherGenderScreen();
-        }
+        // if (!genderCheck["gender"]["other"]["clicked_other"]) {
+        //   print("In other gender page");
+        //   return OtherGenderScreen();
+        // }
         // if (!accessCheck["locationaccess"]) {
         //   print("In location page");
         //   return LocationScreen();
@@ -88,6 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return PickPhotoScreen();
         }
         return StreamBuilder<Position>(
+          // ? help to get the on time location
           stream: Geolocator.getPositionStream(
             desiredAccuracy: LocationAccuracy.best,
             intervalDuration: Duration(seconds: 60),
@@ -145,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       iconSize: 50,
                       onPressed: () {
                         deleteAuthDetails();
-                        deleteUserPhotosInCloudStorage();
+                        // deleteUserPhotosInCloudStorage();
                       },
                     ),
                     IconButton(
@@ -171,6 +190,8 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           },
         );
+      },
+    );
       },
     );
   }
