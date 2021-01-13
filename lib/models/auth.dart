@@ -1,8 +1,10 @@
+import 'package:explore/data/all_shared_pref_data.dart';
 import 'package:explore/data/auth_data.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/email_model.dart';
 import 'package:explore/models/firestore_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/models/spinner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,7 @@ class AuthenticationFirebase {
       loadingOn();
       userResult = await auth.createUserWithEmailAndPassword(
           email: emailAddress, password: password);
-      OnlyDuringSignupFirestore.signUpWrite(
+      await OnlyDuringSignupFirestore.signUpWrite(
           loadingOn: loadingOn,
           loadingOff: loadingOff,
           emailaddess: emailAddressM,
@@ -32,6 +34,7 @@ class AuthenticationFirebase {
           dob: dobM,
           name: nameM,
           context: ctx);
+      storeCurrentUserUid(userResult.user.uid);
       loadingOff();
 
       // ! change emailaddress to user emailaddress while deployment & when user kills the app and open the email verf
@@ -114,6 +117,11 @@ class AuthenticationFirebase {
       loadingOn();
       userResult = await auth.signInWithEmailAndPassword(
           email: emailAddress.text, password: password.text);
+      DocumentReference updateIsLoggedin = FirebaseFirestore.instance.doc("Userstatus/${userResult.user.uid}");
+      storeCurrentUserUid(userResult.user.uid);
+      await updateIsLoggedin.update({
+        "isloggedin" : true
+      });
       loadingOff();
       print("User logged in...");
     } on PlatformException catch (err) {
@@ -278,13 +286,26 @@ class GoogleAuthenticationClass {
       UserCredential user = await FirebaseAuth.instance.signInWithCredential(credential);
       // print("display name : ${user.user.displayName} , emailaddress : ${user.user.email}");
       print("Using Google authentication");
+      // * Pass the error : it will take some millisecond to create a user in firestore
+      ErrorWidget.builder = ((e) {
+        print("Bad document during google auth error suppressed");
+          return Center(
+          child: loadingSpinner(),
+           );
+          });
       // * Check for Uid exist in firestore
       DocumentSnapshot checkUserUid = await FirebaseFirestore.instance.doc("Users/${user.user.uid}").get();
       if(!checkUserUid.exists){
         // * no Uid exist so creating one
-        print("No uid stored creating one...");
-        GooglePath.signInWithGoogle(context,user.user.displayName,user.user.email,user.user.uid);
+        print("No uid stored in firestore creating one...");
+        await GooglePath.signInWithGoogle(context,user.user.displayName,user.user.email,user.user.uid);
+
       }
+      storeCurrentUserUid(user.user.uid);
+      DocumentReference updateLogin = FirebaseFirestore.instance.doc("Userstatus/${user.user.uid}");
+      await updateLogin.update({
+        "isloggedin" : true
+      });
       
     } catch (error) {
       print("Error : ${error.toString()}");

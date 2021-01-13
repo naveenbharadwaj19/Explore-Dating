@@ -1,6 +1,8 @@
-// todo : Handle all deletes
+// todo : Handle all deletes and logout
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/data/all_shared_pref_data.dart';
+import 'package:explore/data/auth_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
@@ -67,8 +69,45 @@ Future<void> deleteAuthDetails() async {
     // * signout user if they use google auth
     GoogleSignIn().signOut();
     FirebaseAuth.instance.currentUser.delete();
-    print("Account deleted successfully.Firestore User delete event will get triggred");
+    print("Account deleted successfully.Firestore User delete event will get triggred and Userstatus collection will be deleted");
+    // * fetch user id from shared pref
+    await readUserUid();
+    print("Removing userid : $currentUserUidSf");
+    await Future.delayed(Duration(seconds: 2));
+    FirebaseFirestore.instance.doc("Userstatus/$currentUserUidSf").delete();
+    removeUserUid();
   } catch (error) {
     print("Error : ${error.toString()}");
   }
+}
+
+Future<void> deleteUserStatus() async{
+  // * delete Userstatus -> uid fields
+  try{
+    await readUserUid();
+    print("Removing userid : $currentUserUidSf");
+    FirebaseAuth.instance.currentUser.reload();
+    // * signout google user
+    GoogleSignIn().signOut();
+    await Future.delayed(Duration(seconds: 2));
+    FirebaseFirestore.instance.doc("Userstatus/$currentUserUidSf").delete();
+    removeUserUid();
+    print("Userstatus -> uid deleted successfully");
+  }
+  catch(error){
+    print("Error : ${error.toString()}");
+  }
+}
+
+Future<void>logoutUser() async{
+  // * logout current user
+  DocumentReference logout = FirebaseFirestore.instance.doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}");
+  await logout.update({
+    "isloggedin" : false
+  });
+  Future.delayed(Duration(seconds: 1));
+  // * when user clicks logout button should navigate to welcome screen
+  manageSigninLogin = false;
+  GoogleSignIn().signOut();
+  FirebaseAuth.instance.signOut();
 }

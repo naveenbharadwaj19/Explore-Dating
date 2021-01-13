@@ -40,6 +40,7 @@ class OnlyDuringSignupFirestore {
     // loadingOn();
     try {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
+      DocumentReference data2 = FirebaseFirestore.instance.doc("Userstatus/$uid");
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -59,7 +60,11 @@ class OnlyDuringSignupFirestore {
           "gender": "",
         }
       });
-
+      await data2.set({
+        "isloggedin": true,
+        "isdisabled": false,
+        "isdeleted" : false,
+      });
       // Todo in future change this document field while other other screen:
       // {
       //       "m_f": "",
@@ -338,6 +343,7 @@ class GooglePath {
     // loadingOn();
     try {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
+      DocumentReference data2 = FirebaseFirestore.instance.doc("Userstatus/$uid");
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -356,6 +362,12 @@ class GooglePath {
           "account_verified": false,
           "gender": "",
         }
+      });
+      await data2.set({
+        "isloggedin": true,
+        "isdisabled": false,
+        "isdeleted" : false,
+        
       });
        // Todo in future change this document field while other other screen:
         // {

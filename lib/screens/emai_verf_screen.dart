@@ -2,7 +2,7 @@ import 'package:explore/data/auth_data.dart';
 import 'package:explore/models/email_model.dart';
 import 'package:explore/models/firestore_signup.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:explore/models/handle_delete_logout.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -239,8 +239,7 @@ _showAlertDialog(
       passwordM = "";
       dobM = "";
       manageSigninLogin = false;
-      FirebaseAuth.instance.currentUser.delete();
-      print("User auth account deleted !");
+      deleteAuthDetails();
       Navigator.pop(context);
       // ! try to change to future delay if it leads to any app performance issue
       // sleep(Duration(seconds:3));

@@ -1,4 +1,4 @@
-import 'package:explore/models/handle_delete.dart';
+import 'package:explore/models/handle_delete_logout.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/acc_create_screen.dart';
 import 'package:explore/screens/error_screen.dart';
@@ -12,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = "home-page";
@@ -32,6 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    // ignore: todo
+    // TODO: implement initState
+    super.initState();
+    ErrorWidget.builder = ((e) {
+      print("Bad document during home screen error suppressed");
+      return Center(
+        child: loadingSpinner(),
+      );
+    });
+  }
+
+  @override
   // ? Check setstate disposed properly
   void setState(fn) {
     // ignore: todo
@@ -45,8 +57,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       // ? helps to track of user status :
-      stream: FirebaseFirestore.instance.doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}").snapshots(),
-      builder: (context,snapShot1){
+      stream: FirebaseFirestore.instance
+          .doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}")
+          .snapshots(),
+      builder: (context, snapShot1) {
         if (snapShot1.connectionState == ConnectionState.waiting ||
             snapShot1.hasError ||
             !snapShot1.hasData) {
@@ -55,143 +69,144 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
         final checkUserStatus = snapShot1.data;
-        if (checkUserStatus["isloggedin"] == true && checkUserStatus["isdeleted"] == true){
+        if (checkUserStatus["isloggedin"] == true &&
+            checkUserStatus["isdeleted"] == true) {
           print("No user data exist in firestore and in deletation page");
           return WhenUserIdNotExistInFirestore();
         }
         return StreamBuilder(
           // ? help to check all forums and fields are updated
-      stream: FirebaseFirestore.instance
-          .doc("Users/${FirebaseAuth.instance.currentUser.uid}")
-          .snapshots(),
-      builder: (context, snapShot2) {
-        if (snapShot2.connectionState == ConnectionState.waiting ||
-            snapShot2.hasError ||
-            !snapShot2.hasData) {
-          return Center(
-            child: loadingSpinner(),
-          );
-        }
-
-        final genderCheck = snapShot2.data["bio"];
-        final dobCheck = snapShot2.data["bio"];
-        final accessCheck = snapShot2.data["access_check"];
-        if (!accessCheck["email_address_verified"]) {
-          print("In email verification");
-          return EmailVerificationScreen();
-        }
-        if (dobCheck["dob"].isEmpty) {
-          print("In dob page");
-          return GoogleDobScreen();
-        }
-
-        if (!accessCheck["account_success_page"]) {
-          print("In account success page");
-          return AccCreatedScreen();
-        }
-        if (genderCheck["gender"].isEmpty) {
-          print("In gender page");
-          return GenderScreen();
-        }
-        // if (!genderCheck["gender"]["other"]["clicked_other"]) {
-        //   print("In other gender page");
-        //   return OtherGenderScreen();
-        // }
-        // if (!accessCheck["locationaccess"]) {
-        //   print("In location page");
-        //   return LocationScreen();
-        // }
-        if (!accessCheck["top_notch_photo"] || !accessCheck["body_photo"]) {
-          print("In photo page");
-          return PickPhotoScreen();
-        }
-        return StreamBuilder<Position>(
-          // ? help to get the on time location
-          stream: Geolocator.getPositionStream(
-            desiredAccuracy: LocationAccuracy.best,
-            intervalDuration: Duration(seconds: 60),
-            // ! change interval duration to min (3min or 5min) before deployment
-          ),
-          builder: (context, locationSnapShot) {
-            if (locationSnapShot.connectionState == ConnectionState.waiting) {
-              // print("waiting for the location stream");
+          stream: FirebaseFirestore.instance
+              .doc("Users/${FirebaseAuth.instance.currentUser.uid}")
+              .snapshots(),
+          builder: (context, snapShot2) {
+            if (snapShot2.connectionState == ConnectionState.waiting ||
+                snapShot2.hasError ||
+                !snapShot2.hasData) {
               return Center(
-                child: Container(
-                  height: 300,
-                  // width: 300,
-                  child: FlareActor(
-                    "assets/animations/location_pin.flr",
-                    fit: BoxFit.cover,
-                    animation: _animationName,
-                  ),
-                ),
+                child: loadingSpinner(),
               );
             }
-            // if (locationSnapShot.hasError) {
-            //   print("Facing error in location stream");
-            //   return Center(
-            //     child: Container(
-            //       height: 300,
-            //       // width: 300,
-            //       child: FlareActor(
-            //         "assets/animations/location_pin.flr",
-            //         fit: BoxFit.cover,
-            //         animation: _animationName,
-            //       ),
-            //     ),
-            //   );
-            // }
-            final Position currentCoordinates = locationSnapShot.data;
-            print("CurrentCoordinates : $currentCoordinates");
-            if (currentCoordinates == null && openCloseLocationPage == false) {
-              print("In Location page");
-              return LocationScreen(
-                  updatedOpenCloseLocation: updateLocationBool);
+
+            final genderCheck = snapShot2.data["bio"];
+            final dobCheck = snapShot2.data["bio"];
+            final accessCheck = snapShot2.data["access_check"];
+            if (!accessCheck["email_address_verified"]) {
+              print("In email verification");
+              return EmailVerificationScreen();
             }
-            // ? reason assigning false is because when user in current state the bool check will always be true . Until user restart / kills the app
-            openCloseLocationPage = false;
-            return Material(
-              child: Container(
-                color: Colors.black,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Home Screen",
-                        style: TextStyle(color: Colors.white, fontSize: 40)),
-                    IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Colors.red,
-                      iconSize: 50,
-                      onPressed: () {
-                        deleteAuthDetails();
-                        // deleteUserPhotosInCloudStorage();
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.exit_to_app_outlined),
-                      color: Colors.red,
-                      iconSize: 50,
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                        GoogleSignIn().signOut();
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.call),
-                      color: Colors.red,
-                      iconSize: 50,
-                      onPressed: () {
-                        print(FirebaseAuth.instance.currentUser.reload());
-                      },
-                    ),
-                  ],
-                ),
+            if (dobCheck["dob"].isEmpty) {
+              print("In dob page");
+              return GoogleDobScreen();
+            }
+
+            if (!accessCheck["account_success_page"]) {
+              print("In account success page");
+              return AccCreatedScreen();
+            }
+            if (genderCheck["gender"].isEmpty) {
+              print("In gender page");
+              return GenderScreen();
+            }
+            // if (!genderCheck["gender"]["other"]["clicked_other"]) {
+            //   print("In other gender page");
+            //   return OtherGenderScreen();
+            // }
+            // if (!accessCheck["locationaccess"]) {
+            //   print("In location page");
+            //   return LocationScreen();
+            // }
+            if (!accessCheck["top_notch_photo"] || !accessCheck["body_photo"]) {
+              print("In photo page");
+              return PickPhotoScreen();
+            }
+            return StreamBuilder<Position>(
+              // ? help to get the on time location
+              stream: Geolocator.getPositionStream(
+                desiredAccuracy: LocationAccuracy.best,
+                intervalDuration: Duration(seconds: 60),
+                // ! change interval duration to min (3min or 5min) before deployment
               ),
+              builder: (context, locationSnapShot) {
+                if (locationSnapShot.connectionState ==
+                    ConnectionState.waiting) {
+                  // print("waiting for the location stream");
+                  return Center(
+                    child: Container(
+                      height: 300,
+                      // width: 300,
+                      child: FlareActor(
+                        "assets/animations/location_pin.flr",
+                        fit: BoxFit.cover,
+                        animation: _animationName,
+                      ),
+                    ),
+                  );
+                }
+                // if (locationSnapShot.hasError) {
+                //   print("Facing error in location stream");
+                //   return Center(
+                //     child: Container(
+                //       height: 300,
+                //       // width: 300,
+                //       child: FlareActor(
+                //         "assets/animations/location_pin.flr",
+                //         fit: BoxFit.cover,
+                //         animation: _animationName,
+                //       ),
+                //     ),
+                //   );
+                // }
+                final Position currentCoordinates = locationSnapShot.data;
+                print("CurrentCoordinates : $currentCoordinates");
+                if (currentCoordinates == null &&
+                    openCloseLocationPage == false) {
+                  print("In Location page");
+                  return LocationScreen(
+                      updatedOpenCloseLocation: updateLocationBool);
+                }
+                // ? reason assigning false is because when user in current state the bool check will always be true . Until user restart / kills the app
+                openCloseLocationPage = false;
+                return Material(
+                  child: Container(
+                    color: Colors.black,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Home Screen",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 40)),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          color: Colors.red,
+                          iconSize: 50,
+                          onPressed: () {
+                            deleteAuthDetails();
+                            // deleteUserPhotosInCloudStorage();
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.exit_to_app_outlined),
+                          color: Colors.red,
+                          iconSize: 50,
+                          onPressed: () => logoutUser(),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.call),
+                          color: Colors.red,
+                          iconSize: 50,
+                          onPressed: () {
+                            print(FirebaseAuth.instance.currentUser.reload());
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             );
           },
         );
-      },
-    );
       },
     );
   }
