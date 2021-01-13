@@ -105,9 +105,9 @@ Future<void>logoutUser() async{
   await logout.update({
     "isloggedin" : false
   });
-  Future.delayed(Duration(seconds: 1));
   // * when user clicks logout button should navigate to welcome screen
   manageSigninLogin = false;
   GoogleSignIn().signOut();
   FirebaseAuth.instance.signOut();
 }
+

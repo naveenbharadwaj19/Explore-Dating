@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:explore/models/handle_delete_logout.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/acc_create_screen.dart';
@@ -6,6 +7,7 @@ import 'package:explore/screens/google_dob_screen.dart';
 import 'package:explore/screens/emai_verf_screen.dart';
 import 'package:explore/screens/gender_screen.dart';
 import 'package:explore/screens/location_screen.dart';
+import 'package:explore/screens/no_internet_connection_screen.dart';
 import 'package:explore/screens/pick_photos_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final String _animationName = "SearchLocation";
+  final String animationName2 = "NoWifi";
   bool openCloseLocationPage = false;
 
   void updateLocationBool() {
@@ -167,41 +170,59 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
                 // ? reason assigning false is because when user in current state the bool check will always be true . Until user restart / kills the app
                 openCloseLocationPage = false;
-                return Material(
-                  child: Container(
-                    color: Colors.black,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Home Screen",
-                            style:
-                                TextStyle(color: Colors.white, fontSize: 40)),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          color: Colors.red,
-                          iconSize: 50,
-                          onPressed: () {
-                            deleteAuthDetails();
-                            // deleteUserPhotosInCloudStorage();
-                          },
+
+                return StreamBuilder(
+                  // ? check for internet connectivity
+                  stream: Connectivity().onConnectivityChanged,
+                  builder: (context, internetConnection) {
+                    if (internetConnection.connectionState ==
+                        ConnectionState.waiting || internetConnection.hasError || ! internetConnection.hasData) {
+                          print("Fetching connectivity status.Will show loading spinner");
+                      return Center(child: loadingSpinner());
+                    }
+                    print("ConnectionStatus : ${internetConnection.data}");
+                    if (internetConnection.data == ConnectivityResult.none) {
+                      print("Cannot find internet connection");
+                      return noInternetConnection(animationName2);
+                    }
+                    return Material(
+                      child: Container(
+                        color: Colors.black,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Home Screen",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 40)),
+                            IconButton(
+                              icon: Icon(Icons.delete),
+                              color: Colors.red,
+                              iconSize: 50,
+                              onPressed: () {
+                                deleteAuthDetails();
+                                // deleteUserPhotosInCloudStorage();
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.exit_to_app_outlined),
+                              color: Colors.red,
+                              iconSize: 50,
+                              onPressed: () => logoutUser(),
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.call),
+                              color: Colors.red,
+                              iconSize: 50,
+                              onPressed: () {
+                                // print(
+                                //     FirebaseAuth.instance.currentUser.reload());
+                              },
+                            ),
+                          ],
                         ),
-                        IconButton(
-                          icon: Icon(Icons.exit_to_app_outlined),
-                          color: Colors.red,
-                          iconSize: 50,
-                          onPressed: () => logoutUser(),
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.call),
-                          color: Colors.red,
-                          iconSize: 50,
-                          onPressed: () {
-                            print(FirebaseAuth.instance.currentUser.reload());
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                      ),
+                    );
+                  },
                 );
               },
             );
