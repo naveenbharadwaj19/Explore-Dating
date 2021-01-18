@@ -18,7 +18,7 @@ class GenderScreen extends StatelessWidget {
             Container(
               margin: EdgeInsets.only(top: 40),
               child: Text(
-                "-I Am-",
+                "-I am a-",
                 style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
               ),
             ),
@@ -26,8 +26,8 @@ class GenderScreen extends StatelessWidget {
               padding: EdgeInsets.all(15),
             ),
             GenderSelection(
-              maleText: "Male",
-              femaleText: "Female",
+              maleText: "Men",
+              femaleText: "Women",
               maleImage: AssetImage("assets/app_images/male.png"),
               femaleImage: AssetImage("assets/app_images/female.png"),
               selectedGenderTextStyle: TextStyle(
@@ -51,12 +51,12 @@ class GenderScreen extends StatelessWidget {
               opacityOfGradient: 0.3,
               onChanged: (gender) {
                 if (gender.toString() == Gender.Male.toString()) {
-                  print("Selected : Male");
-                  selectedGender = "Male";
+                  print("Selected : Men");
+                  selectedGender = "Men";
                   // OnlyDuringSignupFirestore.updateGenderPage("Male", context);
                 } else if (gender.toString() == Gender.Female.toString()) {
-                  print("Selected : Female");
-                  selectedGender = "Female";
+                  print("Selected : Women");
+                  selectedGender = "Women";
                   // OnlyDuringSignupFirestore.updateGenderPage("Female", context);
                 }
               },

@@ -58,7 +58,8 @@ class OnlyDuringSignupFirestore {
           "age": _findAge(),
           "account_verified": false,
           "gender": "",
-        }
+        },
+        "show_me" : "",
       });
       await data2.set({
         "isloggedin": true,
@@ -284,6 +285,27 @@ class OnlyDuringSignupFirestore {
     }
     // loadingOff();
   }
+  static updateShowMeFields(String selectedShowMe, BuildContext context) async {
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    // loadingOn();
+    try {
+      DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
+      await user.update({
+        "show_me" : selectedShowMe,
+      });
+      print("Show me fields updated in firestore");
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      Flushbar(
+        messageText: Text(
+          "Something went wrong try again",
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Color(0xff121212),
+        duration: Duration(seconds: 3),
+      )..show(context);
+    }
+  }
 }
 
 void uploadHeadBodyPhotoTocloudStorage(
@@ -361,7 +383,8 @@ class GooglePath {
           "age": "",
           "account_verified": false,
           "gender": "",
-        }
+        },
+        "show_me" : "",
       });
       await data2.set({
         "isloggedin": true,

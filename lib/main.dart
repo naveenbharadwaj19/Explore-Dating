@@ -13,6 +13,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 // * hex code for black - 0xff121212
 // * hex code for yellow - 0xffF8C80D
@@ -59,7 +60,8 @@ class _MyAppState extends State<MyApp> {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
           print("Active keyboard dismissed");
           FocusManager.instance.primaryFocus.unfocus();
         }
@@ -70,6 +72,15 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           fontFamily: "Nunito",
           primaryColor: Color(0xff121212),
+        ),
+        builder: (context, widget) => ResponsiveWrapper.builder(
+          // ? warp all the heights and widths according to screen automatically
+          widget,
+          minWidth: 420,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.autoScale(420, name: MOBILE),
+          ],
         ),
         home: StreamBuilder<User>(
             stream: FirebaseAuth.instance.authStateChanges(),
@@ -165,6 +176,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
   final logoImage = Image.asset(
     "assets/app_images/explore_org_logo.png",
     fit: BoxFit.cover,
+    // 200 , 170
     height: 200,
     width: 170,
   );
@@ -248,9 +260,10 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
             key: formKey,
             child: Column(
               children: [
+                navigateToWebLink(),
                 logoAppName(logoImage),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 20),
+                  padding: EdgeInsets.symmetric(vertical: 10),
                 ),
                 greetText(),
                 Padding(
@@ -271,7 +284,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
                 googleSignUp(
                     isLoadingGoogle, loadingOnGoogle, loadingOffGoole, context),
                 navigateToSignUpPage(context, widget.pressedSignin),
-                navigateToWebLink()
+                // navigateToWebLink()
               ],
             ),
           ),

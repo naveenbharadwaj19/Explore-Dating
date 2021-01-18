@@ -43,7 +43,7 @@ Widget greetText() {
 Widget catchyText() {
   return Align(
     // ? catch text
-    alignment: Alignment(-0.57, 0.0),
+    alignment: Alignment(-0.6, 0.0),
     child: Text(
       "Ready to Explore ?",
       style: TextStyle(
@@ -154,7 +154,7 @@ Widget passwordTextField(
 Widget forgotPassword(GlobalKey<FormState> formKey,
     TextEditingController emailAddress, BuildContext context) {
   return Align(
-    alignment: Alignment(0.65, 0.0),
+    alignment: Alignment(0.5, 0.0),
     child: FlatButton(
       child: Text(
         "Forgot password ?",
@@ -270,8 +270,9 @@ Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole, Function loadi
 }
 
 Widget navigateToWebLink() {
-  return Align(
-    alignment: Alignment.bottomLeft,
+  return Container(
+    alignment: Alignment.topRight,
+    margin: EdgeInsets.only(top: 20),
     child: IconButton(
       icon: Icon(Icons.language_rounded),
       color: Colors.white,

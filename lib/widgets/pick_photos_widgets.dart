@@ -43,7 +43,7 @@ Widget headPhoto(BuildContext context,Function updateHeadPhoto) {
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                    blurRadius: 7, color: Color(0x80F41010), spreadRadius: 3.5),
+                    blurRadius: 7, color: Color(0x80F8C80D), spreadRadius: 4),
               ],
             ),
             child: GestureDetector(
@@ -93,7 +93,7 @@ Widget bodyPhoto(BuildContext context,Function updateBodyPhoto) {
           boxShadow: [
             // ? shadow color
             BoxShadow(
-                blurRadius: 7, color: Color(0x80F41010), spreadRadius: 3.5),
+                blurRadius: 7, color: Color(0x80F8C80D), spreadRadius: 4),
           ],
           // ? outline border color
           border: Border.all(color: Color(0xffF8C80D), width: 4),

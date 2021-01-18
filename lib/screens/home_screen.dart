@@ -10,6 +10,7 @@ import 'package:explore/screens/location_screen.dart';
 import 'package:explore/screens/no_internet_connection_screen.dart';
 import 'package:explore/screens/pick_photos_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/screens/show_me_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -122,6 +123,10 @@ class _HomeScreenState extends State<HomeScreen> {
             if (!accessCheck["top_notch_photo"] || !accessCheck["body_photo"]) {
               print("In photo page");
               return PickPhotoScreen();
+            }
+            if (snapShot2.data["show_me"].isEmpty || snapShot2.data["show_me"] == null){
+              print("In show me page");
+              return ShowMeScreen();
             }
             return StreamBuilder<Position>(
               // ? help to get the on time location

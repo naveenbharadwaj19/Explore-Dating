@@ -364,7 +364,7 @@ class _DOBState extends State<DOB> {
 
 Widget ageCondition(bool agreeAge, Function toogleAge) {
   return Container(
-    margin: EdgeInsets.only(top: 15, left: 20),
+    margin: EdgeInsets.only(top: 15, left: 25),
     child: Row(
       children: [
         CircularCheckBox(
@@ -390,7 +390,7 @@ Widget ageCondition(bool agreeAge, Function toogleAge) {
 
 Widget termsAndConditions(bool tAndC, Function toogleTerms) {
   return Container(
-    margin: EdgeInsets.only(top: 5, left: 20),
+    margin: EdgeInsets.only(top: 5, left: 25),
     child: Row(
       children: [
         CircularCheckBox(
