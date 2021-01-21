@@ -13,15 +13,27 @@ Widget logoAppName(Image logoImage) {
       Container(
         child: logoImage,
       ),
-      Text(
-        "Explore",
-        style: TextStyle(
-            fontFamily: "Domine",
-            fontSize: 40,
-            color: Colors.white,
-            decoration: TextDecoration.none),
+      RichText(
+        textAlign: TextAlign.right,
+        text: TextSpan(
+          children: [
+            TextSpan(text: "Explore\n",style: TextStyle(color:Colors.white,fontSize: 40,fontFamily: "Domine",decoration: TextDecoration.none),),
+            TextSpan(text: "Dating",style: TextStyle(color:Colors.white,fontSize: 16,fontFamily: "Domine",decoration: TextDecoration.none),),
+          ]
+        ),
       ),
     ],
+  );
+}
+
+Widget addDatingText() {
+  return Container(
+    // alignment: Alignment.topCenter,
+    // margin: EdgeInsets.only(left: 200),
+    child: Text(
+      "Dating",
+      style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Domine"),
+    ),
   );
 }
 
@@ -251,8 +263,8 @@ Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
   );
 }
 
-Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole, Function loadingOffGoole,
-    BuildContext context) {
+Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole,
+    Function loadingOffGoole, BuildContext context) {
   return Align(
     alignment: Alignment.center,
     child: isLoadingGoole == true

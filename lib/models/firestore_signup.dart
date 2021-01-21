@@ -18,7 +18,7 @@ class OnlyDuringSignupFirestore {
     @required Function loadingOn,
     @required loadingOff,
     @required String emailaddess,
-    @required String username,
+    // @required String username,
     @required String dob,
     @required String name,
     @required BuildContext context,
@@ -50,7 +50,7 @@ class OnlyDuringSignupFirestore {
         },
         "bio": {
           "user_id": uid,
-          "username": username,
+
           "emailaddress": emailaddess,
           "method_used_to_signin": "email/password",
           "name": name,
@@ -375,7 +375,6 @@ class GooglePath {
         },
         "bio": {
           "user_id": userUid,
-          "username": "",
           "emailaddress": emailAddressGoogle,
           "method_used_to_signin": "Google",
           "name": displayNameGoogle,

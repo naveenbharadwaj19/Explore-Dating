@@ -17,7 +17,7 @@ class AuthenticationFirebase {
       @required String password,
       @required Function loadingOn,
       @required Function loadingOff,
-      @required String username,
+      // @required String username,
       @required BuildContext ctx}) async {
     final auth = FirebaseAuth.instance;
     UserCredential userResult;
@@ -30,7 +30,7 @@ class AuthenticationFirebase {
           loadingOn: loadingOn,
           loadingOff: loadingOff,
           emailaddess: emailAddressM,
-          username: userNameM,
+          // username: userNameM,
           dob: dobM,
           name: nameM,
           context: ctx);

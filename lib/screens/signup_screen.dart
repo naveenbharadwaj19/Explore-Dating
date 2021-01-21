@@ -15,7 +15,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController name = TextEditingController();
   final TextEditingController emailAddress = TextEditingController();
-  final TextEditingController userName = TextEditingController();
+  // final TextEditingController userName = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController confirmPassword = TextEditingController();
   bool isLoading = false;
@@ -66,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
     name.dispose();
     emailAddress.dispose();
-    userName.dispose();
+    // userName.dispose();
     password.dispose();
     confirmPassword.dispose();
   }
@@ -117,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   nameTextField(name),
                   emailTextField(emailAddress),
-                  userNameTextField(userName),
+                  // userNameTextField(userName),
                   passwordTextField(
                       showPasswordText, toggle, password, confirmPassword),
                   confirmPasswordTextField(
@@ -135,7 +135,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     loadingOff: loadingOff,
                     isLoading: isLoading,
                     name: name,
-                    userName: userName,
                     context: context,
                   ),
                   navigateToLoginPage(context, widget.pressedLogin),

@@ -235,7 +235,6 @@ _showAlertDialog(
       // ? restting all values stored in memory
       nameM = "";
       emailAddressM = "";
-      userNameM = "";
       passwordM = "";
       dobM = "";
       manageSigninLogin = false;

@@ -1,7 +1,7 @@
 // todo : DOB screen only during google auth
 
-import 'package:explore/data/auth_data.dart' show ageM,dobM;
-import 'package:explore/models/firestore_signup.dart'show GooglePath;
+import 'package:explore/data/auth_data.dart' show ageM, dobM;
+import 'package:explore/models/firestore_signup.dart' show GooglePath;
 import 'package:explore/widgets/signup_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,6 @@ class GoogleDobScreen extends StatefulWidget {
 class _GoogleDobScreenState extends State<GoogleDobScreen> {
   bool agreeAge = false;
   bool agreeTerms = false;
-  
 
   void toggleAge() {
     setState(() {
@@ -58,13 +57,26 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                     width: 170,
                   ),
                 ),
-                Text(
-                  "Explore",
-                  style: TextStyle(
-                      fontFamily: "Domine",
-                      fontSize: 40,
-                      color: Colors.white,
-                      decoration: TextDecoration.none),
+                RichText(
+                  textAlign: TextAlign.right,
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: "Explore\n",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontFamily: "Domine",
+                          decoration: TextDecoration.none),
+                    ),
+                    TextSpan(
+                      text: "Dating",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: "Domine",
+                          decoration: TextDecoration.none),
+                    ),
+                  ]),
                 ),
               ],
             ),
@@ -112,8 +124,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                         ),
                         duration: Duration(seconds: 3),
                       )..show(context);
-                    }
-                    else if (agreeAge == true && agreeTerms == true) {
+                    } else if (agreeAge == true && agreeTerms == true) {
                       GooglePath.updateDobGoogle(dobM, ageM);
                     }
                   },

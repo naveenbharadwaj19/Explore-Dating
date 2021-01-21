@@ -2,7 +2,7 @@
 
 String nameM;
 String emailAddressM;
-String userNameM;
+// String userNameM;
 String passwordM;
 String dobM;
 String storeGeneratedCode;

@@ -16,13 +16,14 @@ Widget logoAppName(Image logoImage) {
       Container(
         child: logoImage,
       ),
-      Text(
-        "Explore",
-        style: TextStyle(
-            fontFamily: "Domine",
-            fontSize: 40,
-            color: Colors.white,
-            decoration: TextDecoration.none),
+      RichText(
+        textAlign: TextAlign.right,
+        text: TextSpan(
+          children: [
+            TextSpan(text: "Explore\n",style: TextStyle(color:Colors.white,fontSize: 40,fontFamily: "Domine",decoration: TextDecoration.none),),
+            TextSpan(text: "Dating",style: TextStyle(color:Colors.white,fontSize: 16,fontFamily: "Domine",decoration: TextDecoration.none),),
+          ]
+        ),
       ),
     ],
   );
@@ -114,53 +115,53 @@ Widget emailTextField(TextEditingController _email) {
   );
 }
 
-Widget userNameTextField(TextEditingController _username) {
-  return Align(
-    alignment: Alignment(-0.3, 0.0),
-    child: Container(
-      height: 60,
-      width: 300,
-      // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
-      child: TextFormField(
-        controller: _username,
-        inputFormatters: [LengthLimitingTextInputFormatter(30)],
-        enabled: true,
-        cursorColor: Colors.white,
-        cursorWidth: 3.0,
-        // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          hintText: "User Name",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
-        ),
-        validator: (String value) {
-          // ! Need to check database whether username is available or not
-          if (value.isEmpty) {
-            return "Enter Some Text";
-          }
-          if (value.contains(" ")) {
-            return "Cannot Use Space";
-          } else if (value.length < 4) {
-            return "Enter Above 4 Characters";
-          } else if (value.length > 15) {
-            return "Cannot Be More Than 12 Characters";
-          }
-          return null;
-        },
-      ),
-    ),
-  );
-}
+// Widget userNameTextField(TextEditingController _username) {
+//   return Align(
+//     alignment: Alignment(-0.3, 0.0),
+//     child: Container(
+//       height: 60,
+//       width: 300,
+//       // ! Need to use mediaquery to fix the width to avoid pixel overflow
+//       margin: EdgeInsets.only(top: 30),
+//       child: TextFormField(
+//         controller: _username,
+//         inputFormatters: [LengthLimitingTextInputFormatter(30)],
+//         enabled: true,
+//         cursorColor: Colors.white,
+//         cursorWidth: 3.0,
+//         // ! Need to use input text as WORDSANS
+//         style: TextStyle(color: Colors.white),
+//         keyboardType: TextInputType.emailAddress,
+//         decoration: InputDecoration(
+//           enabledBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(10),
+//             borderSide: BorderSide(color: Colors.white),
+//           ),
+//           focusedBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(10),
+//             borderSide: BorderSide(color: Colors.white),
+//           ),
+//           hintText: "User Name",
+//           hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+//         ),
+//         validator: (String value) {
+//           // ! Need to check database whether username is available or not
+//           if (value.isEmpty) {
+//             return "Enter Some Text";
+//           }
+//           if (value.contains(" ")) {
+//             return "Cannot Use Space";
+//           } else if (value.length < 4) {
+//             return "Enter Above 4 Characters";
+//           } else if (value.length > 15) {
+//             return "Cannot Be More Than 12 Characters";
+//           }
+//           return null;
+//         },
+//       ),
+//     ),
+//   );
+// }
 
 Widget passwordTextField(bool _passwordvisible, Function _toggle,
     TextEditingController _password, TextEditingController _confirmPassword) {
@@ -426,8 +427,7 @@ Widget nextButton(
     @required Function loadingOff,
     @required bool isLoading,
     @required BuildContext context,
-    @required TextEditingController name,
-    @required TextEditingController userName}) {
+    @required TextEditingController name,}) {
   final cubeGrid = SpinKitCubeGrid(
     color: Colors.white,
     size: 40,
@@ -473,7 +473,6 @@ Widget nextButton(
                   // * storing in memory
                   nameM = name.text;
                   emailAddressM = emailAddress.text;
-                  userNameM = userName.text;
                   passwordM = password.text;
                   // Navigator.pushNamed(context, EmailVerificationScreen.routeName);
                   AuthenticationFirebase.signInUser(
@@ -481,7 +480,6 @@ Widget nextButton(
                       password: passwordM,
                       loadingOn: loadingOn,
                       loadingOff: loadingOff,
-                      username: userNameM,
                       ctx: context);
                 }
               },

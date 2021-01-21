@@ -262,6 +262,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
               children: [
                 navigateToWebLink(),
                 logoAppName(logoImage),
+                // addDatingText(),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
                 ),
