@@ -280,6 +280,14 @@ class DOB extends StatefulWidget {
 class _DOBState extends State<DOB> {
   DateTime today = DateTime.now();
 
+  int getAbove18Year(){
+    String yearFormatter = DateFormat("y").format(today);
+    int currentYear = int.parse(yearFormatter);
+    int above18Year = currentYear - 18;
+    return above18Year;
+  }
+  
+
   String formattedDate() {
     return DateFormat("dd/MM/yyyy").format(today).toString();
   }
@@ -302,7 +310,7 @@ class _DOBState extends State<DOB> {
       initialDate: today,
       firstDate: DateTime(1940),
       dateFormat: "dd-MMMM-yyyy",
-      lastDate: DateTime.now(),
+      lastDate: DateTime(getAbove18Year()),
       looping: true,
       backgroundColor: Color(0xff121212),
       textColor: Color(0xffF8C80D),
