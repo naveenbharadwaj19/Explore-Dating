@@ -424,8 +424,8 @@ class GooglePath {
       });
       print("DOB , age updated");
       // * resetting memory of dob and age
-      dobM = null;
-      ageM = null;
+      // dobM = null;
+      // ageM = null;
     } catch (error) {
       print("Error : ${error.toString()}");
     }

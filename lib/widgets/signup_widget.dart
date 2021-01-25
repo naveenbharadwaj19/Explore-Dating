@@ -322,6 +322,7 @@ class _DOBState extends State<DOB> {
       setState(() {
         today = picked;
         dobM = formattedDate();
+        ageM = _findAge();
       });
   }
 

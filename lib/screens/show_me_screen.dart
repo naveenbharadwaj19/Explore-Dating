@@ -1,3 +1,5 @@
+import 'package:explore/data/auth_data.dart';
+import 'package:explore/models/firestore/match_making.dart';
 import 'package:explore/models/firestore_signup.dart';
 import 'package:flutter/material.dart';
 
@@ -127,7 +129,10 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   // fontWeight: FontWeight.w700,
                 ),
               ),
-              onPressed: () => OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context),
+              onPressed: (){
+                OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context);
+                MatchMakingCollection.addCurrentUserMM(selectedShowMe);
+              },
             ),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:explore/data/auth_data.dart';
 import 'package:explore/models/firestore_signup.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -53,10 +54,12 @@ class GenderScreen extends StatelessWidget {
                 if (gender.toString() == Gender.Male.toString()) {
                   print("Selected : Men");
                   selectedGender = "Men";
+                  selectedGenderM = selectedGender;
                   // OnlyDuringSignupFirestore.updateGenderPage("Male", context);
                 } else if (gender.toString() == Gender.Female.toString()) {
                   print("Selected : Women");
                   selectedGender = "Women";
+                  selectedGenderM = selectedGender;
                   // OnlyDuringSignupFirestore.updateGenderPage("Female", context);
                 }
               },

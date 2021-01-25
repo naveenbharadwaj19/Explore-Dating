@@ -1,4 +1,5 @@
 import 'package:connectivity/connectivity.dart';
+import 'package:explore/data/auth_data.dart';
 import 'package:explore/models/handle_delete_logout.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/acc_create_screen.dart';
@@ -59,6 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("gender : $selectedGenderM , age : $ageM");
     return StreamBuilder(
       // ? helps to track of user status :
       stream: FirebaseFirestore.instance
@@ -124,7 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
               print("In photo page");
               return PickPhotoScreen();
             }
-            if (snapShot2.data["show_me"].isEmpty || snapShot2.data["show_me"] == null){
+            if (snapShot2.data["show_me"].isEmpty ||
+                snapShot2.data["show_me"] == null) {
               print("In show me page");
               return ShowMeScreen();
             }
@@ -181,8 +184,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   stream: Connectivity().onConnectivityChanged,
                   builder: (context, internetConnection) {
                     if (internetConnection.connectionState ==
-                        ConnectionState.waiting || internetConnection.hasError || ! internetConnection.hasData) {
-                          print("Fetching connectivity status.Will show loading spinner");
+                            ConnectionState.waiting ||
+                        internetConnection.hasError ||
+                        !internetConnection.hasData) {
+                      print(
+                          "Fetching connectivity status.Will show loading spinner");
                       return Center(child: loadingSpinner());
                     }
                     print("ConnectionStatus : ${internetConnection.data}");
@@ -218,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: Icon(Icons.call),
                               color: Colors.red,
                               iconSize: 50,
-                              onPressed: () {
+                              onPressed: () async{
                                 // print(
                                 //     FirebaseAuth.instance.currentUser.reload());
                               },

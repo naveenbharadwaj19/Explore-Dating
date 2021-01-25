@@ -159,7 +159,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
     return DateFormat("dd/MM/yyyy").format(today).toString();
   }
 
-  int _findAge() {
+  int findAge() {
     // ? check whether user is above 18+
     String getYear = formattedDate().substring(formattedDate().length - 4);
     int strToIntYear = int.parse(getYear);
@@ -189,7 +189,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
       setState(() {
         today = picked;
         dobM = formattedDate();
-        ageM = _findAge();
+        ageM = findAge();
       });
   }
 
@@ -225,7 +225,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
                   borderRadius: BorderRadius.circular(7),
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
-                _findAge() < 18 ? "Enter age 18+" : formattedDate(),
+                findAge() < 18 ? "Enter age 18+" : formattedDate(),
                 style: TextStyle(fontSize: 16
                     // fontWeight: FontWeight.w700
                     ),
