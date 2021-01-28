@@ -1,6 +1,6 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:explore/data/auth_data.dart';
 import 'package:explore/models/handle_delete_logout.dart';
+import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/acc_create_screen.dart';
 import 'package:explore/screens/error_screen.dart';
@@ -60,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("gender : $selectedGenderM , age : $ageM");
     return StreamBuilder(
       // ? helps to track of user status :
       stream: FirebaseFirestore.instance
@@ -132,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return ShowMeScreen();
             }
             return StreamBuilder<Position>(
-              // ? help to get the on time location
+              // ? time location
               stream: Geolocator.getPositionStream(
                 desiredAccuracy: LocationAccuracy.best,
                 intervalDuration: Duration(seconds: 60),
@@ -154,22 +153,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 }
-                // if (locationSnapShot.hasError) {
-                //   print("Facing error in location stream");
-                //   return Center(
-                //     child: Container(
-                //       height: 300,
-                //       // width: 300,
-                //       child: FlareActor(
-                //         "assets/animations/location_pin.flr",
-                //         fit: BoxFit.cover,
-                //         animation: _animationName,
-                //       ),
-                //     ),
-                //   );
-                // }
                 final Position currentCoordinates = locationSnapShot.data;
                 print("CurrentCoordinates : $currentCoordinates");
+                if (currentCoordinates != null){
+                  LocationModel.checkForUserLocation(latitude: currentCoordinates.latitude ,longitude: currentCoordinates.longitude,context: context);
+                }
                 if (currentCoordinates == null &&
                     openCloseLocationPage == false) {
                   print("In Location page");
@@ -187,8 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ConnectionState.waiting ||
                         internetConnection.hasError ||
                         !internetConnection.hasData) {
-                      print(
-                          "Fetching connectivity status.Will show loading spinner");
+                      // print(
+                      //     "Fetching connectivity status.Will show loading spinner");
                       return Center(child: loadingSpinner());
                     }
                     print("ConnectionStatus : ${internetConnection.data}");
@@ -224,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               icon: Icon(Icons.call),
                               color: Colors.red,
                               iconSize: 50,
-                              onPressed: () async{
+                              onPressed: (){
                                 // print(
                                 //     FirebaseAuth.instance.currentUser.reload());
                               },

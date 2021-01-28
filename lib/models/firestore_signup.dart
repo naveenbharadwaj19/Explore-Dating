@@ -11,6 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:intl/intl.dart';
 
 class OnlyDuringSignupFirestore {
@@ -234,19 +235,20 @@ class OnlyDuringSignupFirestore {
   //   // loadingOff();
   // }
 
-  static getLocationAddressAndCoordinates(String addressLine, double latitude,
+  static getLocationAddressAndCoordinates(double latitude,
       double longitude, BuildContext context) async {
     // * get user address , coordinates and write them on database
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
     try {
+      Geoflutterfire geo = Geoflutterfire();
+      GeoFirePoint myCoordinates = geo.point(latitude: latitude, longitude: longitude);
       DocumentReference storeUserLocation = FirebaseFirestore.instance
           .doc("Users/$uid/Userlocation/fetchedlocation");
       await storeUserLocation.set({
-        "current_coordinates": GeoPoint(latitude, longitude),
-        "current_address": addressLine,
+        "current_coordinates": myCoordinates.data,
       });
-      print("Stored User address in firestore");
+      print("Stored User coordinates in firestore");
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(

@@ -149,7 +149,8 @@ class _DOBGoogleState extends State<DOBGoogle> {
   DateTime today = DateTime.now();
 
    int getAbove18Year(){
-    String yearFormatter = DateFormat("y").format(today);
+    var now = new DateTime.now();
+    String yearFormatter = DateFormat("y").format(now);
     int currentYear = int.parse(yearFormatter);
     int above18Year = currentYear - 18;
     return above18Year;
@@ -177,7 +178,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
       initialDate: today,
       firstDate: DateTime(1940),
       dateFormat: "dd-MMMM-yyyy",
-      lastDate: DateTime(getAbove18Year()),
+      lastDate: DateTime(getAbove18Year(),today.month,today.day),
       looping: true,
       backgroundColor: Color(0xff121212),
       textColor: Color(0xffF8C80D),

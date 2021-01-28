@@ -81,7 +81,7 @@ exports.deleteUserMatchMaking = functions
       var userId = snap.get("bio.user_id");
       var gender = snap.get("bio.gender").toString();
       console.log("User id : " + userId);
-      const searchCurrentUserDb = await admin.firestore().collection("Matchmaking/simplematch/" + gender).where("uid","==",userId).get();
+      const searchCurrentUserDb = await admin.firestore().collection("Matchmaking/simplematch/MenWomen").where("uid","==",userId).get();
       searchCurrentUserDb.docs.forEach(value =>{
         var documentId = value.id;
         var fullPath = value.ref.path;
