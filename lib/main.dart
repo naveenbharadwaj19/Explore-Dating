@@ -67,11 +67,17 @@ class _MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp(
+        // ? bodytext1 = main text color -> white , primary color -> black , accent color -> white , title -> domine , white color
+        // ? button color -> yellow
         debugShowCheckedModeBanner: false,
         title: "Explore",
         theme: ThemeData(
           fontFamily: "Nunito",
           primaryColor: Color(0xff121212),
+          accentColor: Colors.white,
+          buttonColor: Color(0xffF8C80D),
+          textTheme: TextTheme(bodyText1: TextStyle(color: Colors.white,),headline1:TextStyle(fontFamily: "Domine",color: Colors.white)),
+
         ),
         builder: (context, widget) => ResponsiveWrapper.builder(
           // ? warp all the heights and widths according to screen automatically

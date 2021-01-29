@@ -1,6 +1,5 @@
 import 'package:connectivity/connectivity.dart';
-import 'package:explore/models/handle_delete_logout.dart';
-import 'package:explore/models/location.dart';
+import 'package:explore/icons/filter_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/acc_create_screen.dart';
 import 'package:explore/screens/error_screen.dart';
@@ -155,9 +154,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
                 final Position currentCoordinates = locationSnapShot.data;
                 print("CurrentCoordinates : $currentCoordinates");
-                if (currentCoordinates != null){
-                  LocationModel.checkForUserLocation(latitude: currentCoordinates.latitude ,longitude: currentCoordinates.longitude,context: context);
-                }
+                // if (currentCoordinates != null) {
+                //   LocationModel.checkForUserLocation(
+                //       latitude: currentCoordinates.latitude,
+                //       longitude: currentCoordinates.longitude,
+                //       context: context);
+                // }
                 if (currentCoordinates == null &&
                     openCloseLocationPage == false) {
                   print("In Location page");
@@ -184,41 +186,41 @@ class _HomeScreenState extends State<HomeScreen> {
                       print("Cannot find internet connection");
                       return noInternetConnection(animationName2);
                     }
-                    return Material(
-                      child: Container(
-                        color: Colors.black,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Home Screen",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 40)),
-                            IconButton(
-                              icon: Icon(Icons.delete),
-                              color: Colors.red,
-                              iconSize: 50,
-                              onPressed: () {
-                                deleteAuthDetails();
-                                // deleteUserPhotosInCloudStorage();
-                              },
+                    return Scaffold(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      appBar: AppBar(
+                        backgroundColor: Theme.of(context).primaryColor,
+                        title: RichText(
+                          textAlign: TextAlign.right,
+                          text: TextSpan(children: [
+                            const TextSpan(
+                              text: "Explore\n",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 30,
+                                  fontFamily: "Domine",
+                                  decoration: TextDecoration.none),
                             ),
-                            IconButton(
-                              icon: Icon(Icons.exit_to_app_outlined),
-                              color: Colors.red,
-                              iconSize: 50,
-                              onPressed: () => logoutUser(),
+                            const TextSpan(
+                              text: "Dating",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontFamily: "Domine",
+                                  decoration: TextDecoration.none),
                             ),
-                            IconButton(
-                              icon: Icon(Icons.call),
-                              color: Colors.red,
-                              iconSize: 50,
-                              onPressed: (){
-                                // print(
-                                //     FirebaseAuth.instance.currentUser.reload());
-                              },
-                            ),
-                          ],
+                          ]),
                         ),
+                        actions: [
+                          IconButton(
+                            icon: const Icon(Filter.sliders),
+                            color: Colors.white,
+                            iconSize: 30,
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onPressed: () {},
+                          )
+                        ],
                       ),
                     );
                   },

@@ -132,6 +132,14 @@ flutter:
     - family: GalleryIcon
       fonts:
         - asset: assets/fonts/GalleryIcon.ttf
+
+    - family: BottomNavigationBarIcons
+      fonts:
+        - asset: assets/fonts/BottomNavigationBarIcons.ttf
+
+    - family: Filter
+      fonts:
+        - asset: assets/fonts/Filter.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro
