@@ -3,7 +3,7 @@ import 'package:explore/data/auth_data.dart';
 import 'package:explore/screens/acc_create_screen.dart';
 import 'package:explore/screens/emai_verf_screen.dart';
 import 'package:explore/screens/gender_screen.dart';
-import 'package:explore/screens/home_screen.dart';
+import 'package:explore/screens/basic_user_details_screen.dart';
 import 'package:explore/screens/location_screen.dart';
 import 'package:explore/screens/pick_photos_screen.dart';
 import 'package:explore/screens/signup_screen.dart';
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
       },
       child: MaterialApp(
         // ? bodytext1 = main text color -> white , primary color -> black , accent color -> white , title -> domine , white color
-        // ? button color -> yellow
+        // ? button color -> 
         debugShowCheckedModeBanner: false,
         title: "Explore",
         theme: ThemeData(
@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
                 return loadingSpinner();
               }
               if (snapShot1.hasData) {
-                return HomeScreen();
+                return BasicDetailsScreens();
               }
               return manageSigninLogin == false
                   ? WelcomeLoginScreen(pressedSignin: pressedSignIn)
@@ -124,9 +124,9 @@ class _MyAppState extends State<MyApp> {
                 type: PageTransitionType.rightToLeftWithFade,
               );
               break;
-            case HomeScreen.routeName:
+            case BasicDetailsScreens.routeName:
               return PageTransition(
-                child: HomeScreen(),
+                child: BasicDetailsScreens(),
                 type: PageTransitionType.rightToLeftWithFade,
               );
               break;

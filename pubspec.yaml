@@ -39,6 +39,7 @@ dependencies:
   flare_flutter: ^2.0.6
   flushbar: ^1.10.4
   flutter_holo_date_picker: ^0.2.1
+  flutter_snake_navigationbar: ^0.4.4
   flutter_spinkit: ^4.1.2+1
   flutter_svg: ^0.19.1
   gender_selection: ^1.0.0
@@ -140,6 +141,10 @@ flutter:
     - family: Filter
       fonts:
         - asset: assets/fonts/Filter.ttf
+    
+    - family: HomeLove
+      fonts:
+        - asset: assets/fonts/HomeLove.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro

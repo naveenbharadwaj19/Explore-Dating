@@ -1,29 +1,33 @@
+
+// ? These sream manages all user forums until user complete all neccessary details
+// ? Email verf -> account success -> gender -> photos -> show me -> location -> internet connectivity
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:explore/icons/filter_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/acc_create_screen.dart';
-import 'package:explore/screens/error_screen.dart';
-import 'package:explore/screens/google_dob_screen.dart';
 import 'package:explore/screens/emai_verf_screen.dart';
+import 'package:explore/screens/error_screen.dart';
 import 'package:explore/screens/gender_screen.dart';
+import 'package:explore/screens/google_dob_screen.dart';
 import 'package:explore/screens/location_screen.dart';
+import 'package:explore/screens/bottom_navigation_bar_screens.dart';
 import 'package:explore/screens/no_internet_connection_screen.dart';
 import 'package:explore/screens/pick_photos_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/screens/show_me_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const routeName = "home-page";
+class BasicDetailsScreens extends StatefulWidget {
+  static const routeName = "basic-details";
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _BasicDetailsScreensState createState() => _BasicDetailsScreensState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
   final String _animationName = "SearchLocation";
   final String animationName2 = "NoWifi";
   bool openCloseLocationPage = false;
@@ -33,14 +37,13 @@ class _HomeScreenState extends State<HomeScreen> {
       openCloseLocationPage = true;
     });
   }
-
   @override
   void initState() {
     // ignore: todo
     // TODO: implement initState
     super.initState();
     ErrorWidget.builder = ((e) {
-      print("Bad document during home screen error suppressed");
+      print("Error in basic user details screen");
       return Center(
         child: loadingSpinner(),
       );
@@ -54,12 +57,13 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement setState
     if (mounted) {
       super.setState(fn);
+      
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<DocumentSnapshot>(
       // ? helps to track of user status :
       stream: FirebaseFirestore.instance
           .doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}")
@@ -78,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
           print("No user data exist in firestore and in deletation page");
           return WhenUserIdNotExistInFirestore();
         }
-        return StreamBuilder(
+        return StreamBuilder<DocumentSnapshot>(
           // ? help to check all forums and fields are updated
           stream: FirebaseFirestore.instance
               .doc("Users/${FirebaseAuth.instance.currentUser.uid}")
@@ -169,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // ? reason assigning false is because when user in current state the bool check will always be true . Until user restart / kills the app
                 openCloseLocationPage = false;
 
-                return StreamBuilder(
+                return StreamBuilder<ConnectivityResult>(
                   // ? check for internet connectivity
                   stream: Connectivity().onConnectivityChanged,
                   builder: (context, internetConnection) {
@@ -186,43 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       print("Cannot find internet connection");
                       return noInternetConnection(animationName2);
                     }
-                    return Scaffold(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      appBar: AppBar(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        title: RichText(
-                          textAlign: TextAlign.right,
-                          text: TextSpan(children: [
-                            const TextSpan(
-                              text: "Explore\n",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 30,
-                                  fontFamily: "Domine",
-                                  decoration: TextDecoration.none),
-                            ),
-                            const TextSpan(
-                              text: "Dating",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontFamily: "Domine",
-                                  decoration: TextDecoration.none),
-                            ),
-                          ]),
-                        ),
-                        actions: [
-                          IconButton(
-                            icon: const Icon(Filter.sliders),
-                            color: Colors.white,
-                            iconSize: 30,
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () {},
-                          )
-                        ],
-                      ),
-                    );
+                    return BottomNavigationBarScreens();
                   },
                 );
               },

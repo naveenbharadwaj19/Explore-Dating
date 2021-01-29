@@ -2,7 +2,7 @@
 // * All backend work is stored until user reach homescreen
 
 import 'dart:io';
-import 'package:explore/data/auth_data.dart'show dobM,ageM;
+// import 'package:explore/data/auth_data.dart'show dobM,ageM;
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/handle_photos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
