@@ -17,8 +17,8 @@ Widget logoAppName(Image logoImage) {
         textAlign: TextAlign.right,
         text: TextSpan(
           children: [
-            TextSpan(text: "Explore\n",style: TextStyle(color:Colors.white,fontSize: 40,fontFamily: "Domine",decoration: TextDecoration.none),),
-            TextSpan(text: "Dating",style: TextStyle(color:Colors.white,fontSize: 16,fontFamily: "Domine",decoration: TextDecoration.none),),
+            const TextSpan(text: "Explore\n",style: TextStyle(color:Colors.white,fontSize: 40,fontFamily: "Domine",decoration: TextDecoration.none),),
+            const TextSpan(text: "Dating",style: TextStyle(color:Colors.white,fontSize: 16,fontFamily: "Domine",decoration: TextDecoration.none),),
           ]
         ),
       ),

@@ -16,7 +16,7 @@ Widget bottomWidgets(int index, Function tapped, BuildContext context) {
     unselectedItemColor: Colors.white,
     items: [
       BottomNavigationBarItem(
-        icon: const Icon(HomeLove.noun_home_love_2283770, size: 40),
+        icon: const Icon(Icons.home_filled ,size: iconSize),
       ),
       BottomNavigationBarItem(
         icon: Icon(index == 1 ? BottomNavigationBarIcons.chat_inv: BottomNavigationBarIcons.chat, size: iconSize),

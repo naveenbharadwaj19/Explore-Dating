@@ -27,7 +27,7 @@ class AccCreatedScreen extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.all(10),
-              child: Text(
+              child: const Text(
                 "Account created successfully",
                 style: TextStyle(
                     color: Colors.white,
@@ -48,7 +48,7 @@ class AccCreatedScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                       side: BorderSide(color: Color(0xffF8C80D))),
-                  child: Text(
+                  child: const Text(
                     "Continue",
                     style: TextStyle(
                       fontSize: 20,

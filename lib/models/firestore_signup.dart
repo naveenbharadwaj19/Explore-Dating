@@ -79,7 +79,7 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),
@@ -103,7 +103,7 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),
@@ -126,7 +126,7 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),
@@ -151,7 +151,7 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),
@@ -175,7 +175,7 @@ class OnlyDuringSignupFirestore {
   //   } catch (error) {
   //     print("Error : ${error.toString()}");
   //     Flushbar(
-  //       messageText: Text(
+  //       messageText: const Text(
   //         "Something went wrong try again",
   //         style: TextStyle(color: Colors.white),
   //       ),
@@ -200,7 +200,7 @@ class OnlyDuringSignupFirestore {
   //   } catch (error) {
   //     print("Error : ${error.toString()}");
   //     Flushbar(
-  //       messageText: Text(
+  //       messageText: const Text(
   //         "Something went wrong try again",
   //         style: TextStyle(color: Colors.white),
   //       ),
@@ -224,7 +224,7 @@ class OnlyDuringSignupFirestore {
   //   } catch (error) {
   //     print("Error : ${error.toString()}");
   //     Flushbar(
-  //       messageText: Text(
+  //       messageText: const Text(
   //         "Something went wrong try again",
   //         style: TextStyle(color: Colors.white),
   //       ),
@@ -252,7 +252,7 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),
@@ -277,7 +277,7 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText:const  Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),
@@ -299,7 +299,7 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),
@@ -404,7 +404,7 @@ class GooglePath {
     } catch (error) {
       print("Error ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),

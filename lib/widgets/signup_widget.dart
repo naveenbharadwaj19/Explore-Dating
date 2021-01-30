@@ -535,7 +535,7 @@ Widget helpGuide() {
   return Align(
     alignment: Alignment.bottomLeft,
     child: IconButton(
-      icon: Icon(Icons.help_outline_sharp),
+      icon: const Icon(Icons.help_outline_sharp),
       color: Colors.white,
       iconSize: 27,
       onPressed: () {},

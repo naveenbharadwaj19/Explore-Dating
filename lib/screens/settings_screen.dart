@@ -11,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
             Text("Home Screen",
                 style: TextStyle(color: Colors.white, fontSize: 30)),
             IconButton(
-              icon: Icon(Icons.delete),
+              icon: const Icon(Icons.delete),
               color: Colors.red,
               iconSize: 50,
               onPressed: () {
@@ -20,7 +20,7 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
             IconButton(
-              icon: Icon(Icons.exit_to_app_outlined),
+              icon: const Icon(Icons.exit_to_app_outlined),
               color: Colors.red,
               iconSize: 50,
               onPressed: () => logoutUser(),

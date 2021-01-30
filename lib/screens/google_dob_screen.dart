@@ -104,7 +104,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                       side: BorderSide(color: Color(0xffF8C80D))),
-                  child: Text(
+                  child: const Text(
                     "Continue",
                     style: TextStyle(
                       fontSize: 20,
@@ -115,10 +115,9 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                     if (dobM == null || dobM.isEmpty) {
                       Flushbar(
                         backgroundColor: Color(0xff121212),
-                        messageText: Text(
+                        messageText: const Text(
                           "Enter birth date",
                           style: TextStyle(
-                              fontFamily: "OpenSans",
                               fontWeight: FontWeight.w700,
                               color: Colors.white),
                         ),

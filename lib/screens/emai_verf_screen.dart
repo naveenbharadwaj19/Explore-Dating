@@ -153,7 +153,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 ),
               ),
               FlatButton(
-                child: Text(
+                child: const Text(
                   "Send code again",
                   style: TextStyle(
                       color: Color(0xffF8C80D),
@@ -184,7 +184,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                               side: BorderSide(color: Color(0xffF8C80D))),
-                          child: Text(
+                          child: const Text(
                             "Verify",
                             style: TextStyle(
                                 fontSize: 16,
@@ -204,7 +204,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: FlatButton(
-                  child: Text(
+                  child: const Text(
                     "Back",
                     style: TextStyle(
                         color: Color(0xffF8C80D),
@@ -227,7 +227,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 _showAlertDialog(
     BuildContext context, Function loadingOn, Function loadingOff) {
   Widget goBack = FlatButton(
-    child: Text(
+    child: const Text(
       "Go Back",
       style: TextStyle(color: Colors.white),
     ),
@@ -246,14 +246,14 @@ _showAlertDialog(
     },
   );
   Widget stayHere = FlatButton(
-    child: Text(
+    child: const Text(
       "Stay Here",
       style: TextStyle(color: Colors.white),
     ),
     onPressed: () => Navigator.pop(context),
   );
   Widget help = FlatButton(
-    child: Text(
+    child: const Text(
       "Help",
       style: TextStyle(color: Colors.white),
     ),
@@ -262,11 +262,11 @@ _showAlertDialog(
 
   AlertDialog showAlert = AlertDialog(
     backgroundColor: Color(0xff121212),
-    title: Text(
+    title: const Text(
       "Alert",
       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
     ),
-    content: Text(
+    content: const Text(
       "Are you sure want to go back ?",
       style: TextStyle(color: Colors.white),
     ),

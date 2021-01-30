@@ -28,7 +28,7 @@ class LocationModel {
         print(
             "Does not have premission to open app setting . User have to choose manually");
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Open app setting and give location premission",
             style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
           ),

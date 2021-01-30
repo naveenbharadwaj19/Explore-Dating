@@ -12,10 +12,12 @@ import 'package:flutter/material.dart';
 // todo: Manage all screens of bottom navigation bar
 class BottomNavigationBarScreens extends StatefulWidget {
   @override
-  _BottomNavigationBarScreensState createState() => _BottomNavigationBarScreensState();
+  _BottomNavigationBarScreensState createState() =>
+      _BottomNavigationBarScreensState();
 }
 
-class _BottomNavigationBarScreensState extends State<BottomNavigationBarScreens> {
+class _BottomNavigationBarScreensState
+    extends State<BottomNavigationBarScreens> {
   int index = 0;
 
   void tapped(int idx) {
@@ -23,6 +25,7 @@ class _BottomNavigationBarScreensState extends State<BottomNavigationBarScreens>
       index = idx;
     });
   }
+
   final List widgetsTapped = [
     ExploreAndHMUScreen(),
     ChatScreen(),
@@ -113,9 +116,17 @@ class ExploreAndHMUScreen extends StatelessWidget {
               labelStyle: TextStyle(fontSize: 20),
               tabs: [
                 const Tab(
-                  text: "Explore",
+                  child: const Text(
+                    "Explore",
+                    style: TextStyle(fontFamily: "Domine"),
+                  ),
                 ),
-                const Tab(text: "HMU"),
+                const Tab(
+                  child: const Text(
+                    "HMU",
+                    style: TextStyle(fontFamily: "Domine"),
+                  ),
+                ),
               ],
             ),
           ),

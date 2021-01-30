@@ -18,7 +18,7 @@ class GenderScreen extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(top: 40),
-              child: Text(
+              child: const Text(
                 "-I am a-",
                 style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
               ),
@@ -74,7 +74,7 @@ class GenderScreen extends StatelessWidget {
             //     shape: RoundedRectangleBorder(
             //         borderRadius: BorderRadius.circular(7),
             //         side: BorderSide(color: Color(0xffF8C80D))),
-            //     child: Text(
+            //     child: const Text(
             //       "Other",
             //       style: TextStyle(
             //         fontSize: 20,
@@ -94,7 +94,7 @@ class GenderScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                     side: BorderSide(color: Color(0xffF8C80D))),
-                child: Text(
+                child: const Text(
                   "Confirm",
                   style: TextStyle(
                     fontSize: 20,
@@ -104,7 +104,7 @@ class GenderScreen extends StatelessWidget {
                 onPressed: () {
                   if (selectedGender.isEmpty) {
                     return Flushbar(
-                      messageText: Text(
+                      messageText: const Text(
                         "Select your gender",
                         style: TextStyle(
                             // fontFamily: "OpenSans",
@@ -124,7 +124,7 @@ class GenderScreen extends StatelessWidget {
             Spacer(),
             Container(
               margin: EdgeInsets.only(bottom: 25),
-              child: Text(
+              child: const Text(
                 "Note : Once selected cannot be reversed",
                 style: TextStyle(fontSize: 15, color: Colors.white),
               ),
@@ -165,7 +165,7 @@ class GenderScreen extends StatelessWidget {
 //         children: [
 //           Container(
 //             margin: EdgeInsets.only(top: 40),
-//             child: Text(
+//             child: const Text(
 //               "-Other-",
 //               style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
 //             ),
@@ -221,7 +221,7 @@ class GenderScreen extends StatelessWidget {
 //                 children: [
 //                   Container(
 //                     margin: EdgeInsets.only(top: spacing),
-//                     child: Text(
+//                     child: const Text(
 //                       "Gay",
 //                       style: TextStyle(
 //                           color: Colors.white,
@@ -231,7 +231,7 @@ class GenderScreen extends StatelessWidget {
 //                   ),
 //                   Container(
 //                     margin: EdgeInsets.only(top: spacing),
-//                     child: Text(
+//                     child: const Text(
 //                       "Lesbian",
 //                       style: TextStyle(
 //                           color: Colors.white,
@@ -296,7 +296,7 @@ class GenderScreen extends StatelessWidget {
 //                   Container(
 //                     margin: EdgeInsets.only(top: spacing),
 //                     padding: EdgeInsets.only(left: 25),
-//                     child: Text(
+//                     child: const Text(
 //                       "Homosexual",
 //                       style: TextStyle(
 //                           color: Colors.white,
@@ -307,7 +307,7 @@ class GenderScreen extends StatelessWidget {
 //                   Container(
 //                     margin: EdgeInsets.only(top: spacing),
 //                     padding: EdgeInsets.only(right: 25),
-//                     child: Text(
+//                     child: const Text(
 //                       "Bisexual",
 //                       style: TextStyle(
 //                           color: Colors.white,
@@ -329,14 +329,14 @@ class GenderScreen extends StatelessWidget {
 //               shape: RoundedRectangleBorder(
 //                   borderRadius: BorderRadius.circular(7),
 //                   side: BorderSide(color: Color(0xffF8C80D))),
-//               child: Text(
+//               child: const Text(
 //                 "Confirm",
 //                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
 //               ),
 //               onPressed: () {
 //                 if (selectedOtherGender.isEmpty) {
 //                   return Flushbar(
-//                     messageText: Text(
+//                     messageText: const Text(
 //                       "Select your gender",
 //                       style: TextStyle(
 //                           // fontFamily: "OpenSans",
@@ -357,7 +357,7 @@ class GenderScreen extends StatelessWidget {
 //           Align(
 //             alignment: Alignment.bottomLeft,
 //             child: FlatButton(
-//               child: Text(
+//               child: const Text(
 //                 "Back",
 //                 style: TextStyle(
 //                     color: Color(0xffF8C80D),

@@ -15,14 +15,14 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
           children: [
             Container(
               margin: EdgeInsets.only(top:25),
-              child: Icon(
+              child: const Icon(
                 Icons.block_flipped,
                 color: Color(0xffF8C80D),
                 size: 150,
               ),
             ),
             Spacer(),
-            Text(
+            const Text(
               "Error : 404",
               style: TextStyle(
                   color: Colors.white,
@@ -32,7 +32,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10),
             ),
-            Text(
+            const Text(
               "Your account has been deleted for violating our terms",
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -45,7 +45,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
               child: IconButton(
                 color: Colors.white,
                 iconSize: 35,
-                icon: Icon(Icons.help),
+                icon: const Icon(Icons.help),
                 onPressed: () {},
                 tooltip: "Help",
               ),
@@ -60,7 +60,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                     side: BorderSide(color: Color(0xffF8C80D))),
-                child: Text(
+                child: const Text(
                   "Ok",
                   style: TextStyle(
                       fontFamily: "Nunito",
