@@ -1,6 +1,6 @@
 // todo Ml
 import 'package:explore/models/assign_errors.dart';
-import 'package:explore/models/firestore_signup.dart';
+import 'package:explore/models/serverless/firestore_signup.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';

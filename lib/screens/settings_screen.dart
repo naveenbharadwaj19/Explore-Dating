@@ -1,4 +1,6 @@
-import 'package:explore/models/handle_delete_logout.dart';
+import 'package:explore/data/all_secure_storage.dart';
+import 'package:explore/models/handle_deletes.dart';
+import 'package:explore/models/test_locations.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -24,6 +26,39 @@ class SettingsScreen extends StatelessWidget {
               color: Colors.red,
               iconSize: 50,
               onPressed: () => logoutUser(),
+            ),
+            IconButton(
+              icon: const Icon(Icons.edit),
+              color: Colors.red,
+              iconSize: 50,
+              onPressed: (){
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.download_rounded),
+              color: Colors.red,
+              iconSize: 50,
+              onPressed: ()async{
+                readAll().then((value){
+                  print(value);
+                });
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.delete_forever_rounded),
+              color: Colors.red,
+              iconSize: 50,
+              onPressed: (){
+                deleteAll();
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.location_on),
+              color: Colors.red,
+              iconSize: 50,
+              onPressed: (){
+                fetchNearbyUsers();
+              },
             ),
           ],
         ),

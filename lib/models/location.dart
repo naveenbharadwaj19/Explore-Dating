@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/assign_errors.dart';
-import 'package:explore/models/firestore/match_making.dart';
-import 'package:explore/models/firestore_signup.dart';
+import '../models/serverless/match_making.dart';
+import 'package:explore/models/serverless/firestore_signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';

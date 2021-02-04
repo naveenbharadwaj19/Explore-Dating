@@ -1,9 +1,11 @@
-
 // ? These sream manages all user forums until user complete all neccessary details
 // ? Email verf -> account success -> gender -> photos -> show me -> location -> internet connectivity
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
+import 'package:explore/data/temp/filter_datas.dart';
+import 'package:explore/models/current_user_details.dart';
+import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/acc_create_screen.dart';
 import 'package:explore/screens/emai_verf_screen.dart';
@@ -37,6 +39,7 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
       openCloseLocationPage = true;
     });
   }
+
   @override
   void initState() {
     // ignore: todo
@@ -57,7 +60,6 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
     // TODO: implement setState
     if (mounted) {
       super.setState(fn);
-      
     }
   }
 
@@ -158,12 +160,12 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                 }
                 final Position currentCoordinates = locationSnapShot.data;
                 print("CurrentCoordinates : $currentCoordinates");
-                // if (currentCoordinates != null) {
-                //   LocationModel.checkForUserLocation(
-                //       latitude: currentCoordinates.latitude,
-                //       longitude: currentCoordinates.longitude,
-                //       context: context);
-                // }
+                if (currentCoordinates != null) {
+                  LocationModel.checkForUserLocation(
+                      latitude: currentCoordinates.latitude,
+                      longitude: currentCoordinates.longitude,
+                      context: context);
+                }
                 if (currentCoordinates == null &&
                     openCloseLocationPage == false) {
                   print("In Location page");
@@ -190,6 +192,8 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                       print("Cannot find internet connection");
                       return noInternetConnection(animationName2);
                     }
+                    validateAndStoreUserDetails(currentCoordinates.latitude,currentCoordinates.longitude);
+                    fetchFiltersData();
                     return BottomNavigationBarScreens();
                   },
                 );

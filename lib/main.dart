@@ -1,18 +1,12 @@
 import 'package:explore/models/spinner.dart';
-import 'package:explore/data/auth_data.dart';
-import 'package:explore/screens/acc_create_screen.dart';
-import 'package:explore/screens/emai_verf_screen.dart';
-import 'package:explore/screens/gender_screen.dart';
+import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/screens/basic_user_details_screen.dart';
-import 'package:explore/screens/location_screen.dart';
-import 'package:explore/screens/pick_photos_screen.dart';
 import 'package:explore/screens/signup_screen.dart';
 import 'package:explore/widgets/login_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 // * hex code for black - 0xff121212
@@ -104,59 +98,6 @@ class _MyAppState extends State<MyApp> {
             }),
         routes: {
           // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
-        },
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case WelcomeLoginScreen.routeName:
-              return PageTransition(
-                child: WelcomeLoginScreen(pressedSignin: pressedSignIn),
-                type: PageTransitionType.rightToLeftWithFade,
-              );
-              break;
-            case SignUpScreen.routeName:
-              return PageTransition(
-                  child: SignUpScreen(pressedLogIn),
-                  type: PageTransitionType.leftToRightWithFade);
-              break;
-            case EmailVerificationScreen.routeName:
-              return PageTransition(
-                child: EmailVerificationScreen(),
-                type: PageTransitionType.rightToLeftWithFade,
-              );
-              break;
-            case BasicDetailsScreens.routeName:
-              return PageTransition(
-                child: BasicDetailsScreens(),
-                type: PageTransitionType.rightToLeftWithFade,
-              );
-              break;
-            case AccCreatedScreen.routeName:
-              return PageTransition(
-                child: AccCreatedScreen(),
-                type: PageTransitionType.bottomToTop,
-              );
-              break;
-            case GenderScreen.routeName:
-              return PageTransition(
-                child: GenderScreen(),
-                type: PageTransitionType.bottomToTop,
-              );
-              break;
-            case LocationScreen.routeName:
-              return PageTransition(
-                child: LocationScreen(),
-                type: PageTransitionType.bottomToTop,
-              );
-              break;
-            case PickPhotoScreen.routeName:
-              return PageTransition(
-                child: PickPhotoScreen(),
-                type: PageTransitionType.bottomToTop,
-              );
-              break;
-            default:
-              return null;
-          }
         },
       ),
     );

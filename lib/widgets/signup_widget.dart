@@ -1,4 +1,4 @@
-import 'package:explore/data/auth_data.dart';
+import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/auth.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';

@@ -2,6 +2,7 @@ import 'package:explore/icons/filter_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/chat_screen.dart';
 import 'package:explore/screens/explore_screen.dart';
+import 'package:explore/widgets/filter_widget.dart';
 import 'package:explore/screens/hmu_screen.dart';
 import 'package:explore/screens/notifications_screen.dart';
 import 'package:explore/screens/profile_screen.dart';
@@ -69,7 +70,6 @@ class _BottomNavigationBarScreensState
 
 // todo: manage Tab bar view -> Explore and HMU
 class ExploreAndHMUScreen extends StatelessWidget {
-  @override
   Widget build(BuildContext context) {
     return Container(
       child: DefaultTabController(
@@ -78,6 +78,7 @@ class ExploreAndHMUScreen extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           appBar: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
+            // automaticallyImplyLeading: false,
             title: RichText(
               textAlign: TextAlign.right,
               text: TextSpan(children: [
@@ -106,8 +107,11 @@ class ExploreAndHMUScreen extends StatelessWidget {
                 iconSize: 30,
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
-                onPressed: () {},
-              )
+                tooltip: "Filter",
+                onPressed: (){
+                  filterScreen(context: context);
+                }),
+              
             ],
             bottom: TabBar(
               indicatorColor: Colors.white,

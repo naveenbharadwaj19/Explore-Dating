@@ -1,6 +1,6 @@
 // todo When user account doest exist
 
-import 'package:explore/models/handle_delete_logout.dart';
+import 'package:explore/models/handle_deletes.dart';
 import 'package:flutter/material.dart';
 
 class WhenUserIdNotExistInFirestore extends StatelessWidget {

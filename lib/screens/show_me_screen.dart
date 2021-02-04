@@ -1,5 +1,7 @@
-import 'package:explore/models/firestore/match_making.dart';
-import 'package:explore/models/firestore_signup.dart';
+
+import 'package:explore/data/all_secure_storage.dart'show writeRFATA;
+import '../models/serverless/match_making.dart';
+import 'package:explore/models/serverless/firestore_signup.dart';
 import 'package:flutter/material.dart';
 
 class ShowMeScreen extends StatefulWidget {
@@ -131,6 +133,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
               onPressed: (){
                 OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context);
                 MatchMakingCollection.addCurrentUserMM(selectedShowMe);
+                writeRFATA();
               },
             ),
           ),

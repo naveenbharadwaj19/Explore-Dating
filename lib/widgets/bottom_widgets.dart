@@ -1,5 +1,5 @@
 import 'package:explore/icons/bottom_navigation_bar_icons_icons.dart';
-import 'package:explore/icons/home_love_icons.dart';
+import 'package:explore/icons/home_icon_org_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -16,7 +16,7 @@ Widget bottomWidgets(int index, Function tapped, BuildContext context) {
     unselectedItemColor: Colors.white,
     items: [
       BottomNavigationBarItem(
-        icon: const Icon(Icons.home_filled ,size: iconSize),
+        icon: const Icon(HomeIconOrg.homeiconorg,size: iconSize),
       ),
       BottomNavigationBarItem(
         icon: Icon(index == 1 ? BottomNavigationBarIcons.chat_inv: BottomNavigationBarIcons.chat, size: iconSize),

@@ -1,7 +1,7 @@
 // todo : DOB screen only during google auth
 
-import 'package:explore/data/auth_data.dart' show ageM, dobM;
-import 'package:explore/models/firestore_signup.dart' show GooglePath;
+import 'package:explore/data/temp/auth_data.dart' show ageM, dobM;
+import 'package:explore/models/serverless/firestore_signup.dart' show GooglePath;
 import 'package:explore/widgets/signup_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';

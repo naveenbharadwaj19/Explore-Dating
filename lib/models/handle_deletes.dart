@@ -1,8 +1,9 @@
 // todo : Handle all deletes and logout
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/all_shared_pref_data.dart';
-import 'package:explore/data/auth_data.dart';
+import 'package:explore/data/temp/auth_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
@@ -76,6 +77,7 @@ Future<void> deleteAuthDetails() async {
     await Future.delayed(Duration(seconds: 2));
     FirebaseFirestore.instance.doc("Userstatus/$currentUserUidSf").delete();
     removeUserUid();
+    deleteAll();
   } catch (error) {
     print("Error : ${error.toString()}");
   }
