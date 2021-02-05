@@ -38,7 +38,8 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
     return SingleChildScrollView(
       child: Container(
         color: Color(0xff121212),
-        height: 600,
+        // ! commented out height because whole widget is under scroll view
+        // height: 600,
         child: Column(
           children: [
             Container(
@@ -69,7 +70,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(left: 20, top: 5),
                         child: const Text(
-                          "Age :",
+                          "Age",
                           style:
                               TextStyle(color: Color(0xffF8C80D), fontSize: 20),
                         ),
@@ -134,7 +135,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(left: 20, top: 5),
                         child: const Text(
-                          "Radius :",
+                          "Radius",
                           style:
                               TextStyle(color: Color(0xffF8C80D), fontSize: 20),
                         ),
@@ -187,7 +188,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             Container(
               // ? show me widget
               margin: EdgeInsets.all(15),
-              height: 110,
+              height: 135,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white54, width: 1.5),
@@ -202,17 +203,18 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         alignment: Alignment.topLeft,
                         padding: EdgeInsets.only(left: 20, top: 5),
                         child: const Text(
-                          "Show me :",
+                          "Show me",
                           style:
                               TextStyle(color: Color(0xffF8C80D), fontSize: 20),
                         ),
                       ),
                       // ? types of show me
                       Container(
-                        margin: EdgeInsets.only(left: 10, top: 15),
+                        margin: EdgeInsets.only(left: 10, top: 35),
                         child: Row(
                           children: [
                             Container(
+                              height: 50,
                               child: RaisedButton(
                                 color: Color(
                                     index == 1 || currentShowme == "Men"
@@ -224,7 +226,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                     side: BorderSide(
-                                        color: Color(0xffF8C80D), width: 2)),
+                                        color: Color(0xffF8C80D), width: 1.5)),
                                 child: const Text(
                                   "Men",
                                   style: TextStyle(
@@ -240,6 +242,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                               ),
                             ),
                             Container(
+                              height: 50,
                               margin: EdgeInsets.only(left: 15),
                               child: RaisedButton(
                                 color: Color(
@@ -253,7 +256,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                     side: BorderSide(
-                                        color: Color(0xffF8C80D), width: 2)),
+                                        color: Color(0xffF8C80D), width: 1.5)),
                                 child: const Text(
                                   "Women",
                                   style: TextStyle(
@@ -269,6 +272,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                               ),
                             ),
                             Container(
+                              height: 50,
                               margin: EdgeInsets.only(left: 15),
                               child: RaisedButton(
                                 color: Color(
@@ -282,7 +286,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),
                                     side: BorderSide(
-                                        color: Color(0xffF8C80D), width: 2)),
+                                        color: Color(0xffF8C80D), width: 1.5)),
                                 child: const Text(
                                   "Everyone",
                                   style: TextStyle(
@@ -313,7 +317,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                 textColor: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: Color(0xffF8C80D), width: 2)),
+                    side: BorderSide(color: Color(0xffF8C80D), width: 1.5)),
                 child: const Text(
                   "Apply",
                   style: TextStyle(
