@@ -33,12 +33,13 @@ Future<void> deleteAll() async{
 
 
 
-writeRFATA() async{
+writeRFATA(String showme) async{
   // * RFATA -> radius,fromage,toage
   // * will fetch age from firestore
   try{
   writeValue("radius", "200");
   writeValue("from_age", "18");
+  writeValue("show_me", showme);
   String uid = FirebaseAuth.instance.currentUser.uid;
   DocumentSnapshot getUserAge = await FirebaseFirestore.instance.doc("Users/$uid").get();
   writeValue("to_age", getUserAge.get("bio.age").toString());

@@ -100,6 +100,22 @@ class LocationModel {
       )..show(context);
     }
   }
+  static Future<Address> getAddress(double latitude , double longitude)async {
+    try {
+      Coordinates coordinates = Coordinates(latitude, longitude);
+      Address compressedAddress;
+      List<Address> addressCompressed =
+          await Geocoder.local.findAddressesFromCoordinates(coordinates);
+      if (addressCompressed != null) {
+        var address = addressCompressed.first;
+        compressedAddress = address;
+      }
+      return compressedAddress;
+    } catch (error) {
+      print("Error in fetching address : ${error.toString()}");
+      return null;
+    }
+  }
 
   static String myGeoHash({double latitude, double longitude}) {
     // * takes lati and longi and convert them to geo hash

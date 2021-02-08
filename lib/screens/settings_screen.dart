@@ -1,6 +1,5 @@
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/models/handle_deletes.dart';
-import 'package:explore/models/test_locations.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -38,7 +37,7 @@ class SettingsScreen extends StatelessWidget {
               icon: const Icon(Icons.download_rounded),
               color: Colors.red,
               iconSize: 50,
-              onPressed: ()async{
+              onPressed: (){
                 readAll().then((value){
                   print(value);
                 });
@@ -57,7 +56,6 @@ class SettingsScreen extends StatelessWidget {
               color: Colors.red,
               iconSize: 50,
               onPressed: (){
-                fetchNearbyUsers();
               },
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/filter_datas.dart'
     show ageValues1, radius, currentShowMe;
+import 'package:explore/data/temp/store_basic_match.dart'show scrollUserDetails;
 import 'package:explore/models/serverless/update_show_me.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -332,6 +333,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                   writeValue("to_age", ageValues.end.round().toString());
                   writeValue("show_me", currentShowme);
                   updateShowMeFirestore(currentShowme);
+                  scrollUserDetails.clear();
                   Navigator.pop(context);
                   Flushbar(
                     messageText: Text(

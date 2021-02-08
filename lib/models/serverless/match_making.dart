@@ -11,7 +11,7 @@ class MatchMakingCollection {
       String uid = FirebaseAuth.instance.currentUser.uid;
 
       // * check if required variables is not empty and null
-      if (selectedGenderM.isNotEmpty && ageM != null) {
+      if (selectedGenderM.isNotEmpty && ageM != null && nameM.isNotEmpty) {
         // * check if current user is men or women
         CollectionReference menWomenCollection = FirebaseFirestore.instance
             .collection("Matchmaking/simplematch/MenWomen");
@@ -20,8 +20,9 @@ class MatchMakingCollection {
           "show_me": selectedShowMe,
           "age": ageM,
           "gender": selectedGenderM,
+          "name" : nameM,
         });
-      } else if (selectedGenderM.isEmpty && ageM == null) {
+      } else if (selectedGenderM.isEmpty && ageM == null && nameM.isEmpty) {
         // * when required variables is null and empty -> not stored in memory fetching from firestore
         try {
           DocumentSnapshot fetchDetails =
@@ -33,6 +34,7 @@ class MatchMakingCollection {
             "show_me": selectedShowMe,
             "age": fetchDetails.get("bio.age"),
             "gender": fetchDetails.get("bio.gender"),
+            "name" : fetchDetails.get("bio.name"),
           });
 
           print(

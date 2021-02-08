@@ -5,7 +5,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-updateShowMeFirestore(String newShowMe) async{
+Future updateShowMeFirestore(String newShowMe) async{
   try{
   String uid = FirebaseAuth.instance.currentUser.uid;
   DocumentReference users = FirebaseFirestore.instance.doc("Users/$uid");

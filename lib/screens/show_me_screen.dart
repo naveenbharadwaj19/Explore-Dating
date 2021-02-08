@@ -133,7 +133,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
               onPressed: (){
                 OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context);
                 MatchMakingCollection.addCurrentUserMM(selectedShowMe);
-                writeRFATA();
+                writeRFATA(selectedShowMe);
               },
             ),
           ),
