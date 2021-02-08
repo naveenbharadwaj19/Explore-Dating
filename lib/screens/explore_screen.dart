@@ -1,6 +1,6 @@
 
 import 'package:explore/data/temp/store_basic_match.dart';
-import 'package:explore/models/serverless/connecting_users.dart';
+import 'package:explore/serverless/connecting_users.dart';
 import 'package:flutter/material.dart';
 
 // todo : Feeds of dating

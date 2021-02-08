@@ -1,7 +1,7 @@
 
 import 'package:explore/data/all_secure_storage.dart'show writeRFATA;
-import '../models/serverless/match_making.dart';
-import 'package:explore/models/serverless/firestore_signup.dart';
+import '../serverless/firestore_signup.dart';
+import '../serverless/match_making.dart';
 import 'package:flutter/material.dart';
 
 class ShowMeScreen extends StatefulWidget {

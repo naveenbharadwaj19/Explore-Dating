@@ -2,7 +2,7 @@ import 'package:explore/data/all_shared_pref_data.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/email_model.dart';
-import 'package:explore/models/serverless/firestore_signup.dart';
+import '../serverless/firestore_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:firebase_auth/firebase_auth.dart';

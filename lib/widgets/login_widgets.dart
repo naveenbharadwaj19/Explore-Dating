@@ -1,10 +1,12 @@
 import 'package:explore/models/auth.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:explore/providers/sigin_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 Widget logoAppName(Image logoImage) {
   return Row(
@@ -231,34 +233,37 @@ Widget loginButton(
 }
 
 Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
-  return Container(
-    margin: EdgeInsets.symmetric(vertical: 25),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          child: Text(
-            "Don't have an account ?",
-            style: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-        ),
-        Container(
-          child: FlatButton(
+  return ChangeNotifierProvider<ManangeSigninLogin>(
+    create: (context) => ManangeSigninLogin(),
+      child: Container(
+      margin: EdgeInsets.symmetric(vertical: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
             child: Text(
-              "SignUp",
+              "Don't have an account ?",
               style: TextStyle(
-                  color: Color(0xffF8C80D),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline),
+                  color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
             ),
-            onPressed: () {
-              pressedSignin();
-            },
           ),
-        ),
-      ],
+          Container(
+            child: FlatButton(
+              child: Text(
+                "SignUp",
+                style: TextStyle(
+                    color: Color(0xffF8C80D),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline),
+              ),
+              onPressed: () {
+                pressedSignin();
+              },
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

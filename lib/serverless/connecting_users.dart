@@ -6,7 +6,7 @@ import 'package:explore/data/temp/filter_datas.dart' show radius;
 import 'package:explore/data/temp/store_basic_match.dart'
     show scrollUserDetails;
 import 'package:explore/models/location.dart';
-import 'package:explore/models/serverless/download_photos_storage.dart';
+import '../serverless/download_photos_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
