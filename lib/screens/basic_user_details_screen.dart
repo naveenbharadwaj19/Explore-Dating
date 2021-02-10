@@ -161,6 +161,7 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                 final Position currentCoordinates = locationSnapShot.data;
                 print("CurrentCoordinates : $currentCoordinates");
                 if (currentCoordinates != null) {
+                  // ! might lead to too much data read and update
                   LocationModel.checkForUserLocation(
                       latitude: currentCoordinates.latitude,
                       longitude: currentCoordinates.longitude,
@@ -192,7 +193,8 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                       print("Cannot find internet connection");
                       return noInternetConnection(animationName2);
                     }
-                    validateAndStoreUserDetails(currentCoordinates.latitude,currentCoordinates.longitude);
+                    validateAndStoreUserDetails(currentCoordinates.latitude,
+                        currentCoordinates.longitude);
                     fetchFiltersData();
                     return BottomNavigationBarScreens();
                   },

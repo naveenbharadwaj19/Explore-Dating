@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/all_shared_pref_data.dart';
 import 'package:explore/data/temp/auth_data.dart';
+import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
@@ -109,6 +110,8 @@ Future<void>logoutUser() async{
   });
   // * when user clicks logout button should navigate to welcome screen
   manageSigninLogin = false;
+  // * reset scroll details
+  scrollUserDetails.clear();
   GoogleSignIn().signOut();
   FirebaseAuth.instance.signOut();
 }

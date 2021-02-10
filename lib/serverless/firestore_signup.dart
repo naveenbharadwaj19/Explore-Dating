@@ -11,6 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:intl/intl.dart';
 
@@ -41,7 +42,8 @@ class OnlyDuringSignupFirestore {
     // loadingOn();
     try {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
-      DocumentReference data2 = FirebaseFirestore.instance.doc("Userstatus/$uid");
+      DocumentReference data2 =
+          FirebaseFirestore.instance.doc("Userstatus/$uid");
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -51,7 +53,6 @@ class OnlyDuringSignupFirestore {
         },
         "bio": {
           "user_id": uid,
-
           "emailaddress": emailaddess,
           "method_used_to_signin": "email/password",
           "name": name,
@@ -60,12 +61,12 @@ class OnlyDuringSignupFirestore {
           "account_verified": false,
           "gender": "",
         },
-        "show_me" : "",
+        "show_me": "",
       });
       await data2.set({
         "isloggedin": true,
         "isdisabled": false,
-        "isdeleted" : false,
+        "isdeleted": false,
       });
       // Todo in future change this document field while other other screen:
       // {
@@ -235,18 +236,24 @@ class OnlyDuringSignupFirestore {
   //   // loadingOff();
   // }
 
-  static getLocationAddressAndCoordinates(double latitude,
-      double longitude, BuildContext context) async {
+  static getLocationAddressAndCoordinates(
+      {@required double latitude,
+      @required double longitude,
+      @required Placemark address,
+      @required BuildContext context}) async {
     // * get user address , coordinates and write them on database
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
     try {
       Geoflutterfire geo = Geoflutterfire();
-      GeoFirePoint myCoordinates = geo.point(latitude: latitude, longitude: longitude);
+      GeoFirePoint myCoordinates =
+          geo.point(latitude: latitude, longitude: longitude);
       DocumentReference storeUserLocation = FirebaseFirestore.instance
           .doc("Users/$uid/Userlocation/fetchedlocation");
       await storeUserLocation.set({
         "current_coordinates": myCoordinates.data,
+        "city": address.locality,
+        "state" : address.administrativeArea,
       });
       print("Stored User coordinates in firestore");
     } catch (error) {
@@ -277,7 +284,7 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText:const  Text(
+        messageText: const Text(
           "Something went wrong try again",
           style: TextStyle(color: Colors.white),
         ),
@@ -287,13 +294,14 @@ class OnlyDuringSignupFirestore {
     }
     // loadingOff();
   }
+
   static updateShowMeFields(String selectedShowMe, BuildContext context) async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
     try {
       DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
       await user.update({
-        "show_me" : selectedShowMe,
+        "show_me": selectedShowMe,
       });
       print("Show me fields updated in firestore");
     } catch (error) {
@@ -367,7 +375,8 @@ class GooglePath {
     // loadingOn();
     try {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
-      DocumentReference data2 = FirebaseFirestore.instance.doc("Userstatus/$uid");
+      DocumentReference data2 =
+          FirebaseFirestore.instance.doc("Userstatus/$uid");
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -385,19 +394,18 @@ class GooglePath {
           "account_verified": false,
           "gender": "",
         },
-        "show_me" : "",
+        "show_me": "",
       });
       await data2.set({
         "isloggedin": true,
         "isdisabled": false,
-        "isdeleted" : false,
-        
+        "isdeleted": false,
       });
-       // Todo in future change this document field while other other screen:
-        // {
-        //     "m_f": "",
-        //     "other": {"clicked_other": true, "other_gender": ""},
-        //   }
+      // Todo in future change this document field while other other screen:
+      // {
+      //     "m_f": "",
+      //     "other": {"clicked_other": true, "other_gender": ""},
+      //   }
       print("User bio using google signin created successfully in firestore");
 
       // Navigator.pushNamed(context, AccCreatedScreen.routeName);

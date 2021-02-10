@@ -44,7 +44,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.all(5),
+              margin: const EdgeInsets.all(5),
               child: const Text(
                 "Filters",
                 style: TextStyle(
@@ -55,12 +55,12 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             ),
             Container(
               // ? Age widget
-              margin: EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               height: 135,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white54, width: 1.5),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   ),
                 ),
@@ -69,7 +69,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                     children: [
                       Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(left: 20, top: 5),
+                        padding: const EdgeInsets.only(left: 20, top: 5),
                         child: const Text(
                           "Age",
                           style:
@@ -78,14 +78,14 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(left: 20, top: 10),
+                        padding: const EdgeInsets.only(left: 20, top: 10),
                         child: Text(
                           "From : ${ageValues.start.round()} To : ${ageValues.end.round()}",
                           style: TextStyle(color: Colors.white70, fontSize: 20),
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         // ? age slide bar
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
@@ -120,12 +120,12 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             ),
             Container(
               // ? Radius & distance widget
-              margin: EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               height: 135,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white54, width: 1.5),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   ),
                 ),
@@ -134,7 +134,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                     children: [
                       Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(left: 20, top: 5),
+                        padding: const EdgeInsets.only(left: 20, top: 5),
                         child: const Text(
                           "Radius",
                           style:
@@ -143,7 +143,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                       ),
                       Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(left: 20, top: 10),
+                        padding: const EdgeInsets.only(left: 20, top: 10),
                         child: Text(
                           distanceKm == 200
                               ? "Whole Country"
@@ -152,7 +152,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: const EdgeInsets.only(top: 10),
                           // ? Radius & distance slide bar
                           child: SliderTheme(
                             data: SliderTheme.of(context).copyWith(
@@ -188,12 +188,12 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             ),
             Container(
               // ? show me widget
-              margin: EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               height: 135,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.white54, width: 1.5),
-                  borderRadius: BorderRadius.all(
+                  borderRadius: const BorderRadius.all(
                     Radius.circular(20),
                   ),
                 ),
@@ -202,7 +202,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                     children: [
                       Container(
                         alignment: Alignment.topLeft,
-                        padding: EdgeInsets.only(left: 20, top: 5),
+                        padding: const EdgeInsets.only(left: 20, top: 5),
                         child: const Text(
                           "Show me",
                           style:
@@ -211,7 +211,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                       ),
                       // ? types of show me
                       Container(
-                        margin: EdgeInsets.only(left: 10, top: 35),
+                        margin: const EdgeInsets.only(left: 10, top: 35),
                         child: Row(
                           children: [
                             Container(
@@ -244,7 +244,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             ),
                             Container(
                               height: 50,
-                              margin: EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               child: RaisedButton(
                                 color: Color(
                                     index == 2 || currentShowme == "Women"
@@ -274,7 +274,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             ),
                             Container(
                               height: 50,
-                              margin: EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               child: RaisedButton(
                                 color: Color(
                                     index == 3 || currentShowme == "Everyone"
@@ -311,7 +311,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               width: 300,
               child: RaisedButton(
                 color: Color(0xff121212),

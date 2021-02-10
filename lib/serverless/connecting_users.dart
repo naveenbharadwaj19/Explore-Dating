@@ -5,14 +5,13 @@ import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/filter_datas.dart' show radius;
 import 'package:explore/data/temp/store_basic_match.dart'
     show scrollUserDetails;
-import 'package:explore/models/location.dart';
 import '../serverless/download_photos_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 
 class ConnectingUsers {
-  static final int limit = 8;
+  static int limit = 8;
   // * connect users with there basic details like gender ,showme , age
   static Future basicUserConnection() async {
     try {
@@ -44,40 +43,29 @@ class ConnectingUsers {
               (homoQuery) {
                 if (homoQuery.get("uid") != ssValues["current_uid"]) {
                   print("homo : ${homoQuery.get("uid")}");
-                  // decode geopoint of the user from firestore
-                  var geoPoint =
-                      homoQuery.get("current_coordinates.geopoint") as GeoPoint;
-                  double fetchedLatitude = geoPoint.latitude;
-                  double fetchedLongitude = geoPoint.longitude;
-                  // address
-                  LocationModel.getAddress(fetchedLatitude, fetchedLongitude)
-                      .then((userAddress) {
-                    if (userAddress != null) {
-                      //  head and body photo
-                      DownloadCloudStorage.headImageDownload(
+
+                  //  head and body photo
+                  DownloadCloudStorage.headImageDownload(homoQuery.get("uid"))
+                      .then((headImg) {
+                    if (headImg.isNotEmpty || headImg != null) {
+                      DownloadCloudStorage.bodyImageDownload(
                               homoQuery.get("uid"))
-                          .then((headImg) {
-                        if (headImg.isNotEmpty || headImg != null) {
-                          DownloadCloudStorage.bodyImageDownload(
-                                  homoQuery.get("uid"))
-                              .then((bodyImg) {
-                            if (bodyImg.isNotEmpty || bodyImg != null) {
-                              // store to map
-                              Map<String, dynamic> serializeDetails = {
-                                "uid": homoQuery.get("uid"),
-                                "gender": homoQuery.get("gender"),
-                                "show_me": homoQuery.get("show_me"),
-                                "age": homoQuery.get("age"),
-                                "name": homoQuery.get("name"),
-                                "headphoto": headImg,
-                                "bodyphoto": bodyImg,
-                                "city_state":
-                                    "${userAddress.locality},${userAddress.adminArea}",
-                              };
-                              // add map to list
-                              scrollUserDetails.add(serializeDetails);
-                            }
-                          });
+                          .then((bodyImg) {
+                        if (bodyImg.isNotEmpty || bodyImg != null) {
+                          // store to map
+                          Map<String, dynamic> serializeDetails = {
+                            "uid": homoQuery.get("uid"),
+                            "gender": homoQuery.get("gender"),
+                            "show_me": homoQuery.get("show_me"),
+                            "age": homoQuery.get("age"),
+                            "name": homoQuery.get("name"),
+                            "headphoto": headImg,
+                            "bodyphoto": bodyImg,
+                            "city_state":
+                                "${homoQuery.get("city")} ${homoQuery.get("state")}",
+                          };
+                          // add map to list
+                          scrollUserDetails.add(serializeDetails);
                         }
                       });
                     }
@@ -99,40 +87,29 @@ class ConnectingUsers {
             queryedResults.docs.forEach((everyoneQuery) {
               if (everyoneQuery.get("uid") != ssValues["current_uid"]) {
                 print("Eve: ${everyoneQuery.get("uid")}");
-                // decode geopoint of the user from firestore
-                var geoPoint = everyoneQuery.get("current_coordinates.geopoint")
-                    as GeoPoint;
-                double fetchedLatitude = geoPoint.latitude;
-                double fetchedLongitude = geoPoint.longitude;
-                // address
-                LocationModel.getAddress(fetchedLatitude, fetchedLongitude)
-                    .then((userAddress) {
-                  if (userAddress != null) {
-                    //  head and body photo
-                    DownloadCloudStorage.headImageDownload(
+
+                //  head and body photo
+                DownloadCloudStorage.headImageDownload(everyoneQuery.get("uid"))
+                    .then((headImg) {
+                  if (headImg.isNotEmpty || headImg != null) {
+                    DownloadCloudStorage.bodyImageDownload(
                             everyoneQuery.get("uid"))
-                        .then((headImg) {
-                      if (headImg.isNotEmpty || headImg != null) {
-                        DownloadCloudStorage.bodyImageDownload(
-                                everyoneQuery.get("uid"))
-                            .then((bodyImg) {
-                          if (bodyImg.isNotEmpty || bodyImg != null) {
-                            // store to map
-                            Map<String, dynamic> serializeDetails = {
-                              "uid": everyoneQuery.get("uid"),
-                              "gender": everyoneQuery.get("gender"),
-                              "show_me": everyoneQuery.get("show_me"),
-                              "age": everyoneQuery.get("age"),
-                              "name": everyoneQuery.get("name"),
-                              "headphoto": headImg,
-                              "bodyphoto": bodyImg,
-                              "city_state":
-                                  "${userAddress.locality},${userAddress.adminArea}",
-                            };
-                            // add map to list
-                            scrollUserDetails.add(serializeDetails);
-                          }
-                        });
+                        .then((bodyImg) {
+                      if (bodyImg.isNotEmpty || bodyImg != null) {
+                        // store to map
+                        Map<String, dynamic> serializeDetails = {
+                          "uid": everyoneQuery.get("uid"),
+                          "gender": everyoneQuery.get("gender"),
+                          "show_me": everyoneQuery.get("show_me"),
+                          "age": everyoneQuery.get("age"),
+                          "name": everyoneQuery.get("name"),
+                          "headphoto": headImg,
+                          "bodyphoto": bodyImg,
+                          "city_state":
+                              "${everyoneQuery.get("city")} ${everyoneQuery.get("state")}",
+                        };
+                        // add map to list
+                        scrollUserDetails.add(serializeDetails);
                       }
                     });
                   }
@@ -153,40 +130,29 @@ class ConnectingUsers {
             queryedResults.docs.forEach((hetroQuery) {
               if (hetroQuery.get("uid") != ssValues["current_uid"]) {
                 print("hetro : ${hetroQuery.get("uid")}");
-                // decode geopoint of the user from firestore
-                var geoPoint =
-                    hetroQuery.get("current_coordinates.geopoint") as GeoPoint;
-                double fetchedLatitude = geoPoint.latitude;
-                double fetchedLongitude = geoPoint.longitude;
-                // address
-                LocationModel.getAddress(fetchedLatitude, fetchedLongitude)
-                    .then((userAddress) {
-                  if (userAddress != null) {
-                    //  head and body photo
-                    DownloadCloudStorage.headImageDownload(
+
+                //  head and body photo
+                DownloadCloudStorage.headImageDownload(hetroQuery.get("uid"))
+                    .then((headImg) {
+                  if (headImg.isNotEmpty || headImg != null) {
+                    DownloadCloudStorage.bodyImageDownload(
                             hetroQuery.get("uid"))
-                        .then((headImg) {
-                      if (headImg.isNotEmpty || headImg != null) {
-                        DownloadCloudStorage.bodyImageDownload(
-                                hetroQuery.get("uid"))
-                            .then((bodyImg) {
-                          if (bodyImg.isNotEmpty || bodyImg != null) {
-                            // store to map
-                            Map<String, dynamic> serializeDetails = {
-                              "uid": hetroQuery.get("uid"),
-                              "gender": hetroQuery.get("gender"),
-                              "show_me": hetroQuery.get("show_me"),
-                              "age": hetroQuery.get("age"),
-                              "name": hetroQuery.get("name"),
-                              "headphoto": headImg,
-                              "bodyphoto": bodyImg,
-                              "city_state":
-                                  "${userAddress.locality},${userAddress.adminArea}",
-                            };
-                            // add map to list
-                            scrollUserDetails.add(serializeDetails);
-                          }
-                        });
+                        .then((bodyImg) {
+                      if (bodyImg.isNotEmpty || bodyImg != null) {
+                        // store to map
+                        Map<String, dynamic> serializeDetails = {
+                          "uid": hetroQuery.get("uid"),
+                          "gender": hetroQuery.get("gender"),
+                          "show_me": hetroQuery.get("show_me"),
+                          "age": hetroQuery.get("age"),
+                          "name": hetroQuery.get("name"),
+                          "headphoto": headImg,
+                          "bodyphoto": bodyImg,
+                          "city_state":
+                              "${hetroQuery.get("city")} ${hetroQuery.get("state")}",
+                        };
+                        // add map to list
+                        scrollUserDetails.add(serializeDetails);
                       }
                     });
                   }
@@ -239,16 +205,8 @@ class ConnectingUsers {
                   queryedResults.docs.forEach((homoQuery) {
                     print("Homo : ${homoQuery.get("uid")}");
 
-                    // decode geopoint of the user from firestore
-                    var geoPoint = homoQuery.get("current_coordinates.geopoint")
-                        as GeoPoint;
-                    double fetchedLatitude = geoPoint.latitude;
-                    double fetchedLongitude = geoPoint.longitude;
-                    // address
-                    LocationModel.getAddress(fetchedLatitude, fetchedLongitude).then((userAddress){
-                      if(userAddress != null){
-                        DownloadCloudStorage.headImageDownload(
-                            homoQuery.get("uid"))
+                    //  head and body photo
+                    DownloadCloudStorage.headImageDownload(homoQuery.get("uid"))
                         .then((headImg) {
                       if (headImg.isNotEmpty || headImg != null) {
                         DownloadCloudStorage.bodyImageDownload(
@@ -265,14 +223,12 @@ class ConnectingUsers {
                               "headphoto": headImg,
                               "bodyphoto": bodyImg,
                               "city_state":
-                                  "${userAddress.locality},${userAddress.adminArea}",
+                                  "${homoQuery.get("city")} ${homoQuery.get("state")}",
                             };
                             // add map to list
                             scrollUserDetails.add(serializeDetails);
                           }
                         });
-                      }
-                    });
                       }
                     });
                   });
@@ -288,15 +244,9 @@ class ConnectingUsers {
 
                   everyoneQuery.docs.forEach((everyoneResult) {
                     print("Eve : ${everyoneResult.get("uid")}");
-                    // decode geopoint of the user from firestore
-                    var geoPoint = everyoneResult.get("current_coordinates.geopoint")
-                        as GeoPoint;
-                    double fetchedLatitude = geoPoint.latitude;
-                    double fetchedLongitude = geoPoint.longitude;
-                    // address
-                    LocationModel.getAddress(fetchedLatitude, fetchedLongitude).then((userAddress){
-                      if(userAddress != null){
-                        DownloadCloudStorage.headImageDownload(
+
+                    //  head and body photo
+                    DownloadCloudStorage.headImageDownload(
                             everyoneResult.get("uid"))
                         .then((headImg) {
                       if (headImg.isNotEmpty || headImg != null) {
@@ -314,14 +264,12 @@ class ConnectingUsers {
                               "headphoto": headImg,
                               "bodyphoto": bodyImg,
                               "city_state":
-                                  "${userAddress.locality},${userAddress.adminArea}",
+                                  "${everyoneResult.get("city")} ${everyoneResult.get("state")}",
                             };
                             // add map to list
                             scrollUserDetails.add(serializeDetails);
                           }
                         });
-                      }
-                    });
                       }
                     });
                   });
@@ -337,15 +285,9 @@ class ConnectingUsers {
 
                   queryedResults.docs.forEach((hetroQuery) {
                     print("hetro : ${hetroQuery.get("uid")}");
-                    // decode geopoint of the user from firestore
-                    var geoPoint = hetroQuery.get("current_coordinates.geopoint")
-                        as GeoPoint;
-                    double fetchedLatitude = geoPoint.latitude;
-                    double fetchedLongitude = geoPoint.longitude;
-                    // address
-                    LocationModel.getAddress(fetchedLatitude, fetchedLongitude).then((userAddress){
-                      if(userAddress != null){
-                        DownloadCloudStorage.headImageDownload(
+
+                    //  head and body photo
+                    DownloadCloudStorage.headImageDownload(
                             hetroQuery.get("uid"))
                         .then((headImg) {
                       if (headImg.isNotEmpty || headImg != null) {
@@ -363,14 +305,12 @@ class ConnectingUsers {
                               "headphoto": headImg,
                               "bodyphoto": bodyImg,
                               "city_state":
-                                  "${userAddress.locality},${userAddress.adminArea}",
+                                  "${hetroQuery.get("city")} ${hetroQuery.get("state")}",
                             };
                             // add map to list
                             scrollUserDetails.add(serializeDetails);
                           }
                         });
-                      }
-                    });
                       }
                     });
                   });

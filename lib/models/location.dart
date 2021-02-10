@@ -5,7 +5,7 @@ import 'package:explore/serverless/match_making.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart' show Geoflutterfire;
 import 'package:geolocator/geolocator.dart';
 
@@ -57,7 +57,8 @@ class LocationModel {
       currentPostion = geo;
       print(currentPostion);
       if (currentPostion != null) {
-        updateNewLocation(currentPostion.latitude, currentPostion.longitude, context);
+        updateNewLocation(
+            currentPostion.latitude, currentPostion.longitude, context);
         updatedOpenCloseLocation();
       }
     } catch (error) {
@@ -73,20 +74,23 @@ class LocationModel {
     }
   }
 
-
-  static updateNewLocation(
-    // * storing current location
-      double latitude, double longitude, BuildContext context) async {
+  static Future<void> updateNewLocation(
+      // * storing current location in users collection
+      double latitude,
+      double longitude,
+      BuildContext context) async {
     try {
-      Coordinates coordinates = Coordinates(latitude, longitude);
-      List<Address> addressCompressed =
-          await Geocoder.local.findAddressesFromCoordinates(coordinates);
-      if (addressCompressed != null) {
-        // var address = addressCompressed.first;
-        // print(address.addressLine);
-        // * set new user location
+      List<Placemark> address =
+          await placemarkFromCoordinates(latitude, longitude);
+      if (address.isNotEmpty || address != null) {
+        var addressFirst = address.first;
         OnlyDuringSignupFirestore.getLocationAddressAndCoordinates(
-            latitude, longitude, context);
+            latitude: latitude,
+            longitude: longitude,
+            address: addressFirst,
+            context: context);
+        MatchMakingCollection.updateLocationMM(
+            latitude, longitude, addressFirst);
       }
     } catch (error) {
       print("Error in fetching address : ${error.toString()}");
@@ -100,17 +104,33 @@ class LocationModel {
       )..show(context);
     }
   }
-  static Future<Address> getAddress(double latitude , double longitude)async {
+
+  // static Future<void> updateNewLocationInMM(
+  // // * storing current location in match making
+  //   double latitude, double longitude) async {
+  // try {
+  //   List<Placemark> address = await placemarkFromCoordinates(latitude, longitude);
+  //   if(address.isNotEmpty || address != null){
+  //     var addressFirst = address.first;
+  //     MatchMakingCollection.updateLocationMM(latitude, longitude, addressFirst);
+  //   }
+  // } catch (error) {
+  //   print("Error in fetching address for MM : ${error.toString()}");
+  // }
+
+  //   }
+
+  static Future<Placemark> getAddress(double latitude, double longitude) async {
+    // ? geocoding
     try {
-      Coordinates coordinates = Coordinates(latitude, longitude);
-      Address compressedAddress;
-      List<Address> addressCompressed =
-          await Geocoder.local.findAddressesFromCoordinates(coordinates);
-      if (addressCompressed != null) {
-        var address = addressCompressed.first;
-        compressedAddress = address;
+      Placemark addressCompressed;
+      List<Placemark> address =
+          await placemarkFromCoordinates(latitude, longitude);
+      if (address.isNotEmpty || address != null) {
+        var addressFirst = address.first;
+        addressCompressed = addressFirst;
       }
-      return compressedAddress;
+      return addressCompressed;
     } catch (error) {
       print("Error in fetching address : ${error.toString()}");
       return null;
@@ -136,12 +156,17 @@ class LocationModel {
     try {
       String fetchHash = myGeoHash(latitude: latitude, longitude: longitude);
       print("GeoHash : $fetchHash");
-      var checkFetchlocationDoc = await FirebaseFirestore.instance.doc("Users/${FirebaseAuth.instance.currentUser.uid}/Userlocation/fetchedlocation").get();
-      if (checkFetchlocationDoc.exists == false){
+      var checkFetchlocationDoc = await FirebaseFirestore.instance
+          .doc(
+              "Users/${FirebaseAuth.instance.currentUser.uid}/Userlocation/fetchedlocation")
+          .get();
+      if (checkFetchlocationDoc.exists == false) {
         print("No Userlocation collection found so creating one...");
-        OnlyDuringSignupFirestore.getLocationAddressAndCoordinates(latitude, longitude, context);
-        MatchMakingCollection.updateLocationMM(latitude, longitude);
-        print("Added user coordinates in userlocation collection and in matchmaking");
+        // OnlyDuringSignupFirestore.getLocationAddressAndCoordinates(latitude, longitude, context);
+        updateNewLocation(latitude, longitude, context);
+        // updateNewLocationInMM(latitude, longitude);
+        print(
+            "Added user coordinates in userlocation collection and in matchmaking");
       }
       var location = await FirebaseFirestore.instance
           .collection(
@@ -151,9 +176,9 @@ class LocationModel {
       location.docs.forEach((element) async {
         print(
             "New geo hash of user is not stored in firestore.So processing...");
-        OnlyDuringSignupFirestore.getLocationAddressAndCoordinates(latitude, longitude, context);
+        updateNewLocation(latitude, longitude, context);
         // * update location in matchmaking
-        MatchMakingCollection.updateLocationMM(latitude, longitude);
+        // updateNewLocationInMM(latitude, longitude);
         print("New location updated ...");
       });
     } catch (error) {

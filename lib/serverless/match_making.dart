@@ -3,53 +3,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart' show Geoflutterfire;
 
 class MatchMakingCollection {
   static addCurrentUserMM(String selectedShowMe) async {
     try {
+      print("in..");
       String uid = FirebaseAuth.instance.currentUser.uid;
+      // * create a user document in matchmaking collection 
+      DocumentSnapshot fetchDetails =
+          await FirebaseFirestore.instance.doc("Users/$uid").get();
+      CollectionReference menWomenCollection = FirebaseFirestore.instance
+          .collection("Matchmaking/simplematch/MenWomen");
+      await menWomenCollection.add({
+        "uid": uid,
+        "show_me": selectedShowMe,
+        "age": fetchDetails.get("bio.age"),
+        "gender": fetchDetails.get("bio.gender"),
+        "name": fetchDetails.get("bio.name"),
+      });
 
-      // * check if required variables is not empty and null
-      if (selectedGenderM.isNotEmpty && ageM != null && nameM.isNotEmpty) {
-        // * check if current user is men or women
-        CollectionReference menWomenCollection = FirebaseFirestore.instance
-            .collection("Matchmaking/simplematch/MenWomen");
-        await menWomenCollection.add({
-          "uid": uid,
-          "show_me": selectedShowMe,
-          "age": ageM,
-          "gender": selectedGenderM,
-          "name" : nameM,
-        });
-      } else if (selectedGenderM.isEmpty && ageM == null && nameM.isEmpty) {
-        // * when required variables is null and empty -> not stored in memory fetching from firestore
-        try {
-          DocumentSnapshot fetchDetails =
-              await FirebaseFirestore.instance.doc("Users/$uid").get();
-          CollectionReference menWomenCollection = FirebaseFirestore.instance
-              .collection("Matchmaking/simplematch/MenWomen");
-          await menWomenCollection.add({
-            "uid": uid,
-            "show_me": selectedShowMe,
-            "age": fetchDetails.get("bio.age"),
-            "gender": fetchDetails.get("bio.gender"),
-            "name" : fetchDetails.get("bio.name"),
-          });
-
-          print(
-              "Successfully created matchmaking . Variables are not in memory so fetched user details from firestore");
-        } catch (error) {
-          print(
-              "Error in fetching user details for matchmaking : ${error.toString()}");
-        }
-      }
+      print(
+          "Successfully created user document in matchmaking");
     } catch (error) {
-      print("Error : ${error.toString()}");
+      print("Error in creating user matchmaking : ${error.toString()}");
     }
   }
 
-  static updateLocationMM(double latitude, longitude) async {
+  static updateLocationMM(double latitude, longitude, Placemark address) async {
     // * update current location of the user in matchmaking
     try {
       String uid = FirebaseAuth.instance.currentUser.uid;
@@ -67,6 +49,8 @@ class MatchMakingCollection {
             FirebaseFirestore.instance.doc(fullPath);
         await updateLocation.update({
           "current_coordinates": myGeoData.data,
+          "city": address.locality,
+          "state": address.administrativeArea,
         });
         print("User location updated in matchmaking");
       });

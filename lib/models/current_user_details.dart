@@ -11,6 +11,9 @@ Map<String, dynamic> currentLoggedinUserDetails = {
   "show_me": "",
   "age": "",
   "geohash": "",
+  "radius": "",
+  "from_age": "",
+  "to_age": "",
 };
 
 // * check if any fields from current loggedin user details is missing
@@ -25,22 +28,23 @@ validateAndStoreUserDetails(double latitude, double longitude) {
           values["gender"] == null ||
           values["show_me"] == null ||
           values["age"] == null ||
-          values["geohash"] == null) {
+          values["geohash"] == null ||
+          values["radius"] == null ||
+          values["to_age"] == null ||
+          values["from_age"] == null) {
         var fetchUserdetails = await FirebaseFirestore.instance
             .doc("Users/${FirebaseAuth.instance.currentUser.uid}")
-            .get();
-
-        var fetchUserLocation = await FirebaseFirestore.instance
-            .doc(
-                "Users/${FirebaseAuth.instance.currentUser.uid}/Userlocation/fetchedlocation")
             .get();
         writeValue("current_uid", uid);
         writeValue("gender", fetchUserdetails.get("bio.gender"));
         writeValue("show_me", fetchUserdetails.get("show_me"));
         writeValue("age", fetchUserdetails.get("bio.age").toString());
-        writeValue(
-            "geohash", fetchUserLocation.get("current_coordinates.geohash"));
+        writeValue("geohash", ontimeHash);
+        writeValue("radius", "200");
+        writeValue("from_age", "18");
+        writeValue("to_age", fetchUserdetails.get("bio.age").toString());
         print("All user datas stored in secure storage successfully");
+        print("RFATA enctrypted");
       }
       if (values["geohash"] != ontimeHash) {
         print(

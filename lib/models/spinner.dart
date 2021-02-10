@@ -8,3 +8,11 @@ Widget loadingSpinner(){
     size: 40,
     );
 }
+
+
+Widget whileHeadImageloadingSpinner(){
+  return SpinKitCubeGrid(
+    color: Colors.white,
+    size: 25,
+    );
+}
