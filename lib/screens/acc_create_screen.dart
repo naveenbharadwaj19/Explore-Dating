@@ -18,7 +18,7 @@ class AccCreatedScreen extends StatelessWidget {
             Container(
               height: 200,
               width: 200,
-              margin: EdgeInsets.symmetric(vertical: 50),
+              margin: const EdgeInsets.symmetric(vertical: 50),
               child: FlareActor(
                 "assets/animations/successCheck.flr",
                 fit: BoxFit.cover,
@@ -42,7 +42,7 @@ class AccCreatedScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: 180,
-                margin: EdgeInsets.only(bottom:30),
+                margin: const EdgeInsets.only(bottom:30),
                 child: RaisedButton(
                   color: Color(0xffF8C80D),
                   textColor: Color(0xff121212),

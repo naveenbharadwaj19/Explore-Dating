@@ -36,7 +36,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
       child: Column(
         children: [
           Container(
-              margin: EdgeInsets.symmetric(vertical: 40),
+              margin: const EdgeInsets.symmetric(vertical: 40),
               child: Text(
                 "-Show me-",
                 style: TextStyle(
@@ -69,7 +69,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           ),
           Container(
             width: 250,
-            margin: EdgeInsets.only(top:20),
+            margin: const EdgeInsets.only(top:20),
             child: RaisedButton(
              color: Color(index == 2? 0xffF8C80D : 0xff121212),
               textColor: index == 2 ? Color(0xff121212) : Colors.white,
@@ -92,7 +92,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           ),
           Container(
             width: 250,
-            margin: EdgeInsets.only(top:20),
+            margin: const EdgeInsets.only(top:20),
             child: RaisedButton(
               color: Color(index == 3 ? 0xffF8C80D : 0xff121212),
               textColor: index == 3 ? Color(0xff121212) : Colors.white,
@@ -116,7 +116,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           Spacer(),
           Container(
             width: 180,
-            margin: EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20),
             child: RaisedButton(
               color: Color(0xffF8C80D),
               textColor: Color(0xff121212),

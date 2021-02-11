@@ -55,7 +55,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             ),
             Container(
               // ? Age widget
-              margin: const EdgeInsets.all(15),
+              margin:  const EdgeInsets.all(15),
               height: 135,
               child: Container(
                 decoration: BoxDecoration(
@@ -85,7 +85,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         ),
                       ),
                       Container(
-                        margin: const EdgeInsets.only(top: 10),
+                        margin:  const EdgeInsets.only(top: 10),
                         // ? age slide bar
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
@@ -120,7 +120,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             ),
             Container(
               // ? Radius & distance widget
-              margin: const EdgeInsets.all(15),
+              margin:  const EdgeInsets.all(15),
               height: 135,
               child: Container(
                 decoration: BoxDecoration(
@@ -211,7 +211,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                       ),
                       // ? types of show me
                       Container(
-                        margin: const EdgeInsets.only(left: 10, top: 35),
+                        margin : const EdgeInsets.only(left: 10, top: 35),
                         child: Row(
                           children: [
                             Container(
@@ -244,7 +244,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             ),
                             Container(
                               height: 50,
-                              margin: const EdgeInsets.only(left: 15),
+                              margin : const EdgeInsets.only(left: 15),
                               child: RaisedButton(
                                 color: Color(
                                     index == 2 || currentShowme == "Women"
@@ -274,7 +274,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             ),
                             Container(
                               height: 50,
-                              margin: const EdgeInsets.only(left: 15),
+                              margin : const EdgeInsets.only(left: 15),
                               child: RaisedButton(
                                 color: Color(
                                     index == 3 || currentShowme == "Everyone"
@@ -311,7 +311,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.all(10),
+              margin : const EdgeInsets.all(10),
               width: 300,
               child: RaisedButton(
                 color: Color(0xff121212),

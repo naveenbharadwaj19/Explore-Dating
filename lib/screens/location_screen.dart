@@ -61,13 +61,13 @@ class _LocationScreenState extends State<LocationScreen> {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.symmetric(vertical: 50),
+              margin: const EdgeInsets.symmetric(vertical: 50),
               child: Text("-Location-",
                   style: TextStyle(color: Color(0xffF8C80D), fontSize: 25)),
             ),
             Spacer(),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 40),
+              margin: const EdgeInsets.symmetric(vertical: 40),
                   height: 300,
                   width: 300,
                   child: FlareActor(

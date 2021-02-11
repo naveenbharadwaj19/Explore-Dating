@@ -17,7 +17,7 @@ class GenderScreen extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 40),
+              margin: const EdgeInsets.only(top: 40),
               child: const Text(
                 "-I am a-",
                 style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
@@ -67,7 +67,7 @@ class GenderScreen extends StatelessWidget {
             Spacer(),
             // Container(
             //   alignment: Alignment.center,
-            //   // margin: EdgeInsets.only(top: 50),
+            //   // margin: const EdgeInsets.only(top: 50),
             //   child: RaisedButton(
             //     color: Color(0xffF8C80D),
             //     textColor: Color(0xff121212),
@@ -123,7 +123,7 @@ class GenderScreen extends StatelessWidget {
             ),
             Spacer(),
             Container(
-              margin: EdgeInsets.only(bottom: 25),
+              margin: const EdgeInsets.only(bottom: 25),
               child: const Text(
                 "Note : Once selected cannot be reversed",
                 style: TextStyle(fontSize: 15, color: Colors.white),
@@ -164,7 +164,7 @@ class GenderScreen extends StatelessWidget {
 //         // mainAxisAlignment: MainAxisAlignment.center,
 //         children: [
 //           Container(
-//             margin: EdgeInsets.only(top: 40),
+//             margin: const EdgeInsets.only(top: 40),
 //             child: const Text(
 //               "-Other-",
 //               style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
@@ -195,7 +195,7 @@ class GenderScreen extends StatelessWidget {
 //                     },
 //                   ),
 //                   Container(
-//                     margin: EdgeInsets.only(left: 30),
+//                     margin: const EdgeInsets.only(left: 30),
 //                     child: IconButton(
 //                       icon: Icon(OtherGenders.lesbian),
 //                       color: trackGenderPressed == 2
@@ -220,7 +220,7 @@ class GenderScreen extends StatelessWidget {
 //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                 children: [
 //                   Container(
-//                     margin: EdgeInsets.only(top: spacing),
+//                     margin: const EdgeInsets.only(top: spacing),
 //                     child: const Text(
 //                       "Gay",
 //                       style: TextStyle(
@@ -230,7 +230,7 @@ class GenderScreen extends StatelessWidget {
 //                     ),
 //                   ),
 //                   Container(
-//                     margin: EdgeInsets.only(top: spacing),
+//                     margin: const EdgeInsets.only(top: spacing),
 //                     child: const Text(
 //                       "Lesbian",
 //                       style: TextStyle(
@@ -271,7 +271,7 @@ class GenderScreen extends StatelessWidget {
 //                     },
 //                   ),
 //                   Container(
-//                     margin: EdgeInsets.only(left: 30),
+//                     margin: const EdgeInsets.only(left: 30),
 //                     child: IconButton(
 //                       icon: Icon(OtherGenders.bisexual),
 //                       color: trackGenderPressed == 4
@@ -294,7 +294,7 @@ class GenderScreen extends StatelessWidget {
 //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                 children: [
 //                   Container(
-//                     margin: EdgeInsets.only(top: spacing),
+//                     margin: const EdgeInsets.only(top: spacing),
 //                     padding: EdgeInsets.only(left: 25),
 //                     child: const Text(
 //                       "Homosexual",
@@ -305,7 +305,7 @@ class GenderScreen extends StatelessWidget {
 //                     ),
 //                   ),
 //                   Container(
-//                     margin: EdgeInsets.only(top: spacing),
+//                     margin: const EdgeInsets.only(top: spacing),
 //                     padding: EdgeInsets.only(right: 25),
 //                     child: const Text(
 //                       "Bisexual",
@@ -322,7 +322,7 @@ class GenderScreen extends StatelessWidget {
 //           Spacer(),
 //           Container(
 //             alignment: Alignment.center,
-//             // margin: EdgeInsets.only(top: 50),
+//             // margin: const EdgeInsets.only(top: 50),
 //             child: RaisedButton(
 //               color: Color(0xffF8C80D),
 //               textColor: Color(0xff121212),

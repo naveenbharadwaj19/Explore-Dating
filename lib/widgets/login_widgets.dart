@@ -31,7 +31,7 @@ Widget logoAppName(Image logoImage) {
 Widget addDatingText() {
   return Container(
     // alignment: Alignment.topCenter,
-    // margin: EdgeInsets.only(left: 200),
+    // margin: const EdgeInsets.only(left: 200),
     child: Text(
       "Dating",
       style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Domine"),
@@ -78,7 +78,7 @@ Widget emailTextField(TextEditingController emailAddress) {
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: emailAddress,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -122,7 +122,7 @@ Widget passwordTextField(
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: password,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -236,7 +236,7 @@ Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
   return ChangeNotifierProvider<ManangeSigninLogin>(
     create: (context) => ManangeSigninLogin(),
       child: Container(
-      margin: EdgeInsets.symmetric(vertical: 25),
+      margin: const EdgeInsets.symmetric(vertical: 25),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -289,7 +289,7 @@ Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole,
 Widget navigateToWebLink() {
   return Container(
     alignment: Alignment.topRight,
-    margin: EdgeInsets.only(top: 20),
+    margin: const EdgeInsets.only(top: 20),
     child: IconButton(
       icon: Icon(Icons.language_rounded),
       color: Colors.white,

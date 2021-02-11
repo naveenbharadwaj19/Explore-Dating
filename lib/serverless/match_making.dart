@@ -1,7 +1,6 @@
 // todo Manage Matchmaking collection firestore
 // * mm/MM - matchmaking collection
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:explore/data/temp/auth_data.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart' show Geoflutterfire;

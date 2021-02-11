@@ -14,7 +14,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(top:25),
+              margin: const EdgeInsets.only(top:25),
               child: const Icon(
                 Icons.block_flipped,
                 color: Color(0xffF8C80D),
@@ -41,7 +41,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
                   decoration: TextDecoration.none),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               child: IconButton(
                 color: Colors.white,
                 iconSize: 35,
@@ -53,7 +53,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
             Spacer(),
             Container(
               width: 125,
-              margin: EdgeInsets.only(bottom: 20),
+              margin: const EdgeInsets.only(bottom: 20),
               child: RaisedButton(
                 color: Color(0xffF8C80D),
                 textColor: Color(0xff121212),

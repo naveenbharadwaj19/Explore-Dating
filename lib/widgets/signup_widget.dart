@@ -37,7 +37,7 @@ Widget nameTextField(TextEditingController _name) {
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _name,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -80,7 +80,7 @@ Widget emailTextField(TextEditingController _email) {
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _email,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -122,7 +122,7 @@ Widget emailTextField(TextEditingController _email) {
 //       height: 60,
 //       width: 300,
 //       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-//       margin: EdgeInsets.only(top: 30),
+//       margin: const EdgeInsets.only(top: 30),
 //       child: TextFormField(
 //         controller: _username,
 //         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -172,7 +172,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _password,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -226,7 +226,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _confirmPassword,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -332,7 +332,7 @@ class _DOBState extends State<DOB> {
     return Align(
       alignment: Alignment(-0.3, 0.0),
       child: Container(
-        margin: EdgeInsets.only(top: 25),
+        margin: const EdgeInsets.only(top: 25),
         height: 60,
         width: 300,
         decoration: ShapeDecoration(
@@ -375,7 +375,7 @@ class _DOBState extends State<DOB> {
 
 Widget ageCondition(bool agreeAge, Function toogleAge) {
   return Container(
-    margin: EdgeInsets.only(top: 15, left: 25),
+    margin: const EdgeInsets.only(top: 15, left: 25),
     child: Row(
       children: [
         CircularCheckBox(
@@ -401,7 +401,7 @@ Widget ageCondition(bool agreeAge, Function toogleAge) {
 
 Widget termsAndConditions(bool tAndC, Function toogleTerms) {
   return Container(
-    margin: EdgeInsets.only(top: 5, left: 25),
+    margin: const EdgeInsets.only(top: 5, left: 25),
     child: Row(
       children: [
         CircularCheckBox(
@@ -500,7 +500,7 @@ Widget nextButton(
 
 Widget navigateToLoginPage(BuildContext context, Function pressedLogin) {
   return Container(
-    margin: EdgeInsets.symmetric(vertical: 15),
+    margin: const EdgeInsets.symmetric(vertical: 15),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

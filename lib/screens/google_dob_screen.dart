@@ -85,11 +85,11 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
             ),
             DOBGoogle(),
             Container(
-              margin: EdgeInsets.only(left: 5),
+              margin: const EdgeInsets.only(left: 5),
               child: ageCondition(agreeAge, toggleAge),
             ),
             Container(
-              margin: EdgeInsets.only(left: 5),
+              margin: const EdgeInsets.only(left: 5),
               child: termsAndConditions(agreeTerms, toogleTerms),
             ),
             Spacer(),
@@ -97,7 +97,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: 180,
-                margin: EdgeInsets.only(bottom: 30),
+                margin: const EdgeInsets.only(bottom: 30),
                 child: RaisedButton(
                   color: Color(0xffF8C80D),
                   textColor: Color(0xff121212),
@@ -198,7 +198,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
     return Align(
       alignment: Alignment(-0.3, 0.0),
       child: Container(
-        margin: EdgeInsets.only(top: 25),
+        margin: const EdgeInsets.only(top: 25),
         height: 60,
         width: 300,
         decoration: ShapeDecoration(

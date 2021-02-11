@@ -28,7 +28,7 @@ Widget headPhoto(BuildContext context,Function updateHeadPhoto) {
           child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 30),
+            margin: const EdgeInsets.only(top: 30),
             child: Text(
               "-Profile-",
               style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
@@ -36,7 +36,7 @@ Widget headPhoto(BuildContext context,Function updateHeadPhoto) {
           ),
           // ? circle and shadow
           Container(
-            margin: EdgeInsets.only(top: 45),
+            margin: const EdgeInsets.only(top: 45),
             decoration: BoxDecoration(
               // ? shadow
               // color: Colors.white,
@@ -134,7 +134,7 @@ class _PhotoOptions {
           children: [
             Container(
               // ? camera button
-              margin: EdgeInsets.only(top: 50),
+              margin: const EdgeInsets.only(top: 50),
               height: 70,
               width: 180,
               child: RaisedButton.icon(
@@ -211,7 +211,7 @@ class _PhotoOptions {
           children: [
             Container(
               // ? camera button
-              margin: EdgeInsets.only(top: 50),
+              margin: const EdgeInsets.only(top: 50),
               height: 70,
               width: 180,
               child: RaisedButton.icon(
