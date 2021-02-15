@@ -133,7 +133,7 @@ class _HandlePhotoPermission {
     return Flushbar(
       messageText: const Text(
         "Allow permission for camera in app settings",
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 3),
@@ -153,7 +153,7 @@ class _HandlePhotoPermission {
     return Flushbar(
       messageText: const Text(
         "Allow permission for storage in app settings",
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 3),

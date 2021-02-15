@@ -62,7 +62,7 @@ class ConnectingUsers {
                             "headphoto": headImg,
                             "bodyphoto": bodyImg,
                             "city_state":
-                                "${homoQuery.get("city")} ${homoQuery.get("state")}",
+                                "${homoQuery.get("city")},${homoQuery.get("state")}",
                           };
                           // add map to list
                           scrollUserDetails.add(serializeDetails);
@@ -106,7 +106,7 @@ class ConnectingUsers {
                           "headphoto": headImg,
                           "bodyphoto": bodyImg,
                           "city_state":
-                              "${everyoneQuery.get("city")} ${everyoneQuery.get("state")}",
+                              "${everyoneQuery.get("city")},${everyoneQuery.get("state")}",
                         };
                         // add map to list
                         scrollUserDetails.add(serializeDetails);
@@ -149,7 +149,7 @@ class ConnectingUsers {
                           "headphoto": headImg,
                           "bodyphoto": bodyImg,
                           "city_state":
-                              "${hetroQuery.get("city")} ${hetroQuery.get("state")}",
+                              "${hetroQuery.get("city")},${hetroQuery.get("state")}",
                         };
                         // add map to list
                         scrollUserDetails.add(serializeDetails);
@@ -223,7 +223,7 @@ class ConnectingUsers {
                               "headphoto": headImg,
                               "bodyphoto": bodyImg,
                               "city_state":
-                                  "${homoQuery.get("city")} ${homoQuery.get("state")}",
+                                  "${homoQuery.get("city")},${homoQuery.get("state")}",
                             };
                             // add map to list
                             scrollUserDetails.add(serializeDetails);
@@ -264,7 +264,7 @@ class ConnectingUsers {
                               "headphoto": headImg,
                               "bodyphoto": bodyImg,
                               "city_state":
-                                  "${everyoneResult.get("city")} ${everyoneResult.get("state")}",
+                                  "${everyoneResult.get("city")},${everyoneResult.get("state")}",
                             };
                             // add map to list
                             scrollUserDetails.add(serializeDetails);
@@ -305,7 +305,7 @@ class ConnectingUsers {
                               "headphoto": headImg,
                               "bodyphoto": bodyImg,
                               "city_state":
-                                  "${hetroQuery.get("city")} ${hetroQuery.get("state")}",
+                                  "${hetroQuery.get("city")},${hetroQuery.get("state")}",
                             };
                             // add map to list
                             scrollUserDetails.add(serializeDetails);

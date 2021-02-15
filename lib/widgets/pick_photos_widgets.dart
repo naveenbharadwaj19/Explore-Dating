@@ -31,7 +31,7 @@ Widget headPhoto(BuildContext context,Function updateHeadPhoto) {
             margin: const EdgeInsets.only(top: 30),
             child: Text(
               "-Profile-",
-              style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
+              style: const TextStyle(color: Color(0xffF8C80D), fontSize: 25),
             ),
           ),
           // ? circle and shadow
@@ -150,7 +150,7 @@ class _PhotoOptions {
                 ),
                 label: Text(
                   "Camera",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 25),
@@ -182,7 +182,7 @@ class _PhotoOptions {
                 ),
                 label: Text(
                   "Gallery",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 25),
@@ -227,7 +227,7 @@ class _PhotoOptions {
                 ),
                 label: Text(
                   "Camera",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 25),
@@ -259,7 +259,7 @@ class _PhotoOptions {
                 ),
                 label: Text(
                   "Gallery",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 25),

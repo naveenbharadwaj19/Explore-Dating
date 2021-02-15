@@ -30,7 +30,7 @@ class AccCreatedScreen extends StatelessWidget {
               padding: EdgeInsets.all(10),
               child: const Text(
                 "Account created successfully",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 23,
                     fontWeight: FontWeight.w700),
@@ -51,7 +51,7 @@ class AccCreatedScreen extends StatelessWidget {
                       side: BorderSide(color: Color(0xffF8C80D))),
                   child: const Text(
                     "Continue",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       // fontWeight: FontWeight.w700,
                     ),

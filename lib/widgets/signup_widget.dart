@@ -20,8 +20,8 @@ Widget logoAppName(Image logoImage) {
         textAlign: TextAlign.right,
         text: TextSpan(
           children: [
-            TextSpan(text: "Explore\n",style: TextStyle(color:Colors.white,fontSize: 40,fontFamily: "Domine",decoration: TextDecoration.none),),
-            TextSpan(text: "Dating",style: TextStyle(color:Colors.white,fontSize: 16,fontFamily: "Domine",decoration: TextDecoration.none),),
+            TextSpan(text: "Explore\n",style: const TextStyle(color:Colors.white,fontSize: 40,fontFamily: "Domine",decoration: TextDecoration.none),),
+            TextSpan(text: "Dating",style: const TextStyle(color:Colors.white,fontSize: 16,fontFamily: "Domine",decoration: TextDecoration.none),),
           ]
         ),
       ),
@@ -41,11 +41,12 @@ Widget nameTextField(TextEditingController _name) {
       child: TextFormField(
         controller: _name,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
+        textCapitalization: TextCapitalization.words,
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -57,11 +58,11 @@ Widget nameTextField(TextEditingController _name) {
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Name",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
         ),
         validator: (String value) {
           if (value.isEmpty) {
-            return "Enter Some Text";
+            return "Enter Name";
           } else if (value.length > 20) {
             return "Cannot Be More Than 20 Characters";
           }
@@ -88,7 +89,7 @@ Widget emailTextField(TextEditingController _email) {
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -100,7 +101,7 @@ Widget emailTextField(TextEditingController _email) {
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Email address",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
         ),
         validator: (String value) {
           if (value.isEmpty) {
@@ -130,7 +131,7 @@ Widget emailTextField(TextEditingController _email) {
 //         cursorColor: Colors.white,
 //         cursorWidth: 3.0,
 //         // ! Need to use input text as WORDSANS
-//         style: TextStyle(color: Colors.white),
+//         style: const TextStyle(color: Colors.white),
 //         keyboardType: TextInputType.emailAddress,
 //         decoration: InputDecoration(
 //           enabledBorder: OutlineInputBorder(
@@ -142,7 +143,7 @@ Widget emailTextField(TextEditingController _email) {
 //             borderSide: BorderSide(color: Colors.white),
 //           ),
 //           hintText: "User Name",
-//           hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+//           hintstyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
 //         ),
 //         validator: (String value) {
 //           // ! Need to check database whether username is available or not
@@ -181,7 +182,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -193,7 +194,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Password",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
           suffixIcon: IconButton(
             color: Color(0xffF8C80D),
             icon: Icon(_passwordvisible
@@ -204,7 +205,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
         ),
         validator: (String value) {
           if (value.isEmpty) {
-            return "Enter Some Text";
+            return "Enter Password";
           } else if (value.length < 6) {
             return "Enter Above 6 Characters";
           } else if (_confirmPassword.text != value) {
@@ -235,7 +236,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -247,7 +248,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Confirm Password",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
           suffixIcon: IconButton(
             color: Color(0xffF8C80D),
             icon: Icon(_passwordvisible
@@ -258,7 +259,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
         ),
         validator: (String value) {
           if (value.isEmpty) {
-            return "Enter Some Text";
+            return "Enter Confirm Password";
           } else if (value.length < 6) {
             return "Enter Above 6 Characters";
           } else if (_password.text != value) {
@@ -346,7 +347,7 @@ class _DOBState extends State<DOB> {
               padding: EdgeInsets.all(8),
               child: Text(
                 "D.O.B : ",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w700,
                     fontSize: 20),
@@ -360,7 +361,7 @@ class _DOBState extends State<DOB> {
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 _findAge() < 18 ? "Enter age 18+" : formattedDate(),
-                style: TextStyle(fontSize: 16
+                style: const TextStyle(fontSize: 16
                     // fontWeight: FontWeight.w700
                     ),
               ),
@@ -390,7 +391,7 @@ Widget ageCondition(bool agreeAge, Function toogleAge) {
           padding: const EdgeInsets.all(15),
           child: Text(
             "I agree i'm above 18+",
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
           ),
         )
@@ -415,7 +416,7 @@ Widget termsAndConditions(bool tAndC, Function toogleTerms) {
         FlatButton(
             child: Text(
               "I agree to terms and conditions",
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -456,7 +457,7 @@ Widget nextButton(
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 "Next",
-                style: TextStyle(
+                style: const TextStyle(
                   // fontFamily: "OpenSans",
                   // fontWeight: FontWeight.w700,
                   fontSize: 16
@@ -471,7 +472,7 @@ Widget nextButton(
                       backgroundColor: Color(0xff121212),
                       messageText: Text(
                         "Enter birth date",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700,
                             color: Colors.white),
@@ -507,7 +508,7 @@ Widget navigateToLoginPage(BuildContext context, Function pressedLogin) {
         Container(
           child: Text(
             "Already have an account ?",
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
@@ -515,7 +516,7 @@ Widget navigateToLoginPage(BuildContext context, Function pressedLogin) {
           child: FlatButton(
             child: Text(
               "Login",
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color(0xffF8C80D),
                   fontSize: 18,
                   fontWeight: FontWeight.w600,

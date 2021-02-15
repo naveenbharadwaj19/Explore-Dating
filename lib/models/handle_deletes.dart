@@ -23,7 +23,7 @@ Future<void> deleteUserDuringSignUpProcess(BuildContext context) async {
     Flushbar(
       messageText: Text(
         "Something went wrong try again",
-        style: TextStyle(
+        style: const TextStyle(
             fontFamily: "OpenSans",
             fontWeight: FontWeight.w700,
             color: Colors.white),

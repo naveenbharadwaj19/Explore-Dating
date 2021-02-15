@@ -39,7 +39,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
               margin: const EdgeInsets.symmetric(vertical: 40),
               child: Text(
                 "-Show me-",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Color(0xffF8C80D),
                     fontSize: 20,
                     decoration: TextDecoration.none),
@@ -55,7 +55,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   side: BorderSide(color: Color(0xffF8C80D),width: 2)),
               child: Text(
                 "Men",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   // fontWeight: FontWeight.w700,
                 ),
@@ -78,7 +78,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   side: BorderSide(color: Color(0xffF8C80D),width: 2)),
               child: Text(
                 "Women",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   // fontWeight: FontWeight.w700,
                 ),
@@ -101,7 +101,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   side: BorderSide(color: Color(0xffF8C80D),width: 2)),
               child: Text(
                 "Everyone",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   // fontWeight: FontWeight.w700,
                 ),
@@ -125,7 +125,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 "Confirm",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   // fontWeight: FontWeight.w700,
                 ),

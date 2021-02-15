@@ -80,7 +80,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   emailAddressM == null ? "Verification code has been sent to your email" :
                   "Verification code has been sent to your email : $emailAddressM",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                       fontSize: 20),
@@ -110,7 +110,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     borderRadius: BorderRadius.circular(5)),
                 fieldsAlignment: MainAxisAlignment.spaceEvenly,
                 pinAnimationType: PinAnimationType.rotation,
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   color: Colors.black,
                   fontSize: 22,
                   // fontWeight: FontWeight.w500,
@@ -141,7 +141,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     strokeWidth: 3,
                     isReverse: true,
                     isReverseAnimation: true,
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
@@ -155,7 +155,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               FlatButton(
                 child: const Text(
                   "Send code again",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xffF8C80D),
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -186,7 +186,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                               side: BorderSide(color: Color(0xffF8C80D))),
                           child: const Text(
                             "Verify",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16,
                                 // fontWeight: FontWeight.w600,
                                 ),
@@ -206,7 +206,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 child: FlatButton(
                   child: const Text(
                     "Back",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color(0xffF8C80D),
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -229,7 +229,7 @@ _showAlertDialog(
   Widget goBack = FlatButton(
     child: const Text(
       "Go Back",
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     onPressed: () {
       // ? restting all values stored in memory
@@ -248,14 +248,14 @@ _showAlertDialog(
   Widget stayHere = FlatButton(
     child: const Text(
       "Stay Here",
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     onPressed: () => Navigator.pop(context),
   );
   Widget help = FlatButton(
     child: const Text(
       "Help",
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     onPressed: () {},
   );
@@ -264,11 +264,11 @@ _showAlertDialog(
     backgroundColor: Color(0xff121212),
     title: const Text(
       "Alert",
-      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
     ),
     content: const Text(
       "Are you sure want to go back ?",
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     actions: [help, stayHere, goBack],
   );

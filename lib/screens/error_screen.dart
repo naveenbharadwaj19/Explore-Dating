@@ -24,7 +24,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
             Spacer(),
             const Text(
               "Error : 404",
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 22,
                   decoration: TextDecoration.none),
@@ -35,7 +35,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
             const Text(
               "Your account has been deleted for violating our terms",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   decoration: TextDecoration.none),
@@ -62,7 +62,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
                     side: BorderSide(color: Color(0xffF8C80D))),
                 child: const Text(
                   "Ok",
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontFamily: "Nunito",
                       // fontWeight: FontWeight.w600,
                       fontSize: 16),

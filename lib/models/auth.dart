@@ -51,7 +51,7 @@ class AuthenticationFirebase {
         backgroundColor: Color(0xff121212),
         messageText: Text(
           message.toString(),
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.w700,
               color: Colors.white),
         ),
@@ -66,7 +66,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Email address exist",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -79,7 +79,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Incorrect password",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -91,7 +91,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Something went wrong try again",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -134,7 +134,7 @@ class AuthenticationFirebase {
         backgroundColor: Color(0xff121212),
         messageText: Text(
           message.toString(),
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.w700,
               color: Colors.white),
         ),
@@ -149,7 +149,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Email address exist",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -162,7 +162,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Incorrect password",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -175,7 +175,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Account does not exist create one",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -188,7 +188,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Account is disabled please visit our website",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -200,7 +200,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Something went wrong try again",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -223,7 +223,7 @@ class AuthenticationFirebase {
       Flushbar(
         messageText:const Text(
           "Check provided email address",
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.w700,
               color: Colors.white),
         ),
@@ -237,7 +237,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Cannot reset account does not exist",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -249,7 +249,7 @@ class AuthenticationFirebase {
         Flushbar(
           messageText: const Text(
             "Something went wrong try again later",
-            style: TextStyle(
+            style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
@@ -311,7 +311,7 @@ class GoogleAuthenticationClass {
         Flushbar(
           messageText: const Text(
             "Account is disabled please visit our website",
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
@@ -321,7 +321,7 @@ class GoogleAuthenticationClass {
         Flushbar(
           messageText: Text(
             AssignErrors.expgogauth006,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),

@@ -10,7 +10,7 @@ class SettingsScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Home Screen",
-                style: TextStyle(color: Colors.white, fontSize: 30)),
+                style: const TextStyle(color: Colors.white, fontSize: 30)),
             IconButton(
               icon: const Icon(Icons.delete),
               color: Colors.red,

@@ -30,7 +30,7 @@ class LocationModel {
         Flushbar(
           messageText: const Text(
             "Open app setting and give location premission",
-            style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+            style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
@@ -66,7 +66,7 @@ class LocationModel {
       Flushbar(
         messageText: Text(
           "Error ${AssignErrors.expcod002}",
-          style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+          style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -97,7 +97,7 @@ class LocationModel {
       Flushbar(
         messageText: Text(
           "Error ${AssignErrors.expAdd001}",
-          style: TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+          style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),

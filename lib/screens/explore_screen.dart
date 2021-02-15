@@ -2,6 +2,8 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
+import 'package:explore/icons/filter_report_icons.dart';
+import 'package:explore/icons/star_rounded_icon_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:flutter/material.dart';
 
@@ -10,33 +12,26 @@ import 'package:flutter/material.dart';
 //  ? lowerBox -> heart , star , report
 
 class ExploreScreen extends StatelessWidget {
+  // final Color yellow = Color(0xffF8C80D);
+  // final Color black = Color(0xff121212);
+  // final Color white = Color(0xffFFFFFF);
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              return Container(
-                // ! main height for scrolling
-                height: 500,
-                margin: const EdgeInsets.only(top: 10),
-                decoration: BoxDecoration(
-                  // color: Colors.pink,
-                  borderRadius: const BorderRadius.all(Radius.circular(30)),
-                ),
-                child: Column(
-                  children: [
-                    topBox(index),
-                    middleBox(index),
-                  ],
-                ),
-              );
-            },
-            childCount: scrollUserDetails.length,
+    return PageView.builder(
+      physics: PageScrollPhysics(),
+      scrollDirection: Axis.vertical,
+      itemBuilder: (context, index) {
+        return Container(
+          margin: const EdgeInsets.only(top: 15),
+          child: Column(
+            children: [
+              topBox(index),
+              Expanded(child: middleBox(index, context)),
+            ],
           ),
-        ),
-      ],
+        );
+      },
+      itemCount: scrollUserDetails.length,
     );
   }
 }
@@ -45,7 +40,7 @@ Widget topBox(int index) {
   return Container(
     height: 100,
     decoration: BoxDecoration(
-      color: Color(0xffF8C80D),
+      color: Color(0xCCF8C80D),
       borderRadius: BorderRadius.only(
         topLeft: const Radius.circular(30),
         topRight: const Radius.circular(30),
@@ -55,7 +50,7 @@ Widget topBox(int index) {
       children: [
         Container(
           // ? head photo
-          margin: const EdgeInsets.only(top: 7, left: 15),
+          margin: const EdgeInsets.only(top: 10, left: 15),
           alignment: Alignment.topLeft,
           child: CircleAvatar(
             radius: 40,
@@ -86,7 +81,7 @@ Widget topBox(int index) {
                         color: Color(0xff121212),
                         fontWeight: FontWeight.w500),
                   ),
-                  onTap: (){
+                  onTap: () {
                     print("Tapping $index");
                   },
                 ),
@@ -112,7 +107,7 @@ Widget topBox(int index) {
           child: Text(
             "${scrollUserDetails[index]["city_state"]}",
             style: const TextStyle(
-                fontSize: 20,
+                fontSize: 15,
                 color: Color(0xff121212),
                 fontWeight: FontWeight.w500),
           ),
@@ -122,22 +117,138 @@ Widget topBox(int index) {
   );
 }
 
-Widget middleBox(int index) {
+Widget middleBox(int index, BuildContext context) {
+  // print( MediaQuery.of(context).size.height);
+  final double height = MediaQuery.of(context).size.height;
   return Container(
-    // ? body image
-    child: ClipRRect(
-      borderRadius: BorderRadius.only(
-        bottomLeft: const Radius.circular(30),
-        bottomRight: const Radius.circular(30),
+    child: Stack(
+      children: [
+        Container(
+          child: GestureDetector(
+            // ? body photo
+            child: ClipRRect(
+              borderRadius: BorderRadius.only(
+                bottomLeft: const Radius.circular(30),
+                bottomRight: const Radius.circular(30),
+              ),
+              child: CachedNetworkImage(
+                // ! change to mediaquery height and width if any problem arise in photos
+                // height: MediaQuery.of(context).size.height,
+                height: double.infinity,
+                width: double.infinity,
+                imageUrl: scrollUserDetails[index]["bodyphoto"].toString(),
+                fit: BoxFit.cover,
+                placeholder: (context, url) => loadingSpinner(),
+                errorWidget: (context, url, error) =>
+                    Center(child: loadingSpinner()),
+              ),
+            ),
+            onTap: () => Navigator.pushNamed(context, ViewBodyPhoto.routeName,
+                arguments: scrollUserDetails[index]["bodyphoto"].toString()),
+          ),
+        ),
+        // ? lower box inside image
+        Positioned.fill(
+          child: Align(
+            alignment: height < 700 ? Alignment.bottomCenter : Alignment(0.0,1.0),
+            child: lowerBox(index)
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget lowerBox(int index) {
+  final double heartIconSize = 50;
+  final double reportIconSize = 60;
+  final double starIconSize = 40;
+  return Container(
+    // ? heart , star , report widgets
+    child: Container(
+      // ? control black box
+      width: 255,
+      margin: const EdgeInsets.only(
+        bottom: 20,
       ),
-      child: CachedNetworkImage(
-        height: 400,
-        width: double.infinity,
-        imageUrl: scrollUserDetails[index]["bodyphoto"].toString(),
-        fit: BoxFit.cover,
-        placeholder: (context, url) => loadingSpinner(),
-        errorWidget: (context, url, error) => loadingSpinner(),
+      decoration: BoxDecoration(
+        // ? 90 - opacity
+        color: Color(0xE6121212),
+        borderRadius: const BorderRadius.all(Radius.circular(60)),
+      ),
+      child: Row(
+        children: [
+          Container(
+            // ? heart icon
+            margin: const EdgeInsets.only(left: 20),
+            child: GestureDetector(
+              child: Icon(
+                Icons.favorite_border_rounded,
+                color: Colors.red,
+                size: heartIconSize,
+              ),
+              onTap: () {
+                print("Pressed heart $index");
+              },
+            ),
+          ),
+          Container(
+            // ? star icon
+            margin: const EdgeInsets.only(left: 40, bottom: 3),
+            child: GestureDetector(
+              child: Icon(
+                // Icons.star_border_outlined,
+                StarRoundedIcon.star,
+                color: Color(0xffF8C80D),
+                size: starIconSize,
+              ),
+              onTap: () {
+                print("Pressed star $index");
+              },
+            ),
+          ),
+          Container(
+            // ? report icon
+            margin: const EdgeInsets.only(left: 30, top: 15),
+            child: GestureDetector(
+              child: Icon(
+                FilterReport.noun_caution_3320810,
+                color: Colors.white54,
+                size: reportIconSize,
+              ),
+              onTap: () {
+                print("Pressed report $index");
+              },
+            ),
+          ),
+        ],
       ),
     ),
   );
 }
+
+// ? View body photo
+class ViewBodyPhoto extends StatelessWidget {
+  static const routeName = "view-body-photo";
+
+  @override
+  Widget build(BuildContext context) {
+    final String url = ModalRoute.of(context).settings.arguments;
+    return Container(
+      // * show user original image
+      color: Theme.of(context).primaryColor,
+      child: GestureDetector(
+        child: CachedNetworkImage(
+          // height: 500,
+          width: double.infinity,
+          imageUrl: url,
+          // fit: BoxFit.cover,
+          placeholder: (context, url) => loadingSpinner(),
+          errorWidget: (context, url, error) => loadingSpinner(),
+        ),
+        onTap: () => Navigator.pop(context),
+      ),
+    );
+  }
+}
+

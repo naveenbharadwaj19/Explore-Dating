@@ -10,14 +10,17 @@ class ChatScreen extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
-            IconButton(
-                icon: const Icon(Icons.data_usage),
-                color: Colors.white,
-                iconSize: 50,
-                onPressed: () {
-                  ConnectingUsers.basicUserConnection();
-                },
-              ),
+            Container(
+              margin: EdgeInsets.only(top:30),
+              child: IconButton(
+                  icon: const Icon(Icons.data_usage),
+                  color: Colors.white,
+                  iconSize: 50,
+                  onPressed: () {
+                    ConnectingUsers.basicUserConnection();
+                  },
+                ),
+            ),
               IconButton(
                 icon: const Icon(Icons.memory),
                 color: Colors.white,

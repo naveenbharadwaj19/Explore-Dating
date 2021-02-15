@@ -62,7 +62,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                   text: TextSpan(children: [
                     TextSpan(
                       text: "Explore\n",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 40,
                           fontFamily: "Domine",
@@ -70,7 +70,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                     ),
                     TextSpan(
                       text: "Dating",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Colors.white,
                           fontSize: 16,
                           fontFamily: "Domine",
@@ -106,7 +106,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                       side: BorderSide(color: Color(0xffF8C80D))),
                   child: const Text(
                     "Continue",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       // fontWeight: FontWeight.w700,
                     ),
@@ -117,7 +117,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                         backgroundColor: Color(0xff121212),
                         messageText: const Text(
                           "Enter birth date",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Colors.white),
                         ),
@@ -212,7 +212,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
               padding: EdgeInsets.all(8),
               child: Text(
                 "D.O.B : ",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w700,
                     fontSize: 20),
@@ -226,7 +226,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 findAge() < 18 ? "Enter age 18+" : formattedDate(),
-                style: TextStyle(fontSize: 16
+                style: const TextStyle(fontSize: 16
                     // fontWeight: FontWeight.w700
                     ),
               ),

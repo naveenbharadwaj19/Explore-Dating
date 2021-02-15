@@ -20,7 +20,7 @@ class GenderScreen extends StatelessWidget {
               margin: const EdgeInsets.only(top: 40),
               child: const Text(
                 "-I am a-",
-                style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
+                style: const TextStyle(color: Color(0xffF8C80D), fontSize: 25),
               ),
             ),
             Padding(
@@ -31,11 +31,11 @@ class GenderScreen extends StatelessWidget {
               femaleText: "Women",
               maleImage: AssetImage("assets/app_images/male.png"),
               femaleImage: AssetImage("assets/app_images/female.png"),
-              selectedGenderTextStyle: TextStyle(
+              selectedGenderTextStyle: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w700),
-              unSelectedGenderTextStyle: TextStyle(
+              unSelectedGenderTextStyle: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w700),
@@ -76,7 +76,7 @@ class GenderScreen extends StatelessWidget {
             //         side: BorderSide(color: Color(0xffF8C80D))),
             //     child: const Text(
             //       "Other",
-            //       style: TextStyle(
+            //       style: const TextStyle(
             //         fontSize: 20,
             //         // fontWeight: FontWeight.w700,
             //       ),
@@ -96,7 +96,7 @@ class GenderScreen extends StatelessWidget {
                     side: BorderSide(color: Color(0xffF8C80D))),
                 child: const Text(
                   "Confirm",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     // fontWeight: FontWeight.w600,
                   ),
@@ -106,7 +106,7 @@ class GenderScreen extends StatelessWidget {
                     return Flushbar(
                       messageText: const Text(
                         "Select your gender",
-                        style: TextStyle(
+                        style: const TextStyle(
                             // fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700,
                             color: Colors.white),
@@ -126,7 +126,7 @@ class GenderScreen extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 25),
               child: const Text(
                 "Note : Once selected cannot be reversed",
-                style: TextStyle(fontSize: 15, color: Colors.white),
+                style: const TextStyle(fontSize: 15, color: Colors.white),
               ),
             )
           ],
@@ -167,7 +167,7 @@ class GenderScreen extends StatelessWidget {
 //             margin: const EdgeInsets.only(top: 40),
 //             child: const Text(
 //               "-Other-",
-//               style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
+//               style: const TextStyle(color: Color(0xffF8C80D), fontSize: 25),
 //             ),
 //           ),
 //           // ? spacing between text and genders
@@ -223,7 +223,7 @@ class GenderScreen extends StatelessWidget {
 //                     margin: const EdgeInsets.only(top: spacing),
 //                     child: const Text(
 //                       "Gay",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           color: Colors.white,
 //                           fontSize: genderTextSize,
 //                           fontWeight: FontWeight.w700),
@@ -233,7 +233,7 @@ class GenderScreen extends StatelessWidget {
 //                     margin: const EdgeInsets.only(top: spacing),
 //                     child: const Text(
 //                       "Lesbian",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           color: Colors.white,
 //                           fontSize: genderTextSize,
 //                           fontWeight: FontWeight.w700),
@@ -298,7 +298,7 @@ class GenderScreen extends StatelessWidget {
 //                     padding: EdgeInsets.only(left: 25),
 //                     child: const Text(
 //                       "Homosexual",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           color: Colors.white,
 //                           fontSize: genderTextSize,
 //                           fontWeight: FontWeight.w700),
@@ -309,7 +309,7 @@ class GenderScreen extends StatelessWidget {
 //                     padding: EdgeInsets.only(right: 25),
 //                     child: const Text(
 //                       "Bisexual",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           color: Colors.white,
 //                           fontSize: genderTextSize,
 //                           fontWeight: FontWeight.w700),
@@ -331,14 +331,14 @@ class GenderScreen extends StatelessWidget {
 //                   side: BorderSide(color: Color(0xffF8C80D))),
 //               child: const Text(
 //                 "Confirm",
-//                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+//                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
 //               ),
 //               onPressed: () {
 //                 if (selectedOtherGender.isEmpty) {
 //                   return Flushbar(
 //                     messageText: const Text(
 //                       "Select your gender",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           // fontFamily: "OpenSans",
 //                           fontWeight: FontWeight.w700,
 //                           color: Colors.white),
@@ -359,7 +359,7 @@ class GenderScreen extends StatelessWidget {
 //             child: FlatButton(
 //               child: const Text(
 //                 "Back",
-//                 style: TextStyle(
+//                 style: const TextStyle(
 //                     color: Color(0xffF8C80D),
 //                     fontSize: 18,
 //                     fontWeight: FontWeight.w500,

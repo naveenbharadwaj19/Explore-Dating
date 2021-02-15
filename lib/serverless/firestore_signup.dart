@@ -82,7 +82,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -106,7 +106,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -129,7 +129,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -154,7 +154,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -178,7 +178,7 @@ class OnlyDuringSignupFirestore {
   //     Flushbar(
   //       messageText: const Text(
   //         "Something went wrong try again",
-  //         style: TextStyle(color: Colors.white),
+  //         style: const TextStyle(color: Colors.white),
   //       ),
   //       backgroundColor: Color(0xff121212),
   //       duration: Duration(seconds: 3),
@@ -203,7 +203,7 @@ class OnlyDuringSignupFirestore {
   //     Flushbar(
   //       messageText: const Text(
   //         "Something went wrong try again",
-  //         style: TextStyle(color: Colors.white),
+  //         style: const TextStyle(color: Colors.white),
   //       ),
   //       backgroundColor: Color(0xff121212),
   //       duration: Duration(seconds: 3),
@@ -227,7 +227,7 @@ class OnlyDuringSignupFirestore {
   //     Flushbar(
   //       messageText: const Text(
   //         "Something went wrong try again",
-  //         style: TextStyle(color: Colors.white),
+  //         style: const TextStyle(color: Colors.white),
   //       ),
   //       backgroundColor: Color(0xff121212),
   //       duration: Duration(seconds: 3),
@@ -261,7 +261,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -286,7 +286,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -309,7 +309,7 @@ class OnlyDuringSignupFirestore {
       Flushbar(
         messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -354,7 +354,7 @@ void uploadHeadBodyPhotoTocloudStorage(
     Flushbar(
       messageText: Text(
         AssignErrors.expcldstr005,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 3),
@@ -414,7 +414,7 @@ class GooglePath {
       Flushbar(
         messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),

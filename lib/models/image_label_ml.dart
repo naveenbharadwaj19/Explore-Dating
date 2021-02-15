@@ -24,7 +24,7 @@ Future<void> detectHeadPhotoAndStoreToCloud(
         Flushbar(
           messageText:const Text(
             "Upload different photo",
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
@@ -49,7 +49,7 @@ Future<void> detectHeadPhotoAndStoreToCloud(
     Flushbar(
       messageText: Text(
         AssignErrors.exphpml004,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 2),

@@ -63,7 +63,7 @@ class _LocationScreenState extends State<LocationScreen> {
             Container(
               margin: const EdgeInsets.symmetric(vertical: 50),
               child: Text("-Location-",
-                  style: TextStyle(color: Color(0xffF8C80D), fontSize: 25)),
+                  style: const TextStyle(color: Color(0xffF8C80D), fontSize: 25)),
             ),
             Spacer(),
             Container(
@@ -91,7 +91,7 @@ class _LocationScreenState extends State<LocationScreen> {
                           // ! check permission spelling properly
                           check ? "Open settings" : "Allow permission",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                               // fontFamily: "OpenSans",
                               fontSize: 18,
                               // fontWeight: FontWeight.w600,
@@ -115,7 +115,7 @@ class _LocationScreenState extends State<LocationScreen> {
               child: FlatButton(
                 child: Text(
                   "Why ?",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xffF8C80D),
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
@@ -131,7 +131,7 @@ class _LocationScreenState extends State<LocationScreen> {
                             child: Text(
                               // ! Use proper message before deployment
                               "We need location to find the best matches around you",
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
                                   // fontWeight: FontWeight.w600,

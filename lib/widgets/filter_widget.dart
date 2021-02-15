@@ -47,7 +47,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
               margin: const EdgeInsets.all(5),
               child: const Text(
                 "Filters",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 30,
                     fontWeight: FontWeight.w500),
@@ -81,7 +81,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         padding: const EdgeInsets.only(left: 20, top: 10),
                         child: Text(
                           "From : ${ageValues.start.round()} To : ${ageValues.end.round()}",
-                          style: TextStyle(color: Colors.white70, fontSize: 20),
+                          style: const TextStyle(color: Colors.white70, fontSize: 20),
                         ),
                       ),
                       Container(
@@ -96,7 +96,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                               activeTickMarkColor: Colors.white,
                               inactiveTickMarkColor: Colors.white38,
                               valueIndicatorColor: Colors.grey,
-                              valueIndicatorTextStyle: TextStyle(
+                              valueIndicatorTextStyle: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 15,
                               )),
@@ -148,7 +148,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                           distanceKm == 200
                               ? "Whole Country"
                               : "Cover up to ${distanceKm.round()} Km",
-                          style: TextStyle(color: Colors.white70, fontSize: 20),
+                          style: const TextStyle(color: Colors.white70, fontSize: 20),
                         ),
                       ),
                       Container(
@@ -163,7 +163,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 activeTickMarkColor: Colors.white,
                                 inactiveTickMarkColor: Colors.white38,
                                 valueIndicatorColor: Colors.grey,
-                                valueIndicatorTextStyle: TextStyle(
+                                valueIndicatorTextStyle: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
                                 )),
@@ -230,7 +230,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                         color: Color(0xffF8C80D), width: 1.5)),
                                 child: const Text(
                                   "Men",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     // fontWeight: FontWeight.w700,
                                   ),
@@ -260,7 +260,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                         color: Color(0xffF8C80D), width: 1.5)),
                                 child: const Text(
                                   "Women",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     // fontWeight: FontWeight.w700,
                                   ),
@@ -290,7 +290,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                         color: Color(0xffF8C80D), width: 1.5)),
                                 child: const Text(
                                   "Everyone",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 20,
                                     // fontWeight: FontWeight.w700,
                                   ),
@@ -321,7 +321,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                     side: BorderSide(color: Color(0xffF8C80D), width: 1.5)),
                 child: const Text(
                   "Apply",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     // fontWeight: FontWeight.w700,
                   ),
@@ -338,7 +338,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                   Flushbar(
                     messageText: Text(
                       "Filters Updated",
-                      style: TextStyle(color: Colors.white,fontSize: 18),
+                      style: const TextStyle(color: Colors.white,fontSize: 18),
                     ),
                     backgroundColor: Color(0xff121212),
                     duration: Duration(seconds: 2),

@@ -17,12 +17,24 @@ Widget logoAppName(Image logoImage) {
       ),
       RichText(
         textAlign: TextAlign.right,
-        text: TextSpan(
-          children: [
-            const TextSpan(text: "Explore\n",style: TextStyle(color:Colors.white,fontSize: 40,fontFamily: "Domine",decoration: TextDecoration.none),),
-            const TextSpan(text: "Dating",style: TextStyle(color:Colors.white,fontSize: 16,fontFamily: "Domine",decoration: TextDecoration.none),),
-          ]
-        ),
+        text: TextSpan(children: [
+          const TextSpan(
+            text: "Explore\n",
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 40,
+                fontFamily: "Domine",
+                decoration: TextDecoration.none),
+          ),
+          const TextSpan(
+            text: "Dating",
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: "Domine",
+                decoration: TextDecoration.none),
+          ),
+        ]),
       ),
     ],
   );
@@ -34,7 +46,7 @@ Widget addDatingText() {
     // margin: const EdgeInsets.only(left: 200),
     child: Text(
       "Dating",
-      style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Domine"),
+      style: const TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Domine"),
     ),
   );
 }
@@ -45,7 +57,7 @@ Widget greetText() {
     alignment: Alignment(-0.7, 0.0),
     child: Text(
       "Hi There,",
-      style: TextStyle(
+      style: const TextStyle(
           fontFamily: "Domine",
           fontSize: 30,
           color: Colors.white,
@@ -60,7 +72,7 @@ Widget catchyText() {
     alignment: Alignment(-0.6, 0.0),
     child: Text(
       "Ready to Explore ?",
-      style: TextStyle(
+      style: const TextStyle(
           // fontFamily: "OpenSans",
           fontSize: 25,
           color: Colors.white,
@@ -86,7 +98,7 @@ Widget emailTextField(TextEditingController emailAddress) {
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! change input letters to WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -131,7 +143,7 @@ Widget passwordTextField(
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! change input letters to WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -143,7 +155,7 @@ Widget passwordTextField(
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Password",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
           suffixIcon: IconButton(
             color: Color(0xffF8C80D),
             icon: Icon(_passwordvisible
@@ -172,7 +184,7 @@ Widget forgotPassword(GlobalKey<FormState> formKey,
     child: FlatButton(
       child: Text(
         "Forgot password ?",
-        style: TextStyle(
+        style: const TextStyle(
           color: Color(0xffF8C80D),
           // fontWeight: FontWeight.w700,
         ),
@@ -211,7 +223,7 @@ Widget loginButton(
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 "Login",
-                style: TextStyle(
+                style: const TextStyle(
                     fontFamily: "Nunito",
                     // fontWeight: FontWeight.w600,
                     fontSize: 16),
@@ -235,7 +247,7 @@ Widget loginButton(
 Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
   return ChangeNotifierProvider<ManangeSigninLogin>(
     create: (context) => ManangeSigninLogin(),
-      child: Container(
+    child: Container(
       margin: const EdgeInsets.symmetric(vertical: 25),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -243,15 +255,17 @@ Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
           Container(
             child: Text(
               "Don't have an account ?",
-              style: TextStyle(
-                  color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600),
             ),
           ),
           Container(
             child: FlatButton(
               child: Text(
                 "SignUp",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Color(0xffF8C80D),
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -276,7 +290,7 @@ Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole,
         ? loadingSpinner()
         : FlatButton(
             child: SvgPicture.asset(
-              "lib/icons/google_icon.svg",
+              "assets/svg/google_icon.svg",
               height: 45,
               fit: BoxFit.cover,
             ),
