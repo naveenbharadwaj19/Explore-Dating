@@ -3,10 +3,18 @@
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/data/all_secure_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future updateShowMeFirestore(String newShowMe) async{
   try{
+  bool homo = false;
+  // check if user is homo
+  readValue("gender").then((value){
+    if (newShowMe == value.toString()){
+      homo = true;
+    }
+  }); 
   String uid = FirebaseAuth.instance.currentUser.uid;
   DocumentReference users = FirebaseFirestore.instance.doc("Users/$uid");
   await users.update({
@@ -19,6 +27,7 @@ Future updateShowMeFirestore(String newShowMe) async{
     DocumentReference updateShowMeMM = FirebaseFirestore.instance.doc(path);
     await updateShowMeMM.update({
       "show_me" : newShowMe,
+      "geohash_rounds.rh" : homo,
     });
   });
   print("Show me updated in Users & Matchmaking collection ...");

@@ -1,7 +1,13 @@
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/filter_datas.dart'
-    show ageValues1, radius, currentShowMe;
-import 'package:explore/data/temp/store_basic_match.dart'show scrollUserDetails;
+    show newRadius, newAgeValues1, newCurrentShowMe;
+import 'package:explore/data/temp/store_basic_match.dart'
+    show scrollUserDetails;
+import 'package:explore/providers/pageview_logic.dart';
+import 'package:explore/serverless/connecting_users.dart';
+import 'package:explore/serverless/filters_info.dart';
+import 'package:explore/serverless/geohash_custom_radius.dart';
+import 'package:provider/provider.dart';
 import '../serverless/update_show_me.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +29,15 @@ class FilterBottomSheetWidgets extends StatefulWidget {
 }
 
 class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
-  RangeValues ageValues = ageValues1;
-  double distanceKm = radius;
-  String currentShowme = currentShowMe;
+  RangeValues ageValues = newAgeValues1;
+  double distanceKm = newRadius;
+  String currentShowme = newCurrentShowMe;
   int index = 0;
+  // ? old values
+  double oldRadius;
+  RangeValues oldAgeValues1;
+  String oldCurrentShowMe;
+  //
   void updateSelectedShowMe(int idx) {
     // * 1 - men , 2 - women , 3 - everyone
     setState(() {
@@ -36,6 +47,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
 
   @override
   Widget build(BuildContext context) {
+    final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
     return SingleChildScrollView(
       child: Container(
         color: Color(0xff121212),
@@ -55,7 +67,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             ),
             Container(
               // ? Age widget
-              margin:  const EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               height: 135,
               child: Container(
                 decoration: BoxDecoration(
@@ -81,11 +93,12 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         padding: const EdgeInsets.only(left: 20, top: 10),
                         child: Text(
                           "From : ${ageValues.start.round()} To : ${ageValues.end.round()}",
-                          style: const TextStyle(color: Colors.white70, fontSize: 20),
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 20),
                         ),
                       ),
                       Container(
-                        margin:  const EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         // ? age slide bar
                         child: SliderTheme(
                           data: SliderTheme.of(context).copyWith(
@@ -107,7 +120,8 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             onChanged: (v) {
                               setState(() {
                                 ageValues = v;
-                                ageValues1 = RangeValues(v.start, v.end);
+                                newAgeValues1 = RangeValues(v.start, v.end);
+                                oldAgeValues1 = RangeValues(v.start, v.end);
                               });
                             },
                           ),
@@ -120,7 +134,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             ),
             Container(
               // ? Radius & distance widget
-              margin:  const EdgeInsets.all(15),
+              margin: const EdgeInsets.all(15),
               height: 135,
               child: Container(
                 decoration: BoxDecoration(
@@ -145,10 +159,11 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         alignment: Alignment.topLeft,
                         padding: const EdgeInsets.only(left: 20, top: 10),
                         child: Text(
-                          distanceKm == 200
+                          distanceKm == 180
                               ? "Whole Country"
                               : "Cover up to ${distanceKm.round()} Km",
-                          style: const TextStyle(color: Colors.white70, fontSize: 20),
+                          style: const TextStyle(
+                              color: Colors.white70, fontSize: 20),
                         ),
                       ),
                       Container(
@@ -168,15 +183,16 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                   fontSize: 15,
                                 )),
                             child: Slider(
-                              min: 10,
-                              max: 200,
+                              min: 5,
+                              max: 180,
                               divisions: 12,
                               label: "${distanceKm.round().toString()}",
                               value: distanceKm,
                               onChanged: (v) {
                                 setState(() {
                                   distanceKm = v;
-                                  radius = v;
+                                  newRadius = v;
+                                  oldRadius = v;
                                 });
                               },
                             ),
@@ -211,7 +227,8 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                       ),
                       // ? types of show me
                       Container(
-                        margin : const EdgeInsets.only(left: 10, top: 35),
+                        // ! change to left : 10 if overflow error pop up
+                        margin: const EdgeInsets.only(left: 23, top: 35),
                         child: Row(
                           children: [
                             Container(
@@ -237,6 +254,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 ),
                                 onPressed: () {
                                   currentShowme = "Men";
+                                  oldCurrentShowMe = currentShowme;
                                   print("Selected : $currentShowme");
                                   updateSelectedShowMe(1);
                                 },
@@ -244,7 +262,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             ),
                             Container(
                               height: 50,
-                              margin : const EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               child: RaisedButton(
                                 color: Color(
                                     index == 2 || currentShowme == "Women"
@@ -267,6 +285,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 ),
                                 onPressed: () {
                                   currentShowme = "Women";
+                                  oldCurrentShowMe = currentShowme;
                                   print("Selected : $currentShowme");
                                   updateSelectedShowMe(2);
                                 },
@@ -274,7 +293,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             ),
                             Container(
                               height: 50,
-                              margin : const EdgeInsets.only(left: 15),
+                              margin: const EdgeInsets.only(left: 15),
                               child: RaisedButton(
                                 color: Color(
                                     index == 3 || currentShowme == "Everyone"
@@ -297,6 +316,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 ),
                                 onPressed: () {
                                   currentShowme = "Everyone";
+                                  oldCurrentShowMe = currentShowme;
                                   print("Selected : $currentShowme");
                                   updateSelectedShowMe(3);
                                 },
@@ -311,7 +331,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
               ),
             ),
             Container(
-              margin : const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               width: 300,
               child: RaisedButton(
                 color: Color(0xff121212),
@@ -326,24 +346,37 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                     // fontWeight: FontWeight.w700,
                   ),
                 ),
-                onPressed: () {
-                  print("Filter Applied");
-                  writeValue("radius", distanceKm.round().toString());
-                  writeValue("from_age", ageValues.start.round().toString());
-                  writeValue("to_age", ageValues.end.round().toString());
-                  writeValue("show_me", currentShowme);
-                  updateShowMeFirestore(currentShowme);
-                  scrollUserDetails.clear();
-                  Navigator.pop(context);
-                  Flushbar(
-                    messageText: Text(
-                      "Filters Updated",
-                      style: const TextStyle(color: Colors.white,fontSize: 18),
-                    ),
-                    backgroundColor: Color(0xff121212),
-                    duration: Duration(seconds: 2),
-                  )..show(context);
-                },
+                onPressed: oldRadius == null &&
+                        oldCurrentShowMe == null &&
+                        oldAgeValues1 == null
+                    ? null
+                    : () {
+                        print("Filter Applied");
+                        pageViewLogic.pageStorageKeyNo +=
+                            1; // ? incremenent pagestorage key
+                        scrollUserDetails.clear(); // ? clear scroll list
+                        writeValue("radius", distanceKm.round().toString());
+                        writeValue(
+                            "from_age", ageValues.start.round().toString());
+                        writeValue("to_age", ageValues.end.round().toString());
+                        writeValue("show_me", currentShowme);
+                        updateShowMeFirestore(currentShowme);
+                        filtersInformationUpdate(
+                            currentShowme, distanceKm.round());
+                        ConnectingUsers.resetLatestDocs(); // reset latest documents
+                        CustomRadiusGeoHash.resetLatestDocs(); // reset latest documents
+                        scrollUserDetails.clear(); // ? clear scroll list
+                        Navigator.pop(context);
+                        Flushbar(
+                          messageText: Text(
+                            "Filters Updated",
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 18),
+                          ),
+                          backgroundColor: Color(0xff121212),
+                          duration: Duration(seconds: 1),
+                        )..show(context);
+                      },
               ),
             ),
           ],

@@ -11,35 +11,43 @@ class ChatScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.only(top:30),
+              margin: EdgeInsets.only(top: 30),
               child: IconButton(
-                  icon: const Icon(Icons.data_usage),
-                  color: Colors.white,
-                  iconSize: 50,
-                  onPressed: () {
-                    ConnectingUsers.basicUserConnection();
-                  },
-                ),
+                icon: const Icon(Icons.data_usage),
+                color: Colors.white,
+                iconSize: 50,
+                onPressed: () {
+                  // ConnectingUsers.basicUserConnection();
+                },
+              ),
             ),
-              IconButton(
-                icon: const Icon(Icons.memory),
-                color: Colors.white,
-                iconSize: 50,
-                onPressed: () {
-                  print(scrollUserDetails);
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.add),
-                color: Colors.white,
-                iconSize: 50,
-                onPressed: () {
-                  int i = ConnectingUsers.limit;
-                  i += 1;
-                  ConnectingUsers.limit = i;
-                  print(ConnectingUsers.limit);
-                },
-              ),
+            IconButton(
+              icon: const Icon(Icons.memory),
+              color: Colors.white,
+              iconSize: 50,
+              onPressed: () {
+                print(scrollUserDetails);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.add),
+              color: Colors.white,
+              iconSize: 50,
+              onPressed: () {
+                int i = ConnectingUsers.firstLimit;
+                i += 1;
+                ConnectingUsers.firstLimit = i;
+                print(ConnectingUsers.firstLimit);
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.remove_red_eye),
+              color: Colors.white,
+              iconSize: 50,
+              onPressed: () {
+                print(scrollUserDetails.length);
+              },
+            ),
           ],
         ),
       ),

@@ -1,11 +1,19 @@
 // todo : Feeds of dating
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/data/temp/filter_datas.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/icons/filter_report_icons.dart';
 import 'package:explore/icons/star_rounded_icon_icons.dart';
 import 'package:explore/models/spinner.dart';
+import 'package:explore/providers/pageview_logic.dart';
+import 'package:explore/serverless/connecting_users.dart';
+import 'package:explore/serverless/geohash_custom_radius.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 // ? : topBox -> head photo ,name,age,location
 // ? : middleBox -> body photo
@@ -15,23 +23,87 @@ class ExploreScreen extends StatelessWidget {
   // final Color yellow = Color(0xffF8C80D);
   // final Color black = Color(0xff121212);
   // final Color white = Color(0xffFFFFFF);
+
   @override
   Widget build(BuildContext context) {
-    return PageView.builder(
-      physics: PageScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.only(top: 15),
-          child: Column(
-            children: [
-              topBox(index),
-              Expanded(child: middleBox(index, context)),
-            ],
-          ),
+    final pageViewLogic = Provider.of<PageViewLogic>(context);
+    return StreamBuilder<DocumentSnapshot>(
+      // ? refresh when filters value update // -> 1
+      stream: FirebaseFirestore.instance
+          .doc("Users/${FirebaseAuth.instance.currentUser.uid}/Filters/data")
+          .snapshots(),
+      builder: (context1, filterSnapShot) {
+        if (filterSnapShot.connectionState == ConnectionState.waiting) {
+          return loadFeeds();
+        }
+        if (filterSnapShot.hasError) {
+          print("Error in filters collection stream builder");
+          return loadingSpinner();
+        }
+        if (scrollUserDetails.isEmpty && filterSnapShot.data["radius"] == 200) {
+          print("Feeds are empty loading feeds");
+          ConnectingUsers.basicUserConnection();
+        }
+        if (scrollUserDetails.isEmpty && filterSnapShot.data["radius"] != 200) {
+          print(
+              "Feeds are empty loading feeds within ${filterSnapShot.data["radius"]}");
+          ConnectingUsers.basicUserConnection();
+        }
+        return FutureBuilder(
+          // ? 2
+          // ? hold future for 1 second to update scroll items
+          future: Future.delayed(Duration(seconds: 1)),
+          builder: (context2, pauseSnapShot) {
+            if (pauseSnapShot.connectionState == ConnectionState.waiting) {
+              return loadFeeds();
+            }
+            if (pauseSnapShot.hasError) {
+              print("Error in loading scroll items");
+              return loadFeeds();
+            }
+            return scrollUserDetails.isEmpty // ? 3
+                ? nothingToExplore(pageViewLogic.startRefresh, context) // ? 4
+                : PageView.builder(
+                    // ? 5
+                    key: PageStorageKey(
+                        "scroll-feeds-${pageViewLogic.pageStorageKeyNo}"),
+                    physics: PageScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    dragStartBehavior: DragStartBehavior.down, // drage behavior
+                    onPageChanged: (index) {
+                      if (newRadius == 180 &&
+                          ConnectingUsers.latestUid.isNotEmpty) {
+                        // ? fetch data only if uid is not empty
+                        if (scrollUserDetails.length == index + 1) { // whole country
+                          ConnectingUsers.paginateBasicUserConnection();
+                          pageViewLogic.updateIncrement();
+                        }
+                      } else if (newRadius != 180 &&
+                          CustomRadiusGeoHash.latestUid.isNotEmpty) { // custom radius -> geohash
+                        // ? fetch data only if uid is not empty
+                        if (scrollUserDetails.length == index + 1) {
+                          ConnectingUsers.paginateBasicUserConnection();
+                          pageViewLogic.updateIncrement();
+                        }
+                      }
+                    },
+                    itemBuilder: (context3, index) {
+                      print("index : ${index + 1}");
+                      return Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: Column(
+                          children: [
+                            topBox(index),
+                            Expanded(child: middleBox(index, context)),
+                          ],
+                        ),
+                      );
+                    },
+                    itemCount: scrollUserDetails.length,
+                  );
+          },
         );
       },
-      itemCount: scrollUserDetails.length,
     );
   }
 }
@@ -150,9 +222,9 @@ Widget middleBox(int index, BuildContext context) {
         // ? lower box inside image
         Positioned.fill(
           child: Align(
-            alignment: height < 700 ? Alignment.bottomCenter : Alignment(0.0,1.0),
-            child: lowerBox(index)
-          ),
+              alignment:
+                  height < 700 ? Alignment.bottomCenter : Alignment(0.0, 1.0),
+              child: lowerBox(index)),
         ),
       ],
     ),
@@ -252,3 +324,45 @@ class ViewBodyPhoto extends StatelessWidget {
   }
 }
 
+Widget nothingToExplore(Function refresh, BuildContext context) {
+  // ? when no feeds to show
+  return Container(
+    child: Center(
+      child: Column(
+        children: [
+          Container(
+              // ? search icon
+              margin: const EdgeInsets.only(top: 20),
+              child: const Icon(
+                Icons.search_rounded,
+                size: 100,
+                color: Colors.white,
+              )),
+          Container(
+            // ? text message
+            margin: const EdgeInsets.all(20),
+            child: const Text(
+              "You've explored nearby people.\n Try again or comeback later or change your filter.",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Container(
+            // ? refresh
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            child: IconButton(
+              icon: const Icon(Icons.loop_rounded),
+              color: Colors.white,
+              iconSize: 35,
+              disabledColor: Colors.transparent,
+              splashColor: Theme.of(context).primaryColor,
+              // ! any lack in UI performance change on pressed syntax
+              onPressed: () => refresh(),
+              tooltip: "Refresh",
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}

@@ -40,7 +40,7 @@ validateAndStoreUserDetails(double latitude, double longitude) {
         writeValue("show_me", fetchUserdetails.get("show_me"));
         writeValue("age", fetchUserdetails.get("bio.age").toString());
         writeValue("geohash", ontimeHash);
-        writeValue("radius", "200");
+        writeValue("radius", "180");
         writeValue("from_age", "18");
         writeValue("to_age", fetchUserdetails.get("bio.age").toString());
         print("All user datas stored in secure storage successfully");

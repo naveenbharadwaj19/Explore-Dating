@@ -1,6 +1,8 @@
 // todo: Store basic user match
 
 // model for storing individual user detail
+
+
 Map<String,dynamic> individualUserDetails = {
   "uid" : "",
   "gender" : "",
@@ -13,3 +15,6 @@ Map<String,dynamic> individualUserDetails = {
 
 
 List<Map<String,dynamic>> scrollUserDetails = [];
+
+
+

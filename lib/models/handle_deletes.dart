@@ -95,6 +95,7 @@ Future<void> deleteUserStatus() async{
     await Future.delayed(Duration(seconds: 2));
     FirebaseFirestore.instance.doc("Userstatus/$currentUserUidSf").delete();
     removeUserUid();
+    deleteAll();
     print("Userstatus -> uid deleted successfully");
   }
   catch(error){

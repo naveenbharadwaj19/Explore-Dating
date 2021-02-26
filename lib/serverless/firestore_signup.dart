@@ -44,6 +44,7 @@ class OnlyDuringSignupFirestore {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
       DocumentReference data2 =
           FirebaseFirestore.instance.doc("Userstatus/$uid");
+      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data");
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -67,6 +68,11 @@ class OnlyDuringSignupFirestore {
         "isloggedin": true,
         "isdisabled": false,
         "isdeleted": false,
+      });
+
+      await data3.set({
+        "show_me" : "Everyone",
+        "radius" : 180,
       });
       // Todo in future change this document field while other other screen:
       // {
@@ -254,6 +260,13 @@ class OnlyDuringSignupFirestore {
         "current_coordinates": myCoordinates.data,
         "city": address.locality,
         "state" : address.administrativeArea,
+        "geohash_rounds" : {
+          "r1" : myCoordinates.hash.toString().substring(0,5),
+          "r2" : myCoordinates.hash.toString().substring(0,4),
+          "r3" : myCoordinates.hash.toString().substring(0,3),
+          "r4" : myCoordinates.hash.toString().substring(0,2),
+          "rh" : false,
+        }
       });
       print("Stored User coordinates in firestore");
     } catch (error) {

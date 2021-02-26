@@ -1,3 +1,5 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/models/handle_deletes.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +33,7 @@ class SettingsScreen extends StatelessWidget {
               color: Colors.red,
               iconSize: 50,
               onPressed: (){
+                bulkOperation();
               },
             ),
             IconButton(
@@ -56,10 +59,41 @@ class SettingsScreen extends StatelessWidget {
               color: Colors.red,
               iconSize: 50,
               onPressed: (){
+                readValue("geohash").then((value){
+                 String a = value.toString();
+                 String b = a.substring(0,4);
+                 print(b.contains("n"));
+
+                });
               },
             ),
           ],
         ),
     );
   }
+}
+
+
+bulkOperation() async{
+  var data = await FirebaseFirestore.instance.collection("Matchmaking/simplematch/MenWomen").get();
+  data.docs.forEach((element) async {
+    // String path = element.reference.path;
+    // DocumentReference editData = FirebaseFirestore.instance.doc(path);
+    readAll().then((value)async{
+      if (element.get("show_me") == value["show_me"] && element.get("gender") == value["gender"]){
+        String path = element.reference.path;
+    DocumentReference editData = FirebaseFirestore.instance.doc(path);
+    await editData.update({
+      "geohash_rounds.rh" : true,
+    });
+      } else{
+        String path = element.reference.path;
+    DocumentReference editData = FirebaseFirestore.instance.doc(path);
+    await editData.update({
+      "geohash_rounds.rh" : false,
+    });
+      }
+    });
+  });
+  print("Done..");
 }

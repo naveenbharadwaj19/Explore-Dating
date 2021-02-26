@@ -37,7 +37,7 @@ writeRFATA(String showme) async{
   // * RFATA -> radius,fromage,toage
   // * will fetch age from firestore
   try{
-  writeValue("radius", "200");
+  writeValue("radius", "180");
   writeValue("from_age", "18");
   writeValue("show_me", showme);
   String uid = FirebaseAuth.instance.currentUser.uid;
