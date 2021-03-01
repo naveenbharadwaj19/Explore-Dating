@@ -390,6 +390,7 @@ class GooglePath {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
       DocumentReference data2 =
           FirebaseFirestore.instance.doc("Userstatus/$uid");
+      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data");
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -413,6 +414,11 @@ class GooglePath {
         "isloggedin": true,
         "isdisabled": false,
         "isdeleted": false,
+      });
+
+      await data3.set({
+        "show_me" : "Everyone",
+        "radius" : 180,
       });
       // Todo in future change this document field while other other screen:
       // {
