@@ -5,11 +5,13 @@ import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/all_shared_pref_data.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
+import 'package:explore/providers/pageview_logic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 Future<void> deleteUserDuringSignUpProcess(BuildContext context) async {
   String uid = FirebaseAuth.instance.currentUser.uid;
@@ -103,7 +105,8 @@ Future<void> deleteUserStatus() async{
   }
 }
 
-Future<void>logoutUser() async{
+Future<void>logoutUser(BuildContext context) async{
+  final pageViewLogic = Provider.of<PageViewLogic>(context,listen: false);
   // * logout current user
   DocumentReference logout = FirebaseFirestore.instance.doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}");
   await logout.update({
@@ -111,6 +114,7 @@ Future<void>logoutUser() async{
   });
   // * when user clicks logout button should navigate to welcome screen
   manageSigninLogin = false;
+  pageViewLogic.callConnectingUsers = true; // reset connecting users
   // * reset scroll details
   scrollUserDetails.clear();
   GoogleSignIn().signOut();

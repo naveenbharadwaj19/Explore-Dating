@@ -42,34 +42,6 @@ exports.deleteUserCloudStorage = functions
     }
   });
 
-// * Trigger when isdeleted == true && islogin == true in firestore -> these should happen in when user auth deleted
-// * will show error to user
-exports.isDelLogFieldUpdated = functions
-  .region(nearRegion)
-  .runWith(runTimeForIsdeletedField)
-  .auth.user()
-  .onDelete(async (user) => {
-    try {
-      var userId = user.uid;
-      console.log("User id : " + userId);
-      var fetchData = await admin
-        .firestore()
-        .doc("Userstatus/" + userId)
-        .get();
-      var updateDeleteField = admin.firestore().doc("Userstatus/" + userId);
-      if (fetchData.get("isloggedin") === true) {
-        console.log("User is currently logged in");
-        await updateDeleteField.update({ isdeleted: true });
-        console.log("isdeleted field updated successfully");
-      } else if (fetchData.get("isloggedin") === false) {
-        console.log("No user logged in . So deleting userstatus -> uid");
-        await updateDeleteField.delete();
-        console.log("Successfully deleted");
-      }
-    } catch (error) {
-      console.log("Error :" + error.toString());
-    }
-  });
 
 // * deletes user match making details
 exports.deleteUserMatchMaking = functions
@@ -97,3 +69,33 @@ exports.deleteUserMatchMaking = functions
       console.log("Error :" + error.toString());
     }
   });
+
+// * disable user account
+exports.disableUserAccount = functions.https.onCall(async (data, context) => {
+  try {
+    const uid = context.auth.uid;
+    if (uid.length !== 0) {
+      console.log("User uid : " + uid);
+      await admin.auth().updateUser(context.auth.uid, {
+        disabled: true,
+      });
+      console.log("User account disabled successfully");
+    }
+  } catch (error) {
+    console.log("Error :" + error.toString());
+  }
+});
+
+// * delete user account
+exports.deleteUserAccount = functions.https.onCall(async (data, context) => {
+  try {
+    const uid = context.auth.uid;
+    if (uid.length !== 0) {
+      console.log("User uid : " + uid);
+      await admin.auth().deleteUser(uid)
+      console.log("User account deleted successfully");
+    }
+  } catch (error) {
+    console.log("Error :" + error.toString());
+  }
+});

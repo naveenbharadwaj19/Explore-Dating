@@ -5,12 +5,13 @@ import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/filter_datas.dart' show newRadius;
 import 'package:explore/data/temp/store_basic_match.dart'
     show scrollUserDetails;
+import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/serverless/geohash_custom_radius.dart';
 import 'package:flutter/widgets.dart';
-import '../serverless/download_photos_storage.dart';
+import 'package:provider/provider.dart';
 
 class ConnectingUsers {
-  static int firstLimit = 4;
+  static int firstLimit = 8;
   static int paginateLimit = 4;
   static int latestAge;
   static String latestUid;
@@ -149,6 +150,31 @@ class ConnectingUsers {
     }
   }
 
+  static Future<void> _execution(
+      {@required Future<QuerySnapshot> query,
+      @required String ssValueUid,
+      @required String nickName,
+      @required BuildContext context}) async {
+    try {
+      final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
+      Stopwatch stopwatch = Stopwatch();
+      // start timer
+      stopwatch.start();
+      pageViewLogic.holdExexution.value = true;
+      await query.then((q) => q.docs.forEach((queryName) =>
+          _unZipAndAddToScrollDetails(
+              queryDataName: queryName,
+              ssValueUid: ssValueUid,
+              nickName: nickName)));
+      // stop timer
+      stopwatch.stop();
+      pageViewLogic.holdExexution.value = false;
+      print("Time executed to load feeds : ${stopwatch.elapsed.inSeconds}");
+    } catch (error) {
+      print("Error in execution : ${error.toString()}");
+    }
+  }
+
   static void _unZipAndAddToScrollDetails(
       {@required dynamic queryDataName,
       @required String ssValueUid,
@@ -158,32 +184,21 @@ class ConnectingUsers {
       if (queryDataName.get("uid") != ssValueUid) {
         print(
             "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")}");
-
-        //  head and body photo
-        DownloadCloudStorage.headImageDownload(queryDataName.get("uid"))
-            .then((headImg) {
-          if (headImg.isNotEmpty || headImg != null) {
-            DownloadCloudStorage.bodyImageDownload(queryDataName.get("uid"))
-                .then((bodyImg) {
-              if (bodyImg.isNotEmpty || bodyImg != null) {
-                // store to map
-                Map<String, dynamic> serializeDetails = {
-                  "uid": queryDataName.get("uid"),
-                  "gender": queryDataName.get("gender"),
-                  "show_me": queryDataName.get("show_me"),
-                  "age": queryDataName.get("age"),
-                  "name": queryDataName.get("name"),
-                  "headphoto": headImg,
-                  "bodyphoto": bodyImg,
-                  "city_state":
-                      "${queryDataName.get("city")},${queryDataName.get("state")}",
-                };
-                // add map to list
-                scrollUserDetails.add(serializeDetails);
-              }
-            });
-          }
-        });
+        // serialize data
+        Map<String, dynamic> serializeDetails = {
+          "uid": queryDataName.get("uid"),
+          "gender": queryDataName.get("gender"),
+          "show_me": queryDataName.get("show_me"),
+          "age": queryDataName.get("age"),
+          "name": queryDataName.get("name"),
+          "headphoto": queryDataName.get("photos.current_head_photo"),
+          "bodyphoto": queryDataName.get("photos.current_body_photo"),
+          "city_state":
+              "${queryDataName.get("city")},${queryDataName.get("state")}",
+        };
+        // add map to list
+        scrollUserDetails.add(serializeDetails);
+        // print("Scroll len : ${scrollUserDetails.length}");
       }
     } catch (error) {
       print("Error in unzipping data -> whole country ${error.toString()}");
@@ -191,7 +206,7 @@ class ConnectingUsers {
   }
 
   // * connect users with there basic details like gender ,showme , age
-  static Future basicUserConnection() async {
+  static Future basicUserConnection(BuildContext context) async {
     try {
       var matchMakingResults = FirebaseFirestore.instance
           .collection("Matchmaking/simplematch/MenWomen");
@@ -215,12 +230,12 @@ class ConnectingUsers {
                 ssValueShowMe: ssValues["show_me"],
                 fromAge: fromAge,
                 toAge: toAge);
-            // query results
-            queryHomo.then((qH) => qH.docs.forEach((homoQueryData) =>
-                _unZipAndAddToScrollDetails(
-                    queryDataName: homoQueryData,
-                    ssValueUid: ssValues["current_uid"],
-                    nickName: "Homo")));
+            // query
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? get latest documents
             await _getlatestDocuments(queryHomo);
           } else if (ssValues["show_me"] == "Everyone") {
@@ -230,11 +245,11 @@ class ConnectingUsers {
             var queryEveryOne = _everyOneQuery(
                 ref: matchMakingResults, fromAge: fromAge, toAge: toAge);
             // query
-            queryEveryOne.then((qEve) => qEve.docs.forEach(
-                (everyOneQueryData) => _unZipAndAddToScrollDetails(
-                    queryDataName: everyOneQueryData,
-                    ssValueUid: ssValues["current_uid"],
-                    nickName: "EveryOne")));
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? get latest documents
             await _getlatestDocuments(queryEveryOne);
           } else if ((ssValues["gender"] != ssValues["show_me"])) {
@@ -247,11 +262,11 @@ class ConnectingUsers {
                 fromAge: fromAge,
                 toAge: toAge);
             // query
-            queryHetro.then((qHetro) => qHetro.docs.forEach((hetroQueryData) =>
-                _unZipAndAddToScrollDetails(
-                    queryDataName: hetroQueryData,
-                    ssValueUid: ssValues["current_uid"],
-                    nickName: "Hetro")));
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? get latest documents
             await _getlatestDocuments(queryHetro);
           }
@@ -259,14 +274,14 @@ class ConnectingUsers {
       }
       // * if radius changed by the user
       else if (newRadius != 180) {
-        CustomRadiusGeoHash.nearByUsersGeoHash();
+        CustomRadiusGeoHash.nearByUsersGeoHash(context);
       }
     } catch (error) {
       print("Error in ConnectingUsers -> matchusers : ${error.toString()}");
     }
   }
 
-  static Future paginateBasicUserConnection() async {
+  static Future paginateBasicUserConnection(BuildContext context) async {
     // * query next batch profiles
     try {
       var matchMakingResults = FirebaseFirestore.instance
@@ -295,11 +310,11 @@ class ConnectingUsers {
                 fromAge: fromAge,
                 toAge: toAge);
             // query
-            queryHomo.then((qH) => qH.docs.forEach((homoQueryData) =>
-                _unZipAndAddToScrollDetails(
-                    queryDataName: homoQueryData,
-                    ssValueUid: ssValues["current_uid"],
-                    nickName: "Homo")));
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? get latest documents
             await _getlatestDocuments(queryHomo);
           } else if (ssValues["show_me"] == "Everyone") {
@@ -313,11 +328,11 @@ class ConnectingUsers {
                 fromAge: fromAge,
                 toAge: toAge);
             // query
-            queryEveryOne.then((qEve) => qEve.docs.forEach(
-                (everyOneQueryData) => _unZipAndAddToScrollDetails(
-                    queryDataName: everyOneQueryData,
-                    ssValueUid: ssValues["current_uid"],
-                    nickName: "EveryOne")));
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? get latest documents
             await _getlatestDocuments(queryEveryOne);
           } else if ((ssValues["gender"] != ssValues["show_me"])) {
@@ -332,18 +347,18 @@ class ConnectingUsers {
                 fromAge: fromAge,
                 toAge: toAge);
             // query
-            queryHetro.then((qHetro) => qHetro.docs.forEach((hetroQueryData) =>
-                _unZipAndAddToScrollDetails(
-                    queryDataName: hetroQueryData,
-                    ssValueUid: ssValues["current_uid"],
-                    nickName: "Hetro")));
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? get latest documents
             await _getlatestDocuments(queryHetro);
           }
         });
       } else if (newRadius != 180) {
         // * custom radius paginations -> geo hash
-        CustomRadiusGeoHash.paginateNearByUsersGeoHash();
+        CustomRadiusGeoHash.paginateNearByUsersGeoHash(context);
       }
     } catch (error) {
       print("Error in pagination basic user connection ${error.toString()}");

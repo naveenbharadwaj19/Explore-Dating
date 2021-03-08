@@ -73,6 +73,8 @@ class OnlyDuringSignupFirestore {
       await data3.set({
         "show_me" : "Everyone",
         "radius" : 180,
+        "from_age" : 18,
+        "to_age" : _findAge() // user current age
       });
       // Todo in future change this document field while other other screen:
       // {
@@ -419,6 +421,8 @@ class GooglePath {
       await data3.set({
         "show_me" : "Everyone",
         "radius" : 180,
+        "from_age" : 18,
+        "to_age" : 25 // default age when signing with google auth
       });
       // Todo in future change this document field while other other screen:
       // {

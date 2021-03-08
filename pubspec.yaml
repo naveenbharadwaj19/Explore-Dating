@@ -148,11 +148,7 @@ flutter:
       fonts:
         - asset: assets/fonts/Filter.ttf
 
-    - family: HomeLove
-      fonts:
-        - asset: assets/fonts/HomeLove.ttf
-
-    - family: HomeIconOrg
+    - family: HomeIconOrg # alternative for home icon
       fonts:
         - asset: assets/fonts/HomeIconOrg.ttf
 
@@ -160,9 +156,13 @@ flutter:
       fonts:
         - asset: assets/fonts/StarRoundedIcon.ttf
 
-    - family: FilterReport
+    - family: FilterReport #noun icon
       fonts:
         - asset: assets/fonts/FilterReport.ttf
+
+    - family: ReportFilterIcons
+      fonts:
+        - asset: assets/fonts/ReportFilterIcons.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro

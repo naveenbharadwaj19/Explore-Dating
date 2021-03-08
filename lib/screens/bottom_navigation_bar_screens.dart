@@ -1,5 +1,5 @@
 
-import 'package:explore/icons/filter_report_icons.dart';
+import 'package:explore/icons/filter_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/chat_screen.dart';
 import 'package:explore/screens/explore_screen.dart';
@@ -106,12 +106,12 @@ class ExploreAndHMUScreen extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                  icon: const Icon(FilterReport.noun_filter_3324737),
+                  icon: const Icon(Filter.sliders),
                   color: Colors.white,
-                  iconSize: 50,
+                  iconSize: 30,
                   splashColor: Colors.transparent,
                   highlightColor: Colors.transparent,
-                  tooltip: "Filter",
+                  tooltip: "Filters",
                   onPressed: () {
                     filterScreen(context: context);
                   }),

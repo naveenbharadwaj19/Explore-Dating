@@ -1,56 +1,9 @@
-import 'package:explore/data/temp/store_basic_match.dart';
-import 'package:explore/serverless/connecting_users.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      child: Center(
-        child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 30),
-              child: IconButton(
-                icon: const Icon(Icons.data_usage),
-                color: Colors.white,
-                iconSize: 50,
-                onPressed: () {
-                  // ConnectingUsers.basicUserConnection();
-                },
-              ),
-            ),
-            IconButton(
-              icon: const Icon(Icons.memory),
-              color: Colors.white,
-              iconSize: 50,
-              onPressed: () {
-                print(scrollUserDetails);
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.add),
-              color: Colors.white,
-              iconSize: 50,
-              onPressed: () {
-                int i = ConnectingUsers.firstLimit;
-                i += 1;
-                ConnectingUsers.firstLimit = i;
-                print(ConnectingUsers.firstLimit);
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.remove_red_eye),
-              color: Colors.white,
-              iconSize: 50,
-              onPressed: () {
-                print(scrollUserDetails.length);
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+    return Container();
   }
 }

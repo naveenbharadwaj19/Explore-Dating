@@ -187,7 +187,7 @@ class AuthenticationFirebase {
           "The user account has been disabled by an administrator.")) {
         Flushbar(
           messageText: const Text(
-            "Account is disabled please visit our website",
+            "Account is disabled",
             style: const TextStyle(
 
                 fontWeight: FontWeight.w700,
@@ -310,7 +310,7 @@ class GoogleAuthenticationClass {
           "The user account has been disabled by an administrator.")) {
         Flushbar(
           messageText: const Text(
-            "Account is disabled please visit our website",
+            "Account is disabled",
             style: const TextStyle(
                 color: Colors.white),
           ),

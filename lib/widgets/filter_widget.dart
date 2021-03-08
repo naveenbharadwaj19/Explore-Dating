@@ -228,10 +228,11 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                       // ? types of show me
                       Container(
                         // ! change to left : 10 if overflow error pop up
-                        margin: const EdgeInsets.only(left: 23, top: 35),
+                        margin: const EdgeInsets.only(top: 35,left: 2,right: 5),
                         child: Row(
                           children: [
                             Container(
+                              margin: const EdgeInsets.only(left: 20),
                               height: 50,
                               child: RaisedButton(
                                 color: Color(
@@ -354,6 +355,8 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         print("Filter Applied");
                         pageViewLogic.pageStorageKeyNo +=
                             1; // ? incremenent pagestorage key
+                        pageViewLogic.holdFuture = true; // change future duration to 1 seconds
+                        pageViewLogic.callConnectingUsers = true;
                         scrollUserDetails.clear(); // ? clear scroll list
                         writeValue("radius", distanceKm.round().toString());
                         writeValue(
@@ -362,7 +365,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                         writeValue("show_me", currentShowme);
                         updateShowMeFirestore(currentShowme);
                         filtersInformationUpdate(
-                            currentShowme, distanceKm.round());
+                            currentShowme, distanceKm.round(),ageValues);
                         ConnectingUsers.resetLatestDocs(); // reset latest documents
                         CustomRadiusGeoHash.resetLatestDocs(); // reset latest documents
                         scrollUserDetails.clear(); // ? clear scroll list

@@ -1,12 +1,11 @@
 // todo When user account doest exist
 
-import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/models/handle_deletes_logout.dart';
 import 'package:explore/models/https_cloud_functions.dart';
 import 'package:flutter/material.dart';
 
-class WhenUserIdNotExistInFirestore extends StatelessWidget {
-  // * when users -> id - deleted , not found in firestore
+class UserAccountDisabled extends StatelessWidget {
+  // * when user account disabled
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -18,14 +17,14 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(top: 25),
               child: const Icon(
-                Icons.block_flipped,
+                Icons.close,
                 color: Color(0xffF8C80D),
                 size: 150,
               ),
             ),
             Spacer(),
             const Text(
-              "Error : 404",
+              "Error",
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 22,
@@ -35,7 +34,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
               padding: EdgeInsets.all(10),
             ),
             const Text(
-              "Your account has been deleted for violating our terms",
+              "Your account has been disabled for violating our terms. Click help for more information",
               textAlign: TextAlign.center,
               style: const TextStyle(
                   color: Colors.white,
@@ -70,10 +69,8 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
                       fontSize: 16),
                 ),
                 onPressed: () {
-                  // * delete Userstatus -> uid datas and navigate the user to welcome screen
+                  callUserDisableFunction();
                   logoutUser(context);
-                  callUserDeleteFunction();
-                  deleteAll(); // ! not deleting properly
                 },
               ),
             ),

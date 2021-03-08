@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/temp/filter_datas.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
-import 'package:explore/icons/filter_report_icons.dart';
+import 'package:explore/icons/report_filter_icons_icons.dart';
 import 'package:explore/icons/star_rounded_icon_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/pageview_logic.dart';
@@ -26,7 +26,7 @@ class ExploreScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final pageViewLogic = Provider.of<PageViewLogic>(context);
+    final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
     return StreamBuilder<DocumentSnapshot>(
       // ? refresh when filters value update // -> 1
       stream: FirebaseFirestore.instance
@@ -34,75 +34,126 @@ class ExploreScreen extends StatelessWidget {
           .snapshots(),
       builder: (context1, filterSnapShot) {
         if (filterSnapShot.connectionState == ConnectionState.waiting) {
-          return loadFeeds();
+          return const Center(
+            child: Text(
+              "Loading",
+              style: TextStyle(color: Color(0xff121212), fontSize: 30),
+            ),
+          );
         }
         if (filterSnapShot.hasError) {
           print("Error in filters collection stream builder");
-          return loadingSpinner();
+          return loadFeeds();
         }
-        if (scrollUserDetails.isEmpty && filterSnapShot.data["radius"] == 200) {
-          print("Feeds are empty loading feeds");
-          ConnectingUsers.basicUserConnection();
+
+        if (scrollUserDetails.isEmpty &&
+            filterSnapShot.data["radius"] == 180 &&
+            pageViewLogic.callConnectingUsers) {
+          print("WC : Feeds are empty loading feeds");
+          ConnectingUsers.basicUserConnection(context);
+          pageViewLogic.callConnectingUsers = false;
         }
-        if (scrollUserDetails.isEmpty && filterSnapShot.data["radius"] != 200) {
+        if (scrollUserDetails.isEmpty &&
+            filterSnapShot.data["radius"] != 180 &&
+            pageViewLogic.callConnectingUsers) {
           print(
-              "Feeds are empty loading feeds within ${filterSnapShot.data["radius"]}");
-          ConnectingUsers.basicUserConnection();
+              "CR : Feeds are empty loading feeds within ${filterSnapShot.data["radius"]}");
+          ConnectingUsers.basicUserConnection(context);
+          pageViewLogic.callConnectingUsers = false;
         }
-        return FutureBuilder(
-          // ? 2
-          // ? hold future for 1 second to update scroll items
-          future: Future.delayed(Duration(seconds: 1)),
-          builder: (context2, pauseSnapShot) {
-            if (pauseSnapShot.connectionState == ConnectionState.waiting) {
-              return loadFeeds();
-            }
-            if (pauseSnapShot.hasError) {
-              print("Error in loading scroll items");
-              return loadFeeds();
-            }
-            return scrollUserDetails.isEmpty // ? 3
-                ? nothingToExplore(pageViewLogic.startRefresh, context) // ? 4
-                : PageView.builder(
-                    // ? 5
-                    key: PageStorageKey(
-                        "scroll-feeds-${pageViewLogic.pageStorageKeyNo}"),
-                    physics: PageScrollPhysics(),
-                    scrollDirection: Axis.vertical,
-                    dragStartBehavior: DragStartBehavior.down, // drage behavior
-                    onPageChanged: (index) {
-                      if (newRadius == 180 &&
-                          ConnectingUsers.latestUid.isNotEmpty) {
-                        // ? fetch data only if uid is not empty
-                        if (scrollUserDetails.length == index + 1) { // whole country
-                          ConnectingUsers.paginateBasicUserConnection();
-                          pageViewLogic.updateIncrement();
+        return Feeds(filterSnapShot.data["radius"]);
+      },
+    );
+  }
+}
+
+class Feeds extends StatelessWidget {
+  final int filterSnapShotRadius;
+  Feeds(this.filterSnapShotRadius);
+  @override
+  Widget build(BuildContext context) {
+    final pageViewLogic = Provider.of<PageViewLogic>(context);
+    return FutureBuilder(
+      // ? 2 -> hold future to update scroll items
+      future: pageViewLogic.holdFuture == true
+          ? Future.delayed(Duration(seconds: 2))
+          : Future.delayed(Duration(seconds: 1)),
+      builder: (context2, pauseSnapShot) {
+        if (pauseSnapShot.connectionState == ConnectionState.waiting &&
+            pageViewLogic.holdFuture == true) {
+          pageViewLogic.holdFuture = false;
+          return loadFeeds();
+        }
+        if (pauseSnapShot.connectionState == ConnectionState.waiting &&
+            pageViewLogic.holdFuture == false &&
+            pageViewLogic.screenMotion == true) {
+          // print("spinner 2");
+          pageViewLogic.screenMotion = false; // turn off
+          return loadFeeds();
+        }
+
+        if (pauseSnapShot.hasError) {
+          print("Error in loading scroll items");
+          return loadFeeds();
+        }
+        return ValueListenableBuilder(
+            valueListenable: pageViewLogic.holdExexution,
+            builder: (_, value, child) {
+              if (value) {
+                print("spinner 3");
+                return loadFeeds();
+              }
+              return scrollUserDetails.isEmpty // ? 3
+                  ? nothingToExplore(filterSnapShotRadius, context) // ? 4
+                  : PageView.builder(
+                      // ? 5
+                      key: PageStorageKey(
+                          "scroll-feeds-${pageViewLogic.pageStorageKeyNo}"),
+                      physics: PageScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      dragStartBehavior:
+                          DragStartBehavior.start, // drage behavior
+                      onPageChanged: (index) {
+                        if (newRadius == 180 &&
+                            ConnectingUsers.latestUid.isNotEmpty) {
+                          // ? fetch data only if uid is not empty
+                          if (scrollUserDetails.length == index + 1) {
+                            // whole country
+                            pageViewLogic.screenMotion =
+                                true; // turn on rebuild
+                            ConnectingUsers.paginateBasicUserConnection(
+                                context);
+                            pageViewLogic.updateIncrement();
+                          }
+                        } else if (newRadius != 180 &&
+                            CustomRadiusGeoHash.latestUid.isNotEmpty) {
+                          // custom radius -> geohash
+                          // ? fetch data only if uid is not empty
+                          if (scrollUserDetails.length == index + 1) {
+                            pageViewLogic.screenMotion =
+                                true; // turn on rebuild
+                            ConnectingUsers.paginateBasicUserConnection(
+                                context);
+                            pageViewLogic.updateIncrement();
+                          }
                         }
-                      } else if (newRadius != 180 &&
-                          CustomRadiusGeoHash.latestUid.isNotEmpty) { // custom radius -> geohash
-                        // ? fetch data only if uid is not empty
-                        if (scrollUserDetails.length == index + 1) {
-                          ConnectingUsers.paginateBasicUserConnection();
-                          pageViewLogic.updateIncrement();
-                        }
-                      }
-                    },
-                    itemBuilder: (context3, index) {
-                      print("index : ${index + 1}");
-                      return Container(
-                        margin: const EdgeInsets.only(top: 15),
-                        child: Column(
-                          children: [
-                            topBox(index),
-                            Expanded(child: middleBox(index, context)),
-                          ],
-                        ),
-                      );
-                    },
-                    itemCount: scrollUserDetails.length,
-                  );
-          },
-        );
+                      },
+                      itemBuilder: (context, index) {
+                        print(
+                            "index : ${index + 1} len : ${scrollUserDetails.length}"); // todo : remove these before deployment
+                        return Container(
+                          margin: const EdgeInsets.only(top: 15),
+                          child: Column(
+                            children: [
+                              topBox(index),
+                              Expanded(child: middleBox(index, context)),
+                            ],
+                          ),
+                        );
+                      },
+                      itemCount: scrollUserDetails.length,
+                    );
+            });
       },
     );
   }
@@ -233,7 +284,7 @@ Widget middleBox(int index, BuildContext context) {
 
 Widget lowerBox(int index) {
   final double heartIconSize = 50;
-  final double reportIconSize = 60;
+  final double reportIconSize = 65;
   final double starIconSize = 40;
   return Container(
     // ? heart , star , report widgets
@@ -261,6 +312,7 @@ Widget lowerBox(int index) {
               ),
               onTap: () {
                 print("Pressed heart $index");
+                print(scrollUserDetails[index]["uid"]);
               },
             ),
           ),
@@ -281,10 +333,10 @@ Widget lowerBox(int index) {
           ),
           Container(
             // ? report icon
-            margin: const EdgeInsets.only(left: 30, top: 15),
+            margin: const EdgeInsets.only(left: 30, top: 5),
             child: GestureDetector(
               child: Icon(
-                FilterReport.noun_caution_3320810,
+                ReportFilterIcons.report_100_px_new,
                 color: Colors.white54,
                 size: reportIconSize,
               ),
@@ -324,45 +376,73 @@ class ViewBodyPhoto extends StatelessWidget {
   }
 }
 
-Widget nothingToExplore(Function refresh, BuildContext context) {
+Widget nothingToExplore(int streamRadius, BuildContext context) {
   // ? when no feeds to show
-  return Container(
-    child: Center(
-      child: Column(
-        children: [
-          Container(
-              // ? search icon
-              margin: const EdgeInsets.only(top: 20),
-              child: const Icon(
-                Icons.search_rounded,
-                size: 100,
-                color: Colors.white,
-              )),
-          Container(
-            // ? text message
-            margin: const EdgeInsets.all(20),
-            child: const Text(
-              "You've explored nearby people.\n Try again or comeback later or change your filter.",
-              style: TextStyle(color: Colors.white, fontSize: 20),
-              textAlign: TextAlign.center,
+  final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
+  return FutureBuilder(
+      future: Future.delayed(Duration(seconds: 1)),
+      builder: (context, nothingToExploreSnapShot) {
+        if (nothingToExploreSnapShot.connectionState ==
+            ConnectionState.waiting) {
+          return loadFeeds();
+        }
+        return Container(
+          child: Center(
+            child: Column(
+              children: [
+                Container(
+                    // ? search icon
+                    margin: const EdgeInsets.only(top: 20),
+                    child: const Icon(
+                      Icons.search_rounded,
+                      size: 100,
+                      color: Colors.white,
+                    )),
+                Container(
+                  // ? text message
+                  margin: const EdgeInsets.all(20),
+                  child: const Text(
+                    "You've explored nearby people.\n Try again or comeback later or change your filter.",
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  // ? refresh
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: IconButton(
+                    icon: const Icon(Icons.loop_rounded),
+                    color: Colors.white,
+                    iconSize: 35,
+                    disabledColor: Colors.transparent,
+                    splashColor: Theme.of(context).primaryColor,
+                    // ! any lack in UI performance change on pressed syntax
+                    onPressed: () {
+                      scrollUserDetails.clear(); // reset scroll details
+                      pageViewLogic.callConnectingUsers = true;
+                      if (scrollUserDetails.isEmpty &&
+                          streamRadius == 180 &&
+                          pageViewLogic.callConnectingUsers) {
+                        print(
+                            "WC : Feeds are empty loading feeds -> nothing to explore widget");
+                        ConnectingUsers.basicUserConnection(context);
+                        pageViewLogic.callConnectingUsers = false;
+                      }
+                      if (scrollUserDetails.isEmpty &&
+                          streamRadius != 180 &&
+                          pageViewLogic.callConnectingUsers) {
+                        print(
+                            "CR : Feeds are empty loading feeds within $streamRadius -> nothing to explore widget");
+                        ConnectingUsers.basicUserConnection(context);
+                        pageViewLogic.callConnectingUsers = false;
+                      }
+                    },
+                    tooltip: "Refresh",
+                  ),
+                ),
+              ],
             ),
           ),
-          Container(
-            // ? refresh
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            child: IconButton(
-              icon: const Icon(Icons.loop_rounded),
-              color: Colors.white,
-              iconSize: 35,
-              disabledColor: Colors.transparent,
-              splashColor: Theme.of(context).primaryColor,
-              // ! any lack in UI performance change on pressed syntax
-              onPressed: () => refresh(),
-              tooltip: "Refresh",
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
+        );
+      });
 }
