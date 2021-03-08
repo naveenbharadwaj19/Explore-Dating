@@ -1,6 +1,6 @@
 // todo Ml
 import 'package:explore/models/assign_errors.dart';
-import 'package:explore/models/firestore_signup.dart';
+import '../serverless/firestore_signup.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,14 +22,14 @@ Future<void> detectHeadPhotoAndStoreToCloud(
       if (processedFaces.isEmpty) {
         print("No face detected");
         Flushbar(
-          messageText: Text(
+          messageText:const Text(
             "Upload different photo",
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
           mainButton: IconButton(
-            icon: Icon(Icons.help_rounded),
+            icon: const Icon(Icons.help_rounded),
             color: Colors.white,
             tooltip: "help",
             onPressed: () {
@@ -49,7 +49,7 @@ Future<void> detectHeadPhotoAndStoreToCloud(
     Flushbar(
       messageText: Text(
         AssignErrors.exphpml004,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 2),

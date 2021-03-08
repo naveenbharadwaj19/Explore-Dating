@@ -1,0 +1,21 @@
+---versions
+
+new - firestore - ^0.16.0
+old - firestore - ^0.14.4
+
+
+new - firebasecore - ^0.7.0
+old - firebasecore - ^0.5.1
+
+
+new - cloudstorage - ^7.0.0
+old - cloudstorage - ^5.2.0
+
+new - cloudfunctions- ^0.9.0
+old - cloudfunctions - ^0.7.2
+
+new - auth- ^0.20.1
+old - auth - ^0.18.3
+
+
+Date changed -> 23-02-2021 -> Tuesday

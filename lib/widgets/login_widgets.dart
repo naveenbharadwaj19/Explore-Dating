@@ -1,10 +1,12 @@
 import 'package:explore/models/auth.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:explore/providers/sigin_login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 Widget logoAppName(Image logoImage) {
   return Row(
@@ -13,15 +15,39 @@ Widget logoAppName(Image logoImage) {
       Container(
         child: logoImage,
       ),
-      Text(
-        "Explore",
-        style: TextStyle(
-            fontFamily: "Domine",
-            fontSize: 40,
-            color: Colors.white,
-            decoration: TextDecoration.none),
+      RichText(
+        textAlign: TextAlign.right,
+        text: TextSpan(children: [
+          const TextSpan(
+            text: "Explore\n",
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 40,
+                fontFamily: "Domine",
+                decoration: TextDecoration.none),
+          ),
+          const TextSpan(
+            text: "Dating",
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontFamily: "Domine",
+                decoration: TextDecoration.none),
+          ),
+        ]),
       ),
     ],
+  );
+}
+
+Widget addDatingText() {
+  return Container(
+    // alignment: Alignment.topCenter,
+    // margin: const EdgeInsets.only(left: 200),
+    child: Text(
+      "Dating",
+      style: const TextStyle(color: Colors.white, fontSize: 16, fontFamily: "Domine"),
+    ),
   );
 }
 
@@ -31,7 +57,7 @@ Widget greetText() {
     alignment: Alignment(-0.7, 0.0),
     child: Text(
       "Hi There,",
-      style: TextStyle(
+      style: const TextStyle(
           fontFamily: "Domine",
           fontSize: 30,
           color: Colors.white,
@@ -46,7 +72,7 @@ Widget catchyText() {
     alignment: Alignment(-0.6, 0.0),
     child: Text(
       "Ready to Explore ?",
-      style: TextStyle(
+      style: const TextStyle(
           // fontFamily: "OpenSans",
           fontSize: 25,
           color: Colors.white,
@@ -64,7 +90,7 @@ Widget emailTextField(TextEditingController emailAddress) {
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: emailAddress,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -72,7 +98,7 @@ Widget emailTextField(TextEditingController emailAddress) {
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! change input letters to WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
@@ -108,7 +134,7 @@ Widget passwordTextField(
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: password,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -117,7 +143,7 @@ Widget passwordTextField(
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! change input letters to WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -129,7 +155,7 @@ Widget passwordTextField(
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Password",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
           suffixIcon: IconButton(
             color: Color(0xffF8C80D),
             icon: Icon(_passwordvisible
@@ -158,7 +184,7 @@ Widget forgotPassword(GlobalKey<FormState> formKey,
     child: FlatButton(
       child: Text(
         "Forgot password ?",
-        style: TextStyle(
+        style: const TextStyle(
           color: Color(0xffF8C80D),
           // fontWeight: FontWeight.w700,
         ),
@@ -197,7 +223,7 @@ Widget loginButton(
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 "Login",
-                style: TextStyle(
+                style: const TextStyle(
                     fontFamily: "Nunito",
                     // fontWeight: FontWeight.w600,
                     fontSize: 16),
@@ -219,47 +245,52 @@ Widget loginButton(
 }
 
 Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
-  return Container(
-    margin: EdgeInsets.symmetric(vertical: 25),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          child: Text(
-            "Don't have an account ?",
-            style: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-        ),
-        Container(
-          child: FlatButton(
+  return ChangeNotifierProvider<ManangeSigninLogin>(
+    create: (context) => ManangeSigninLogin(),
+    child: Container(
+      margin: const EdgeInsets.symmetric(vertical: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
             child: Text(
-              "SignUp",
-              style: TextStyle(
-                  color: Color(0xffF8C80D),
+              "Don't have an account ?",
+              style: const TextStyle(
+                  color: Colors.white,
                   fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.underline),
+                  fontWeight: FontWeight.w600),
             ),
-            onPressed: () {
-              pressedSignin();
-            },
           ),
-        ),
-      ],
+          Container(
+            child: FlatButton(
+              child: Text(
+                "SignUp",
+                style: const TextStyle(
+                    color: Color(0xffF8C80D),
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    decoration: TextDecoration.underline),
+              ),
+              onPressed: () {
+                pressedSignin();
+              },
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }
 
-Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole, Function loadingOffGoole,
-    BuildContext context) {
+Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole,
+    Function loadingOffGoole, BuildContext context) {
   return Align(
     alignment: Alignment.center,
     child: isLoadingGoole == true
         ? loadingSpinner()
         : FlatButton(
             child: SvgPicture.asset(
-              "lib/icons/google_icon.svg",
+              "assets/svg/google_icon.svg",
               height: 45,
               fit: BoxFit.cover,
             ),
@@ -272,7 +303,7 @@ Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole, Function loadi
 Widget navigateToWebLink() {
   return Container(
     alignment: Alignment.topRight,
-    margin: EdgeInsets.only(top: 20),
+    margin: const EdgeInsets.only(top: 20),
     child: IconButton(
       icon: Icon(Icons.language_rounded),
       color: Colors.white,

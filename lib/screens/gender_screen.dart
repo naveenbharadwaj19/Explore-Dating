@@ -1,4 +1,5 @@
-import 'package:explore/models/firestore_signup.dart';
+import 'package:explore/data/temp/auth_data.dart';
+import '../serverless/firestore_signup.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_selection/gender_selection.dart';
@@ -16,10 +17,10 @@ class GenderScreen extends StatelessWidget {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(top: 40),
-              child: Text(
+              margin: const EdgeInsets.only(top: 40),
+              child: const Text(
                 "-I am a-",
-                style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
+                style: const TextStyle(color: Color(0xffF8C80D), fontSize: 25),
               ),
             ),
             Padding(
@@ -30,11 +31,11 @@ class GenderScreen extends StatelessWidget {
               femaleText: "Women",
               maleImage: AssetImage("assets/app_images/male.png"),
               femaleImage: AssetImage("assets/app_images/female.png"),
-              selectedGenderTextStyle: TextStyle(
+              selectedGenderTextStyle: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w700),
-              unSelectedGenderTextStyle: TextStyle(
+              unSelectedGenderTextStyle: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w700),
@@ -53,10 +54,12 @@ class GenderScreen extends StatelessWidget {
                 if (gender.toString() == Gender.Male.toString()) {
                   print("Selected : Men");
                   selectedGender = "Men";
+                  selectedGenderM = selectedGender;
                   // OnlyDuringSignupFirestore.updateGenderPage("Male", context);
                 } else if (gender.toString() == Gender.Female.toString()) {
                   print("Selected : Women");
                   selectedGender = "Women";
+                  selectedGenderM = selectedGender;
                   // OnlyDuringSignupFirestore.updateGenderPage("Female", context);
                 }
               },
@@ -64,16 +67,16 @@ class GenderScreen extends StatelessWidget {
             Spacer(),
             // Container(
             //   alignment: Alignment.center,
-            //   // margin: EdgeInsets.only(top: 50),
+            //   // margin: const EdgeInsets.only(top: 50),
             //   child: RaisedButton(
             //     color: Color(0xffF8C80D),
             //     textColor: Color(0xff121212),
             //     shape: RoundedRectangleBorder(
             //         borderRadius: BorderRadius.circular(7),
             //         side: BorderSide(color: Color(0xffF8C80D))),
-            //     child: Text(
+            //     child: const Text(
             //       "Other",
-            //       style: TextStyle(
+            //       style: const TextStyle(
             //         fontSize: 20,
             //         // fontWeight: FontWeight.w700,
             //       ),
@@ -91,9 +94,9 @@ class GenderScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                     side: BorderSide(color: Color(0xffF8C80D))),
-                child: Text(
+                child: const Text(
                   "Confirm",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     // fontWeight: FontWeight.w600,
                   ),
@@ -101,9 +104,9 @@ class GenderScreen extends StatelessWidget {
                 onPressed: () {
                   if (selectedGender.isEmpty) {
                     return Flushbar(
-                      messageText: Text(
+                      messageText: const Text(
                         "Select your gender",
-                        style: TextStyle(
+                        style: const TextStyle(
                             // fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700,
                             color: Colors.white),
@@ -120,10 +123,10 @@ class GenderScreen extends StatelessWidget {
             ),
             Spacer(),
             Container(
-              margin: EdgeInsets.only(bottom: 25),
-              child: Text(
+              margin: const EdgeInsets.only(bottom: 25),
+              child: const Text(
                 "Note : Once selected cannot be reversed",
-                style: TextStyle(fontSize: 15, color: Colors.white),
+                style: const TextStyle(fontSize: 15, color: Colors.white),
               ),
             )
           ],
@@ -161,10 +164,10 @@ class GenderScreen extends StatelessWidget {
 //         // mainAxisAlignment: MainAxisAlignment.center,
 //         children: [
 //           Container(
-//             margin: EdgeInsets.only(top: 40),
-//             child: Text(
+//             margin: const EdgeInsets.only(top: 40),
+//             child: const Text(
 //               "-Other-",
-//               style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
+//               style: const TextStyle(color: Color(0xffF8C80D), fontSize: 25),
 //             ),
 //           ),
 //           // ? spacing between text and genders
@@ -192,7 +195,7 @@ class GenderScreen extends StatelessWidget {
 //                     },
 //                   ),
 //                   Container(
-//                     margin: EdgeInsets.only(left: 30),
+//                     margin: const EdgeInsets.only(left: 30),
 //                     child: IconButton(
 //                       icon: Icon(OtherGenders.lesbian),
 //                       color: trackGenderPressed == 2
@@ -217,20 +220,20 @@ class GenderScreen extends StatelessWidget {
 //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                 children: [
 //                   Container(
-//                     margin: EdgeInsets.only(top: spacing),
-//                     child: Text(
+//                     margin: const EdgeInsets.only(top: spacing),
+//                     child: const Text(
 //                       "Gay",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           color: Colors.white,
 //                           fontSize: genderTextSize,
 //                           fontWeight: FontWeight.w700),
 //                     ),
 //                   ),
 //                   Container(
-//                     margin: EdgeInsets.only(top: spacing),
-//                     child: Text(
+//                     margin: const EdgeInsets.only(top: spacing),
+//                     child: const Text(
 //                       "Lesbian",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           color: Colors.white,
 //                           fontSize: genderTextSize,
 //                           fontWeight: FontWeight.w700),
@@ -268,7 +271,7 @@ class GenderScreen extends StatelessWidget {
 //                     },
 //                   ),
 //                   Container(
-//                     margin: EdgeInsets.only(left: 30),
+//                     margin: const EdgeInsets.only(left: 30),
 //                     child: IconButton(
 //                       icon: Icon(OtherGenders.bisexual),
 //                       color: trackGenderPressed == 4
@@ -291,22 +294,22 @@ class GenderScreen extends StatelessWidget {
 //                 mainAxisAlignment: MainAxisAlignment.spaceAround,
 //                 children: [
 //                   Container(
-//                     margin: EdgeInsets.only(top: spacing),
+//                     margin: const EdgeInsets.only(top: spacing),
 //                     padding: EdgeInsets.only(left: 25),
-//                     child: Text(
+//                     child: const Text(
 //                       "Homosexual",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           color: Colors.white,
 //                           fontSize: genderTextSize,
 //                           fontWeight: FontWeight.w700),
 //                     ),
 //                   ),
 //                   Container(
-//                     margin: EdgeInsets.only(top: spacing),
+//                     margin: const EdgeInsets.only(top: spacing),
 //                     padding: EdgeInsets.only(right: 25),
-//                     child: Text(
+//                     child: const Text(
 //                       "Bisexual",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           color: Colors.white,
 //                           fontSize: genderTextSize,
 //                           fontWeight: FontWeight.w700),
@@ -319,23 +322,23 @@ class GenderScreen extends StatelessWidget {
 //           Spacer(),
 //           Container(
 //             alignment: Alignment.center,
-//             // margin: EdgeInsets.only(top: 50),
+//             // margin: const EdgeInsets.only(top: 50),
 //             child: RaisedButton(
 //               color: Color(0xffF8C80D),
 //               textColor: Color(0xff121212),
 //               shape: RoundedRectangleBorder(
 //                   borderRadius: BorderRadius.circular(7),
 //                   side: BorderSide(color: Color(0xffF8C80D))),
-//               child: Text(
+//               child: const Text(
 //                 "Confirm",
-//                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+//                 style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
 //               ),
 //               onPressed: () {
 //                 if (selectedOtherGender.isEmpty) {
 //                   return Flushbar(
-//                     messageText: Text(
+//                     messageText: const Text(
 //                       "Select your gender",
-//                       style: TextStyle(
+//                       style: const TextStyle(
 //                           // fontFamily: "OpenSans",
 //                           fontWeight: FontWeight.w700,
 //                           color: Colors.white),
@@ -354,9 +357,9 @@ class GenderScreen extends StatelessWidget {
 //           Align(
 //             alignment: Alignment.bottomLeft,
 //             child: FlatButton(
-//               child: Text(
+//               child: const Text(
 //                 "Back",
-//                 style: TextStyle(
+//                 style: const TextStyle(
 //                     color: Color(0xffF8C80D),
 //                     fontSize: 18,
 //                     fontWeight: FontWeight.w500,

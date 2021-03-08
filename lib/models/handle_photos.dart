@@ -131,14 +131,14 @@ class HandlePhotos {
 class _HandlePhotoPermission {
   static Widget cameraAccessDenied(BuildContext context) {
     return Flushbar(
-      messageText: Text(
+      messageText: const Text(
         "Allow permission for camera in app settings",
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 3),
       mainButton: IconButton(
-        icon: Icon(Icons.open_in_new),
+        icon: const Icon(Icons.open_in_new),
         color: Colors.white,
         tooltip: "settings",
         onPressed: () {
@@ -151,14 +151,14 @@ class _HandlePhotoPermission {
 
   static Widget galleryAccessDenied(BuildContext context) {
     return Flushbar(
-      messageText: Text(
+      messageText: const Text(
         "Allow permission for storage in app settings",
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 3),
       mainButton: IconButton(
-        icon: Icon(Icons.open_in_new),
+        icon: const Icon(Icons.open_in_new),
         color: Colors.white,
         tooltip: "settings",
         onPressed: () {

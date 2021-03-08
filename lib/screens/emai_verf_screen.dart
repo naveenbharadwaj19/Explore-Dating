@@ -1,8 +1,8 @@
-import 'package:explore/data/auth_data.dart';
+import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/email_model.dart';
-import 'package:explore/models/firestore_signup.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:explore/models/handle_delete_logout.dart';
+import 'package:explore/models/handle_deletes_logout.dart';
+import 'package:explore/serverless/firestore_signup.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -80,7 +80,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   emailAddressM == null ? "Verification code has been sent to your email" :
                   "Verification code has been sent to your email : $emailAddressM",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w600,
                       fontSize: 20),
@@ -110,7 +110,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     borderRadius: BorderRadius.circular(5)),
                 fieldsAlignment: MainAxisAlignment.spaceEvenly,
                 pinAnimationType: PinAnimationType.rotation,
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   color: Colors.black,
                   fontSize: 22,
                   // fontWeight: FontWeight.w500,
@@ -141,7 +141,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     strokeWidth: 3,
                     isReverse: true,
                     isReverseAnimation: true,
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                         fontWeight: FontWeight.w700),
@@ -153,9 +153,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 ),
               ),
               FlatButton(
-                child: Text(
+                child: const Text(
                   "Send code again",
-                  style: TextStyle(
+                  style: const TextStyle(
                       color: Color(0xffF8C80D),
                       fontSize: 18,
                       fontWeight: FontWeight.w500,
@@ -184,9 +184,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
                               side: BorderSide(color: Color(0xffF8C80D))),
-                          child: Text(
+                          child: const Text(
                             "Verify",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16,
                                 // fontWeight: FontWeight.w600,
                                 ),
@@ -204,9 +204,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               Align(
                 alignment: Alignment.bottomLeft,
                 child: FlatButton(
-                  child: Text(
+                  child: const Text(
                     "Back",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color(0xffF8C80D),
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -227,15 +227,14 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 _showAlertDialog(
     BuildContext context, Function loadingOn, Function loadingOff) {
   Widget goBack = FlatButton(
-    child: Text(
+    child: const Text(
       "Go Back",
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     onPressed: () {
       // ? restting all values stored in memory
       nameM = "";
       emailAddressM = "";
-      userNameM = "";
       passwordM = "";
       dobM = "";
       manageSigninLogin = false;
@@ -247,29 +246,29 @@ _showAlertDialog(
     },
   );
   Widget stayHere = FlatButton(
-    child: Text(
+    child: const Text(
       "Stay Here",
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     onPressed: () => Navigator.pop(context),
   );
   Widget help = FlatButton(
-    child: Text(
+    child: const Text(
       "Help",
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     onPressed: () {},
   );
 
   AlertDialog showAlert = AlertDialog(
     backgroundColor: Color(0xff121212),
-    title: Text(
+    title: const Text(
       "Alert",
-      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
     ),
-    content: Text(
+    content: const Text(
       "Are you sure want to go back ?",
-      style: TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white),
     ),
     actions: [help, stayHere, goBack],
   );

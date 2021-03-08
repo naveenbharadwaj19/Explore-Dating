@@ -1,13 +1,17 @@
 // todo : Handle all deletes and logout
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/all_shared_pref_data.dart';
-import 'package:explore/data/auth_data.dart';
+import 'package:explore/data/temp/auth_data.dart';
+import 'package:explore/data/temp/store_basic_match.dart';
+import 'package:explore/providers/pageview_logic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 
 Future<void> deleteUserDuringSignUpProcess(BuildContext context) async {
   String uid = FirebaseAuth.instance.currentUser.uid;
@@ -21,7 +25,7 @@ Future<void> deleteUserDuringSignUpProcess(BuildContext context) async {
     Flushbar(
       messageText: Text(
         "Something went wrong try again",
-        style: TextStyle(
+        style: const TextStyle(
             fontFamily: "OpenSans",
             fontWeight: FontWeight.w700,
             color: Colors.white),
@@ -76,6 +80,7 @@ Future<void> deleteAuthDetails() async {
     await Future.delayed(Duration(seconds: 2));
     FirebaseFirestore.instance.doc("Userstatus/$currentUserUidSf").delete();
     removeUserUid();
+    deleteAll();
   } catch (error) {
     print("Error : ${error.toString()}");
   }
@@ -92,6 +97,7 @@ Future<void> deleteUserStatus() async{
     await Future.delayed(Duration(seconds: 2));
     FirebaseFirestore.instance.doc("Userstatus/$currentUserUidSf").delete();
     removeUserUid();
+    deleteAll();
     print("Userstatus -> uid deleted successfully");
   }
   catch(error){
@@ -99,7 +105,8 @@ Future<void> deleteUserStatus() async{
   }
 }
 
-Future<void>logoutUser() async{
+Future<void>logoutUser(BuildContext context) async{
+  final pageViewLogic = Provider.of<PageViewLogic>(context,listen: false);
   // * logout current user
   DocumentReference logout = FirebaseFirestore.instance.doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}");
   await logout.update({
@@ -107,6 +114,9 @@ Future<void>logoutUser() async{
   });
   // * when user clicks logout button should navigate to welcome screen
   manageSigninLogin = false;
+  pageViewLogic.callConnectingUsers = true; // reset connecting users
+  // * reset scroll details
+  scrollUserDetails.clear();
   GoogleSignIn().signOut();
   FirebaseAuth.instance.signOut();
 }

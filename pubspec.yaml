@@ -23,26 +23,32 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  geoflutterfire:
+    git: git://github.com/naveenbharadwaj19/GeoFlutterFire.git
   app_settings: ^4.0.4
+  cached_network_image: ^2.5.0
+  change_app_package_name: ^0.1.2
   circular_check_box: ^1.0.4
   circular_countdown_timer: ^0.0.7
   clippy_flutter: ^1.1.1
-  cloud_firestore: ^0.14.4
-  cloud_functions: ^0.7.2
+  cloud_firestore: ^0.16.0
+  cloud_functions: ^0.9.0
   connectivity: ^2.0.2
   cupertino_icons: ^1.0.0
   email_validator: ^1.0.6
-  firebase_auth: ^0.18.3
-  firebase_core: ^0.5.1
+  firebase_auth: ^0.20.1
+  firebase_core: ^0.7.0
   firebase_ml_vision: ^0.9.8
-  firebase_storage: ^5.2.0
+  firebase_storage: ^7.0.0
   flare_flutter: ^2.0.6
   flushbar: ^1.10.4
   flutter_holo_date_picker: ^0.2.1
+  flutter_secure_storage: ^3.3.5
+  flutter_snake_navigationbar: ^0.4.4
   flutter_spinkit: ^4.1.2+1
   flutter_svg: ^0.19.1
   gender_selection: ^1.0.0
-  geocoder: ^0.2.1
+  geocoding: ^1.0.5
   geolocator: ^6.1.13
   google_sign_in: ^4.5.6
   image_cropper: ^1.3.1
@@ -50,8 +56,10 @@ dependencies:
   intl: ^0.16.1
   mailgun: ^0.1.2
   modal_bottom_sheet: ^1.0.0+1
+  observable: ^0.22.2
   page_transition: ^1.1.7+2
   pinput: ^0.2.6
+  provider: ^4.3.3
   random_string: ^2.1.0
   responsive_framework: ^0.0.14
   shared_preferences: ^0.5.12+4
@@ -81,9 +89,9 @@ flutter:
     - assets/app_images/location_img.png
     - assets/app_background_img/welcome_bg_2.png
     - assets/app_images/photo_img_bg.png
-    - lib/icons/explore_logo.svg
-    - lib/icons/google_icon.svg
-    - lib/icons/email_verf_icon.svg
+    - assets/svg/explore_logo.svg
+    - assets/svg/google_icon.svg
+    - assets/svg/email_verf_icon.svg
     - assets/animations/successCheck.flr
     - assets/animations/SearchEmail.flr
     - assets/animations/location_pin.flr
@@ -131,6 +139,30 @@ flutter:
     - family: GalleryIcon
       fonts:
         - asset: assets/fonts/GalleryIcon.ttf
+
+    - family: BottomNavigationBarIcons
+      fonts:
+        - asset: assets/fonts/BottomNavigationBarIcons.ttf
+
+    - family: Filter
+      fonts:
+        - asset: assets/fonts/Filter.ttf
+
+    - family: HomeIconOrg # alternative for home icon
+      fonts:
+        - asset: assets/fonts/HomeIconOrg.ttf
+
+    - family: StarRoundedIcon
+      fonts:
+        - asset: assets/fonts/StarRoundedIcon.ttf
+
+    - family: FilterReport #noun icon
+      fonts:
+        - asset: assets/fonts/FilterReport.ttf
+
+    - family: ReportFilterIcons
+      fonts:
+        - asset: assets/fonts/ReportFilterIcons.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro

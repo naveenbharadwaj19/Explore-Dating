@@ -82,7 +82,7 @@ class _PickPhotoScreenState extends State<PickPhotoScreen> {
                     side: BorderSide(color: Color(0xffF8C80D))),
                 child: Text(
                   "Confirm",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 16),
@@ -94,7 +94,7 @@ class _PickPhotoScreenState extends State<PickPhotoScreen> {
                     Flushbar(
                       messageText: Text(
                         "Please upload photos",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                       backgroundColor: Color(0xff121212),
                       duration: Duration(seconds: 2),

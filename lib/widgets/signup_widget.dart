@@ -1,4 +1,4 @@
-import 'package:explore/data/auth_data.dart';
+import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/auth.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';
@@ -16,13 +16,14 @@ Widget logoAppName(Image logoImage) {
       Container(
         child: logoImage,
       ),
-      Text(
-        "Explore",
-        style: TextStyle(
-            fontFamily: "Domine",
-            fontSize: 40,
-            color: Colors.white,
-            decoration: TextDecoration.none),
+      RichText(
+        textAlign: TextAlign.right,
+        text: TextSpan(
+          children: [
+            TextSpan(text: "Explore\n",style: const TextStyle(color:Colors.white,fontSize: 40,fontFamily: "Domine",decoration: TextDecoration.none),),
+            TextSpan(text: "Dating",style: const TextStyle(color:Colors.white,fontSize: 16,fontFamily: "Domine",decoration: TextDecoration.none),),
+          ]
+        ),
       ),
     ],
   );
@@ -36,15 +37,16 @@ Widget nameTextField(TextEditingController _name) {
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _name,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
+        textCapitalization: TextCapitalization.words,
         enabled: true,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -56,11 +58,11 @@ Widget nameTextField(TextEditingController _name) {
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Name",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
         ),
         validator: (String value) {
           if (value.isEmpty) {
-            return "Enter Some Text";
+            return "Enter Name";
           } else if (value.length > 20) {
             return "Cannot Be More Than 20 Characters";
           }
@@ -79,7 +81,7 @@ Widget emailTextField(TextEditingController _email) {
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _email,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -87,7 +89,7 @@ Widget emailTextField(TextEditingController _email) {
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -99,7 +101,7 @@ Widget emailTextField(TextEditingController _email) {
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Email address",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
         ),
         validator: (String value) {
           if (value.isEmpty) {
@@ -114,53 +116,53 @@ Widget emailTextField(TextEditingController _email) {
   );
 }
 
-Widget userNameTextField(TextEditingController _username) {
-  return Align(
-    alignment: Alignment(-0.3, 0.0),
-    child: Container(
-      height: 60,
-      width: 300,
-      // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
-      child: TextFormField(
-        controller: _username,
-        inputFormatters: [LengthLimitingTextInputFormatter(30)],
-        enabled: true,
-        cursorColor: Colors.white,
-        cursorWidth: 3.0,
-        // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: Colors.white),
-          ),
-          hintText: "User Name",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
-        ),
-        validator: (String value) {
-          // ! Need to check database whether username is available or not
-          if (value.isEmpty) {
-            return "Enter Some Text";
-          }
-          if (value.contains(" ")) {
-            return "Cannot Use Space";
-          } else if (value.length < 4) {
-            return "Enter Above 4 Characters";
-          } else if (value.length > 15) {
-            return "Cannot Be More Than 12 Characters";
-          }
-          return null;
-        },
-      ),
-    ),
-  );
-}
+// Widget userNameTextField(TextEditingController _username) {
+//   return Align(
+//     alignment: Alignment(-0.3, 0.0),
+//     child: Container(
+//       height: 60,
+//       width: 300,
+//       // ! Need to use mediaquery to fix the width to avoid pixel overflow
+//       margin: const EdgeInsets.only(top: 30),
+//       child: TextFormField(
+//         controller: _username,
+//         inputFormatters: [LengthLimitingTextInputFormatter(30)],
+//         enabled: true,
+//         cursorColor: Colors.white,
+//         cursorWidth: 3.0,
+//         // ! Need to use input text as WORDSANS
+//         style: const TextStyle(color: Colors.white),
+//         keyboardType: TextInputType.emailAddress,
+//         decoration: InputDecoration(
+//           enabledBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(10),
+//             borderSide: BorderSide(color: Colors.white),
+//           ),
+//           focusedBorder: OutlineInputBorder(
+//             borderRadius: BorderRadius.circular(10),
+//             borderSide: BorderSide(color: Colors.white),
+//           ),
+//           hintText: "User Name",
+//           hintstyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+//         ),
+//         validator: (String value) {
+//           // ! Need to check database whether username is available or not
+//           if (value.isEmpty) {
+//             return "Enter Some Text";
+//           }
+//           if (value.contains(" ")) {
+//             return "Cannot Use Space";
+//           } else if (value.length < 4) {
+//             return "Enter Above 4 Characters";
+//           } else if (value.length > 15) {
+//             return "Cannot Be More Than 12 Characters";
+//           }
+//           return null;
+//         },
+//       ),
+//     ),
+//   );
+// }
 
 Widget passwordTextField(bool _passwordvisible, Function _toggle,
     TextEditingController _password, TextEditingController _confirmPassword) {
@@ -171,7 +173,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _password,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -180,7 +182,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -192,7 +194,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Password",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
           suffixIcon: IconButton(
             color: Color(0xffF8C80D),
             icon: Icon(_passwordvisible
@@ -203,7 +205,7 @@ Widget passwordTextField(bool _passwordvisible, Function _toggle,
         ),
         validator: (String value) {
           if (value.isEmpty) {
-            return "Enter Some Text";
+            return "Enter Password";
           } else if (value.length < 6) {
             return "Enter Above 6 Characters";
           } else if (_confirmPassword.text != value) {
@@ -225,7 +227,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
       height: 60,
       width: 300,
       // ! Need to use mediaquery to fix the width to avoid pixel overflow
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _confirmPassword,
         inputFormatters: [LengthLimitingTextInputFormatter(30)],
@@ -234,7 +236,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
         cursorColor: Colors.white,
         cursorWidth: 3.0,
         // ! Need to use input text as WORDSANS
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
@@ -246,7 +248,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
             borderSide: BorderSide(color: Colors.white),
           ),
           hintText: "Confirm Password",
-          hintStyle: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+          hintStyle: const TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
           suffixIcon: IconButton(
             color: Color(0xffF8C80D),
             icon: Icon(_passwordvisible
@@ -257,7 +259,7 @@ Widget confirmPasswordTextField(bool _passwordvisible, Function _toggle,
         ),
         validator: (String value) {
           if (value.isEmpty) {
-            return "Enter Some Text";
+            return "Enter Confirm Password";
           } else if (value.length < 6) {
             return "Enter Above 6 Characters";
           } else if (_password.text != value) {
@@ -278,6 +280,15 @@ class DOB extends StatefulWidget {
 
 class _DOBState extends State<DOB> {
   DateTime today = DateTime.now();
+
+  int getAbove18Year(){
+    var now = new DateTime.now();
+    String yearFormatter = DateFormat("y").format(now);
+    int currentYear = int.parse(yearFormatter);
+    int above18Year = currentYear - 18;
+    return above18Year;
+  }
+  
 
   String formattedDate() {
     return DateFormat("dd/MM/yyyy").format(today).toString();
@@ -301,7 +312,7 @@ class _DOBState extends State<DOB> {
       initialDate: today,
       firstDate: DateTime(1940),
       dateFormat: "dd-MMMM-yyyy",
-      lastDate: DateTime.now(),
+      lastDate:  DateTime(getAbove18Year(),today.month,today.day),
       looping: true,
       backgroundColor: Color(0xff121212),
       textColor: Color(0xffF8C80D),
@@ -313,6 +324,7 @@ class _DOBState extends State<DOB> {
       setState(() {
         today = picked;
         dobM = formattedDate();
+        ageM = _findAge();
       });
   }
 
@@ -321,7 +333,7 @@ class _DOBState extends State<DOB> {
     return Align(
       alignment: Alignment(-0.3, 0.0),
       child: Container(
-        margin: EdgeInsets.only(top: 25),
+        margin: const EdgeInsets.only(top: 25),
         height: 60,
         width: 300,
         decoration: ShapeDecoration(
@@ -335,7 +347,7 @@ class _DOBState extends State<DOB> {
               padding: EdgeInsets.all(8),
               child: Text(
                 "D.O.B : ",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w700,
                     fontSize: 20),
@@ -349,7 +361,7 @@ class _DOBState extends State<DOB> {
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 _findAge() < 18 ? "Enter age 18+" : formattedDate(),
-                style: TextStyle(fontSize: 16
+                style: const TextStyle(fontSize: 16
                     // fontWeight: FontWeight.w700
                     ),
               ),
@@ -364,7 +376,7 @@ class _DOBState extends State<DOB> {
 
 Widget ageCondition(bool agreeAge, Function toogleAge) {
   return Container(
-    margin: EdgeInsets.only(top: 15, left: 25),
+    margin: const EdgeInsets.only(top: 15, left: 25),
     child: Row(
       children: [
         CircularCheckBox(
@@ -379,7 +391,7 @@ Widget ageCondition(bool agreeAge, Function toogleAge) {
           padding: const EdgeInsets.all(15),
           child: Text(
             "I agree i'm above 18+",
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
           ),
         )
@@ -390,7 +402,7 @@ Widget ageCondition(bool agreeAge, Function toogleAge) {
 
 Widget termsAndConditions(bool tAndC, Function toogleTerms) {
   return Container(
-    margin: EdgeInsets.only(top: 5, left: 25),
+    margin: const EdgeInsets.only(top: 5, left: 25),
     child: Row(
       children: [
         CircularCheckBox(
@@ -404,7 +416,7 @@ Widget termsAndConditions(bool tAndC, Function toogleTerms) {
         FlatButton(
             child: Text(
               "I agree to terms and conditions",
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
@@ -426,8 +438,7 @@ Widget nextButton(
     @required Function loadingOff,
     @required bool isLoading,
     @required BuildContext context,
-    @required TextEditingController name,
-    @required TextEditingController userName}) {
+    @required TextEditingController name,}) {
   final cubeGrid = SpinKitCubeGrid(
     color: Colors.white,
     size: 40,
@@ -446,7 +457,7 @@ Widget nextButton(
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 "Next",
-                style: TextStyle(
+                style: const TextStyle(
                   // fontFamily: "OpenSans",
                   // fontWeight: FontWeight.w700,
                   fontSize: 16
@@ -461,7 +472,7 @@ Widget nextButton(
                       backgroundColor: Color(0xff121212),
                       messageText: Text(
                         "Enter birth date",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: "OpenSans",
                             fontWeight: FontWeight.w700,
                             color: Colors.white),
@@ -473,7 +484,6 @@ Widget nextButton(
                   // * storing in memory
                   nameM = name.text;
                   emailAddressM = emailAddress.text;
-                  userNameM = userName.text;
                   passwordM = password.text;
                   // Navigator.pushNamed(context, EmailVerificationScreen.routeName);
                   AuthenticationFirebase.signInUser(
@@ -481,7 +491,6 @@ Widget nextButton(
                       password: passwordM,
                       loadingOn: loadingOn,
                       loadingOff: loadingOff,
-                      username: userNameM,
                       ctx: context);
                 }
               },
@@ -492,14 +501,14 @@ Widget nextButton(
 
 Widget navigateToLoginPage(BuildContext context, Function pressedLogin) {
   return Container(
-    margin: EdgeInsets.symmetric(vertical: 15),
+    margin: const EdgeInsets.symmetric(vertical: 15),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
           child: Text(
             "Already have an account ?",
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
           ),
         ),
@@ -507,7 +516,7 @@ Widget navigateToLoginPage(BuildContext context, Function pressedLogin) {
           child: FlatButton(
             child: Text(
               "Login",
-              style: TextStyle(
+              style: const TextStyle(
                   color: Color(0xffF8C80D),
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -527,7 +536,7 @@ Widget helpGuide() {
   return Align(
     alignment: Alignment.bottomLeft,
     child: IconButton(
-      icon: Icon(Icons.help_outline_sharp),
+      icon: const Icon(Icons.help_outline_sharp),
       color: Colors.white,
       iconSize: 27,
       onPressed: () {},

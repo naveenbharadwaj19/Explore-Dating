@@ -22,7 +22,7 @@ Widget noInternetConnection(String animationName2) {
         Text(
           "No internet connectivity.Please check for internet connection",
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontSize: 18,decoration: TextDecoration.none),
+          style: const TextStyle(color: Colors.white, fontSize: 18,decoration: TextDecoration.none),
         )
       ],
     ),

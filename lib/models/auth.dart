@@ -1,8 +1,8 @@
 import 'package:explore/data/all_shared_pref_data.dart';
-import 'package:explore/data/auth_data.dart';
+import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/email_model.dart';
-import 'package:explore/models/firestore_signup.dart';
+import '../serverless/firestore_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +17,7 @@ class AuthenticationFirebase {
       @required String password,
       @required Function loadingOn,
       @required Function loadingOff,
-      @required String username,
+      // @required String username,
       @required BuildContext ctx}) async {
     final auth = FirebaseAuth.instance;
     UserCredential userResult;
@@ -30,7 +30,7 @@ class AuthenticationFirebase {
           loadingOn: loadingOn,
           loadingOff: loadingOff,
           emailaddess: emailAddressM,
-          username: userNameM,
+          // username: userNameM,
           dob: dobM,
           name: nameM,
           context: ctx);
@@ -51,8 +51,7 @@ class AuthenticationFirebase {
         backgroundColor: Color(0xff121212),
         messageText: Text(
           message.toString(),
-          style: TextStyle(
-              fontFamily: "OpenSans",
+          style: const TextStyle(
               fontWeight: FontWeight.w700,
               color: Colors.white),
         ),
@@ -65,10 +64,10 @@ class AuthenticationFirebase {
       if (err.toString().contains(
           "The email address is already in use by another account.")) {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Email address exist",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -78,10 +77,10 @@ class AuthenticationFirebase {
       } else if (err.toString().contains(
           " The password is invalid or the user does not have a password.")) {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Incorrect password",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -90,10 +89,10 @@ class AuthenticationFirebase {
         )..show(ctx);
       } else {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Something went wrong try again",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -135,8 +134,7 @@ class AuthenticationFirebase {
         backgroundColor: Color(0xff121212),
         messageText: Text(
           message.toString(),
-          style: TextStyle(
-              fontFamily: "OpenSans",
+          style: const TextStyle(
               fontWeight: FontWeight.w700,
               color: Colors.white),
         ),
@@ -149,10 +147,10 @@ class AuthenticationFirebase {
       if (err.toString().contains(
           "The email address is already in use by another account.")) {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Email address exist",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -162,10 +160,10 @@ class AuthenticationFirebase {
       } else if (err.toString().contains(
           "The password is invalid or the user does not have a password.")) {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Incorrect password",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -175,10 +173,10 @@ class AuthenticationFirebase {
       } else if (err.toString().contains(
           "There is no user record corresponding to this identifier. The user may have been deleted")) {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Account does not exist create one",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -188,10 +186,10 @@ class AuthenticationFirebase {
       } else if (err.toString().contains(
           "The user account has been disabled by an administrator.")) {
         Flushbar(
-          messageText: Text(
-            "Account is disabled please visit our website",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+          messageText: const Text(
+            "Account is disabled",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -200,10 +198,10 @@ class AuthenticationFirebase {
         )..show(ctx);
       } else {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Something went wrong try again",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -223,10 +221,9 @@ class AuthenticationFirebase {
     try {
       await auth.sendPasswordResetEmail(email: emailAddress.text);
       Flushbar(
-        messageText: Text(
+        messageText:const Text(
           "Check provided email address",
-          style: TextStyle(
-              fontFamily: "OpenSans",
+          style: const TextStyle(
               fontWeight: FontWeight.w700,
               color: Colors.white),
         ),
@@ -238,10 +235,10 @@ class AuthenticationFirebase {
       if (error.toString().contains(
           "There is no user record corresponding to this identifier. The user may have been deleted")) {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Cannot reset account does not exist",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -250,10 +247,10 @@ class AuthenticationFirebase {
         )..show(context);
       } else {
         Flushbar(
-          messageText: Text(
+          messageText: const Text(
             "Something went wrong try again later",
-            style: TextStyle(
-                fontFamily: "OpenSans",
+            style: const TextStyle(
+
                 fontWeight: FontWeight.w700,
                 color: Colors.white),
           ),
@@ -312,9 +309,9 @@ class GoogleAuthenticationClass {
       if (error.toString().contains(
           "The user account has been disabled by an administrator.")) {
         Flushbar(
-          messageText: Text(
-            "Account is disabled please visit our website",
-            style: TextStyle(
+          messageText: const Text(
+            "Account is disabled",
+            style: const TextStyle(
                 color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
@@ -324,7 +321,7 @@ class GoogleAuthenticationClass {
         Flushbar(
           messageText: Text(
             AssignErrors.expgogauth006,
-            style: TextStyle(
+            style: const TextStyle(
                 color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),

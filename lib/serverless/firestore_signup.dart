@@ -2,7 +2,7 @@
 // * All backend work is stored until user reach homescreen
 
 import 'dart:io';
-import 'package:explore/data/auth_data.dart'show dobM,ageM;
+// import 'package:explore/data/auth_data.dart'show dobM,ageM;
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/handle_photos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,6 +11,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:intl/intl.dart';
 
 class OnlyDuringSignupFirestore {
@@ -18,7 +20,7 @@ class OnlyDuringSignupFirestore {
     @required Function loadingOn,
     @required loadingOff,
     @required String emailaddess,
-    @required String username,
+    // @required String username,
     @required String dob,
     @required String name,
     @required BuildContext context,
@@ -40,7 +42,9 @@ class OnlyDuringSignupFirestore {
     // loadingOn();
     try {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
-      DocumentReference data2 = FirebaseFirestore.instance.doc("Userstatus/$uid");
+      DocumentReference data2 =
+          FirebaseFirestore.instance.doc("Userstatus/$uid");
+      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data");
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -50,7 +54,6 @@ class OnlyDuringSignupFirestore {
         },
         "bio": {
           "user_id": uid,
-          "username": username,
           "emailaddress": emailaddess,
           "method_used_to_signin": "email/password",
           "name": name,
@@ -59,12 +62,19 @@ class OnlyDuringSignupFirestore {
           "account_verified": false,
           "gender": "",
         },
-        "show_me" : "",
+        "show_me": "",
       });
       await data2.set({
         "isloggedin": true,
         "isdisabled": false,
-        "isdeleted" : false,
+        "isdeleted": false,
+      });
+
+      await data3.set({
+        "show_me" : "Everyone",
+        "radius" : 180,
+        "from_age" : 18,
+        "to_age" : _findAge() // user current age
       });
       // Todo in future change this document field while other other screen:
       // {
@@ -78,9 +88,9 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -102,9 +112,9 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -125,9 +135,9 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -150,9 +160,9 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -174,9 +184,9 @@ class OnlyDuringSignupFirestore {
   //   } catch (error) {
   //     print("Error : ${error.toString()}");
   //     Flushbar(
-  //       messageText: Text(
+  //       messageText: const Text(
   //         "Something went wrong try again",
-  //         style: TextStyle(color: Colors.white),
+  //         style: const TextStyle(color: Colors.white),
   //       ),
   //       backgroundColor: Color(0xff121212),
   //       duration: Duration(seconds: 3),
@@ -199,9 +209,9 @@ class OnlyDuringSignupFirestore {
   //   } catch (error) {
   //     print("Error : ${error.toString()}");
   //     Flushbar(
-  //       messageText: Text(
+  //       messageText: const Text(
   //         "Something went wrong try again",
-  //         style: TextStyle(color: Colors.white),
+  //         style: const TextStyle(color: Colors.white),
   //       ),
   //       backgroundColor: Color(0xff121212),
   //       duration: Duration(seconds: 3),
@@ -223,9 +233,9 @@ class OnlyDuringSignupFirestore {
   //   } catch (error) {
   //     print("Error : ${error.toString()}");
   //     Flushbar(
-  //       messageText: Text(
+  //       messageText: const Text(
   //         "Something went wrong try again",
-  //         style: TextStyle(color: Colors.white),
+  //         style: const TextStyle(color: Colors.white),
   //       ),
   //       backgroundColor: Color(0xff121212),
   //       duration: Duration(seconds: 3),
@@ -234,25 +244,39 @@ class OnlyDuringSignupFirestore {
   //   // loadingOff();
   // }
 
-  static getLocationAddressAndCoordinates(String addressLine, double latitude,
-      double longitude, BuildContext context) async {
+  static getLocationAddressAndCoordinates(
+      {@required double latitude,
+      @required double longitude,
+      @required Placemark address,
+      @required BuildContext context}) async {
     // * get user address , coordinates and write them on database
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
     try {
+      Geoflutterfire geo = Geoflutterfire();
+      GeoFirePoint myCoordinates =
+          geo.point(latitude: latitude, longitude: longitude);
       DocumentReference storeUserLocation = FirebaseFirestore.instance
           .doc("Users/$uid/Userlocation/fetchedlocation");
       await storeUserLocation.set({
-        "current_coordinates": GeoPoint(latitude, longitude),
-        "current_address": addressLine,
+        "current_coordinates": myCoordinates.data,
+        "city": address.locality,
+        "state" : address.administrativeArea,
+        "geohash_rounds" : {
+          "r1" : myCoordinates.hash.toString().substring(0,5),
+          "r2" : myCoordinates.hash.toString().substring(0,4),
+          "r3" : myCoordinates.hash.toString().substring(0,3),
+          "r4" : myCoordinates.hash.toString().substring(0,2),
+          "rh" : false,
+        }
       });
-      print("Stored User address in firestore");
+      print("Stored User coordinates in firestore");
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -275,9 +299,9 @@ class OnlyDuringSignupFirestore {
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -285,21 +309,22 @@ class OnlyDuringSignupFirestore {
     }
     // loadingOff();
   }
+
   static updateShowMeFields(String selectedShowMe, BuildContext context) async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     // loadingOn();
     try {
       DocumentReference user = FirebaseFirestore.instance.doc("Users/$uid");
       await user.update({
-        "show_me" : selectedShowMe,
+        "show_me": selectedShowMe,
       });
       print("Show me fields updated in firestore");
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -344,7 +369,7 @@ void uploadHeadBodyPhotoTocloudStorage(
     Flushbar(
       messageText: Text(
         AssignErrors.expcldstr005,
-        style: TextStyle(color: Colors.white),
+        style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),
       duration: Duration(seconds: 3),
@@ -365,7 +390,9 @@ class GooglePath {
     // loadingOn();
     try {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
-      DocumentReference data2 = FirebaseFirestore.instance.doc("Userstatus/$uid");
+      DocumentReference data2 =
+          FirebaseFirestore.instance.doc("Userstatus/$uid");
+      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data");
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -375,7 +402,6 @@ class GooglePath {
         },
         "bio": {
           "user_id": userUid,
-          "username": "",
           "emailaddress": emailAddressGoogle,
           "method_used_to_signin": "Google",
           "name": displayNameGoogle,
@@ -384,28 +410,34 @@ class GooglePath {
           "account_verified": false,
           "gender": "",
         },
-        "show_me" : "",
+        "show_me": "",
       });
       await data2.set({
         "isloggedin": true,
         "isdisabled": false,
-        "isdeleted" : false,
-        
+        "isdeleted": false,
       });
-       // Todo in future change this document field while other other screen:
-        // {
-        //     "m_f": "",
-        //     "other": {"clicked_other": true, "other_gender": ""},
-        //   }
+
+      await data3.set({
+        "show_me" : "Everyone",
+        "radius" : 180,
+        "from_age" : 18,
+        "to_age" : 25 // default age when signing with google auth
+      });
+      // Todo in future change this document field while other other screen:
+      // {
+      //     "m_f": "",
+      //     "other": {"clicked_other": true, "other_gender": ""},
+      //   }
       print("User bio using google signin created successfully in firestore");
 
       // Navigator.pushNamed(context, AccCreatedScreen.routeName);
     } catch (error) {
       print("Error ${error.toString()}");
       Flushbar(
-        messageText: Text(
+        messageText: const Text(
           "Something went wrong try again",
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -425,8 +457,8 @@ class GooglePath {
       });
       print("DOB , age updated");
       // * resetting memory of dob and age
-      dobM = null;
-      ageM = null;
+      // dobM = null;
+      // ageM = null;
     } catch (error) {
       print("Error : ${error.toString()}");
     }

@@ -1,18 +1,15 @@
 import 'package:explore/models/spinner.dart';
-import 'package:explore/data/auth_data.dart';
-import 'package:explore/screens/acc_create_screen.dart';
-import 'package:explore/screens/emai_verf_screen.dart';
-import 'package:explore/screens/gender_screen.dart';
-import 'package:explore/screens/home_screen.dart';
-import 'package:explore/screens/location_screen.dart';
-import 'package:explore/screens/pick_photos_screen.dart';
+import 'package:explore/data/temp/auth_data.dart';
+import 'package:explore/providers/pageview_logic.dart';
+import 'package:explore/screens/basic_user_details_screen.dart';
+import 'package:explore/screens/explore_screen.dart';
 import 'package:explore/screens/signup_screen.dart';
 import 'package:explore/widgets/login_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 // * hex code for black - 0xff121212
@@ -24,7 +21,15 @@ import 'package:responsive_framework/responsive_framework.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  // runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PageViewLogic>(create: (context) => PageViewLogic()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -67,11 +72,20 @@ class _MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp(
+        // ? bodytext1 = main text color -> white , primary color -> black , accent color -> white , title -> domine , white color
+        // ? button color ->
         debugShowCheckedModeBanner: false,
         title: "Explore",
         theme: ThemeData(
           fontFamily: "Nunito",
           primaryColor: Color(0xff121212),
+          accentColor: Colors.white,
+          buttonColor: Color(0xffF8C80D),
+          textTheme: TextTheme(
+              bodyText1: TextStyle(
+                color: Colors.white,
+              ),
+              headline1: TextStyle(fontFamily: "Domine", color: Colors.white)),
         ),
         builder: (context, widget) => ResponsiveWrapper.builder(
           // ? warp all the heights and widths according to screen automatically
@@ -90,7 +104,7 @@ class _MyAppState extends State<MyApp> {
                 return loadingSpinner();
               }
               if (snapShot1.hasData) {
-                return HomeScreen();
+                return BasicDetailsScreens();
               }
               return manageSigninLogin == false
                   ? WelcomeLoginScreen(pressedSignin: pressedSignIn)
@@ -98,59 +112,7 @@ class _MyAppState extends State<MyApp> {
             }),
         routes: {
           // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
-        },
-        onGenerateRoute: (settings) {
-          switch (settings.name) {
-            case WelcomeLoginScreen.routeName:
-              return PageTransition(
-                child: WelcomeLoginScreen(pressedSignin: pressedSignIn),
-                type: PageTransitionType.rightToLeftWithFade,
-              );
-              break;
-            case SignUpScreen.routeName:
-              return PageTransition(
-                  child: SignUpScreen(pressedLogIn),
-                  type: PageTransitionType.leftToRightWithFade);
-              break;
-            case EmailVerificationScreen.routeName:
-              return PageTransition(
-                child: EmailVerificationScreen(),
-                type: PageTransitionType.rightToLeftWithFade,
-              );
-              break;
-            case HomeScreen.routeName:
-              return PageTransition(
-                child: HomeScreen(),
-                type: PageTransitionType.rightToLeftWithFade,
-              );
-              break;
-            case AccCreatedScreen.routeName:
-              return PageTransition(
-                child: AccCreatedScreen(),
-                type: PageTransitionType.bottomToTop,
-              );
-              break;
-            case GenderScreen.routeName:
-              return PageTransition(
-                child: GenderScreen(),
-                type: PageTransitionType.bottomToTop,
-              );
-              break;
-            case LocationScreen.routeName:
-              return PageTransition(
-                child: LocationScreen(),
-                type: PageTransitionType.bottomToTop,
-              );
-              break;
-            case PickPhotoScreen.routeName:
-              return PageTransition(
-                child: PickPhotoScreen(),
-                type: PageTransitionType.bottomToTop,
-              );
-              break;
-            default:
-              return null;
-          }
+          ViewBodyPhoto.routeName: (context) => ViewBodyPhoto(),
         },
       ),
     );
@@ -262,6 +224,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
               children: [
                 navigateToWebLink(),
                 logoAppName(logoImage),
+                // addDatingText(),
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 10),
                 ),

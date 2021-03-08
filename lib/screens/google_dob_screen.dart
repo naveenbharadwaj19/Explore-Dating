@@ -1,7 +1,7 @@
 // todo : DOB screen only during google auth
 
-import 'package:explore/data/auth_data.dart' show ageM,dobM;
-import 'package:explore/models/firestore_signup.dart'show GooglePath;
+import 'package:explore/data/temp/auth_data.dart' show ageM, dobM;
+import '../serverless/firestore_signup.dart' show GooglePath;
 import 'package:explore/widgets/signup_widget.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,6 @@ class GoogleDobScreen extends StatefulWidget {
 class _GoogleDobScreenState extends State<GoogleDobScreen> {
   bool agreeAge = false;
   bool agreeTerms = false;
-  
 
   void toggleAge() {
     setState(() {
@@ -58,13 +57,26 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                     width: 170,
                   ),
                 ),
-                Text(
-                  "Explore",
-                  style: TextStyle(
-                      fontFamily: "Domine",
-                      fontSize: 40,
-                      color: Colors.white,
-                      decoration: TextDecoration.none),
+                RichText(
+                  textAlign: TextAlign.right,
+                  text: TextSpan(children: [
+                    TextSpan(
+                      text: "Explore\n",
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 40,
+                          fontFamily: "Domine",
+                          decoration: TextDecoration.none),
+                    ),
+                    TextSpan(
+                      text: "Dating",
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontFamily: "Domine",
+                          decoration: TextDecoration.none),
+                    ),
+                  ]),
                 ),
               ],
             ),
@@ -73,11 +85,11 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
             ),
             DOBGoogle(),
             Container(
-              margin: EdgeInsets.only(left: 5),
+              margin: const EdgeInsets.only(left: 5),
               child: ageCondition(agreeAge, toggleAge),
             ),
             Container(
-              margin: EdgeInsets.only(left: 5),
+              margin: const EdgeInsets.only(left: 5),
               child: termsAndConditions(agreeTerms, toogleTerms),
             ),
             Spacer(),
@@ -85,16 +97,16 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: 180,
-                margin: EdgeInsets.only(bottom: 30),
+                margin: const EdgeInsets.only(bottom: 30),
                 child: RaisedButton(
                   color: Color(0xffF8C80D),
                   textColor: Color(0xff121212),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                       side: BorderSide(color: Color(0xffF8C80D))),
-                  child: Text(
+                  child: const Text(
                     "Continue",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       // fontWeight: FontWeight.w700,
                     ),
@@ -103,17 +115,15 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                     if (dobM == null || dobM.isEmpty) {
                       Flushbar(
                         backgroundColor: Color(0xff121212),
-                        messageText: Text(
+                        messageText: const Text(
                           "Enter birth date",
-                          style: TextStyle(
-                              fontFamily: "OpenSans",
+                          style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Colors.white),
                         ),
                         duration: Duration(seconds: 3),
                       )..show(context);
-                    }
-                    else if (agreeAge == true && agreeTerms == true) {
+                    } else if (agreeAge == true && agreeTerms == true) {
                       GooglePath.updateDobGoogle(dobM, ageM);
                     }
                   },
@@ -137,11 +147,19 @@ class DOBGoogle extends StatefulWidget {
 class _DOBGoogleState extends State<DOBGoogle> {
   DateTime today = DateTime.now();
 
+   int getAbove18Year(){
+    var now = new DateTime.now();
+    String yearFormatter = DateFormat("y").format(now);
+    int currentYear = int.parse(yearFormatter);
+    int above18Year = currentYear - 18;
+    return above18Year;
+  }
+
   String formattedDate() {
     return DateFormat("dd/MM/yyyy").format(today).toString();
   }
 
-  int _findAge() {
+  int findAge() {
     // ? check whether user is above 18+
     String getYear = formattedDate().substring(formattedDate().length - 4);
     int strToIntYear = int.parse(getYear);
@@ -159,7 +177,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
       initialDate: today,
       firstDate: DateTime(1940),
       dateFormat: "dd-MMMM-yyyy",
-      lastDate: DateTime.now(),
+      lastDate: DateTime(getAbove18Year(),today.month,today.day),
       looping: true,
       backgroundColor: Color(0xff121212),
       textColor: Color(0xffF8C80D),
@@ -171,7 +189,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
       setState(() {
         today = picked;
         dobM = formattedDate();
-        ageM = _findAge();
+        ageM = findAge();
       });
   }
 
@@ -180,7 +198,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
     return Align(
       alignment: Alignment(-0.3, 0.0),
       child: Container(
-        margin: EdgeInsets.only(top: 25),
+        margin: const EdgeInsets.only(top: 25),
         height: 60,
         width: 300,
         decoration: ShapeDecoration(
@@ -194,7 +212,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
               padding: EdgeInsets.all(8),
               child: Text(
                 "D.O.B : ",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w700,
                     fontSize: 20),
@@ -207,8 +225,8 @@ class _DOBGoogleState extends State<DOBGoogle> {
                   borderRadius: BorderRadius.circular(7),
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
-                _findAge() < 18 ? "Enter age 18+" : formattedDate(),
-                style: TextStyle(fontSize: 16
+                findAge() < 18 ? "Enter age 18+" : formattedDate(),
+                style: const TextStyle(fontSize: 16
                     // fontWeight: FontWeight.w700
                     ),
               ),

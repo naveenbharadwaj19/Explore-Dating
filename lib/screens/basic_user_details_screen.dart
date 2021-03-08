@@ -1,29 +1,40 @@
+// ? These sream manages all user forums until user complete all neccessary details
+// ? Email verf -> account success -> gender -> photos -> show me -> location -> internet connectivity
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
-import 'package:explore/models/handle_delete_logout.dart';
+
+import 'package:explore/data/temp/filter_datas.dart';
+
+import 'package:explore/models/current_user_details.dart';
+import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
+
 import 'package:explore/screens/acc_create_screen.dart';
-import 'package:explore/screens/error_screen.dart';
-import 'package:explore/screens/google_dob_screen.dart';
+import 'package:explore/screens/disabled_screen.dart';
 import 'package:explore/screens/emai_verf_screen.dart';
+import 'package:explore/screens/error_screen.dart';
 import 'package:explore/screens/gender_screen.dart';
+import 'package:explore/screens/google_dob_screen.dart';
 import 'package:explore/screens/location_screen.dart';
+import 'package:explore/screens/bottom_navigation_bar_screens.dart';
 import 'package:explore/screens/no_internet_connection_screen.dart';
 import 'package:explore/screens/pick_photos_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/screens/show_me_screen.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-class HomeScreen extends StatefulWidget {
-  static const routeName = "home-page";
+class BasicDetailsScreens extends StatefulWidget {
+  static const routeName = "basic-details";
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _BasicDetailsScreensState createState() => _BasicDetailsScreensState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
   final String _animationName = "SearchLocation";
   final String animationName2 = "NoWifi";
   bool openCloseLocationPage = false;
@@ -40,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     ErrorWidget.builder = ((e) {
-      print("Bad document during home screen error suppressed");
+      print("Error in basic user details screen");
       return Center(
         child: loadingSpinner(),
       );
@@ -59,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<DocumentSnapshot>(
       // ? helps to track of user status :
       stream: FirebaseFirestore.instance
           .doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}")
@@ -73,12 +84,15 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         }
         final checkUserStatus = snapShot1.data;
-        if (checkUserStatus["isloggedin"] == true &&
-            checkUserStatus["isdeleted"] == true) {
+        if (checkUserStatus["isdeleted"] == true) {
           print("No user data exist in firestore and in deletation page");
           return WhenUserIdNotExistInFirestore();
         }
-        return StreamBuilder(
+        if (checkUserStatus["isdisabled"] == true) {
+          print("In User account disabled");
+          return UserAccountDisabled();
+        }
+        return StreamBuilder<DocumentSnapshot>(
           // ? help to check all forums and fields are updated
           stream: FirebaseFirestore.instance
               .doc("Users/${FirebaseAuth.instance.currentUser.uid}")
@@ -124,12 +138,13 @@ class _HomeScreenState extends State<HomeScreen> {
               print("In photo page");
               return PickPhotoScreen();
             }
-            if (snapShot2.data["show_me"].isEmpty || snapShot2.data["show_me"] == null){
+            if (snapShot2.data["show_me"].isEmpty ||
+                snapShot2.data["show_me"] == null) {
               print("In show me page");
               return ShowMeScreen();
             }
             return StreamBuilder<Position>(
-              // ? help to get the on time location
+              // ? time location
               stream: Geolocator.getPositionStream(
                 desiredAccuracy: LocationAccuracy.best,
                 intervalDuration: Duration(seconds: 60),
@@ -151,22 +166,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 }
-                // if (locationSnapShot.hasError) {
-                //   print("Facing error in location stream");
-                //   return Center(
-                //     child: Container(
-                //       height: 300,
-                //       // width: 300,
-                //       child: FlareActor(
-                //         "assets/animations/location_pin.flr",
-                //         fit: BoxFit.cover,
-                //         animation: _animationName,
-                //       ),
-                //     ),
-                //   );
-                // }
                 final Position currentCoordinates = locationSnapShot.data;
                 print("CurrentCoordinates : $currentCoordinates");
+                if (currentCoordinates != null) {
+                  // ! might lead to too much data read and update
+                  LocationModel.checkForUserLocation(
+                      latitude: currentCoordinates.latitude,
+                      longitude: currentCoordinates.longitude,
+                      context: context);
+                }
                 if (currentCoordinates == null &&
                     openCloseLocationPage == false) {
                   print("In Location page");
@@ -176,13 +184,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 // ? reason assigning false is because when user in current state the bool check will always be true . Until user restart / kills the app
                 openCloseLocationPage = false;
 
-                return StreamBuilder(
+                return StreamBuilder<ConnectivityResult>(
                   // ? check for internet connectivity
                   stream: Connectivity().onConnectivityChanged,
                   builder: (context, internetConnection) {
                     if (internetConnection.connectionState ==
-                        ConnectionState.waiting || internetConnection.hasError || ! internetConnection.hasData) {
-                          print("Fetching connectivity status.Will show loading spinner");
+                            ConnectionState.waiting ||
+                        internetConnection.hasError ||
+                        !internetConnection.hasData) {
+                      // print(
+                      //     "Fetching connectivity status.Will show loading spinner");
                       return Center(child: loadingSpinner());
                     }
                     print("ConnectionStatus : ${internetConnection.data}");
@@ -190,43 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       print("Cannot find internet connection");
                       return noInternetConnection(animationName2);
                     }
-                    return Material(
-                      child: Container(
-                        color: Colors.black,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Home Screen",
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 40)),
-                            IconButton(
-                              icon: Icon(Icons.delete),
-                              color: Colors.red,
-                              iconSize: 50,
-                              onPressed: () {
-                                deleteAuthDetails();
-                                // deleteUserPhotosInCloudStorage();
-                              },
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.exit_to_app_outlined),
-                              color: Colors.red,
-                              iconSize: 50,
-                              onPressed: () => logoutUser(),
-                            ),
-                            IconButton(
-                              icon: Icon(Icons.call),
-                              color: Colors.red,
-                              iconSize: 50,
-                              onPressed: () {
-                                // print(
-                                //     FirebaseAuth.instance.currentUser.reload());
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+                    validateAndStoreUserDetails(currentCoordinates.latitude,
+                        currentCoordinates.longitude);
+                    fetchFiltersData();
+                    return BottomNavigationBarScreens();
                   },
                 );
               },

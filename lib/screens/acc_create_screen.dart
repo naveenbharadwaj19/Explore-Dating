@@ -1,4 +1,5 @@
-import 'package:explore/models/firestore_signup.dart';
+
+import 'package:explore/serverless/firestore_signup.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class AccCreatedScreen extends StatelessWidget {
             Container(
               height: 200,
               width: 200,
-              margin: EdgeInsets.symmetric(vertical: 50),
+              margin: const EdgeInsets.symmetric(vertical: 50),
               child: FlareActor(
                 "assets/animations/successCheck.flr",
                 fit: BoxFit.cover,
@@ -27,9 +28,9 @@ class AccCreatedScreen extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.all(10),
-              child: Text(
+              child: const Text(
                 "Account created successfully",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 23,
                     fontWeight: FontWeight.w700),
@@ -41,16 +42,16 @@ class AccCreatedScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: 180,
-                margin: EdgeInsets.only(bottom:30),
+                margin: const EdgeInsets.only(bottom:30),
                 child: RaisedButton(
                   color: Color(0xffF8C80D),
                   textColor: Color(0xff121212),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                       side: BorderSide(color: Color(0xffF8C80D))),
-                  child: Text(
+                  child: const Text(
                     "Continue",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20,
                       // fontWeight: FontWeight.w700,
                     ),

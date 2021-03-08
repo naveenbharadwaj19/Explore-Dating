@@ -28,15 +28,15 @@ Widget headPhoto(BuildContext context,Function updateHeadPhoto) {
           child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 30),
+            margin: const EdgeInsets.only(top: 30),
             child: Text(
               "-Profile-",
-              style: TextStyle(color: Color(0xffF8C80D), fontSize: 25),
+              style: const TextStyle(color: Color(0xffF8C80D), fontSize: 25),
             ),
           ),
           // ? circle and shadow
           Container(
-            margin: EdgeInsets.only(top: 45),
+            margin: const EdgeInsets.only(top: 45),
             decoration: BoxDecoration(
               // ? shadow
               // color: Colors.white,
@@ -134,7 +134,7 @@ class _PhotoOptions {
           children: [
             Container(
               // ? camera button
-              margin: EdgeInsets.only(top: 50),
+              margin: const EdgeInsets.only(top: 50),
               height: 70,
               width: 180,
               child: RaisedButton.icon(
@@ -150,7 +150,7 @@ class _PhotoOptions {
                 ),
                 label: Text(
                   "Camera",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 25),
@@ -182,7 +182,7 @@ class _PhotoOptions {
                 ),
                 label: Text(
                   "Gallery",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 25),
@@ -211,7 +211,7 @@ class _PhotoOptions {
           children: [
             Container(
               // ? camera button
-              margin: EdgeInsets.only(top: 50),
+              margin: const EdgeInsets.only(top: 50),
               height: 70,
               width: 180,
               child: RaisedButton.icon(
@@ -227,7 +227,7 @@ class _PhotoOptions {
                 ),
                 label: Text(
                   "Camera",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 25),
@@ -259,7 +259,7 @@ class _PhotoOptions {
                 ),
                 label: Text(
                   "Gallery",
-                  style: TextStyle(
+                  style: const TextStyle(
                       // fontFamily: "OpenSans",
                       // fontWeight: FontWeight.w700,
                       fontSize: 25),

@@ -1,4 +1,7 @@
-import 'package:explore/models/firestore_signup.dart';
+
+import 'package:explore/data/all_secure_storage.dart'show writeRFATA;
+import '../serverless/firestore_signup.dart';
+import '../serverless/match_making.dart';
 import 'package:flutter/material.dart';
 
 class ShowMeScreen extends StatefulWidget {
@@ -33,10 +36,10 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
       child: Column(
         children: [
           Container(
-              margin: EdgeInsets.symmetric(vertical: 40),
+              margin: const EdgeInsets.symmetric(vertical: 40),
               child: Text(
                 "-Show me-",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Color(0xffF8C80D),
                     fontSize: 20,
                     decoration: TextDecoration.none),
@@ -52,7 +55,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   side: BorderSide(color: Color(0xffF8C80D),width: 2)),
               child: Text(
                 "Men",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   // fontWeight: FontWeight.w700,
                 ),
@@ -66,7 +69,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           ),
           Container(
             width: 250,
-            margin: EdgeInsets.only(top:20),
+            margin: const EdgeInsets.only(top:20),
             child: RaisedButton(
              color: Color(index == 2? 0xffF8C80D : 0xff121212),
               textColor: index == 2 ? Color(0xff121212) : Colors.white,
@@ -75,7 +78,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   side: BorderSide(color: Color(0xffF8C80D),width: 2)),
               child: Text(
                 "Women",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   // fontWeight: FontWeight.w700,
                 ),
@@ -89,7 +92,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           ),
           Container(
             width: 250,
-            margin: EdgeInsets.only(top:20),
+            margin: const EdgeInsets.only(top:20),
             child: RaisedButton(
               color: Color(index == 3 ? 0xffF8C80D : 0xff121212),
               textColor: index == 3 ? Color(0xff121212) : Colors.white,
@@ -98,7 +101,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   side: BorderSide(color: Color(0xffF8C80D),width: 2)),
               child: Text(
                 "Everyone",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   // fontWeight: FontWeight.w700,
                 ),
@@ -113,7 +116,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           Spacer(),
           Container(
             width: 180,
-            margin: EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20),
             child: RaisedButton(
               color: Color(0xffF8C80D),
               textColor: Color(0xff121212),
@@ -122,12 +125,16 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
                 "Confirm",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 20,
                   // fontWeight: FontWeight.w700,
                 ),
               ),
-              onPressed: () => OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context),
+              onPressed: (){
+                OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context);
+                MatchMakingCollection.addCurrentUserMM(selectedShowMe);
+                writeRFATA(selectedShowMe);
+              },
             ),
           ),
         ],

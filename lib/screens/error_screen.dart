@@ -1,6 +1,8 @@
 // todo When user account doest exist
 
-import 'package:explore/models/handle_delete_logout.dart';
+import 'package:explore/data/all_secure_storage.dart';
+import 'package:explore/models/handle_deletes_logout.dart';
+import 'package:explore/models/https_cloud_functions.dart';
 import 'package:flutter/material.dart';
 
 class WhenUserIdNotExistInFirestore extends StatelessWidget {
@@ -14,17 +16,17 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              margin: EdgeInsets.only(top:25),
-              child: Icon(
+              margin: const EdgeInsets.only(top: 25),
+              child: const Icon(
                 Icons.block_flipped,
                 color: Color(0xffF8C80D),
                 size: 150,
               ),
             ),
             Spacer(),
-            Text(
+            const Text(
               "Error : 404",
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 22,
                   decoration: TextDecoration.none),
@@ -32,20 +34,20 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(10),
             ),
-            Text(
+            const Text(
               "Your account has been deleted for violating our terms",
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white,
                   fontSize: 20,
                   decoration: TextDecoration.none),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               child: IconButton(
                 color: Colors.white,
                 iconSize: 35,
-                icon: Icon(Icons.help),
+                icon: const Icon(Icons.help),
                 onPressed: () {},
                 tooltip: "Help",
               ),
@@ -53,23 +55,25 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
             Spacer(),
             Container(
               width: 125,
-              margin: EdgeInsets.only(bottom: 20),
+              margin: const EdgeInsets.only(bottom: 20),
               child: RaisedButton(
                 color: Color(0xffF8C80D),
                 textColor: Color(0xff121212),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                     side: BorderSide(color: Color(0xffF8C80D))),
-                child: Text(
+                child: const Text(
                   "Ok",
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontFamily: "Nunito",
                       // fontWeight: FontWeight.w600,
                       fontSize: 16),
                 ),
                 onPressed: () {
                   // * delete Userstatus -> uid datas and navigate the user to welcome screen
-                  deleteUserStatus();
+                  logoutUser(context);
+                  callUserDeleteFunction();
+                  deleteAll(); // ! not deleting properly
                 },
               ),
             ),
