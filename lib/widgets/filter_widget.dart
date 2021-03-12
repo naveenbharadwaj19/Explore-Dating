@@ -7,6 +7,7 @@ import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/serverless/connecting_users.dart';
 import 'package:explore/serverless/filters_info.dart';
 import 'package:explore/serverless/geohash_custom_radius.dart';
+import 'package:explore/serverless/notifications.dart';
 import 'package:provider/provider.dart';
 import '../serverless/update_show_me.dart';
 import 'package:flushbar/flushbar.dart';
@@ -228,12 +229,14 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                       // ? types of show me
                       Container(
                         // ! change to left : 10 if overflow error pop up
-                        margin: const EdgeInsets.only(top: 35,left: 2,right: 5),
+                        margin:
+                            const EdgeInsets.only(top: 35, left: 2, right: 5),
                         child: Row(
                           children: [
                             Container(
                               margin: const EdgeInsets.only(left: 20),
                               height: 50,
+                              // ignore: deprecated_member_use
                               child: RaisedButton(
                                 color: Color(
                                     index == 1 || currentShowme == "Men"
@@ -264,6 +267,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             Container(
                               height: 50,
                               margin: const EdgeInsets.only(left: 15),
+                              // ignore: deprecated_member_use
                               child: RaisedButton(
                                 color: Color(
                                     index == 2 || currentShowme == "Women"
@@ -295,6 +299,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             Container(
                               height: 50,
                               margin: const EdgeInsets.only(left: 15),
+                              // ignore: deprecated_member_use
                               child: RaisedButton(
                                 color: Color(
                                     index == 3 || currentShowme == "Everyone"
@@ -334,6 +339,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
             Container(
               margin: const EdgeInsets.all(10),
               width: 300,
+              // ignore: deprecated_member_use
               child: RaisedButton(
                 color: Color(0xff121212),
                 textColor: Colors.white,
@@ -353,32 +359,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                     ? null
                     : () {
                         print("Filter Applied");
-                        pageViewLogic.pageStorageKeyNo +=
-                            1; // ? incremenent pagestorage key
-                        pageViewLogic.holdFuture = true; // change future duration to 1 seconds
-                        pageViewLogic.callConnectingUsers = true;
-                        scrollUserDetails.clear(); // ? clear scroll list
-                        writeValue("radius", distanceKm.round().toString());
-                        writeValue(
-                            "from_age", ageValues.start.round().toString());
-                        writeValue("to_age", ageValues.end.round().toString());
-                        writeValue("show_me", currentShowme);
-                        updateShowMeFirestore(currentShowme);
-                        filtersInformationUpdate(
-                            currentShowme, distanceKm.round(),ageValues);
-                        ConnectingUsers.resetLatestDocs(); // reset latest documents
-                        CustomRadiusGeoHash.resetLatestDocs(); // reset latest documents
-                        scrollUserDetails.clear(); // ? clear scroll list
-                        Navigator.pop(context);
-                        Flushbar(
-                          messageText: Text(
-                            "Filters Updated",
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 18),
-                          ),
-                          backgroundColor: Color(0xff121212),
-                          duration: Duration(seconds: 1),
-                        )..show(context);
+                        filterApplyBackend(pageViewLogic, context);
                       },
               ),
             ),
@@ -386,5 +367,31 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
         ),
       ),
     );
+  }
+
+  void filterApplyBackend(PageViewLogic pageViewLogic, BuildContext context) {
+    pageViewLogic.pageStorageKeyNo += 1; // ? incremenent pagestorage key
+    pageViewLogic.holdFuture = true; // change future duration to 1 seconds
+    pageViewLogic.callConnectingUsers = true;
+    scrollUserDetails.clear(); // clear scroll list // ? 1
+    writeValue("radius", distanceKm.round().toString());
+    writeValue("from_age", ageValues.start.round().toString());
+    writeValue("to_age", ageValues.end.round().toString());
+    writeValue("show_me", currentShowme);
+    updateShowMeFirestore(currentShowme);
+    filtersInformationUpdate(currentShowme, distanceKm.round(), ageValues);
+    ConnectingUsers.resetLatestDocs(); // reset latest documents
+    CustomRadiusGeoHash.resetLatestDocs(); // reset latest documents
+    Notifications.resetLatestDocs(); // reset latest documents
+    scrollUserDetails.clear(); // clear scroll list // ? 2
+    Navigator.pop(context);
+    Flushbar(
+      messageText: Text(
+        "Filters Updated",
+        style: const TextStyle(color: Colors.white, fontSize: 18),
+      ),
+      backgroundColor: Color(0xff121212),
+      duration: Duration(seconds: 1),
+    )..show(context);
   }
 }

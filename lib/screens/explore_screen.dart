@@ -10,9 +10,13 @@ import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/serverless/connecting_users.dart';
 import 'package:explore/serverless/geohash_custom_radius.dart';
+import 'package:explore/serverless/hearts.dart';
+import 'package:explore/serverless/notifications.dart';
+import 'package:explore/serverless/stars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
 // ? : topBox -> head photo ,name,age,location
@@ -112,7 +116,7 @@ class Feeds extends StatelessWidget {
                       physics: PageScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       dragStartBehavior:
-                          DragStartBehavior.start, // drage behavior
+                          DragStartBehavior.down, // drage behavior
                       onPageChanged: (index) {
                         if (newRadius == 180 &&
                             ConnectingUsers.latestUid.isNotEmpty) {
@@ -275,80 +279,95 @@ Widget middleBox(int index, BuildContext context) {
           child: Align(
               alignment:
                   height < 700 ? Alignment.bottomCenter : Alignment(0.0, 1.0),
-              child: lowerBox(index)),
+              child: LowerBox(index)),
         ),
       ],
     ),
   );
 }
 
-Widget lowerBox(int index) {
+class LowerBox extends StatelessWidget {
+  final int index;
+  LowerBox(this.index);
   final double heartIconSize = 50;
   final double reportIconSize = 65;
   final double starIconSize = 40;
-  return Container(
-    // ? heart , star , report widgets
-    child: Container(
-      // ? control black box
-      width: 255,
-      margin: const EdgeInsets.only(
-        bottom: 20,
-      ),
-      decoration: BoxDecoration(
-        // ? 90 - opacity
-        color: Color(0xE6121212),
-        borderRadius: const BorderRadius.all(Radius.circular(60)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            // ? heart icon
-            margin: const EdgeInsets.only(left: 20),
-            child: GestureDetector(
-              child: Icon(
-                Icons.favorite_border_rounded,
-                color: Colors.red,
-                size: heartIconSize,
+  @override
+  Widget build(BuildContext context) {
+    final pageViewLogic = Provider.of<PageViewLogic>(context);
+    return Container(
+      // ? heart , star , report widgets
+      child: Container(
+        // ? control black box
+        width: 255,
+        margin: const EdgeInsets.only(
+          bottom: 20,
+        ),
+        decoration: BoxDecoration(
+          // ? 90 - opacity
+          color: Color(0xE6121212),
+          borderRadius: const BorderRadius.all(Radius.circular(60)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              // ? heart icon
+              margin: const EdgeInsets.only(left: 20),
+              child: GestureDetector(
+                child: scrollUserDetails[index]["heart"] &&
+                        scrollUserDetails[index]["lock_heart_star"]
+                    ? Hearts.heartanimation(50)
+                    : Icon(
+                        Icons.favorite_border_rounded,
+                        color: Colors.red,
+                        size: heartIconSize,
+                      ),
+                onTap: () async {
+                  print("Pressed heart : $index");
+                  await Hearts.storeHeartInfo(index: index, context: context);
+                  pageViewLogic.updateLowerBoxUi();
+                },
               ),
-              onTap: () {
-                print("Pressed heart $index");
-                print(scrollUserDetails[index]["uid"]);
-              },
             ),
-          ),
-          Container(
-            // ? star icon
-            margin: const EdgeInsets.only(left: 40, bottom: 3),
-            child: GestureDetector(
-              child: Icon(
-                // Icons.star_border_outlined,
-                StarRoundedIcon.star,
-                color: Color(0xffF8C80D),
-                size: starIconSize,
+            Container(
+              // ? star icon
+              margin: const EdgeInsets.only(left: 40, bottom: 3),
+              child: GestureDetector(
+                child: scrollUserDetails[index]["star"] &&
+                        scrollUserDetails[index]["lock_heart_star"]
+                    ? Stars.starAnimation()
+                    : Icon(
+                        // Icons.star_border_outlined,
+                        StarRoundedIcon.star,
+                        color: Color(0xffF8C80D),
+                        size: starIconSize,
+                      ),
+                onTap: () async {
+                  print("Pressed star : $index");
+                  await Stars.storeStarInfo(index: index, context: context);
+                  pageViewLogic.updateLowerBoxUi();
+                },
               ),
-              onTap: () {
-                print("Pressed star $index");
-              },
             ),
-          ),
-          Container(
-            // ? report icon
-            margin: const EdgeInsets.only(left: 30, top: 5),
-            child: GestureDetector(
-              child: Icon(
-                ReportFilterIcons.report_100_px_new,
-                color: Colors.white54,
-                size: reportIconSize,
+            Container(
+              // ? report icon
+              margin: const EdgeInsets.only(left: 30, top: 5),
+              child: GestureDetector(
+                child: Icon(
+                  ReportFilterIcons.report_100_px_new,
+                  color: Colors.white54,
+                  size: reportIconSize,
+                ),
+                onTap: () {
+                  print("Pressed report $index");
+                },
               ),
-              onTap: () {
-                print("Pressed report $index");
-              },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 // ? View body photo
@@ -387,38 +406,48 @@ Widget nothingToExplore(int streamRadius, BuildContext context) {
           return loadFeeds();
         }
         return Container(
+          margin: const EdgeInsets.only(top:100),
           child: Center(
             child: Column(
               children: [
                 Container(
-                    // ? search icon
-                    margin: const EdgeInsets.only(top: 20),
-                    child: const Icon(
-                      Icons.search_rounded,
-                      size: 100,
-                      color: Colors.white,
+                    // ? animation
+                    child: Lottie.asset(
+                      "assets/animations/nothing_to_explore.json",
+                      fit: BoxFit.cover,
+                      height: 70,
+                      width: 70,
+                      repeat: false,
                     )),
                 Container(
                   // ? text message
-                  margin: const EdgeInsets.all(20),
+                  margin: const EdgeInsets.all(25),
                   child: const Text(
-                    "You've explored nearby people.\n Try again or comeback later or change your filter.",
+                    "You've explored nearby people.\n Try again or change your filter.",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 Container(
                   // ? refresh
+                  width: 160,
                   margin: const EdgeInsets.symmetric(vertical: 10),
-                  child: IconButton(
-                    icon: const Icon(Icons.loop_rounded),
-                    color: Colors.white,
-                    iconSize: 35,
-                    disabledColor: Colors.transparent,
-                    splashColor: Theme.of(context).primaryColor,
-                    // ! any lack in UI performance change on pressed syntax
+                  child: RaisedButton(
+                    color: Color(0xffF8C80D),
+                    textColor: Color(0xff121212),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(color: Color(0xffF8C80D))),
+                    child: const Text(
+                      "Try again",
+                      style: const TextStyle(
+                        fontSize: 18,
+                        // fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     onPressed: () {
                       scrollUserDetails.clear(); // reset scroll details
+                      Notifications.resetLatestDocs(); // reset notifications doc
                       pageViewLogic.callConnectingUsers = true;
                       if (scrollUserDetails.isEmpty &&
                           streamRadius == 180 &&
@@ -437,7 +466,6 @@ Widget nothingToExplore(int streamRadius, BuildContext context) {
                         pageViewLogic.callConnectingUsers = false;
                       }
                     },
-                    tooltip: "Refresh",
                   ),
                 ),
               ],

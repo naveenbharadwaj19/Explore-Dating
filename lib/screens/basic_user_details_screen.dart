@@ -3,13 +3,10 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
-
 import 'package:explore/data/temp/filter_datas.dart';
-
 import 'package:explore/models/current_user_details.dart';
 import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
-
 import 'package:explore/screens/acc_create_screen.dart';
 import 'package:explore/screens/disabled_screen.dart';
 import 'package:explore/screens/emai_verf_screen.dart';
@@ -21,11 +18,10 @@ import 'package:explore/screens/bottom_navigation_bar_screens.dart';
 import 'package:explore/screens/no_internet_connection_screen.dart';
 import 'package:explore/screens/pick_photos_screen.dart';
 import 'package:explore/screens/show_me_screen.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:lottie/lottie.dart';
 
 class BasicDetailsScreens extends StatefulWidget {
   static const routeName = "basic-details";
@@ -35,7 +31,7 @@ class BasicDetailsScreens extends StatefulWidget {
 }
 
 class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
-  final String _animationName = "SearchLocation";
+  // final String _animationName = "SearchLocation";
   final String animationName2 = "NoWifi";
   bool openCloseLocationPage = false;
 
@@ -156,12 +152,11 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                   // print("waiting for the location stream");
                   return Center(
                     child: Container(
-                      height: 300,
+                      height: 200,
                       // width: 300,
-                      child: FlareActor(
-                        "assets/animations/location_pin.flr",
+                      child: Lottie.asset(
+                        "assets/animations/location_pin.json",
                         fit: BoxFit.cover,
-                        animation: _animationName,
                       ),
                     ),
                   );

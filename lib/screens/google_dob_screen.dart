@@ -98,6 +98,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
               child: Container(
                 width: 180,
                 margin: const EdgeInsets.only(bottom: 30),
+                // ignore: deprecated_member_use
                 child: RaisedButton(
                   color: Color(0xffF8C80D),
                   textColor: Color(0xff121212),
@@ -218,6 +219,7 @@ class _DOBGoogleState extends State<DOBGoogle> {
                     fontSize: 20),
               ),
             ),
+            // ignore: deprecated_member_use
             RaisedButton(
               color: Color(0xffF8C80D),
               textColor: Color(0xff121212),

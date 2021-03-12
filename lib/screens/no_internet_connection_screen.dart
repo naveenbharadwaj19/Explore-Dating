@@ -1,6 +1,6 @@
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 Widget noInternetConnection(String animationName2) {
   return Center(
@@ -10,11 +10,7 @@ Widget noInternetConnection(String animationName2) {
         Container(
           height: 200,
           width: 200,
-          child: FlareActor(
-            "assets/animations/no_wifi.flr",
-            fit: BoxFit.cover,
-            animation: animationName2,
-          ),
+          child: Lottie.asset("assets/animations/no_wifi.json",fit: BoxFit.cover,),
         ),
         Padding(
           padding: EdgeInsets.only(top: 10),

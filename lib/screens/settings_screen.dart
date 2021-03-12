@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/all_secure_storage.dart';
-import 'package:explore/models/handle_deletes_logout.dart';
+import 'package:explore/serverless/handle_deletes_logout.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -71,7 +72,12 @@ class SettingsScreen extends StatelessWidget {
   }
 }
 
-bulkOperation() async {
+void bulkOperation() async {
+  // write bulk operation here
+}
+
+
+Future bulkPhotoOperation() async {
   try {
     var data = await FirebaseFirestore.instance
         .collection("Matchmaking/simplematch/MenWomen")
@@ -79,17 +85,36 @@ bulkOperation() async {
     data.docs.forEach((element) async {
       String path = element.reference.path;
       DocumentReference editData = FirebaseFirestore.instance.doc(path);
+      FirebaseStorage uploadUserPhotos = FirebaseStorage.instance;
+    var deleteCurrentHeadPhoto = await uploadUserPhotos
+        .ref()
+        .child("Userphotos/${element.get("uid")}/currentheadphoto")
+        .listAll();
+    deleteCurrentHeadPhoto.items.forEach((headp)async {
+      String url = await headp.getDownloadURL();
       await editData.update({
-        "photos": {
-          "current_head_photo":
-              "https://firebasestorage.googleapis.com/v0/b/explore-dating.appspot.com/o/Userphotos%2F7Hsr2gfBRvaByEJrudUmP3HsOWI3%2Fcurrentheadphoto%2Fchoosenheadphoto.jpg?alt=media&token=8ea716d6-cb53-4e8e-bc0a-bbdd60119fda",
-          "current_body_photo":
-              "https://firebasestorage.googleapis.com/v0/b/explore-dating.appspot.com/o/Userphotos%2F7Hsr2gfBRvaByEJrudUmP3HsOWI3%2Fcurrentbodyphoto%2Fchoosenbodyphoto.jpg?alt=media&token=397a0b86-b89d-42b8-9e01-6253f820a279",
-        }
+        "photos.current_head_photo" : url,
       });
     });
+    var deleteCurrentbodyPhoto = await uploadUserPhotos
+        .ref()
+        .child("Userphotos/${element.get("uid")}/currentbodyphoto")
+        .listAll();
+    deleteCurrentbodyPhoto.items.forEach((bodyp)async {
+      String url = await bodyp.getDownloadURL();
+      await editData.update({
+        "photos.current_body_photo" : url,
+      });
+    });
+      // await editData.update({
+      //   "uid" : FieldValue.delete(),
+      //   "age" : FieldValue.delete(),
+      //   "received_hearts" : FieldValue.delete(),
+      // });
+    });
+    
     print("Done..");
   } catch (e) {
-    print("Erro in bulk operation ${e.toString()}");
+    print("Erro in bulk photo operation ${e.toString()}");
   }
 }

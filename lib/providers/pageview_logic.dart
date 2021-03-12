@@ -11,6 +11,7 @@ class PageViewLogic with ChangeNotifier {
   ValueNotifier<bool> holdExexution =
       ValueNotifier(true); // hold until feeds are fetched
   bool callConnectingUsers = true; // call connecting users from backend
+  bool lowerboxUi = false;
   void updateIncrement() {
     increment += 1;
     print("Pagination called : $increment");
@@ -23,5 +24,11 @@ class PageViewLogic with ChangeNotifier {
     print("Refreshing $refresh");
     notifyListeners();
     refresh = false;
+  }
+
+  void updateLowerBoxUi() {
+    // ? update lower box ui
+    lowerboxUi = true;
+    notifyListeners();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:lottie/lottie.dart';
 
 Widget loadingSpinner() {
   // * Cubegrid - default loading spinner
@@ -14,6 +15,10 @@ Widget whileHeadImageloadingSpinner() {
     color: Colors.white,
     size: 25,
   );
+}
+
+Widget infinitySpinner() {
+  return Lottie.asset("assets/animations/infinity.json");
 }
 
 Widget loadFeeds() {

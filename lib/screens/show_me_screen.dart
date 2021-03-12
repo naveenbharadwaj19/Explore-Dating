@@ -47,6 +47,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           Spacer(),
           Container(
             width: 250,
+            // ignore: deprecated_member_use
             child: RaisedButton(
               color: Color(index == 1? 0xffF8C80D : 0xff121212),
               textColor: index == 1 ? Color(0xff121212) : Colors.white,
@@ -70,6 +71,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           Container(
             width: 250,
             margin: const EdgeInsets.only(top:20),
+            // ignore: deprecated_member_use
             child: RaisedButton(
              color: Color(index == 2? 0xffF8C80D : 0xff121212),
               textColor: index == 2 ? Color(0xff121212) : Colors.white,
@@ -93,6 +95,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           Container(
             width: 250,
             margin: const EdgeInsets.only(top:20),
+            // ignore: deprecated_member_use
             child: RaisedButton(
               color: Color(index == 3 ? 0xffF8C80D : 0xff121212),
               textColor: index == 3 ? Color(0xff121212) : Colors.white,
@@ -117,6 +120,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           Container(
             width: 180,
             margin: const EdgeInsets.only(bottom: 20),
+            // ignore: deprecated_member_use
             child: RaisedButton(
               color: Color(0xffF8C80D),
               textColor: Color(0xff121212),

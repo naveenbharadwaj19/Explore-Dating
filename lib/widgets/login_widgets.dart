@@ -215,6 +215,7 @@ Widget loginButton(
           )
         : Container(
             width: 125,
+            // ignore: deprecated_member_use
             child: RaisedButton(
               color: Color(0xffF8C80D),
               textColor: Color(0xff121212),

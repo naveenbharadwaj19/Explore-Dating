@@ -5,13 +5,14 @@ import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/filter_datas.dart' show newRadius;
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/providers/pageview_logic.dart';
+import 'package:explore/serverless/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomRadiusGeoHash {
   // * crgh - Custom Radius Geo Hash
   // * rh - round homo
-  static int crghLimit = 4;
+  static int crghLimit = 10;
   static int paginateCRGHLimit = 4;
   static int latestAge;
   static String latestUid;
@@ -187,35 +188,42 @@ class CustomRadiusGeoHash {
     }
   }
 
-
   static void _unZipAndAddToScrollDetails(
       {@required dynamic queryDataName,
       @required String ssValueUid,
-      @required String nickName}) {
-    // unzip data of users and add them to scroll list
+      @required String nickName}) async {
+    // unzip data and add to scroll
     try {
-      if (queryDataName.get("uid") != ssValueUid) {
-        print(
-            "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")} ${queryDataName.get("current_coordinates.geohash")}");
-        //  serialize data
-         Map<String, dynamic> serializeDetails = {
-          "uid": queryDataName.get("uid"),
-          "gender": queryDataName.get("gender"),
-          "show_me": queryDataName.get("show_me"),
-          "age": queryDataName.get("age"),
-          "name": queryDataName.get("name"),
-          "headphoto": queryDataName.get("photos.current_head_photo"),
-          "bodyphoto": queryDataName.get("photos.current_body_photo"),
-          "city_state":
-              "${queryDataName.get("city")},${queryDataName.get("state")}",
-        };
-        // add map to list
-        scrollUserDetails.add(serializeDetails);
-        // print("Scroll len : ${scrollUserDetails.length}");
+      await Notifications.queryNotifications(
+          limit: CustomRadiusGeoHash.crghLimit,
+          paginatelimit: CustomRadiusGeoHash.paginateCRGHLimit);
+      if (!Notifications.doNotShowUid.contains(queryDataName.get("uid"))) {
+        if (queryDataName.get("uid") != ssValueUid) {
+          print(
+              "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")}");
+          // serialize data
+          Map<String, dynamic> serializeDetails = {
+            "uid": queryDataName.get("uid"),
+            "gender": queryDataName.get("gender"),
+            "show_me": queryDataName.get("show_me"),
+            "age": queryDataName.get("age"),
+            "name": queryDataName.get("name"),
+            "headphoto": queryDataName.get("photos.current_head_photo"),
+            "bodyphoto": queryDataName.get("photos.current_body_photo"),
+            "city_state":
+                "${queryDataName.get("city")},${queryDataName.get("state")}",
+            "heart": false,
+            "star": false,
+            "lock_heart_star": false,
+          };
+          // add map to list
+          scrollUserDetails.add(serializeDetails);
+          // print("Scroll len : ${scrollUserDetails.length}");
+        }
       }
     } catch (error) {
       print(
-          "Error in Unzipping data -> custom radius -> geohash ${error.toString()}");
+          "Error in unzipping data -> custom radius -> geohash : ${error.toString()}");
     }
   }
 
@@ -249,7 +257,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // queryResults
-            _execution(query: queryHomo, ssValueUid: ssValues["current_uid"], nickName: "Homo", context: context);
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHomo);
           } else if (newRadius.round() <= 20) {
@@ -265,7 +277,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // queryResults
-            _execution(query: queryHomo, ssValueUid: ssValues["current_uid"], nickName: "Homo", context: context);
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHomo);
           } else if (newRadius.round() <= 122) {
@@ -281,7 +297,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // queryResults
-            _execution(query: queryHomo, ssValueUid: ssValues["current_uid"], nickName: "Homo", context: context);
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHomo);
           } else if (newRadius.round() <= 167) {
@@ -298,7 +318,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // queryResults
-            _execution(query: queryHomo, ssValueUid: ssValues["current_uid"], nickName: "Homo", context: context);
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHomo);
           }
@@ -318,7 +342,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryEveryOne, ssValueUid: ssValues["current_uid"], nickName: "EveryOne", context: context);
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryEveryOne);
           } else if (newRadius.round() <= 20) {
@@ -333,7 +361,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryEveryOne, ssValueUid: ssValues["current_uid"], nickName: "EveryOne", context: context);
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryEveryOne);
           } else if (newRadius.round() <= 122) {
@@ -349,7 +381,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryEveryOne, ssValueUid: ssValues["current_uid"], nickName: "EveryOne", context: context);
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryEveryOne);
           } else if (newRadius.round() <= 167) {
@@ -365,7 +401,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryEveryOne, ssValueUid: ssValues["current_uid"], nickName: "EveryOne", context: context);
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryEveryOne);
           }
@@ -387,7 +427,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryHetro, ssValueUid: ssValues["current_uid"], nickName: "Hetro", context: context);
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHetro);
           } else if (newRadius.round() <= 20) {
@@ -404,7 +448,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-             _execution(query: queryHetro, ssValueUid: ssValues["current_uid"], nickName: "Hetro", context: context);
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHetro);
           } else if (newRadius.round() <= 122) {
@@ -421,7 +469,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-             _execution(query: queryHetro, ssValueUid: ssValues["current_uid"], nickName: "Hetro", context: context);
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHetro);
           } else if (newRadius.round() <= 167) {
@@ -438,7 +490,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-             _execution(query: queryHetro, ssValueUid: ssValues["current_uid"], nickName: "Hetro", context: context);
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHetro);
           }
@@ -482,7 +538,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // queryResults
-             _execution(query: queryHomo, ssValueUid: ssValues["current_uid"], nickName: "Homo", context: context);
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? latest documents
 
             await _getlatestDocuments(queryHomo);
@@ -501,7 +561,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // queryResults
-            _execution(query: queryHomo, ssValueUid: ssValues["current_uid"], nickName: "Homo", context: context);
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? latest documents try and expect
             await _getlatestDocuments(queryHomo);
           } else if (newRadius.round() <= 122) {
@@ -519,7 +583,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // queryResults
-            _execution(query: queryHomo, ssValueUid: ssValues["current_uid"], nickName: "Homo", context: context);
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? latest documents try and expect
 
             await _getlatestDocuments(queryHomo);
@@ -539,7 +607,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // queryResults
-            _execution(query: queryHomo, ssValueUid: ssValues["current_uid"], nickName: "Homo", context: context);
+            _execution(
+                query: queryHomo,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Homo",
+                context: context);
             // ? latest documents try and expect
 
             await _getlatestDocuments(queryHomo);
@@ -562,7 +634,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryEveryOne, ssValueUid: ssValues["current_uid"], nickName: "EveryOne", context: context);
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryEveryOne);
           } else if (newRadius.round() <= 20) {
@@ -579,7 +655,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryEveryOne, ssValueUid: ssValues["current_uid"], nickName: "EveryOne", context: context);
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryEveryOne);
           } else if (newRadius.round() <= 122) {
@@ -597,7 +677,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryEveryOne, ssValueUid: ssValues["current_uid"], nickName: "EveryOne", context: context);
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryEveryOne);
           } else if (newRadius.round() <= 167) {
@@ -614,7 +698,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryEveryOne, ssValueUid: ssValues["current_uid"], nickName: "EveryOne", context: context);
+            _execution(
+                query: queryEveryOne,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "EveryOne",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryEveryOne);
           }
@@ -638,7 +726,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryHetro, ssValueUid: ssValues["current_uid"], nickName: "Hetro", context: context);
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHetro);
           } else if (newRadius.round() <= 20) {
@@ -657,7 +749,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryHetro, ssValueUid: ssValues["current_uid"], nickName: "Hetro", context: context);
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHetro);
           } else if (newRadius.round() <= 122) {
@@ -676,7 +772,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryHetro, ssValueUid: ssValues["current_uid"], nickName: "Hetro", context: context);
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHetro);
           } else if (newRadius.round() <= 167) {
@@ -695,7 +795,11 @@ class CustomRadiusGeoHash {
                 fromAge: fromAge,
                 toAge: toAge);
             // query result
-            _execution(query: queryHetro, ssValueUid: ssValues["current_uid"], nickName: "Hetro", context: context);
+            _execution(
+                query: queryHetro,
+                ssValueUid: ssValues["current_uid"],
+                nickName: "Hetro",
+                context: context);
             // ? latest documents
             await _getlatestDocuments(queryHetro);
           }

@@ -41,10 +41,11 @@ class OnlyDuringSignupFirestore {
 
     // loadingOn();
     try {
-      DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
+      DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid"); //Users
       DocumentReference data2 =
-          FirebaseFirestore.instance.doc("Userstatus/$uid");
-      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data");
+          FirebaseFirestore.instance.doc("Userstatus/$uid"); //Userstatus
+      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data"); // Filters
+      DocumentReference data4 = FirebaseFirestore.instance.doc("Notifications/$uid"); // Notifications
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -75,6 +76,10 @@ class OnlyDuringSignupFirestore {
         "radius" : 180,
         "from_age" : 18,
         "to_age" : _findAge() // user current age
+      });
+
+      await data4.set({
+        "received_hearts": FieldValue.arrayUnion([]),
       });
       // Todo in future change this document field while other other screen:
       // {
@@ -389,10 +394,11 @@ class GooglePath {
 
     // loadingOn();
     try {
-      DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid");
+      DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid"); // Users
       DocumentReference data2 =
-          FirebaseFirestore.instance.doc("Userstatus/$uid");
-      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data");
+          FirebaseFirestore.instance.doc("Userstatus/$uid"); // Userstatus
+      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data"); // Filters
+      DocumentReference data4 = FirebaseFirestore.instance.doc("Notifications/$uid"); // Notifications
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -423,6 +429,10 @@ class GooglePath {
         "radius" : 180,
         "from_age" : 18,
         "to_age" : 25 // default age when signing with google auth
+      });
+
+      await data4.set({
+        "received_hearts" : FieldValue.arrayUnion([]),
       });
       // Todo in future change this document field while other other screen:
       // {

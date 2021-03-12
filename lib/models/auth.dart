@@ -2,6 +2,7 @@ import 'package:explore/data/all_shared_pref_data.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/email_model.dart';
+import 'package:explore/performance/trace_auth.dart';
 import '../serverless/firestore_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/spinner.dart';
@@ -24,6 +25,7 @@ class AuthenticationFirebase {
 
     try {
       loadingOn();
+      TraceAuth.startTraceAuthSignup();
       userResult = await auth.createUserWithEmailAndPassword(
           email: emailAddress, password: password);
       await OnlyDuringSignupFirestore.signUpWrite(
@@ -35,6 +37,7 @@ class AuthenticationFirebase {
           name: nameM,
           context: ctx);
       storeCurrentUserUid(userResult.user.uid);
+      TraceAuth.stopTraceAuthSignup();
       loadingOff();
 
       // ! change emailaddress to user emailaddress while deployment & when user kills the app and open the email verf
@@ -114,6 +117,7 @@ class AuthenticationFirebase {
     UserCredential userResult;
     try {
       loadingOn();
+      TraceAuth.startTraceAuthLogin();
       userResult = await auth.signInWithEmailAndPassword(
           email: emailAddress.text, password: password.text);
       DocumentReference updateIsLoggedin = FirebaseFirestore.instance.doc("Userstatus/${userResult.user.uid}");
@@ -121,6 +125,7 @@ class AuthenticationFirebase {
       await updateIsLoggedin.update({
         "isloggedin" : true
       });
+      TraceAuth.stopTraceAuthLogin();
       loadingOff();
       print("User logged in...");
     } on PlatformException catch (err) {
@@ -267,6 +272,8 @@ class GoogleAuthenticationClass {
   static signinWithGoogle(Function loadingOnGoogle,Function loadingOffGoogle,BuildContext context) async {
     loadingOnGoogle();
     try {
+      // Trace the auth time
+      TraceAuth.startTraceAuthLogin();
       // * Trigger the authentication flow
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
@@ -303,7 +310,8 @@ class GoogleAuthenticationClass {
       await updateLogin.update({
         "isloggedin" : true
       });
-      
+      // stop trace auth
+      TraceAuth.stopTraceAuthLogin();
     } catch (error) {
       print("Error : ${error.toString()}");
       if (error.toString().contains(

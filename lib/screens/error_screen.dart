@@ -1,7 +1,7 @@
 // todo When user account doest exist
 
 import 'package:explore/data/all_secure_storage.dart';
-import 'package:explore/models/handle_deletes_logout.dart';
+import 'package:explore/serverless/handle_deletes_logout.dart';
 import 'package:explore/models/https_cloud_functions.dart';
 import 'package:flutter/material.dart';
 
@@ -56,6 +56,7 @@ class WhenUserIdNotExistInFirestore extends StatelessWidget {
             Container(
               width: 125,
               margin: const EdgeInsets.only(bottom: 20),
+              // ignore: deprecated_member_use
               child: RaisedButton(
                 color: Color(0xffF8C80D),
                 textColor: Color(0xff121212),

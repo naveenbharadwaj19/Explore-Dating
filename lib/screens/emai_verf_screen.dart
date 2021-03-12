@@ -1,7 +1,7 @@
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/email_model.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:explore/models/handle_deletes_logout.dart';
+import 'package:explore/serverless/handle_deletes_logout.dart';
 import 'package:explore/serverless/firestore_signup.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -178,6 +178,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         color: Colors.white,
                         size: 40,
                       )
+                    // ignore: deprecated_member_use
                     : RaisedButton(
                           color: Color(0xffF8C80D),
                           textColor: Color(0xff121212),

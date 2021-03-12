@@ -1,4 +1,3 @@
-
 import 'package:explore/icons/filter_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/chat_screen.dart';
@@ -29,7 +28,7 @@ class _BottomNavigationBarScreensState
   }
 
   final List widgetsTapped = [
-    ExploreAndHMUScreen(),
+    ExploreAppBarScreen(),
     ChatScreen(),
     NotificationsScreen(),
     ProfileScreen(),
@@ -69,83 +68,51 @@ class _BottomNavigationBarScreensState
   }
 }
 
-// todo: manage Tab bar view -> Explore and HMU
-class ExploreAndHMUScreen extends StatelessWidget {
+class ExploreAppBarScreen extends StatelessWidget {
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          backgroundColor: Theme.of(context).primaryColor,
-          appBar: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            // automaticallyImplyLeading: false,
-            title: Container(
-              margin: const EdgeInsets.only(top: 10),
-              child: RichText(
-                textAlign: TextAlign.right,
-                text: TextSpan(children: [
-                  const TextSpan(
-                    text: "Explore\n",
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontFamily: "Domine",
-                        decoration: TextDecoration.none),
-                  ),
-                  const TextSpan(
-                    text: "Dating",
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontFamily: "Domine",
-                        decoration: TextDecoration.none),
-                  ),
-                ]),
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        toolbarHeight: 70,
+        title: Container(
+          margin: const EdgeInsets.only(top: 5),
+          child: RichText(
+            textAlign: TextAlign.right,
+            text: TextSpan(children: [
+              const TextSpan(
+                text: "Explore\n",
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontFamily: "Domine",
+                    decoration: TextDecoration.none),
               ),
-            ),
-            actions: [
-              IconButton(
-                  icon: const Icon(Filter.sliders),
-                  color: Colors.white,
-                  iconSize: 30,
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  tooltip: "Filters",
-                  onPressed: () {
-                    filterScreen(context: context);
-                  }),
-            ],
-            bottom: TabBar(
-              indicatorColor: Colors.white,
-              indicatorWeight: 1.5,
-              labelColor: Colors.white,
-              labelStyle: const TextStyle(fontSize: 20),
-              tabs: [
-                const Tab(
-                  child: const Text(
-                    "Explore",
-                    style: const TextStyle(fontFamily: "Domine"),
-                  ),
-                ),
-                const Tab(
-                  child: const Text(
-                    "HMU",
-                    style: const TextStyle(fontFamily: "Domine"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            // physics: NeverScrollableScrollPhysics(),
-            children: [
-              ExploreScreen(),
-              HMUScreen(),
-            ],
+              const TextSpan(
+                text: "Dating",
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: "Domine",
+                    decoration: TextDecoration.none),
+              ),
+            ]),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Filter.sliders),
+            color: Colors.white,
+            iconSize: 30,
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            tooltip: "Filters",
+            onPressed: () => filterScreen(context: context),
+          ),
+        ],
       ),
+      body: ExploreScreen(),
     );
   }
 }

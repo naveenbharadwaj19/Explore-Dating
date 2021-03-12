@@ -137,6 +137,7 @@ class _PhotoOptions {
               margin: const EdgeInsets.only(top: 50),
               height: 70,
               width: 180,
+              // ignore: deprecated_member_use
               child: RaisedButton.icon(
                 icon: Icon(
                   Icons.camera_alt_rounded,
@@ -169,6 +170,7 @@ class _PhotoOptions {
               // ? gallery button
               height: 70,
               width: 180,
+              // ignore: deprecated_member_use
               child: RaisedButton.icon(
                 icon: Icon(
                   GalleryIcon.picture,
@@ -214,6 +216,7 @@ class _PhotoOptions {
               margin: const EdgeInsets.only(top: 50),
               height: 70,
               width: 180,
+              // ignore: deprecated_member_use
               child: RaisedButton.icon(
                 icon: Icon(
                   Icons.camera_alt_rounded,
@@ -246,6 +249,7 @@ class _PhotoOptions {
               // ? gallery button
               height: 70,
               width: 180,
+              // ignore: deprecated_member_use
               child: RaisedButton.icon(
                 icon: Icon(
                   GalleryIcon.picture,

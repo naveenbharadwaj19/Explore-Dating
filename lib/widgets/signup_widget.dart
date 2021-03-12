@@ -353,6 +353,7 @@ class _DOBState extends State<DOB> {
                     fontSize: 20),
               ),
             ),
+            // ignore: deprecated_member_use
             RaisedButton(
               color: Color(0xffF8C80D),
               textColor: Color(0xff121212),
@@ -449,6 +450,7 @@ Widget nextButton(
         ? cubeGrid
         : Container(
           width: 125,
+          // ignore: deprecated_member_use
           child: RaisedButton(
               color: Color(0xffF8C80D),
               textColor: Color(0xff121212),

@@ -7,11 +7,12 @@ import 'package:explore/data/temp/store_basic_match.dart'
     show scrollUserDetails;
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/serverless/geohash_custom_radius.dart';
+import 'package:explore/serverless/notifications.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ConnectingUsers {
-  static int firstLimit = 8;
+  static int firstLimit = 10;
   static int paginateLimit = 4;
   static int latestAge;
   static String latestUid;
@@ -178,27 +179,33 @@ class ConnectingUsers {
   static void _unZipAndAddToScrollDetails(
       {@required dynamic queryDataName,
       @required String ssValueUid,
-      @required String nickName}) {
+      @required String nickName}) async {
     // unzip data and add to scroll
     try {
-      if (queryDataName.get("uid") != ssValueUid) {
-        print(
-            "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")}");
-        // serialize data
-        Map<String, dynamic> serializeDetails = {
-          "uid": queryDataName.get("uid"),
-          "gender": queryDataName.get("gender"),
-          "show_me": queryDataName.get("show_me"),
-          "age": queryDataName.get("age"),
-          "name": queryDataName.get("name"),
-          "headphoto": queryDataName.get("photos.current_head_photo"),
-          "bodyphoto": queryDataName.get("photos.current_body_photo"),
-          "city_state":
-              "${queryDataName.get("city")},${queryDataName.get("state")}",
-        };
-        // add map to list
-        scrollUserDetails.add(serializeDetails);
-        // print("Scroll len : ${scrollUserDetails.length}");
+      await Notifications.queryNotifications(limit: ConnectingUsers.firstLimit,paginatelimit: ConnectingUsers.paginateLimit);
+      if (!Notifications.doNotShowUid.contains(queryDataName.get("uid"))) {
+        if (queryDataName.get("uid") != ssValueUid) {
+          print(
+              "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")}");
+          // serialize data
+          Map<String, dynamic> serializeDetails = {
+            "uid": queryDataName.get("uid"),
+            "gender": queryDataName.get("gender"),
+            "show_me": queryDataName.get("show_me"),
+            "age": queryDataName.get("age"),
+            "name": queryDataName.get("name"),
+            "headphoto": queryDataName.get("photos.current_head_photo"),
+            "bodyphoto": queryDataName.get("photos.current_body_photo"),
+            "city_state":
+                "${queryDataName.get("city")},${queryDataName.get("state")}",
+            "heart": false,
+            "star": false,
+            "lock_heart_star": false,
+          };
+          // add map to list
+          scrollUserDetails.add(serializeDetails);
+          // print("Scroll len : ${scrollUserDetails.length}");
+        }
       }
     } catch (error) {
       print("Error in unzipping data -> whole country ${error.toString()}");

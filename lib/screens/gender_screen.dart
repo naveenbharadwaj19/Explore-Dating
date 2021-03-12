@@ -88,6 +88,7 @@ class GenderScreen extends StatelessWidget {
             // Spacer(),
             Container(
               width: 180,
+              // ignore: deprecated_member_use
               child: RaisedButton(
                 color: Color(0xffF8C80D),
                 textColor: Color(0xff121212),
