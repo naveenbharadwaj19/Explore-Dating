@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
 
@@ -115,6 +116,7 @@ class _LocationScreenState extends State<LocationScreen> {
             Spacer(),
             Align(
               alignment: Alignment.bottomCenter,
+               // ignore: deprecated_member_use
               child: FlatButton(
                 child: Text(
                   "Why ?",

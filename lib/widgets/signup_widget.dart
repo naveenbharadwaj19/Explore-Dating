@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/auth.dart';
 import 'package:circular_check_box/circular_check_box.dart';
@@ -414,6 +415,7 @@ Widget termsAndConditions(bool tAndC, Function toogleTerms) {
           inactiveColor: Colors.white,
           onChanged: (val) => toogleTerms(),
         ),
+         // ignore: deprecated_member_use
         FlatButton(
             child: Text(
               "I agree to terms and conditions",
@@ -515,6 +517,7 @@ Widget navigateToLoginPage(BuildContext context, Function pressedLogin) {
           ),
         ),
         Container(
+           // ignore: deprecated_member_use
           child: FlatButton(
             child: Text(
               "Login",

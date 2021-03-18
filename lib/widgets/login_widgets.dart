@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:explore/models/auth.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:email_validator/email_validator.dart';
@@ -181,6 +182,7 @@ Widget forgotPassword(GlobalKey<FormState> formKey,
     TextEditingController emailAddress, BuildContext context) {
   return Align(
     alignment: Alignment(0.5, 0.0),
+     // ignore: deprecated_member_use
     child: FlatButton(
       child: Text(
         "Forgot password ?",
@@ -263,6 +265,7 @@ Widget navigateToSignUpPage(BuildContext context, Function pressedSignin) {
             ),
           ),
           Container(
+             // ignore: deprecated_member_use
             child: FlatButton(
               child: Text(
                 "SignUp",
@@ -289,6 +292,7 @@ Widget googleSignUp(bool isLoadingGoole, Function loadingOnGoole,
     alignment: Alignment.center,
     child: isLoadingGoole == true
         ? loadingSpinner()
+         // ignore: deprecated_member_use
         : FlatButton(
             child: SvgPicture.asset(
               "assets/svg/google_icon.svg",

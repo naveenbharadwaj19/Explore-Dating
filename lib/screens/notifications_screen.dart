@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:explore/models/spinner.dart';
@@ -228,7 +229,7 @@ Widget popUpMessage(
           height: 40,
           duration: 1,
           fillColor: Color(0xffF8C80D),
-          color: Color(0xff121212),
+          ringColor: Color(0xff121212),
           backgroundColor: Color(0xff121212),
           strokeWidth: 2,
           textStyle: const TextStyle(

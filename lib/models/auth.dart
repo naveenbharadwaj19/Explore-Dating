@@ -1,7 +1,7 @@
+// @dart=2.9
 import 'package:explore/data/all_shared_pref_data.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/assign_errors.dart';
-import 'package:explore/models/email_model.dart';
 import 'package:explore/performance/trace_auth.dart';
 import '../serverless/firestore_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,7 +42,7 @@ class AuthenticationFirebase {
 
       // ! change emailaddress to user emailaddress while deployment & when user kills the app and open the email verf
       // ! page and hit send code again username will be availabe as it was not in memory fix it
-      sendMail("claw2020@gmail.com", generateFourDigitCode());
+      // sendMail("claw2020@gmail.com", generateFourDigitCode());
     } on PlatformException catch (err) {
       var message = 'An error occurred, please check your credentials!';
 

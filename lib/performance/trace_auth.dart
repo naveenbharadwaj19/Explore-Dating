@@ -1,3 +1,4 @@
+// @dart=2.9
 // Todo : Trace auth
 
 import 'package:firebase_performance/firebase_performance.dart';

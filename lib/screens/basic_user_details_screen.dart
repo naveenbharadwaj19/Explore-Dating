@@ -1,5 +1,7 @@
+// @dart=2.9
 // ? These sream manages all user forums until user complete all neccessary details
 // ? Email verf -> account success -> gender -> photos -> show me -> location -> internet connectivity
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';

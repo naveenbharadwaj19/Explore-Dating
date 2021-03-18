@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:explore/widgets/signup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

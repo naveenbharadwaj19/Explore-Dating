@@ -1,3 +1,4 @@
+// @dart=2.9
 // todo : CRUD currently logged in user details
 
 import 'package:cloud_firestore/cloud_firestore.dart';

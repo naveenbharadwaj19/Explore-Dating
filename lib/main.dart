@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:explore/models/spinner.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/providers/notifications_state.dart';
@@ -127,7 +128,7 @@ class _MyAppState extends State<MyApp> {
 
 class WelcomeLoginScreen extends StatefulWidget {
   static const routeName = "login-screen";
-  final Function pressedSignin;
+  final Function  pressedSignin;
   WelcomeLoginScreen({this.pressedSignin});
 
   @override

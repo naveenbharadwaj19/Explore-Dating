@@ -1,3 +1,4 @@
+// @dart=2.9
 // todo : Feeds of dating
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -433,6 +434,7 @@ Widget nothingToExplore(int streamRadius, BuildContext context) {
                   // ? refresh
                   width: 160,
                   margin: const EdgeInsets.symmetric(vertical: 10),
+                   // ignore: deprecated_member_use
                   child: RaisedButton(
                     color: Color(0xffF8C80D),
                     textColor: Color(0xff121212),

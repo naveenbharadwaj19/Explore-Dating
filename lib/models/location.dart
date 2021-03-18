@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/serverless/firestore_signup.dart';

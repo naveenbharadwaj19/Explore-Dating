@@ -1,3 +1,4 @@
+// @dart=2.9
 // todo : Trigger when user press heart
 
 import 'package:cloud_firestore/cloud_firestore.dart';

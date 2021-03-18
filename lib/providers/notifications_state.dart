@@ -1,3 +1,4 @@
+// @dart=2.9
 // todo Mange notification page state
 import 'package:flutter/foundation.dart';
 

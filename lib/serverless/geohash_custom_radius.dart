@@ -1,3 +1,4 @@
+// @dart=2.9
 // todo : match nearby users with geohash
 
 import 'package:cloud_firestore/cloud_firestore.dart';

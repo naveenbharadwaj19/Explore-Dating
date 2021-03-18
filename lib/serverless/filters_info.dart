@@ -1,3 +1,4 @@
+// @dart=2.9
 // todo : Manage Filters collection firestore
 
 import 'package:cloud_firestore/cloud_firestore.dart';

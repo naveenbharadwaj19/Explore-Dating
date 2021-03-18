@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:explore/icons/filter_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/chat_screen.dart';

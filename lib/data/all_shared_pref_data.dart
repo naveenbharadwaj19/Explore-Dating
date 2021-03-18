@@ -1,8 +1,9 @@
+// @dart=2.9
 // todo store all info related shared preference
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-String currentUserUidSf;
+String  currentUserUidSf;
 
 Future<void> storeCurrentUserUid(String userUid) async {
   try {

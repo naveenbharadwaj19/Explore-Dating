@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:explore/icons/bottom_navigation_bar_icons_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

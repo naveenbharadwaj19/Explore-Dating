@@ -1,5 +1,5 @@
+// @dart=2.9
 import 'package:explore/data/temp/auth_data.dart';
-import 'package:explore/models/email_model.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:explore/serverless/handle_deletes_logout.dart';
 import 'package:explore/serverless/firestore_signup.dart';
@@ -136,7 +136,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                     height: 100,
                     duration: 120,
                     fillColor: Color(0xffF8C80D),
-                    color: Color(0xff121212),
+                    ringColor: Color(0xff121212),
                     backgroundColor: Color(0xff121212),
                     strokeWidth: 3,
                     isReverse: true,
@@ -152,6 +152,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   ),
                 ),
               ),
+              // ignore: deprecated_member_use
               FlatButton(
                 child: const Text(
                   "Send code again",
@@ -164,8 +165,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 onPressed: () {
                   // ! change email address to user email address while deployment
                   // ! when user close the app .While on this screen there might be no emailaddress on the menory so fix it while deployment
-                  sendMail(
-                      "claw2020@gmail.com", generateFourDigitCode());
+                  // sendMail(
+                  //     "claw2020@gmail.com", generateFourDigitCode());
                   _controller.restart(duration: 120);
                   _storeFourDigits.clear();
                 },
@@ -204,6 +205,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               Spacer(),
               Align(
                 alignment: Alignment.bottomLeft,
+                 // ignore: deprecated_member_use
                 child: FlatButton(
                   child: const Text(
                     "Back",
@@ -227,6 +229,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
 _showAlertDialog(
     BuildContext context, Function loadingOn, Function loadingOff) {
+       // ignore: deprecated_member_use
   Widget goBack = FlatButton(
     child: const Text(
       "Go Back",
@@ -246,6 +249,7 @@ _showAlertDialog(
       // deleteUserDuringSignUpProcess(context);
     },
   );
+   // ignore: deprecated_member_use
   Widget stayHere = FlatButton(
     child: const Text(
       "Stay Here",
@@ -253,6 +257,7 @@ _showAlertDialog(
     ),
     onPressed: () => Navigator.pop(context),
   );
+   // ignore: deprecated_member_use
   Widget help = FlatButton(
     child: const Text(
       "Help",

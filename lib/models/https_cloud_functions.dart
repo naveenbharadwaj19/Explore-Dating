@@ -1,3 +1,4 @@
+// @dart=2.9
 // Todo : manage all https/http callable cloud functions
 import 'package:cloud_functions/cloud_functions.dart';
 

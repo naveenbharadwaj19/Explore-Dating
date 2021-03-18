@@ -1,3 +1,4 @@
+// @dart=2.9
 import 'package:explore/data/temp/auth_data.dart';
 import '../serverless/firestore_signup.dart';
 import 'package:flushbar/flushbar.dart';

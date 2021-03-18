@@ -1,3 +1,4 @@
+// @dart=2.9
 // todo Manage Matchmaking collection firestore
 // * mm/MM - matchmaking collection
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -1,4 +1,4 @@
-
+// @dart=2.9
 import 'package:explore/serverless/firestore_signup.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
