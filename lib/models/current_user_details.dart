@@ -25,6 +25,7 @@ validateAndStoreUserDetails(double latitude, double longitude) {
     readAll().then((values) async {
       if (values["current_uid"] == null ||
           values["current_uid"] != uid ||
+          values["name"] == null ||
           values["gender"] == null ||
           values["show_me"] == null ||
           values["age"] == null ||
@@ -36,6 +37,7 @@ validateAndStoreUserDetails(double latitude, double longitude) {
             .doc("Users/${FirebaseAuth.instance.currentUser.uid}")
             .get();
         writeValue("current_uid", uid);
+        writeValue("name", fetchUserdetails.get("bio.name"));
         writeValue("gender", fetchUserdetails.get("bio.gender"));
         writeValue("show_me", fetchUserdetails.get("show_me"));
         writeValue("age", fetchUserdetails.get("bio.age").toString());
@@ -53,6 +55,6 @@ validateAndStoreUserDetails(double latitude, double longitude) {
       }
     });
   } catch (error) {
-    print("Error : ${error.toString()}");
+    print("Error in validate and store user details secure storage : ${error.toString()}");
   }
 }

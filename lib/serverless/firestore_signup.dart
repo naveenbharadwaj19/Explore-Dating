@@ -79,7 +79,9 @@ class OnlyDuringSignupFirestore {
       });
 
       await data4.set({
-        "received_hearts": FieldValue.arrayUnion([]),
+        "received_hearts_info": FieldValue.arrayUnion([]),
+        "received_hearts_uid" : FieldValue.arrayUnion([]),
+        "uid" : uid,
       });
       // Todo in future change this document field while other other screen:
       // {
@@ -432,7 +434,9 @@ class GooglePath {
       });
 
       await data4.set({
-        "received_hearts" : FieldValue.arrayUnion([]),
+        "received_hearts_info": FieldValue.arrayUnion([]),
+        "received_hearts_uid" : FieldValue.arrayUnion([]),
+        "uid" : uid,
       });
       // Todo in future change this document field while other other screen:
       // {

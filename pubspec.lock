@@ -336,7 +336,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_blurhash:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_blurhash
       url: "https://pub.dartlang.org"
@@ -425,12 +425,10 @@ packages:
   geoflutterfire:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "4e5647faa16e03aacb167c67ff82f54bdc269435"
-      url: "git://github.com/naveenbharadwaj19/GeoFlutterFire.git"
-    source: git
-    version: "2.2.1"
+      name: geoflutterfire
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.2"
   geolocator:
     dependency: "direct main"
     description:
@@ -731,7 +729,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.24.1"
+    version: "0.25.0"
   shared_preferences:
     dependency: "direct main"
     description:

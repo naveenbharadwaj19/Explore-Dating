@@ -1,5 +1,6 @@
 import 'package:explore/models/spinner.dart';
 import 'package:explore/data/temp/auth_data.dart';
+import 'package:explore/providers/notifications_state.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/screens/basic_user_details_screen.dart';
 import 'package:explore/screens/explore_screen.dart';
@@ -25,7 +26,12 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<PageViewLogic>(create: (context) => PageViewLogic()),
+        ChangeNotifierProvider<PageViewLogic>(
+          create: (context) => PageViewLogic(),
+        ),
+        ChangeNotifierProvider<NotificationsState>(
+          create: (context) => NotificationsState(),
+        ),
       ],
       child: MyApp(),
     ),

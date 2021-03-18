@@ -182,7 +182,9 @@ class ConnectingUsers {
       @required String nickName}) async {
     // unzip data and add to scroll
     try {
-      await Notifications.queryNotifications(limit: ConnectingUsers.firstLimit,paginatelimit: ConnectingUsers.paginateLimit);
+      await Notifications.queryNotifications(
+          limit: ConnectingUsers.firstLimit,
+          paginatelimit: ConnectingUsers.paginateLimit);
       if (!Notifications.doNotShowUid.contains(queryDataName.get("uid"))) {
         if (queryDataName.get("uid") != ssValueUid) {
           print(
