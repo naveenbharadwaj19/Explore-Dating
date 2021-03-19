@@ -7,7 +7,7 @@ import '../serverless/firestore_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';

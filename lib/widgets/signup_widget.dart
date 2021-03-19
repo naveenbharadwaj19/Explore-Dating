@@ -1,9 +1,9 @@
 // @dart=2.9
+import 'package:another_flushbar/flushbar.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/auth.dart';
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';

@@ -4,7 +4,7 @@ import 'package:explore/models/assign_errors.dart';
 import 'package:explore/serverless/firestore_signup.dart';
 import 'package:explore/serverless/match_making.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart' show Geoflutterfire;

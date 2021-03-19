@@ -1,7 +1,7 @@
 // @dart=2.9
 import 'package:explore/data/temp/auth_data.dart';
 import '../serverless/firestore_signup.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_selection/gender_selection.dart';
 

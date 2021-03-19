@@ -4,8 +4,9 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/notifications_state.dart';
 import 'package:explore/serverless/notifications.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -14,6 +15,12 @@ class NotificationsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
+        backwardsCompatibility: false,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.black12, // status bar color
+          statusBarIconBrightness: Brightness
+              .light, // text brightness -> light for dark app -> vice versa
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         toolbarHeight: 70,
         title: Container(
@@ -103,7 +110,8 @@ class NotificationsFeeds extends StatelessWidget {
                   child: Container(
                     height: 110,
                     width: double.infinity,
-                    margin: const EdgeInsets.only(top: 20, bottom: 5,left: 15,right: 15),
+                    margin: const EdgeInsets.only(
+                        top: 20, bottom: 5, left: 15, right: 15),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -119,7 +127,6 @@ class NotificationsFeeds extends StatelessWidget {
                             _headPhoto(data: data, index: index),
                             _name(data: data, index: index),
                             age(data: data, index: index),
-                            
                           ],
                         ),
                       ),
@@ -129,12 +136,14 @@ class NotificationsFeeds extends StatelessWidget {
                     // ? end to start -> right to left
                     // ? start to end -> left to right
                     if (direction == DismissDirection.endToStart) {
-                      Notifications.notificationAccepted(data: data,index: index);
+                      Notifications.notificationAccepted(
+                          data: data, index: index);
                       notificationState.enableLockSwipe(
                           data: data, index: index);
-                       popUpMessage(notificationState, context);
+                      popUpMessage(notificationState, context);
                     } else if (direction == DismissDirection.startToEnd) {
-                      Notifications.notificationRejected(data: data,index: index);
+                      Notifications.notificationRejected(
+                          data: data, index: index);
                       notificationState.enableLockSwipe(
                           data: data, index: index);
                       popUpMessage(notificationState, context);
@@ -197,7 +206,6 @@ Widget age({@required dynamic data, @required int index}) {
   );
 }
 
-
 Widget noNotifications() {
   return Container(
     child: Center(
@@ -210,33 +218,33 @@ Widget noNotifications() {
 }
 
 Widget popUpMessage(
-      NotificationsState notificationState, BuildContext context) {
-        // * lock swipe for 1 second to reduce traffic and latency
-    return Flushbar(
-      backgroundColor: Color(0xff121212),
-      messageText: Center(
-        child: Text(
-          "Wait for a second",
-          style: const TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
-        ),
+    NotificationsState notificationState, BuildContext context) {
+  // * lock swipe for 1 second to reduce traffic and latency
+  return Flushbar(
+    backgroundColor: Color(0xff121212),
+    messageText: Center(
+      child: Text(
+        "Wait for a second",
+        style: const TextStyle(
+            color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
       ),
-      icon: Container(
-        margin: const EdgeInsets.only(left:15),
-        child: CircularCountDownTimer(
-          // ? countdown timer
-          width: 40,
-          height: 40,
-          duration: 1,
-          fillColor: Color(0xffF8C80D),
-          ringColor: Color(0xff121212),
-          backgroundColor: Color(0xff121212),
-          strokeWidth: 2,
-          textStyle: const TextStyle(
-              color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
-          onComplete: () =>  notificationState.disableLockSwipe(),
-        ),
+    ),
+    icon: Container(
+      margin: const EdgeInsets.only(left: 15),
+      child: CircularCountDownTimer(
+        // ? countdown timer
+        width: 40,
+        height: 40,
+        duration: 1,
+        fillColor: Color(0xffF8C80D),
+        ringColor: Color(0xff121212),
+        backgroundColor: Color(0xff121212),
+        strokeWidth: 2,
+        textStyle: const TextStyle(
+            color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+        onComplete: () => notificationState.disableLockSwipe(),
       ),
-      duration: Duration(seconds: 1),
-    )..show(context);
-  }
+    ),
+    duration: Duration(seconds: 1),
+  )..show(context);
+}

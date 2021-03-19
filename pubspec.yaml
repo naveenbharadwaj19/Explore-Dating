@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   geoflutterfire:
     git: git://github.com/naveenbharadwaj19/GeoFlutterFire.git
+  another_flushbar: ^1.10.17
   app_settings: ^4.1.0
   cached_network_image: ^2.5.1
   change_app_package_name: ^0.1.2
@@ -44,7 +45,6 @@ dependencies:
   firebase_performance: ^0.6.0
   firebase_storage: ^8.0.0
   flare_flutter: ^2.0.6
-  flushbar: ^1.10.4
   flutter_holo_date_picker: ^0.2.1
   flutter_secure_storage: ^3.3.5
   flutter_snake_navigationbar: ^0.4.4

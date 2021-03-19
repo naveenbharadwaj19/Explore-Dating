@@ -9,6 +9,7 @@ import 'package:explore/screens/profile_screen.dart';
 import 'package:explore/screens/settings_screen.dart';
 import 'package:explore/widgets/bottom_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // todo: Manage all screens of bottom navigation bar
 class BottomNavigationBarScreens extends StatefulWidget {
@@ -74,6 +75,12 @@ class ExploreAppBarScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
+        backwardsCompatibility: false,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.black12, // status bar color
+          statusBarIconBrightness: Brightness
+              .light, // text brightness -> light for dark app -> vice versa
+        ),
         backgroundColor: Theme.of(context).primaryColor,
         toolbarHeight: 70,
         title: Container(

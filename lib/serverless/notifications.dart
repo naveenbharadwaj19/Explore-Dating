@@ -202,7 +202,7 @@ class Notifications {
           latestUid = queryNotifications
               .docs[queryNotifications.docs.length - 1]
               .get("uid");
-          print("latest noti : $latestUid : $latestAge");
+          // print("latest noti : $latestUid : $latestAge");
         } on RangeError {
           // print("No more notification details to query");
           latestAge = 0;
@@ -233,7 +233,7 @@ class Notifications {
           latestUid = queryNotifications
               .docs[queryNotifications.docs.length - 1]
               .get("uid");
-          print("latest noti : $latestUid : $latestAge");
+          // print("latest noti : $latestUid : $latestAge");
         } on RangeError {
           // print("No more notification details to query");
           latestAge = 0;

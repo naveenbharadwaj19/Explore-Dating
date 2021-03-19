@@ -4,7 +4,7 @@
 import 'package:explore/data/temp/auth_data.dart' show ageM, dobM;
 import '../serverless/firestore_signup.dart' show GooglePath;
 import 'package:explore/widgets/signup_widget.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:intl/intl.dart';
