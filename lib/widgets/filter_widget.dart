@@ -2,7 +2,13 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/filter_datas.dart'
-    show newRadius, newAgeValues1, newCurrentShowMe;
+    show
+        newRadius,
+        newAgeValues1,
+        newCurrentShowMe,
+        oldRadius,
+        oldAgeValues1,
+        oldCurrentShowMe;
 import 'package:explore/data/temp/store_basic_match.dart'
     show scrollUserDetails;
 import 'package:explore/providers/pageview_logic.dart';
@@ -35,10 +41,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
   double distanceKm = newRadius;
   String currentShowme = newCurrentShowMe;
   int index = 0;
-  // ? old values
-  double oldRadius;
-  RangeValues oldAgeValues1;
-  String oldCurrentShowMe;
+
   //
   void updateSelectedShowMe(int idx) {
     // * 1 - men , 2 - women , 3 - everyone
@@ -122,8 +125,8 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                             onChanged: (v) {
                               setState(() {
                                 ageValues = v;
-                                newAgeValues1 = RangeValues(v.start, v.end);
-                                oldAgeValues1 = RangeValues(v.start, v.end);
+                                // newAgeValues1 = RangeValues(v.start, v.end);
+                                // oldAgeValues1 = RangeValues(v.start, v.end);
                               });
                             },
                           ),
@@ -193,8 +196,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                               onChanged: (v) {
                                 setState(() {
                                   distanceKm = v;
-                                  newRadius = v;
-                                  oldRadius = v;
+                                  // newRadius = v;
                                 });
                               },
                             ),
@@ -259,7 +261,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 ),
                                 onPressed: () {
                                   currentShowme = "Men";
-                                  oldCurrentShowMe = currentShowme;
+                                  // oldCurrentShowMe = currentShowme;
                                   print("Selected : $currentShowme");
                                   updateSelectedShowMe(1);
                                 },
@@ -291,7 +293,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 ),
                                 onPressed: () {
                                   currentShowme = "Women";
-                                  oldCurrentShowMe = currentShowme;
+                                  // oldCurrentShowMe = currentShowme;
                                   print("Selected : $currentShowme");
                                   updateSelectedShowMe(2);
                                 },
@@ -323,7 +325,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                 ),
                                 onPressed: () {
                                   currentShowme = "Everyone";
-                                  oldCurrentShowMe = currentShowme;
+                                  // oldCurrentShowMe = currentShowme;
                                   print("Selected : $currentShowme");
                                   updateSelectedShowMe(3);
                                 },
@@ -354,9 +356,11 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                     // fontWeight: FontWeight.w700,
                   ),
                 ),
-                onPressed: oldRadius == null &&
-                        oldCurrentShowMe == null &&
-                        oldAgeValues1 == null
+                onPressed: oldRadius.round() == distanceKm.round() &&
+                        oldAgeValues1.start.round() ==
+                            ageValues.start.round() &&
+                        oldAgeValues1.end.round() == ageValues.end.round() &&
+                        oldCurrentShowMe == currentShowme
                     ? null
                     : () {
                         print("Filter Applied");
@@ -371,6 +375,15 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
   }
 
   void filterApplyBackend(PageViewLogic pageViewLogic, BuildContext context) {
+    // ? update old values
+    oldRadius = distanceKm;
+    oldAgeValues1 = ageValues;
+    oldCurrentShowMe = currentShowme;
+    // ? update new values
+    newRadius = distanceKm;
+    newAgeValues1 = ageValues;
+    newCurrentShowMe = currentShowme;
+    //
     pageViewLogic.pageStorageKeyNo += 1; // ? incremenent pagestorage key
     pageViewLogic.holdFuture = true; // change future duration to 1 seconds
     pageViewLogic.callConnectingUsers = true;

@@ -6,7 +6,6 @@ import 'package:explore/data/temp/filter_datas.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/icons/report_filter_icons_icons.dart';
 import 'package:explore/icons/star_rounded_icon_icons.dart';
-import 'package:explore/messages/match_push_notification.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/serverless/connecting_users.dart';

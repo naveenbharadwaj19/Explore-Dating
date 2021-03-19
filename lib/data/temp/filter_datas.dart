@@ -7,7 +7,10 @@ import 'package:flutter/material.dart';
 double newRadius = 180;
 RangeValues newAgeValues1 = RangeValues(18.0, 25.0);
 String newCurrentShowMe = "Everyone";
-
+// ? old values
+double oldRadius = newRadius;
+RangeValues oldAgeValues1 = newAgeValues1;
+String oldCurrentShowMe = newCurrentShowMe;
 
 Future fetchFiltersData() async {
   // * call all filters data :
