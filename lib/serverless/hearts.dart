@@ -8,13 +8,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 class Hearts {
-  static Widget heartanimation(double size) {
-    return Icon(
-      Icons.favorite,
-      color: Colors.red,
-      size: size,
+  static Widget heartanimation() {
+    return Lottie.asset(
+      "assets/animations/heart_final.json",
+      height: 50,
+      width: 50,
+      fit: BoxFit.cover,
     );
   }
 
@@ -61,7 +63,7 @@ class Hearts {
                 },
               ]),
               "press_limit": FieldValue.increment(1),
-              "time_limit": FieldValue.serverTimestamp(),
+              "latest_time": FieldValue.serverTimestamp(),
             });
             // update heart value and lock
             scrollUserDetails[index]["heart"] = true;
@@ -87,7 +89,7 @@ class Hearts {
             },
           ]),
           "press_limit": 1,
-          "time_limit": FieldValue.serverTimestamp(),
+          "latest_time": FieldValue.serverTimestamp(),
         });
         // update heart value and lock
         scrollUserDetails[index]["heart"] = true;

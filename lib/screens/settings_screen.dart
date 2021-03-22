@@ -20,7 +20,7 @@ class SettingsScreen extends StatelessWidget {
             color: Colors.red,
             iconSize: 50,
             onPressed: () {
-              deleteAuthDetails();
+              deleteAuthDetails(context);
               // deleteUserPhotosInCloudStorage();
             },
           ),

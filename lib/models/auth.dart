@@ -1,5 +1,5 @@
 // @dart=2.9
-import 'package:explore/data/all_shared_pref_data.dart';
+import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/performance/trace_auth.dart';
@@ -36,7 +36,7 @@ class AuthenticationFirebase {
           dob: dobM,
           name: nameM,
           context: ctx);
-      storeCurrentUserUid(userResult.user.uid);
+      writeValue("current_uid", userResult.user.uid);
       TraceAuth.stopTraceAuthSignup();
       loadingOff();
 
@@ -121,7 +121,7 @@ class AuthenticationFirebase {
       userResult = await auth.signInWithEmailAndPassword(
           email: emailAddress.text, password: password.text);
       DocumentReference updateIsLoggedin = FirebaseFirestore.instance.doc("Userstatus/${userResult.user.uid}");
-      storeCurrentUserUid(userResult.user.uid);
+       writeValue("current_uid", userResult.user.uid);
       await updateIsLoggedin.update({
         "isloggedin" : true
       });
@@ -305,7 +305,7 @@ class GoogleAuthenticationClass {
         await GooglePath.signInWithGoogle(context,user.user.displayName,user.user.email,user.user.uid);
 
       }
-      storeCurrentUserUid(user.user.uid);
+      writeValue("current_uid", user.user.uid);
       DocumentReference updateLogin = FirebaseFirestore.instance.doc("Userstatus/${user.user.uid}");
       await updateLogin.update({
         "isloggedin" : true

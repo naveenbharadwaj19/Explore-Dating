@@ -42,7 +42,6 @@ exports.deleteUserCloudStorage = functions
     }
   });
 
-
 // * deletes user match making details
 exports.deleteUserMatchMaking = functions
   .region(nearRegion)
@@ -92,10 +91,32 @@ exports.deleteUserAccount = functions.https.onCall(async (data, context) => {
     const uid = context.auth.uid;
     if (uid.length !== 0) {
       console.log("User uid : " + uid);
-      await admin.auth().deleteUser(uid)
+      await admin.auth().deleteUser(uid);
       console.log("User account deleted successfully");
     }
   } catch (error) {
     console.log("Error :" + error.toString());
+  }
+});
+
+// * send push notification when heart is pressed -> FCM
+exports.notifyUsersFCM = functions.https.onCall(async (data, context) => {
+  try {
+    var token = data.token;
+    var title = data.title.toString();
+    var body = data.body.toString();
+    console.log("FCM token :" + token)
+    var sendmessageFCM = await admin.messaging().send({
+      token: token,
+      notification: {
+        title: title,
+        body: body,
+      },
+    });
+    console.log(sendmessageFCM);
+    return "Push notification sent";
+  } catch (error) {
+    console.log("Error in notifing Users -> FCM : " + error.toString());
+    return "Push notification failed";
   }
 });

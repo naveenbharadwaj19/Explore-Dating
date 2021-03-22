@@ -242,7 +242,7 @@ _showAlertDialog(
       passwordM = "";
       dobM = "";
       manageSigninLogin = false;
-      deleteAuthDetails();
+      deleteAuthDetails(context);
       Navigator.pop(context);
       // ! try to change to future delay if it leads to any app performance issue
       // sleep(Duration(seconds:3));

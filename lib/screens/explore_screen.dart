@@ -113,7 +113,7 @@ class Feeds extends StatelessWidget {
                       // ? 5
                       key: PageStorageKey(
                           "scroll-feeds-${pageViewLogic.pageStorageKeyNo}"),
-                      
+
                       physics: PageScrollPhysics(),
                       scrollDirection: Axis.vertical,
                       dragStartBehavior:
@@ -267,8 +267,9 @@ Widget middleBox(int index, BuildContext context) {
                 imageUrl: scrollUserDetails[index]["bodyphoto"].toString(),
                 fit: BoxFit.cover,
                 placeholder: (context, url) => loadingSpinner(),
-                errorWidget: (context, url, error) =>
-                    Center(child: loadingSpinner()),
+                errorWidget: (context, url, error) => Center(
+                  child: loadingSpinner(),
+                ),
               ),
             ),
             onTap: () => Navigator.pushNamed(context, ViewBodyPhoto.routeName,
@@ -317,7 +318,7 @@ class LowerBox extends StatelessWidget {
               child: GestureDetector(
                 child: scrollUserDetails[index]["heart"] &&
                         scrollUserDetails[index]["lock_heart_star"]
-                    ? Hearts.heartanimation(50)
+                    ? Hearts.heartanimation()
                     : Icon(
                         Icons.favorite_border_rounded,
                         color: Colors.red,
@@ -325,7 +326,8 @@ class LowerBox extends StatelessWidget {
                       ),
                 onTap: () async {
                   print("Pressed heart : $index");
-                  await Hearts.storeHeartInfo(index: index, context: context);
+                  await Hearts.storeHeartInfo(
+                      index: index, context: context);
                   pageViewLogic.updateLowerBoxUi();
                 },
               ),
@@ -345,7 +347,8 @@ class LowerBox extends StatelessWidget {
                       ),
                 onTap: () async {
                   print("Pressed star : $index");
-                  await Stars.storeStarInfo(index: index, context: context);
+                  await Stars.storeStarInfo(
+                      index: index, context: context);
                   pageViewLogic.updateLowerBoxUi();
                 },
               ),
@@ -407,19 +410,19 @@ Widget nothingToExplore(int streamRadius, BuildContext context) {
           return loadFeeds();
         }
         return Container(
-          margin: const EdgeInsets.only(top:100),
+          margin: const EdgeInsets.only(top: 100),
           child: Center(
             child: Column(
               children: [
                 Container(
                     // ? animation
                     child: Lottie.asset(
-                      "assets/animations/nothing_to_explore.json",
-                      fit: BoxFit.cover,
-                      height: 70,
-                      width: 70,
-                      repeat: false,
-                    )),
+                  "assets/animations/nothing_to_explore.json",
+                  fit: BoxFit.cover,
+                  height: 70,
+                  width: 70,
+                  repeat: false,
+                )),
                 Container(
                   // ? text message
                   margin: const EdgeInsets.all(25),
@@ -433,7 +436,7 @@ Widget nothingToExplore(int streamRadius, BuildContext context) {
                   // ? refresh
                   width: 160,
                   margin: const EdgeInsets.symmetric(vertical: 10),
-                   // ignore: deprecated_member_use
+                  // ignore: deprecated_member_use
                   child: RaisedButton(
                     color: Color(0xffF8C80D),
                     textColor: Color(0xff121212),
@@ -449,7 +452,8 @@ Widget nothingToExplore(int streamRadius, BuildContext context) {
                     ),
                     onPressed: () {
                       scrollUserDetails.clear(); // reset scroll details
-                      Notifications.resetLatestDocs(); // reset notifications doc
+                      Notifications
+                          .resetLatestDocs(); // reset notifications doc
                       pageViewLogic.callConnectingUsers = true;
                       if (scrollUserDetails.isEmpty &&
                           streamRadius == 180 &&

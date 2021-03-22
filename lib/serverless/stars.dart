@@ -5,14 +5,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 
 class Stars {
   static Widget starAnimation() {
-    return Icon(
-      Icons.star,
-      color: Color(0xffF8C80D),
-      size: 45,
+    return Lottie.asset(
+      "assets/animations/star_final.json",
+      height: 40,
+      width: 40,
+      fit: BoxFit.cover,
     );
   }
 
@@ -45,6 +48,7 @@ class Stars {
         } else {
           if (!scrollUserDetails[index]["star"] && ! scrollUserDetails[index]["lock_heart_star"]) {
             // trigger if user hasn't pressed star
+            HapticFeedback.mediumImpact(); // vibrate when pressed
             String currentDateTime =
                 DateFormat('dd-MM-yyyy:hh:mm:ss:a').format(now); // 12 hr format
             String fullPath = checkDocinfo.reference.path;
@@ -58,7 +62,7 @@ class Stars {
                 },
               ]),
               "press_limit": FieldValue.increment(1),
-              "time_limit": FieldValue.serverTimestamp(),
+              "latest_time": FieldValue.serverTimestamp(),
             });
             // update star value and lock
             scrollUserDetails[index]["star"] = true;
@@ -68,6 +72,7 @@ class Stars {
         }
       } else if (!checkDocinfo.exists) {
         // ? doc id do not exist
+        HapticFeedback.mediumImpact(); // vibrate when pressed
         String currentDateTime =
             DateFormat('dd-MM-yyyy:hh:mm:ss:a').format(now);
         String fullPath = checkDocinfo.reference.path;
@@ -81,7 +86,7 @@ class Stars {
             },
           ]),
           "press_limit": 1,
-          "time_limit": FieldValue.serverTimestamp(),
+          "latest_time": FieldValue.serverTimestamp(),
         });
         // update star value and lock
         scrollUserDetails[index]["star"] = true;
