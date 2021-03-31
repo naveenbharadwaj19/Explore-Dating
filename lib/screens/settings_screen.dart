@@ -156,7 +156,8 @@ class BulkOperations {
           "name": element.get("name"),
           "swiped_right": false,
           "head_photo": element.get("photos.current_head_photo"),
-          "time": "16-03-2021"
+          "head_photo_hash" : element.get("photos.current_head_photo_hash"),
+          // "time": "16-03-2021"
         };
         heartInfos.add(serialize);
         heartUid.add(element.get("uid"));

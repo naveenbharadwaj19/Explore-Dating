@@ -7,6 +7,7 @@ import 'package:explore/serverless/notifications.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:provider/provider.dart';
 
 class NotificationsScreen extends StatelessWidget {
@@ -169,7 +170,13 @@ Widget _headPhoto({@required dynamic data, @required int index}) {
           child: CachedNetworkImage(
             imageUrl: data[index]["head_photo"].toString(),
             fit: BoxFit.cover,
-            placeholder: (context, url) => whileHeadImageloadingSpinner(),
+            placeholder: (context, url) => BlurHash(
+              hash: data[index]["head_photo_hash"].toString(),
+              imageFit: BoxFit.cover,
+              color: Color(0xff121212).withOpacity(0),
+              curve: Curves.slowMiddle,
+              // image: scrollUserDetails[index]["headphoto"].toString(),
+            ),
             errorWidget: (context, url, error) =>
                 whileHeadImageloadingSpinner(),
           ),

@@ -4,6 +4,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
+import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/serverless/download_photos_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class Notifications {
   static int latestAge;
   static String latestUid;
   static String headPhotoUrl = "";
+  static String headPhotoHash = "";
   static void resetLatestDocs() {
     latestAge = 0;
     latestUid = "";
@@ -31,8 +33,12 @@ class Notifications {
       if (headPhotoUrl.isEmpty) {
         // get photo
         await DownloadCloudStoragePhotos.headImageDownload(uid)
-            .then((headPhoto) {
+            .then((headPhoto)async {
           headPhotoUrl = headPhoto;
+          await encodeBlurHashImg(headPhoto).then((photoHash) {
+            // encode the blur image
+            headPhotoHash = photoHash;
+          });
           print("headphoto stored in memory");
         });
       }
@@ -50,6 +56,7 @@ class Notifications {
               "age": ssValues["age"],
               "name": ssValues["name"],
               "head_photo": headPhotoUrl,
+              "head_photo_hash": headPhotoHash,
               // "time": currentDateTime,
               "swiped_right": false,
             },
@@ -85,6 +92,10 @@ class Notifications {
             await DownloadCloudStoragePhotos.headImageDownload(uid)
                 .then((headPhoto) {
               headPhotoUrl = headPhoto;
+              encodeBlurHashImg(headPhoto).then((photoHash) {
+                // encode the blur image
+                headPhotoHash = photoHash;
+              });
               print("headphoto stored in memory");
             });
           }
@@ -100,6 +111,7 @@ class Notifications {
                   "age": ssValues["age"],
                   "name": ssValues["name"],
                   "head_photo": headPhotoUrl,
+                  "head_photo_hash": headPhotoHash,
                   // "time": currentDateTime,
                   "swiped_right": false,
                 },
@@ -136,8 +148,12 @@ class Notifications {
           if (headPhotoUrl.isEmpty) {
             // get photo
             await DownloadCloudStoragePhotos.headImageDownload(uid)
-                .then((headPhoto) {
+                .then((headPhoto)async {
               headPhotoUrl = headPhoto;
+              await encodeBlurHashImg(headPhoto).then((photoHash) {
+                // encode the blur image
+                headPhotoHash = photoHash;
+              });
               print("headphoto stored in memory");
             });
           }
@@ -153,6 +169,7 @@ class Notifications {
                   "age": ssValues["age"],
                   "name": ssValues["name"],
                   "head_photo": headPhotoUrl,
+                  "head_photo_hash": headPhotoHash,
                   // "time": currentDateTime,
                   "swiped_right": false,
                 },
@@ -256,7 +273,7 @@ class Notifications {
           .orderBy("received_hearts_info")
           .limit(1)
           .get();
-        
+
       var zipList = query.docs.map((e) => e["received_hearts_info"]);
       zipList.toList().forEach((element) {
         element.forEach((element2) {

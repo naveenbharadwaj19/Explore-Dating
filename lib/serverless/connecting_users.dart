@@ -204,6 +204,8 @@ class ConnectingUsers {
             "heart": false,
             "star": false,
             "lock_heart_star": false,
+            "hp_hash" : queryDataName.get("photos.current_head_photo_hash"),//headphoto hash
+            "bp_hash" : queryDataName.get("photos.current_body_photo_hash"),//bodyphoto hash 
           };
           // add map to list
           scrollUserDetails.add(serializeDetails);

@@ -2,6 +2,7 @@
 // todo Manage Matchmaking collection firestore
 // * mm/MM - matchmaking collection
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/serverless/download_photos_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
@@ -11,6 +12,8 @@ class MatchMakingCollection {
   static addCurrentUserMM(String selectedShowMe) async {
     try {
       bool homo = false;
+      String headPhotoHash = "";
+      String bodyPhotoHash = "";
       String uid = FirebaseAuth.instance.currentUser.uid;
       // * create a user document in matchmaking collection
       DocumentSnapshot fetchDetails =
@@ -31,6 +34,14 @@ class MatchMakingCollection {
                 !bodyPhoto.contains("Cannot get image url")) {
               // print("hp $headPhoto");
               // print("bp $bodyPhoto");
+              await encodeBlurHashImg(headPhoto).then((hashVal){
+                headPhotoHash = hashVal;
+              });
+
+              await encodeBlurHashImg(bodyPhoto).then((hashVal){
+                bodyPhotoHash = hashVal;
+              });
+
               await menWomenCollection.add({
                 "uid": uid,
                 "show_me": selectedShowMe,
@@ -42,7 +53,9 @@ class MatchMakingCollection {
                 },
                 "photos": {
                   "current_head_photo": headPhoto,
+                  "current_head_photo_hash" : headPhotoHash,
                   "current_body_photo": bodyPhoto,
+                  "current_body_photo_hash" : bodyPhotoHash,
                 }
               });
             }

@@ -36,6 +36,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  blurhash:
+    dependency: "direct main"
+    description:
+      name: blurhash
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -350,7 +357,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_blurhash:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_blurhash
       url: "https://pub.dartlang.org"
@@ -703,7 +710,7 @@ packages:
       name: process
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.0"
+    version: "4.2.1"
   provider:
     dependency: "direct main"
     description:
@@ -739,48 +746,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.25.0"
-  shared_preferences:
-    dependency: "direct main"
-    description:
-      name: shared_preferences
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.5"
-  shared_preferences_linux:
-    dependency: transitive
-    description:
-      name: shared_preferences_linux
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  shared_preferences_macos:
-    dependency: transitive
-    description:
-      name: shared_preferences_macos
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  shared_preferences_platform_interface:
-    dependency: transitive
-    description:
-      name: shared_preferences_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  shared_preferences_web:
-    dependency: transitive
-    description:
-      name: shared_preferences_web
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
-  shared_preferences_windows:
-    dependency: transitive
-    description:
-      name: shared_preferences_windows
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -862,7 +827,7 @@ packages:
       name: uuid
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "3.0.2"
   vector_math:
     dependency: transitive
     description:

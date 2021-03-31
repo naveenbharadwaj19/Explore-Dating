@@ -16,6 +16,7 @@ import 'package:explore/serverless/stars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -187,7 +188,13 @@ Widget topBox(int index) {
               child: CachedNetworkImage(
                 imageUrl: scrollUserDetails[index]["headphoto"].toString(),
                 fit: BoxFit.cover,
-                placeholder: (context, url) => whileHeadImageloadingSpinner(),
+                placeholder: (context, url) => BlurHash(
+                  hash: scrollUserDetails[index]["hp_hash"],
+                  imageFit: BoxFit.cover,
+                  color: Color(0xff121212).withOpacity(0),
+                  curve: Curves.slowMiddle,
+                  // image: scrollUserDetails[index]["headphoto"].toString(),
+                ),
                 errorWidget: (context, url, error) =>
                     whileHeadImageloadingSpinner(),
               ),
@@ -266,7 +273,13 @@ Widget middleBox(int index, BuildContext context) {
                 width: double.infinity,
                 imageUrl: scrollUserDetails[index]["bodyphoto"].toString(),
                 fit: BoxFit.cover,
-                placeholder: (context, url) => loadingSpinner(),
+                placeholder: (context, url) => BlurHash(
+                  hash: scrollUserDetails[index]["bp_hash"],
+                  imageFit: BoxFit.cover,
+                  color: Color(0xff121212).withOpacity(0),
+                  curve: Curves.slowMiddle,
+                  // image: scrollUserDetails[index]["headphoto"],
+                ),
                 errorWidget: (context, url, error) => Center(
                   child: loadingSpinner(),
                 ),
@@ -326,8 +339,7 @@ class LowerBox extends StatelessWidget {
                       ),
                 onTap: () async {
                   print("Pressed heart : $index");
-                  await Hearts.storeHeartInfo(
-                      index: index, context: context);
+                  await Hearts.storeHeartInfo(index: index, context: context);
                   pageViewLogic.updateLowerBoxUi();
                 },
               ),
@@ -347,8 +359,7 @@ class LowerBox extends StatelessWidget {
                       ),
                 onTap: () async {
                   print("Pressed star : $index");
-                  await Stars.storeStarInfo(
-                      index: index, context: context);
+                  await Stars.storeStarInfo(index: index, context: context);
                   pageViewLogic.updateLowerBoxUi();
                 },
               ),
@@ -386,12 +397,10 @@ class ViewBodyPhoto extends StatelessWidget {
       color: Theme.of(context).primaryColor,
       child: GestureDetector(
         child: CachedNetworkImage(
-          // height: 500,
-          width: double.infinity,
           imageUrl: url,
-          // fit: BoxFit.cover,
           placeholder: (context, url) => loadingSpinner(),
           errorWidget: (context, url, error) => loadingSpinner(),
+          // fit: BoxFit.cover,
         ),
         onTap: () => Navigator.pop(context),
       ),
