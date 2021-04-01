@@ -95,53 +95,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Material(
-        child: ColorFiltered(
-          colorFilter: ColorFilter.mode(
-              Color(0xff121212).withOpacity(1), BlendMode.difference),
-          // ? difference, overlay, softlight ---> suitable blendmodes
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  "assets/app_background_img/welcome_bg_2.png",
+        color: Theme.of(context).primaryColor,
+        child: Container(
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                logoAppName(logoImage),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 3),
                 ),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  logoAppName(logoImage),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 3),
-                  ),
-                  nameTextField(name),
-                  emailTextField(emailAddress),
-                  // userNameTextField(userName),
-                  passwordTextField(
-                      showPasswordText, toggle, password, confirmPassword),
-                  confirmPasswordTextField(
-                      showPasswordText, toggle, confirmPassword, password),
-                  DOB(),
-                  ageCondition(agreeAge, toggleAge),
-                  termsAndConditions(agreeTerms, toogleTerms),
-                  nextButton(
-                    formKey: formKey,
-                    agreeAge: agreeAge,
-                    agreeTerms: agreeTerms,
-                    emailAddress: emailAddress,
-                    password: password,
-                    loadingOn: loadingOn,
-                    loadingOff: loadingOff,
-                    isLoading: isLoading,
-                    name: name,
-                    context: context,
-                  ),
-                  navigateToLoginPage(context, widget.pressedLogin),
-                  helpGuide(),
-                ],
-              ),
+                nameTextField(name),
+                emailTextField(emailAddress),
+                // userNameTextField(userName),
+                passwordTextField(
+                    showPasswordText, toggle, password, confirmPassword),
+                confirmPasswordTextField(
+                    showPasswordText, toggle, confirmPassword, password),
+                DOB(),
+                ageCondition(agreeAge, toggleAge),
+                termsAndConditions(agreeTerms, toogleTerms),
+                nextButton(
+                  formKey: formKey,
+                  agreeAge: agreeAge,
+                  agreeTerms: agreeTerms,
+                  emailAddress: emailAddress,
+                  password: password,
+                  loadingOn: loadingOn,
+                  loadingOff: loadingOff,
+                  isLoading: isLoading,
+                  name: name,
+                  context: context,
+                ),
+                navigateToLoginPage(context, widget.pressedLogin),
+                helpGuide(),
+              ],
             ),
           ),
         ),

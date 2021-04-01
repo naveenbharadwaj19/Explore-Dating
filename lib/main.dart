@@ -128,7 +128,7 @@ class _MyAppState extends State<MyApp> {
 
 class WelcomeLoginScreen extends StatefulWidget {
   static const routeName = "login-screen";
-  final Function  pressedSignin;
+  final Function pressedSignin;
   WelcomeLoginScreen({this.pressedSignin});
 
   @override
@@ -211,20 +211,9 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-        child: Material(
-      child: ColorFiltered(
-        colorFilter: ColorFilter.mode(
-            Color(0xff121212).withOpacity(1), BlendMode.difference),
-        // ? difference, overlay, softlight ---> suitable blendmodes
+      child: Material(
+        color: Theme.of(context).primaryColor,
         child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(
-                "assets/app_background_img/welcome_bg_2.png",
-              ),
-              fit: BoxFit.cover,
-            ),
-          ),
           child: Form(
             key: formKey,
             child: Column(
@@ -260,6 +249,6 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
           ),
         ),
       ),
-    ));
+    );
   }
 }

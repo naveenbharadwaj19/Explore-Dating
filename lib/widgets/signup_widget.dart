@@ -41,7 +41,7 @@ Widget nameTextField(TextEditingController _name) {
       margin: const EdgeInsets.only(top: 30),
       child: TextFormField(
         controller: _name,
-        inputFormatters: [LengthLimitingTextInputFormatter(30)],
+        inputFormatters: [LengthLimitingTextInputFormatter(20)],
         textCapitalization: TextCapitalization.words,
         enabled: true,
         cursorColor: Colors.white,
