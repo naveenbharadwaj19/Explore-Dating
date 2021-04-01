@@ -3,6 +3,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
+import 'package:explore/models/vibration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +49,8 @@ class Stars {
         } else {
           if (!scrollUserDetails[index]["star"] && ! scrollUserDetails[index]["lock_heart_star"]) {
             // trigger if user hasn't pressed star
-            HapticFeedback.mediumImpact(); // vibrate when pressed
+            // HapticFeedback.mediumImpact(); // vibrate when pressed
+            vibrateStar(); // vibrate when pressed
             String currentDateTime =
                 DateFormat('dd-MM-yyyy:hh:mm:ss:a').format(now); // 12 hr format
             String fullPath = checkDocinfo.reference.path;
