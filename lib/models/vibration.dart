@@ -5,7 +5,7 @@ Future<void> vibrateStar() async {
   try {
     // *check if device has vibration
     if (await Vibration.hasVibrator()) {
-      await Vibration.vibrate(duration: 1000, amplitude: 128);
+      await Vibration.vibrate(amplitude: 50);
       print("Device vibrated");
     }
   } catch (error) {

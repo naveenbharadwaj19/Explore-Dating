@@ -1,6 +1,7 @@
 // @dart=2.9
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:explore/models/disable_multi_touch.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/notifications_state.dart';
 import 'package:explore/serverless/notifications.dart';
@@ -59,16 +60,16 @@ class NotificationsScreen extends StatelessWidget {
             print("Error in notification future builder");
             return Center(child: loadingSpinner());
           }
-          return NotificationsFeeds(notificationSnapShot.data);
+          return NotificationsItem(notificationSnapShot.data);
         },
       ),
     );
   }
 }
 
-class NotificationsFeeds extends StatelessWidget {
+class NotificationsItem extends StatelessWidget {
   final dynamic data;
-  NotificationsFeeds(this.data);
+  NotificationsItem(this.data);
   final acceptColor = Color(0xff121212); //Color(0xff1e8d3e) -> green
   final rejectColor = Color(0xff121212); // Color(0xffd83025) -> red
   @override
@@ -76,85 +77,87 @@ class NotificationsFeeds extends StatelessWidget {
     final notificationState = Provider.of<NotificationsState>(context);
     return data.isEmpty
         ? noNotifications() // when user has no notifications
-        : ListView.builder(
-            itemBuilder: (context, index) {
-              return AbsorbPointer(
-                absorbing: notificationState.lockSwipe ? true : false,
-                child: Dismissible(
-                  key: UniqueKey(), // ValueKey("notification-feeds")
-                  background: Container(
-                    // ? left to right -> not intersted
-                    alignment: Alignment.centerLeft,
-                    color: rejectColor,
-                    child: Container(
-                      margin: const EdgeInsets.only(left: 15),
-                      child: const Icon(
-                        Icons.cancel,
-                        size: 40,
-                        color: Colors.white54,
-                      ),
-                    ),
-                  ),
-                  secondaryBackground: Container(
-                    // ? right to left -> intersted
-                    alignment: Alignment.centerRight,
-                    color: acceptColor,
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 15),
-                      child: const Icon(
-                        Icons.check_circle,
-                        size: 40,
-                        color: Color(0xffF8C80D),
-                      ),
-                    ),
-                  ),
-                  child: Container(
-                    height: 110,
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(
-                        top: 20, bottom: 5, left: 15, right: 15),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Color(0xCCF8C80D), width: 2), // 80 %
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
-                      child: Center(
-                        child: Row(
-                          children: [
-                            // ? head photo,name,age,acceptReject
-                            _headPhoto(data: data, index: index),
-                            _name(data: data, index: index),
-                            age(data: data, index: index),
-                          ],
+        : SingleTouchRecognizerWidget(
+                  child: ListView.builder(
+              itemBuilder: (context, index) {
+                return AbsorbPointer(
+                  absorbing: notificationState.lockSwipe ? true : false,
+                  child: Dismissible(
+                    key: UniqueKey(), // ValueKey("notification-feeds")
+                    background: Container(
+                      // ? left to right -> not intersted
+                      alignment: Alignment.centerLeft,
+                      color: rejectColor,
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 15),
+                        child: const Icon(
+                          Icons.cancel,
+                          size: 40,
+                          color: Colors.white54,
                         ),
                       ),
                     ),
+                    secondaryBackground: Container(
+                      // ? right to left -> intersted
+                      alignment: Alignment.centerRight,
+                      color: acceptColor,
+                      child: Container(
+                        margin: const EdgeInsets.only(right: 15),
+                        child: const Icon(
+                          Icons.check_circle,
+                          size: 40,
+                          color: Color(0xffF8C80D),
+                        ),
+                      ),
+                    ),
+                    child: Container(
+                      height: 110,
+                      width: double.infinity,
+                      margin: const EdgeInsets.only(
+                          top: 20, bottom: 5, left: 15, right: 15),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Color(0xCCF8C80D), width: 2), // 80 %
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        child: Center(
+                          child: Row(
+                            children: [
+                              // ? head photo,name,age,acceptReject
+                              _headPhoto(data: data, index: index),
+                              _name(data: data, index: index),
+                              age(data: data, index: index),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    onDismissed: (direction) {
+                      // ? end to start -> right to left
+                      // ? start to end -> left to right
+                      if (direction == DismissDirection.endToStart) {
+                        Notifications.notificationAccepted(
+                            data: data, index: index);
+                        notificationState.enableLockSwipe(
+                            data: data, index: index);
+                        popUpMessage(notificationState, context);
+                      } else if (direction == DismissDirection.startToEnd) {
+                        Notifications.notificationRejected(
+                            data: data, index: index);
+                        notificationState.enableLockSwipe(
+                            data: data, index: index);
+                        popUpMessage(notificationState, context);
+                      }
+                    },
                   ),
-                  onDismissed: (direction) {
-                    // ? end to start -> right to left
-                    // ? start to end -> left to right
-                    if (direction == DismissDirection.endToStart) {
-                      Notifications.notificationAccepted(
-                          data: data, index: index);
-                      notificationState.enableLockSwipe(
-                          data: data, index: index);
-                      popUpMessage(notificationState, context);
-                    } else if (direction == DismissDirection.startToEnd) {
-                      Notifications.notificationRejected(
-                          data: data, index: index);
-                      notificationState.enableLockSwipe(
-                          data: data, index: index);
-                      popUpMessage(notificationState, context);
-                    }
-                  },
-                ),
-              );
-            },
-            itemCount: data.length,
-          );
+                );
+              },
+              itemCount: data.length,
+            ),
+        );
   }
 }
 
