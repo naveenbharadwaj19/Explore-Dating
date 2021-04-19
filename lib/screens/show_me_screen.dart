@@ -1,6 +1,6 @@
 // @dart=2.9
-import 'package:explore/data/all_secure_storage.dart'show writeRFATA;
-import '../serverless/firestore_signup.dart';
+import 'package:explore/data/all_secure_storage.dart' show writeRFATA;
+import 'package:explore/serverless/firestore_signup.dart';
 import '../serverless/match_making.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +12,7 @@ class ShowMeScreen extends StatefulWidget {
 class _ShowMeScreenState extends State<ShowMeScreen> {
   String selectedShowMe = "";
   int index = 0;
-  void updateSelectedShowMe(int val){
+  void updateSelectedShowMe(int val) {
     // * 1 - men , 2 - women , 3 - everyone
     setState(() {
       index = val;
@@ -49,11 +49,11 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
             width: 250,
             // ignore: deprecated_member_use
             child: RaisedButton(
-              color: Color(index == 1? 0xffF8C80D : 0xff121212),
+              color: Color(index == 1 ? 0xffF8C80D : 0xff121212),
               textColor: index == 1 ? Color(0xff121212) : Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(color: Color(0xffF8C80D),width: 2)),
+                  side: BorderSide(color: Color(0xffF8C80D), width: 2)),
               child: Text(
                 "Men",
                 style: const TextStyle(
@@ -70,14 +70,14 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           ),
           Container(
             width: 250,
-            margin: const EdgeInsets.only(top:20),
+            margin: const EdgeInsets.only(top: 20),
             // ignore: deprecated_member_use
             child: RaisedButton(
-             color: Color(index == 2? 0xffF8C80D : 0xff121212),
+              color: Color(index == 2 ? 0xffF8C80D : 0xff121212),
               textColor: index == 2 ? Color(0xff121212) : Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(color: Color(0xffF8C80D),width: 2)),
+                  side: BorderSide(color: Color(0xffF8C80D), width: 2)),
               child: Text(
                 "Women",
                 style: const TextStyle(
@@ -94,14 +94,14 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
           ),
           Container(
             width: 250,
-            margin: const EdgeInsets.only(top:20),
+            margin: const EdgeInsets.only(top: 20),
             // ignore: deprecated_member_use
             child: RaisedButton(
               color: Color(index == 3 ? 0xffF8C80D : 0xff121212),
               textColor: index == 3 ? Color(0xff121212) : Colors.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(color: Color(0xffF8C80D),width: 2)),
+                  side: BorderSide(color: Color(0xffF8C80D), width: 2)),
               child: Text(
                 "Everyone",
                 style: const TextStyle(
@@ -122,24 +122,25 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
             margin: const EdgeInsets.only(bottom: 20),
             // ignore: deprecated_member_use
             child: RaisedButton(
-              color: Color(0xffF8C80D),
-              textColor: Color(0xff121212),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                  side: BorderSide(color: Color(0xffF8C80D))),
-              child: Text(
-                "Confirm",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
+                color: Color(0xffF8C80D),
+                textColor: Color(0xff121212),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    side: BorderSide(color: Color(0xffF8C80D))),
+                child: Text(
+                  "Confirm",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    // fontWeight: FontWeight.w700,
+                  ),
                 ),
+                onPressed: () {
+                  MatchMakingCollection.addCurrentUserMM(selectedShowMe);
+                  writeRFATA(selectedShowMe);
+                  OnlyDuringSignupFirestore.updateShowMeFields(
+                      selectedShowMe, context);
+                },
               ),
-              onPressed: (){
-                OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context);
-                MatchMakingCollection.addCurrentUserMM(selectedShowMe);
-                writeRFATA(selectedShowMe);
-              },
-            ),
           ),
         ],
       ),

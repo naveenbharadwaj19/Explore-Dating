@@ -27,6 +27,7 @@ dependencies:
     git: git://github.com/naveenbharadwaj19/GeoFlutterFire.git
   another_flushbar: ^1.10.17
   app_settings: ^4.1.0
+  auto_size_text: ^2.1.0
   blurhash: ^0.2.1
   cached_network_image: ^2.5.1
   change_app_package_name: ^0.1.2
@@ -36,7 +37,9 @@ dependencies:
   cloud_firestore: ^1.0.1
   cloud_functions: ^1.0.0
   connectivity: ^3.0.2
+  csc_picker: ^0.2.3
   cupertino_icons: ^1.0.0
+  dotted_border: ^2.0.0-nullsafety.0
   email_validator: ^2.0.1
   firebase_auth: ^1.0.0
   firebase_core: ^1.0.1
@@ -62,7 +65,9 @@ dependencies:
   intl: ^0.17.0
   lottie: ^1.0.1
   modal_bottom_sheet: ^2.0.0
+  numberpicker: ^2.0.1
   page_transition: ^1.1.7+2
+  path_provider: ^2.0.1
   pinput: ^1.2.0
   provider: ^5.0.0
   random_string: ^2.1.0
@@ -176,6 +181,10 @@ flutter:
     - family: ReportFilterIcons
       fonts:
         - asset: assets/fonts/ReportFilterIcons.ttf
+
+    - family: ProfileIcons
+      fonts:
+        - asset: assets/fonts/ProfileIcons.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro

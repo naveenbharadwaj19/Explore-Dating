@@ -5,7 +5,7 @@ import 'package:explore/screens/chat_screen.dart';
 import 'package:explore/screens/explore_screen.dart';
 import 'package:explore/widgets/filter_widget.dart';
 import 'package:explore/screens/notifications_screen.dart';
-import 'package:explore/screens/profile_screen.dart';
+import 'package:explore/screens/profilescreen/user_pres_screen.dart';
 import 'package:explore/screens/settings_screen.dart';
 import 'package:explore/widgets/bottom_widgets.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,7 @@ class _BottomNavigationBarScreensState
   final List widgetsTapped = [
     ExploreAppBarScreen(),
     NotificationsScreen(),
-    ProfileScreen(),
+    UserPrespectiveScreen(),
     ChatScreen(),
     SettingsScreen()
   ];

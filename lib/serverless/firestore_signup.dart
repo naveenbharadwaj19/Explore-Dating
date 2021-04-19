@@ -278,7 +278,7 @@ class OnlyDuringSignupFirestore {
           "rh" : false,
         }
       });
-      print("Stored User coordinates in firestore");
+      // print("Stored User coordinates in firestore");
     } catch (error) {
       print("Error : ${error.toString()}");
       Flushbar(
@@ -341,7 +341,7 @@ class OnlyDuringSignupFirestore {
   }
 }
 
-void uploadHeadBodyPhotoTocloudStorage(
+void uploadPhotosTocloudStorageFirstTime(
     String imagePathForHead, String imagePathForBody, BuildContext context) {
   // * ref1 = current head photo , ref2 = body photo , ref3 = all body photos
   try {

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/serverless/firestore_signup.dart';
 import 'package:explore/serverless/match_making.dart';
+import 'package:explore/serverless/profile_backend/abt_me_backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,8 @@ class LocationModel {
         Flushbar(
           messageText: const Text(
             "Open app setting and give location premission",
-            style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+            style: const TextStyle(
+                fontWeight: FontWeight.w700, color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
@@ -51,15 +53,15 @@ class LocationModel {
 
   static _getCurrentCoordinates(
       BuildContext context, Function updatedOpenCloseLocation) async {
-    Position currentPostion;
+    Position currentPosition;
     try {
       var geo = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-      currentPostion = geo;
-      print(currentPostion);
-      if (currentPostion != null) {
-        updateNewLocation(
-            currentPostion.latitude, currentPostion.longitude, context);
+      currentPosition = geo;
+      print(currentPosition);
+      if (currentPosition != null) {
+        updateLocationAllOverTheDataBase(
+            currentPosition.latitude, currentPosition.longitude, context);
         updatedOpenCloseLocation();
       }
     } catch (error) {
@@ -67,16 +69,36 @@ class LocationModel {
       Flushbar(
         messageText: Text(
           "Error ${AssignErrors.expcod002}",
-          style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+          style:
+              const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
       )..show(context);
     }
   }
+  static Future<Position>  getLatitudeAndLongitude() async {
+    // * get latitude and longitude
+    Position currentPosition;
+    try {
+      var geo = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      currentPosition = geo;
+      // print(currentPosition);
+      if (currentPosition != null) {
+        Position tempPosition = currentPosition;
+        currentPosition = tempPosition;
+      }
+      return currentPosition;
+    } catch (error) {
+      print("Error in getLatitudeAndLongitude : ${error.toString()}");
+      return currentPosition;
+    }
+  }
 
-  static Future<void> updateNewLocation(
-      // * storing current location in users collection
+  static Future<void> updateLocationAllOverTheDataBase(
+      // * store location in required documents
+      // * central hub -> store , update location all over the database
       double latitude,
       double longitude,
       BuildContext context) async {
@@ -84,21 +106,26 @@ class LocationModel {
       List<Placemark> address =
           await placemarkFromCoordinates(latitude, longitude);
       if (address.isNotEmpty || address != null) {
-        var addressFirst = address.first;
+        Placemark addressFirst = address.first;
+        // documents where location need to be updated
         OnlyDuringSignupFirestore.getLocationAddressAndCoordinates(
             latitude: latitude,
             longitude: longitude,
             address: addressFirst,
-            context: context);
+            context: context); // * 1 W
         MatchMakingCollection.updateLocationMM(
-            latitude, longitude, addressFirst);
+            latitude, longitude, addressFirst); //* 1R,1 W
+        ProfileAboutMeBackEnd.updateProfileLocation(addressFirst);
+        print("Location details stored & updated all over the database");
+        print("Event triggered in : 1 - Users/-/location 2 - Profile 3 - Matchmaking");
       }
     } catch (error) {
       print("Error in fetching address : ${error.toString()}");
       Flushbar(
         messageText: Text(
           "Error ${AssignErrors.expAdd001}",
-          style: const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
+          style:
+              const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
@@ -106,25 +133,12 @@ class LocationModel {
     }
   }
 
-  // static Future<void> updateNewLocationInMM(
-  // // * storing current location in match making
-  //   double latitude, double longitude) async {
-  // try {
-  //   List<Placemark> address = await placemarkFromCoordinates(latitude, longitude);
-  //   if(address.isNotEmpty || address != null){
-  //     var addressFirst = address.first;
-  //     MatchMakingCollection.updateLocationMM(latitude, longitude, addressFirst);
-  //   }
-  // } catch (error) {
-  //   print("Error in fetching address for MM : ${error.toString()}");
-  // }
-
-  //   }
-
   static Future<Placemark> getAddress(double latitude, double longitude) async {
-    // ? geocoding
+    // * geocoding
+    // * converts lati and longi to address
+    // this function is not used anywhere
+    Placemark addressCompressed;
     try {
-      Placemark addressCompressed;
       List<Placemark> address =
           await placemarkFromCoordinates(latitude, longitude);
       if (address.isNotEmpty || address != null) {
@@ -134,7 +148,7 @@ class LocationModel {
       return addressCompressed;
     } catch (error) {
       print("Error in fetching address : ${error.toString()}");
-      return null;
+      return addressCompressed;
     }
   }
 
@@ -151,37 +165,29 @@ class LocationModel {
     return myGeoData.data;
   }
 
-  static checkForUserLocation(
+  static checkUserLocation(
       {double latitude, double longitude, BuildContext context}) async {
     // * will update if user geo hash gets changed
+    // * 2R , 3W (CRUD of checkUserLocation , updateLocationALlOverTheDataBase)
     try {
       String fetchHash = myGeoHash(latitude: latitude, longitude: longitude);
       print("GeoHash : $fetchHash");
-      var checkFetchlocationDoc = await FirebaseFirestore.instance
+      var fetchedLocationDocData = await FirebaseFirestore.instance
           .doc(
               "Users/${FirebaseAuth.instance.currentUser.uid}/Userlocation/fetchedlocation")
-          .get();
-      if (checkFetchlocationDoc.exists == false) {
+          .get(); // * 1 R
+      if (fetchedLocationDocData.exists == false) {
+        // no Users/--/Userlocation /fetchedlocation document found
         print("No Userlocation collection found so creating one...");
-        // OnlyDuringSignupFirestore.getLocationAddressAndCoordinates(latitude, longitude, context);
-        updateNewLocation(latitude, longitude, context);
-        // updateNewLocationInMM(latitude, longitude);
-        print(
-            "Added user coordinates in userlocation collection and in matchmaking");
+        updateLocationAllOverTheDataBase(latitude, longitude, context);
       }
-      var location = await FirebaseFirestore.instance
-          .collection(
-              "Users/${FirebaseAuth.instance.currentUser.uid}/Userlocation")
-          .where("current_coordinates.geohash", isNotEqualTo: fetchHash)
-          .get();
-      location.docs.forEach((element) async {
-        print(
-            "New geo hash of user is not stored in firestore.So processing...");
-        updateNewLocation(latitude, longitude, context);
-        // * update location in matchmaking
-        // updateNewLocationInMM(latitude, longitude);
-        print("New location updated ...");
-      });
+      // note : if Users/--/USerlocation/fetchedlocation is not updated to new location this will trigger below line
+      // and update the new location all over the database
+      // check if stored geohash in Users/--/Userlocation is not equal not current geohash
+      if (fetchedLocationDocData.get("current_coordinates.geohash") != fetchHash) {
+        print("User level geohash has been changed so updating new location all over the database");
+        updateLocationAllOverTheDataBase(latitude, longitude, context);
+      }
     } catch (error) {
       print("Error in userlocation : ${error.toString()}");
     }

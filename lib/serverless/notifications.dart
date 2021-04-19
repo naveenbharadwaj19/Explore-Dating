@@ -32,7 +32,7 @@ class Notifications {
       // check if headphotourl is empty
       if (headPhotoUrl.isEmpty) {
         // get photo
-        await DownloadCloudStoragePhotos.headImageDownload(uid)
+        await DownloadCloudStoragePhotos.headPhotoDownload(uid)
             .then((headPhoto)async {
           headPhotoUrl = headPhoto;
           await encodeBlurHashImg(headPhoto).then((photoHash) {
@@ -89,7 +89,7 @@ class Notifications {
           // check if headphotourl is empty
           if (headPhotoUrl.isEmpty) {
             // get photo
-            await DownloadCloudStoragePhotos.headImageDownload(uid)
+            await DownloadCloudStoragePhotos.headPhotoDownload(uid)
                 .then((headPhoto) {
               headPhotoUrl = headPhoto;
               encodeBlurHashImg(headPhoto).then((photoHash) {
@@ -147,7 +147,7 @@ class Notifications {
           // check if headphotourl is empty
           if (headPhotoUrl.isEmpty) {
             // get photo
-            await DownloadCloudStoragePhotos.headImageDownload(uid)
+            await DownloadCloudStoragePhotos.headPhotoDownload(uid)
                 .then((headPhoto)async {
               headPhotoUrl = headPhoto;
               await encodeBlurHashImg(headPhoto).then((photoHash) {

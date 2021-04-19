@@ -4,6 +4,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/serverless/download_photos_storage.dart';
+import 'package:explore/serverless/profile_backend/abt_me_backend.dart';
+import 'package:explore/serverless/profile_backend/prof_photos_backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart' show Geoflutterfire;
@@ -27,18 +29,18 @@ class MatchMakingCollection {
           .collection("Matchmaking/simplematch/MenWomen");
       // get head and body photos
       try {
-        DownloadCloudStoragePhotos.headImageDownload(uid).then((headPhoto) {
-          DownloadCloudStoragePhotos.bodyImageDownload(uid)
+        DownloadCloudStoragePhotos.headPhotoDownload(uid).then((headPhoto) {
+          DownloadCloudStoragePhotos.bodyPhotoDownload(uid)
               .then((bodyPhoto) async {
             if (!headPhoto.contains("Cannot get image url") &&
                 !bodyPhoto.contains("Cannot get image url")) {
               // print("hp $headPhoto");
               // print("bp $bodyPhoto");
-              await encodeBlurHashImg(headPhoto).then((hashVal){
+              await encodeBlurHashImg(headPhoto).then((hashVal) {
                 headPhotoHash = hashVal;
               });
 
-              await encodeBlurHashImg(bodyPhoto).then((hashVal){
+              await encodeBlurHashImg(bodyPhoto).then((hashVal) {
                 bodyPhotoHash = hashVal;
               });
 
@@ -53,14 +55,22 @@ class MatchMakingCollection {
                 },
                 "photos": {
                   "current_head_photo": headPhoto,
-                  "current_head_photo_hash" : headPhotoHash,
+                  "current_head_photo_hash": headPhotoHash,
                   "current_body_photo": bodyPhoto,
-                  "current_body_photo_hash" : bodyPhotoHash,
+                  "current_body_photo_hash": bodyPhotoHash,
                 }
               });
+               await ProfileAboutMeBackEnd.storeProfileData(
+                  name: fetchDetails.get("bio.name"),
+                  age: fetchDetails.get("bio.age"),
+                  headPhotoHash: headPhotoHash,
+                  headPhotoUrl: headPhoto);
+
+               await ProfilePhotosBackEnd.storePhotosInfo(bodyPhotoHash, bodyPhoto);
             }
           });
         });
+        print("Successfully created user document in matchmaking");
       } catch (error) {
         print(
             "Error in download_photos_storage file. Possible error cause in cloud storage ${error.toString()}");
@@ -78,9 +88,14 @@ class MatchMakingCollection {
             "current_body_photo": "Cannot get image url",
           }
         });
-      }
+        await ProfileAboutMeBackEnd.storeProfileData(
+            name: fetchDetails.get("bio.name"),
+            age: fetchDetails.get("bio.age"),
+            headPhotoHash: "",
+            headPhotoUrl: "");
 
-      print("Successfully created user document in matchmaking");
+        await ProfilePhotosBackEnd.storePhotosInfo("", "");
+      }
     } catch (error) {
       print("Error in creating user matchmaking : ${error.toString()}");
     }
@@ -88,15 +103,18 @@ class MatchMakingCollection {
 
   static updateLocationMM(double latitude, longitude, Placemark address) async {
     // * update current location of the user in matchmaking
+    // * if photo fields have error will try to fix them
     try {
       String uid = FirebaseAuth.instance.currentUser.uid;
       bool homo = false;
+      String headPhotoHash = "";
+      String bodyPhotoHash = "";
       var userMM = await FirebaseFirestore.instance
           .collection("Matchmaking/simplematch/MenWomen")
           .where("uid", isEqualTo: uid)
           .get();
       userMM.docs.forEach((element) async {
-        print("Updating user location in matchmaking ...");
+        // print("Updating user location in matchmaking ...");
         if (element.get("show_me").toString() ==
             element.get("gender").toString()) {
           homo = true;
@@ -121,7 +139,7 @@ class MatchMakingCollection {
             "rh": homo,
           }
         });
-        // check if photos field have error if so try to update them
+        // check if photos fields have error if so try to update them
         if (element
                 .get("photos.current_head_photo")
                 .contains("Cannot get image url") ||
@@ -129,21 +147,33 @@ class MatchMakingCollection {
                 .get("photos.current_body_photo")
                 .contains("Cannot get image url")) {
           print("photos field have error. So retrying to update them");
-          DownloadCloudStoragePhotos.headImageDownload(uid).then((headPhoto) {
-            DownloadCloudStoragePhotos.bodyImageDownload(uid)
+          DownloadCloudStoragePhotos.headPhotoDownload(uid).then((headPhoto) {
+            DownloadCloudStoragePhotos.bodyPhotoDownload(uid)
                 .then((bodyPhoto) async {
               if (!headPhoto.contains("Cannot get image url") &&
                   !bodyPhoto.contains("Cannot get image url")) {
-                await updatePhotosField.update({
-                  "photos.current_head_photo": headPhoto,
-                  "photos.current_body_photo": bodyPhoto,
+                // encode photo to hash and update them
+                await encodeBlurHashImg(headPhoto).then((hash) {
+                  headPhotoHash = hash;
                 });
-                print("photos field updated successfully");
+                await encodeBlurHashImg(bodyPhoto).then((hash) {
+                  bodyPhotoHash = hash;
+                });
+                if (headPhotoHash.isNotEmpty && bodyPhotoHash.isNotEmpty) {
+                  // head and body hash is not empty
+                  await updatePhotosField.update({
+                    "photos.current_head_photo": headPhoto,
+                    "photos.current_body_photo": bodyPhoto,
+                    "photos.current_head_photo_hash": headPhotoHash,
+                    "photos.current_body_photo_hash": bodyPhotoHash,
+                  });
+                  print(
+                      "photos field of user matchmaking had error but now it has been fixed");
+                }
               }
             });
           });
         }
-        print("User location updated in matchmaking");
       });
     } catch (error) {
       print("Error in userlocationmm ${error.toString()}");

@@ -167,7 +167,8 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                 print("CurrentCoordinates : $currentCoordinates");
                 if (currentCoordinates != null) {
                   // ! might lead to too much data read and update
-                  LocationModel.checkForUserLocation(
+                  // will trigger to the time set in intervalduration
+                  LocationModel.checkUserLocation(
                       latitude: currentCoordinates.latitude,
                       longitude: currentCoordinates.longitude,
                       context: context);

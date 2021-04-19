@@ -41,7 +41,7 @@ Future<void> detectHeadPhotoAndStoreToCloud(
       } else if (processedFaces.isNotEmpty) {
         // * when face is detected
         print("Face detected ...");
-        uploadHeadBodyPhotoTocloudStorage(
+        uploadPhotosTocloudStorageFirstTime(
             imagePathHead, imagePathBody, context);
       }
     }

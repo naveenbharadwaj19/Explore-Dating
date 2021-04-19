@@ -109,7 +109,7 @@ class Feeds extends StatelessWidget {
                 return loadFeeds();
               }
               return scrollUserDetails.isEmpty // ? 3
-                  ? nothingToExplore(filterSnapShotRadius, context) // ? 4
+                  ? _NothingToExploreScreen(filterSnapShotRadius) // ? 4
                   : PageView.builder(
                       // ? 5
                       key: PageStorageKey(
@@ -151,8 +151,8 @@ class Feeds extends StatelessWidget {
                           margin: const EdgeInsets.only(top: 15),
                           child: Column(
                             children: [
-                              topBox(index),
-                              Expanded(child: middleBox(index, context)),
+                              _TopBox(index),
+                              Expanded(child: _MiddleBox(index)),
                             ],
                           ),
                         );
@@ -165,151 +165,159 @@ class Feeds extends StatelessWidget {
   }
 }
 
-Widget topBox(int index) {
-  return Container(
-    height: 100,
-    decoration: BoxDecoration(
-      color: Color(0xCCF8C80D),
-      borderRadius: BorderRadius.only(
-        topLeft: const Radius.circular(30),
-        topRight: const Radius.circular(30),
+class _TopBox extends StatelessWidget {
+  final int index;
+  _TopBox(this.index);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      decoration: BoxDecoration(
+        color: Color(0xCCF8C80D),
+        borderRadius: BorderRadius.only(
+          topLeft: const Radius.circular(30),
+          topRight: const Radius.circular(30),
+        ),
       ),
-    ),
-    child: Stack(
-      children: [
-        Container(
-          // ? head photo
-          margin: const EdgeInsets.only(top: 10, left: 15),
-          alignment: Alignment.topLeft,
-          child: CircleAvatar(
-            radius: 40,
-            backgroundColor: Color(0xff121212),
-            child: ClipOval(
-              child: CachedNetworkImage(
-                imageUrl: scrollUserDetails[index]["headphoto"].toString(),
-                fit: BoxFit.cover,
-                placeholder: (context, url) => BlurHash(
-                  hash: scrollUserDetails[index]["hp_hash"],
-                  imageFit: BoxFit.cover,
-                  color: Color(0xff121212).withOpacity(0),
-                  curve: Curves.slowMiddle,
-                  // image: scrollUserDetails[index]["headphoto"].toString(),
+      child: Stack(
+        children: [
+          Container(
+            // ? head photo
+            margin: const EdgeInsets.only(top: 10, left: 15),
+            alignment: Alignment.topLeft,
+            child: CircleAvatar(
+              radius: 40,
+              backgroundColor: Color(0xff121212),
+              child: ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: scrollUserDetails[index]["headphoto"].toString(),
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => BlurHash(
+                    hash: scrollUserDetails[index]["hp_hash"],
+                    imageFit: BoxFit.cover,
+                    color: Color(0xff121212).withOpacity(0),
+                    curve: Curves.slowMiddle,
+                    // image: scrollUserDetails[index]["headphoto"].toString(),
+                  ),
+                  errorWidget: (context, url, error) =>
+                      whileHeadImageloadingSpinner(),
                 ),
-                errorWidget: (context, url, error) =>
-                    whileHeadImageloadingSpinner(),
               ),
             ),
           ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 20, left: 110),
-          child: Row(
-            // ? handle name and age widgets
-            children: [
-              Container(
-                // ? name text
-                child: GestureDetector(
+          Container(
+            margin: const EdgeInsets.only(top: 20, left: 110),
+            child: Row(
+              // ? handle name and age widgets
+              children: [
+                Container(
+                  // ? name text
+                  child: GestureDetector(
+                    child: Text(
+                      "${scrollUserDetails[index]["name"]},",
+                      style: const TextStyle(
+                          fontSize: 20,
+                          color: Color(0xff121212),
+                          fontWeight: FontWeight.w500),
+                    ),
+                    onTap: () {
+                      print("Tapping $index");
+                    },
+                  ),
+                ),
+                Container(
+                  // ? age text
+                  margin: const EdgeInsets.only(left: 5),
                   child: Text(
-                    "${scrollUserDetails[index]["name"]},",
+                    "${scrollUserDetails[index]["age"]}",
                     style: const TextStyle(
                         fontSize: 20,
                         color: Color(0xff121212),
                         fontWeight: FontWeight.w500),
                   ),
-                  onTap: () {
-                    print("Tapping $index");
-                  },
                 ),
-              ),
-              Container(
-                // ? age text
-                margin: const EdgeInsets.only(left: 5),
-                child: Text(
-                  "${scrollUserDetails[index]["age"]}",
-                  style: const TextStyle(
-                      fontSize: 20,
-                      color: Color(0xff121212),
-                      fontWeight: FontWeight.w500),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(top: 55, left: 95),
-          // ? city and state
-          padding: EdgeInsets.only(left: 15),
-          child: Text(
-            "${scrollUserDetails[index]["city_state"]}",
-            style: const TextStyle(
-                fontSize: 15,
-                color: Color(0xff121212),
-                fontWeight: FontWeight.w500),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget middleBox(int index, BuildContext context) {
-  // print( MediaQuery.of(context).size.height);
-  final double height = MediaQuery.of(context).size.height;
-  return Container(
-    child: Stack(
-      children: [
-        Container(
-          child: GestureDetector(
-            // ? body photo
-            child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                bottomLeft: const Radius.circular(30),
-                bottomRight: const Radius.circular(30),
-              ),
-              child: CachedNetworkImage(
-                // ! change to mediaquery height and width if any problem arise in photos
-                // height: MediaQuery.of(context).size.height,
-                height: double.infinity,
-                width: double.infinity,
-                imageUrl: scrollUserDetails[index]["bodyphoto"].toString(),
-                fit: BoxFit.cover,
-                placeholder: (context, url) => BlurHash(
-                  hash: scrollUserDetails[index]["bp_hash"],
-                  imageFit: BoxFit.cover,
-                  color: Color(0xff121212).withOpacity(0),
-                  curve: Curves.slowMiddle,
-                  // image: scrollUserDetails[index]["headphoto"],
-                ),
-                errorWidget: (context, url, error) => Center(
-                  child: loadingSpinner(),
-                ),
-              ),
+              ],
             ),
-            onTap: () => Navigator.pushNamed(context, ViewBodyPhoto.routeName,
-                arguments: scrollUserDetails[index]["bodyphoto"].toString()),
           ),
-        ),
-        // ? lower box inside image
-        Positioned.fill(
-          child: Align(
-              alignment:
-                  height < 700 ? Alignment.bottomCenter : Alignment(0.0, 1.0),
-              child: LowerBox(index)),
-        ),
-      ],
-    ),
-  );
+          Container(
+            margin: const EdgeInsets.only(top: 55, left: 95),
+            // ? city and state
+            padding: EdgeInsets.only(left: 15),
+            child: Text(
+              "${scrollUserDetails[index]["city_state"]}",
+              style: const TextStyle(
+                  fontSize: 15,
+                  color: Color(0xff121212),
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class LowerBox extends StatelessWidget {
+class _MiddleBox extends StatelessWidget {
   final int index;
-  LowerBox(this.index);
+  _MiddleBox(this.index);
+  @override
+  Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    return Container(
+      child: Stack(
+        children: [
+          Container(
+            child: GestureDetector(
+              // ? body photo
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: const Radius.circular(30),
+                  bottomRight: const Radius.circular(30),
+                ),
+                child: CachedNetworkImage(
+                  // ! change to mediaquery height and width if any problem arise in photos
+                  // height: MediaQuery.of(context).size.height,
+                  height: double.infinity,
+                  width: double.infinity,
+                  imageUrl: scrollUserDetails[index]["bodyphoto"].toString(),
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => BlurHash(
+                    hash: scrollUserDetails[index]["bp_hash"],
+                    imageFit: BoxFit.cover,
+                    color: Color(0xff121212).withOpacity(0),
+                    curve: Curves.slowMiddle,
+                    // image: scrollUserDetails[index]["headphoto"],
+                  ),
+                  errorWidget: (context, url, error) => Center(
+                    child: loadingSpinner(),
+                  ),
+                ),
+              ),
+              onTap: () => Navigator.pushNamed(context, ViewBodyPhoto.routeName,
+                  arguments: scrollUserDetails[index]["bodyphoto"].toString()),
+            ),
+          ),
+          // ? lower box inside image
+          Positioned.fill(
+            child: Align(
+                alignment:
+                    height < 700 ? Alignment.bottomCenter : Alignment(0.0, 1.0),
+                child: _LowerBox(index)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LowerBox extends StatelessWidget {
+  final int index;
+  _LowerBox(this.index);
   final double heartIconSize = 50;
   final double reportIconSize = 65;
   final double starIconSize = 40;
   @override
   Widget build(BuildContext context) {
-    final pageViewLogic = Provider.of<PageViewLogic>(context);
     return Container(
       // ? heart , star , report widgets
       child: Container(
@@ -323,62 +331,64 @@ class LowerBox extends StatelessWidget {
           color: Color(0xE6121212),
           borderRadius: const BorderRadius.all(Radius.circular(60)),
         ),
-        child: Row(
-          children: [
-            Container(
-              // ? heart icon
-              margin: const EdgeInsets.only(left: 20),
-              child: GestureDetector(
-                child: scrollUserDetails[index]["heart"] &&
-                        scrollUserDetails[index]["lock_heart_star"]
-                    ? Hearts.heartanimation()
-                    : Icon(
-                        Icons.favorite_border_rounded,
-                        color: Colors.red,
-                        size: heartIconSize,
-                      ),
-                onTap: () async {
-                  print("Pressed heart : $index");
-                  await Hearts.storeHeartInfo(index: index, context: context);
-                  pageViewLogic.updateLowerBoxUi();
-                },
-              ),
-            ),
-            Container(
-              // ? star icon
-              margin: const EdgeInsets.only(left: 40, bottom: 3),
-              child: GestureDetector(
-                child: scrollUserDetails[index]["star"] &&
-                        scrollUserDetails[index]["lock_heart_star"]
-                    ? Stars.starAnimation()
-                    : Icon(
-                        // Icons.star_border_outlined,
-                        StarRoundedIcon.star,
-                        color: Color(0xffF8C80D),
-                        size: starIconSize,
-                      ),
-                onTap: () async {
-                  print("Pressed star : $index");
-                  await Stars.storeStarInfo(index: index, context: context);
-                  pageViewLogic.updateLowerBoxUi();
-                },
-              ),
-            ),
-            Container(
-              // ? report icon
-              margin: const EdgeInsets.only(left: 30, top: 5),
-              child: GestureDetector(
-                child: Icon(
-                  ReportFilterIcons.report_100_px_new,
-                  color: Colors.white54,
-                  size: reportIconSize,
+        child: Consumer<PageViewLogic>(
+          builder: (context, pageViewLogic, child) => Row(
+            children: [
+              Container(
+                // ? heart icon
+                margin: const EdgeInsets.only(left: 20),
+                child: GestureDetector(
+                  child: scrollUserDetails[index]["heart"] &&
+                          scrollUserDetails[index]["lock_heart_star"]
+                      ? Hearts.heartanimation()
+                      : Icon(
+                          Icons.favorite_border_rounded,
+                          color: Colors.red,
+                          size: heartIconSize,
+                        ),
+                  onTap: () async {
+                    print("Pressed heart idx of : $index");
+                    await Hearts.storeHeartInfo(index: index, context: context);
+                    pageViewLogic.updateLowerBoxUi();
+                  },
                 ),
-                onTap: () {
-                  print("Pressed report $index");
-                },
               ),
-            ),
-          ],
+              Container(
+                // ? star icon
+                margin: const EdgeInsets.only(left: 40, bottom: 3),
+                child: GestureDetector(
+                  child: scrollUserDetails[index]["star"] &&
+                          scrollUserDetails[index]["lock_heart_star"]
+                      ? Stars.starAnimation()
+                      : Icon(
+                          // Icons.star_border_outlined,
+                          StarRoundedIcon.star,
+                          color: Color(0xffF8C80D),
+                          size: starIconSize,
+                        ),
+                  onTap: () async {
+                    print("Pressed star idx of : $index");
+                    await Stars.storeStarInfo(index: index, context: context);
+                    pageViewLogic.updateLowerBoxUi();
+                  },
+                ),
+              ),
+              Container(
+                // ? report icon
+                margin: const EdgeInsets.only(left: 30, top: 5),
+                child: GestureDetector(
+                  child: Icon(
+                    ReportFilterIcons.report_100_px_new,
+                    color: Colors.white54,
+                    size: reportIconSize,
+                  ),
+                  onTap: () {
+                    print("Pressed report $index");
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -398,8 +408,8 @@ class ViewBodyPhoto extends StatelessWidget {
       child: GestureDetector(
         child: CachedNetworkImage(
           imageUrl: url,
-          placeholder: (context, url) => loadingSpinner(),
-          errorWidget: (context, url, error) => loadingSpinner(),
+          placeholder: (context, url) => Center(child: loadingSpinner()),
+          errorWidget: (context, url, error) => Center(child: loadingSpinner()),
           // fit: BoxFit.cover,
         ),
         onTap: () => Navigator.pop(context),
@@ -408,10 +418,12 @@ class ViewBodyPhoto extends StatelessWidget {
   }
 }
 
-Widget nothingToExplore(int streamRadius, BuildContext context) {
-  // ? when no feeds to show
-  final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
-  return FutureBuilder(
+class _NothingToExploreScreen extends StatelessWidget {
+  final int streamRadius;
+  _NothingToExploreScreen(this.streamRadius);
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
       future: Future.delayed(Duration(seconds: 1)),
       builder: (context, nothingToExploreSnapShot) {
         if (nothingToExploreSnapShot.connectionState ==
@@ -446,46 +458,50 @@ Widget nothingToExplore(int streamRadius, BuildContext context) {
                   width: 160,
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   // ignore: deprecated_member_use
-                  child: RaisedButton(
-                    color: Color(0xffF8C80D),
-                    textColor: Color(0xff121212),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(color: Color(0xffF8C80D))),
-                    child: const Text(
-                      "Try again",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        // fontWeight: FontWeight.w600,
+                  child: Consumer<PageViewLogic>(
+                    builder: (context, pageViewLogic, child) => RaisedButton(
+                      color: Color(0xffF8C80D),
+                      textColor: Color(0xff121212),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(color: Color(0xffF8C80D))),
+                      child: const Text(
+                        "Try again",
+                        style: const TextStyle(
+                          fontSize: 18,
+                          // fontWeight: FontWeight.w600,
+                        ),
                       ),
+                      onPressed: () {
+                        scrollUserDetails.clear(); // reset scroll details
+                        Notifications
+                            .resetLatestDocs(); // reset notifications doc
+                        pageViewLogic.callConnectingUsers = true;
+                        if (scrollUserDetails.isEmpty &&
+                            streamRadius == 180 &&
+                            pageViewLogic.callConnectingUsers) {
+                          print(
+                              "WC : Feeds are empty loading feeds -> nothing to explore widget");
+                          ConnectingUsers.basicUserConnection(context);
+                          pageViewLogic.callConnectingUsers = false;
+                        }
+                        if (scrollUserDetails.isEmpty &&
+                            streamRadius != 180 &&
+                            pageViewLogic.callConnectingUsers) {
+                          print(
+                              "CR : Feeds are empty loading feeds within $streamRadius -> nothing to explore widget");
+                          ConnectingUsers.basicUserConnection(context);
+                          pageViewLogic.callConnectingUsers = false;
+                        }
+                      },
                     ),
-                    onPressed: () {
-                      scrollUserDetails.clear(); // reset scroll details
-                      Notifications
-                          .resetLatestDocs(); // reset notifications doc
-                      pageViewLogic.callConnectingUsers = true;
-                      if (scrollUserDetails.isEmpty &&
-                          streamRadius == 180 &&
-                          pageViewLogic.callConnectingUsers) {
-                        print(
-                            "WC : Feeds are empty loading feeds -> nothing to explore widget");
-                        ConnectingUsers.basicUserConnection(context);
-                        pageViewLogic.callConnectingUsers = false;
-                      }
-                      if (scrollUserDetails.isEmpty &&
-                          streamRadius != 180 &&
-                          pageViewLogic.callConnectingUsers) {
-                        print(
-                            "CR : Feeds are empty loading feeds within $streamRadius -> nothing to explore widget");
-                        ConnectingUsers.basicUserConnection(context);
-                        pageViewLogic.callConnectingUsers = false;
-                      }
-                    },
                   ),
                 ),
               ],
             ),
           ),
         );
-      });
+      },
+    );
+  }
 }
