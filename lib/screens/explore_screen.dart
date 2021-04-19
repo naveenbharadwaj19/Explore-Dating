@@ -459,6 +459,7 @@ class _NothingToExploreScreen extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 10),
                   // ignore: deprecated_member_use
                   child: Consumer<PageViewLogic>(
+                    // ignore: deprecated_member_use
                     builder: (context, pageViewLogic, child) => RaisedButton(
                       color: Color(0xffF8C80D),
                       textColor: Color(0xff121212),
