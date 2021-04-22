@@ -156,7 +156,7 @@ Widget _interestsData(List<Map<String, dynamic>> interestsData, Color yellow,
               size: 30,
               color: interestsData[index]["is_selected"]
                   ? Color(0xff121212)
-                  : Colors.white),
+                  : Colors.white70),// 70 % opacity
           splashColor: Colors.transparent,
           color: interestsData[index]["is_selected"]
               ? Color(0xffF8C80D)
@@ -170,6 +170,7 @@ Widget _interestsData(List<Map<String, dynamic>> interestsData, Color yellow,
           ),
           label: Text(
             "${interestsData[index]["name"]}",
+            overflow: TextOverflow.fade,
             style: const TextStyle(fontSize: 18),
           ),
           onPressed: () {

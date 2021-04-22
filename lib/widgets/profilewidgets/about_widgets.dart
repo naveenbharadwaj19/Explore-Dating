@@ -91,7 +91,7 @@ Widget _aboutMe(
           // ? about me textinput field
           margin: const EdgeInsets.only(top: 15, left: 30, right: 20),
           alignment: Alignment.topLeft,
-          height: 160,
+          height:  fetchedProfileData["about_me"].length <= 100 || fetchedProfileData["about_me"].isEmpty ? 160 : null, // if characters is less or equal 100 height -> 160 else -> adjust according to the text
           width: width,
           decoration: BoxDecoration(
             border: Border.all(color: yellow, width: 2),
@@ -101,8 +101,7 @@ Widget _aboutMe(
           ),
           child: Container(
             margin: const EdgeInsets.all(15),
-            child: SingleChildScrollView(
-              child: Text(
+            child: Text(
                 "${fetchedProfileData["about_me"]}",
                 overflow: TextOverflow.fade,
                 style: const TextStyle(color: Colors.white, fontSize: 18),
@@ -110,7 +109,6 @@ Widget _aboutMe(
             ),
           ),
         ),
-      ),
     ],
   );
 }
@@ -118,7 +116,7 @@ Widget _aboutMe(
 Widget _myInterests(
     Color yellow, BuildContext context, dynamic fetchedProfileData) {
   final double width = MediaQuery.of(context).size.width;
-  final String fontFamily = "MaterialIcons"; // ! change the fontfamily
+  final String fontFamily = "ProfileMyInterestsIcons"; // ! change the fontfamily
   List myInterests = fetchedProfileData["my_interests"];
   return Column(
     children: [
@@ -190,7 +188,7 @@ Widget _myInterests(
                           IconData(myInterests[index]["icon_codepoint"],
                               fontFamily: fontFamily),
                           color: Colors.white,
-                          size: 25,
+                          size: 30,
                         ),
                       ),
                       Expanded(
@@ -725,7 +723,7 @@ Widget _from(Color yellow, BuildContext context, Color iconColor,
                         fetchedProfileData["from.state"].isEmpty &&
                         fetchedProfileData["from.country"].isEmpty
                     ? 50
-                    : 90, // normal height 50 , when city , state , country filled -> 90
+                    : null, // normal height 50 , when city , state , country filled -> adjust according to the text size
                 width: width / 2,
                 margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.topLeft,

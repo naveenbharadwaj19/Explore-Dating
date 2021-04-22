@@ -14,7 +14,7 @@
         <uses-permission android:name="android.permission.VIBRATE"/>
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Explore"
+        android:label="Explore Dating"
         android:icon="@mipmap/ic_launcher"
         android:allowBackup="false"
         android:fullBackupContent="false">

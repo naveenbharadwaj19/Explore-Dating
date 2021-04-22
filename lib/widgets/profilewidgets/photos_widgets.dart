@@ -3,8 +3,11 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/icons/eye_icons_icons.dart';
 import 'package:explore/icons/gallery_icon_icons.dart';
+import 'package:explore/icons/home_org_icon_icons.dart';
 import 'package:explore/models/spinner.dart';
+import 'package:explore/models/vibration.dart';
 import 'package:explore/providers/profile_state.dart';
 import 'package:explore/screens/explore_screen.dart';
 import 'package:explore/serverless/delete_photos_cloud_storage.dart';
@@ -146,11 +149,14 @@ Widget _feedDelete(dynamic fetchedPhotosData, int index, BuildContext context) {
         children: [
           Container(
             // ? feed icon
-            margin: const EdgeInsets.all(5),
+            margin: const EdgeInsets.all(7), // * if set to feed icon change to 5
             child: GestureDetector(
               child: Icon(
-                Icons.offline_bolt_outlined,
-                size: 40,
+                fetchedPhotosData["show_on_feeds.hash"] ==
+                        fetchedPhotosData["photos"][index]["hash"]
+                    ? EyeIcons.eye_1
+                    : EyeIcons.eye_slash,
+                size: 33,
                 color: fetchedPhotosData["show_on_feeds.hash"] ==
                         fetchedPhotosData["photos"][index]["hash"]
                     ? Color(0xffF8C80D)
@@ -164,6 +170,7 @@ Widget _feedDelete(dynamic fetchedPhotosData, int index, BuildContext context) {
                 if (fetchedPhotosData["show_on_feeds.hash"] != hash) {
                   ProfilePhotosBackEnd.updateShowOnFeedsData(hash, url);
                   uploadCurrentBodyPhotoToCloudStorage(url, context);
+                  vibrate(10); // vibrate when pressed
                   print("New feed set");
                 }
               },

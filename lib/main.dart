@@ -1,4 +1,5 @@
 // @dart=2.9
+
 import 'package:explore/models/spinner.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/providers/notifications_state.dart';
@@ -43,8 +44,7 @@ void main() async {
         ),
       ],
       child: MyApp(),
-    ),
-  );
+    ),);
 }
 
 class MyApp extends StatefulWidget {
@@ -102,14 +102,14 @@ class _MyAppState extends State<MyApp> {
               ),
               headline1: TextStyle(fontFamily: "Domine", color: Colors.white)),
         ),
-        builder: (context, widget) => ResponsiveWrapper.builder(
+        builder : (context, widget) => ResponsiveWrapper.builder(
           // ? warp all the heights and widths according to screen automatically
           widget,
-          minWidth: 420,
           defaultScale: true,
           breakpoints: [
             ResponsiveBreakpoint.autoScale(420, name: MOBILE),
           ],
+          backgroundColor: Theme.of(context).primaryColor,
         ),
         home: StreamBuilder<User>(
             stream: FirebaseAuth.instance.authStateChanges(),

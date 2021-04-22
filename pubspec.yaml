@@ -166,9 +166,9 @@ flutter:
       fonts:
         - asset: assets/fonts/Filter.ttf
 
-    - family: HomeIconOrg # alternative for home icon
+    - family: HomeOrgIcon # alternative for home icon
       fonts:
-        - asset: assets/fonts/HomeIconOrg.ttf
+        - asset: assets/fonts/HomeOrgIcon.ttf
 
     - family: StarRoundedIcon
       fonts:
@@ -185,6 +185,14 @@ flutter:
     - family: ProfileIcons
       fonts:
         - asset: assets/fonts/ProfileIcons.ttf
+
+    - family: ProfileMyInterestsIcons
+      fonts:
+        - asset: assets/fonts/ProfileMyInterestsIcons.ttf
+
+    - family: EyeIcons
+      fonts:
+        - asset: assets/fonts/EyeIcons.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro

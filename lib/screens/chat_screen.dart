@@ -1,6 +1,5 @@
 // @dart=2.9
 import 'dart:convert' show utf8,json;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -22,7 +21,7 @@ class ChatScreen extends StatelessWidget {
           onPressed: () {
             // bulkPhotoOperation();
             // 58956
-            checkNFSW();
+            // checkNFSW();
           },
         ),
       ),

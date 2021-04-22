@@ -1,6 +1,8 @@
 // @dart=2.9
 // Todo : popups of about widgets aka modal sheet
 
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:explore/data/zodiac_signs.dart';
 import 'package:explore/serverless/profile_backend/abt_me_backend.dart';
 import 'package:flutter/material.dart';
@@ -64,12 +66,13 @@ class _EducationLevelPopUpState extends State<EducationLevelPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "School",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedEducationLevel = "School";
@@ -81,7 +84,7 @@ class _EducationLevelPopUpState extends State<EducationLevelPopUp> {
           Container(
             // ? undergraduate
             margin: const EdgeInsets.only(top: 10),
-            width: 180,
+            // width: 180, // * width is removed to occupy remaining space
             // ignore: deprecated_member_use
             child: RaisedButton(
               color: index != 2 ? Color(0xff121212) : widget.yellow,
@@ -90,12 +93,13 @@ class _EducationLevelPopUpState extends State<EducationLevelPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Under Graduate",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedEducationLevel = "Under Graduate";
@@ -116,12 +120,13 @@ class _EducationLevelPopUpState extends State<EducationLevelPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child:  const AutoSizeText(
                 "Post Graduate",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedEducationLevel = "Post Graduate";
@@ -142,12 +147,13 @@ class _EducationLevelPopUpState extends State<EducationLevelPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Graduated",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedEducationLevel = "Graduated";
@@ -285,12 +291,13 @@ class _SmokingPopUpState extends State<SmokingPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Regularly",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedSmokingOption = "Regularly";
@@ -311,12 +318,13 @@ class _SmokingPopUpState extends State<SmokingPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Socially",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedSmokingOption = "Socially";
@@ -337,12 +345,13 @@ class _SmokingPopUpState extends State<SmokingPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Never",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedSmokingOption = "Never";
@@ -480,12 +489,13 @@ class _DrinkingPopUpState extends State<DrinkingPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Regularly",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedDrinkingOption = "Regularly";
@@ -506,12 +516,13 @@ class _DrinkingPopUpState extends State<DrinkingPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Socially",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedDrinkingOption = "Socially";
@@ -532,12 +543,13 @@ class _DrinkingPopUpState extends State<DrinkingPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Never",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedDrinkingOption = "Never";
@@ -675,12 +687,13 @@ class _LookingForPopUpState extends State<LookingForPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Don't know yet",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedLookingForOption = "Don't know yet";
@@ -692,7 +705,7 @@ class _LookingForPopUpState extends State<LookingForPopUp> {
           Container(
             // ? something casual
             margin: const EdgeInsets.only(top: 10),
-            width: 200,
+            // width: 200, // * removed width to take remaining space
             // ignore: deprecated_member_use
             child: RaisedButton(
               color: index != 2 ? Color(0xff121212) : widget.yellow,
@@ -701,12 +714,13 @@ class _LookingForPopUpState extends State<LookingForPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Something casual",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedLookingForOption = "Something casual";
@@ -727,12 +741,13 @@ class _LookingForPopUpState extends State<LookingForPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Relationship",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedLookingForOption = "Relationship";
@@ -753,12 +768,13 @@ class _LookingForPopUpState extends State<LookingForPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: const BorderSide(color: Color(0xffF8C80D), width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Marriage",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedLookingForOption = "Marriage";
@@ -896,12 +912,13 @@ class _ExercisePopUpState extends State<ExercisePopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Vital",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedExercise = "Vital";
@@ -922,12 +939,13 @@ class _ExercisePopUpState extends State<ExercisePopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Occasionally",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedExercise = "Occasionally";
@@ -948,12 +966,13 @@ class _ExercisePopUpState extends State<ExercisePopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Never",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedExercise = "Never";
@@ -1090,12 +1109,13 @@ class _KidsPopUpState extends State<KidsPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Want someday",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedKidsOption = "Want someday";
@@ -1116,12 +1136,13 @@ class _KidsPopUpState extends State<KidsPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Don't want",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedKidsOption = "Don't want";
@@ -1142,12 +1163,13 @@ class _KidsPopUpState extends State<KidsPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Have & want more",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedKidsOption = "Have & want more";
@@ -1168,12 +1190,13 @@ class _KidsPopUpState extends State<KidsPopUp> {
                 borderRadius: BorderRadius.circular(20),
                 side: BorderSide(color: widget.yellow, width: 2),
               ),
-              child: const Text(
+              child: const AutoSizeText(
                 "Have & don't want more",
-                style: const TextStyle(
-                  fontSize: 20,
-                  // fontWeight: FontWeight.w700,
-                ),
+                minFontSize: 18,
+                maxFontSize: 20,
+                maxLines: 1,
+                wrapWords: false,
+                overflow: TextOverflow.ellipsis,
               ),
               onPressed: () {
                 selectedKidsOption = "Have & don't want more";
@@ -1254,6 +1277,7 @@ class _KidsPopUpState extends State<KidsPopUp> {
 
 Future zodiacSignsPopUpBottomSheet(Color yellow, BuildContext context) {
   return showBarModalBottomSheet(
+    enableDrag: false,
     isDismissible: false,
     context: context,
     backgroundColor: Theme.of(context).primaryColor,
@@ -1304,35 +1328,41 @@ class _ZodiacSignsPopUpState extends State<ZodiacSignsPopUp> {
           SizedBox(
             // ? zodiac signs
             height: 300,
-            child: GridView.count(crossAxisCount: 3,
+            child: GridView.count(
+              crossAxisCount: 3,
               childAspectRatio: 2.5,
               mainAxisSpacing: 15,
               crossAxisSpacing: 5,
-              children: List.generate(zodiacSigns.length, (index) => Container(
-                margin: const EdgeInsets.all(3),
-                // ignore: deprecated_member_use
-                child: RaisedButton(
-                      splashColor: Colors.transparent,
+              children: List.generate(
+                zodiacSigns.length,
+                (index) => GestureDetector(
+                  child: Container(
+                    margin: const EdgeInsets.all(3),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
                       color: zodiacSigns[index]["is_selected"]
-                          ? Color(0xffF8C80D)
+                          ? widget.yellow
                           : Color(0xff121212),
-                      textColor: zodiacSigns[index]["is_selected"]
-                          ? Color(0xff121212)
-                          : Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(color: Color(0xffF8C80D), width: 2),
+                      border: Border.all(color: widget.yellow, width: 2),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
                       ),
-                      child: Text(
-                        "${zodiacSigns[index]["name"]}",
-                        overflow: TextOverflow.fade,
-                        style: const TextStyle(
-                            // fontFamily: "OpenSans",
-                            // fontWeight: FontWeight.w700,
-                            fontSize: 20),
+                    ),
+                    child: AutoSizeText(
+                      "${zodiacSigns[index]["name"]}",
+                      minFontSize: 18,
+                      maxFontSize: 20,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      style: TextStyle(
+                        color: zodiacSigns[index]["is_selected"]
+                            ? Color(0xff121212)
+                            : Colors.white,
                       ),
-                      onPressed: () {
-                        selectedZodiacOption = zodiacSigns[index]["name"];
+                    ),
+                  ),
+                  onTap: (){
+                    selectedZodiacOption = zodiacSigns[index]["name"];
                         zodiacSigns[index]["is_selected"] = true;
                         print(selectedZodiacOption);
                         // set false to unselected zodiac signs
@@ -1346,9 +1376,9 @@ class _ZodiacSignsPopUpState extends State<ZodiacSignsPopUp> {
                           }
                         });
                         updateButton(index);
-                      },
-                    ),
-              ),),
+                  },
+                ),
+              ),
             ),
           ),
           const Spacer(),
@@ -1374,11 +1404,11 @@ class _ZodiacSignsPopUpState extends State<ZodiacSignsPopUp> {
                       // fontWeight: FontWeight.w700,
                     ),
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     // loop thorough dict and change selected zodiac sign to false
                     zodiacSigns.forEach((datas) {
-                      datas.forEach((k,v){
-                        if(v == true){
+                      datas.forEach((k, v) {
+                        if (v == true) {
                           datas["is_selected"] = false;
                         }
                       });
@@ -1416,13 +1446,13 @@ class _ZodiacSignsPopUpState extends State<ZodiacSignsPopUp> {
                     ),
                   ),
                   onPressed: () {
-                    if(selectedZodiacOption.isNotEmpty){
+                    if (selectedZodiacOption.isNotEmpty) {
                       ProfileAboutMeBackEnd.zodiacSigns(selectedZodiacOption);
                     }
                     // loop thorough dict and change selected zodiac sign to false
                     zodiacSigns.forEach((datas) {
-                      datas.forEach((k,v){
-                        if(v == true){
+                      datas.forEach((k, v) {
+                        if (v == true) {
                           datas["is_selected"] = false;
                         }
                       });

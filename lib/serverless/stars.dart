@@ -50,7 +50,7 @@ class Stars {
           if (!scrollUserDetails[index]["star"] && ! scrollUserDetails[index]["lock_heart_star"]) {
             // trigger if user hasn't pressed star
             // HapticFeedback.mediumImpact(); // vibrate when pressed
-            vibrateStar(); // vibrate when pressed
+            vibrate(50); // vibrate when pressed
             String currentDateTime =
                 DateFormat('dd-MM-yyyy:hh:mm:ss:a').format(now); // 12 hr format
             String fullPath = checkDocinfo.reference.path;
