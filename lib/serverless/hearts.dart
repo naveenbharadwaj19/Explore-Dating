@@ -9,6 +9,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ntp/ntp.dart';
 
 class Hearts {
   static Widget heartanimation() {
@@ -28,6 +29,12 @@ class Hearts {
       String userUid = FirebaseAuth.instance.currentUser.uid;
       String oppositeUserUid = scrollUserDetails[index]["uid"];
       String currentDate = DateFormat("dd-MM-yyyy").format(now);
+      DateTime currentNTPDate = await NTP.now();
+      String convertedNTP = DateFormat("dd-MM-yyyy").format(currentNTPDate); // NTP date
+      // check if current date and ntp does not match
+      if(currentDate != convertedNTP){
+        currentDate = convertedNTP; // overwrite ntp date to current date
+      }
       DocumentSnapshot checkDocinfo = await FirebaseFirestore.instance
           .doc("Users/$userUid/Hearts/$currentDate")
           .get();

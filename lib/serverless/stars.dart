@@ -29,8 +29,12 @@ class Stars {
       String userUid = FirebaseAuth.instance.currentUser.uid;
       String oppositeUserUid = scrollUserDetails[index]["uid"];
       String currentDate = DateFormat("dd-MM-yyyy").format(now); // device current date
-      // DateTime currentNTPDate = await NTP.now();
-      // String convertNTP = DateFormat("dd-MM-yyyy").format(currentNTPDate); // NTP date
+      DateTime currentNTPDate = await NTP.now();
+      String convertedNTP = DateFormat("dd-MM-yyyy").format(currentNTPDate); // NTP date
+      // check if current date and ntp does not match
+      if(currentDate != convertedNTP){
+        currentDate = convertedNTP; // overwrite ntp date to current date
+      }
       DocumentSnapshot checkDocinfo = await FirebaseFirestore.instance
           .doc("Users/$userUid/Stars/$currentDate")
           .get();
