@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/icons/eye_icons_icons.dart';
 import 'package:explore/icons/gallery_icon_icons.dart';
-import 'package:explore/icons/home_org_icon_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/models/vibration.dart';
 import 'package:explore/providers/profile_state.dart';
@@ -23,7 +22,7 @@ import 'package:provider/provider.dart';
 class PhotosWidgets extends StatelessWidget {
   final bool showPhotosInfo;
   PhotosWidgets(this.showPhotosInfo);
-  DocumentReference photosData = FirebaseFirestore.instance.doc(
+  final DocumentReference photosData = FirebaseFirestore.instance.doc(
       "Users/${FirebaseAuth.instance.currentUser.uid}/Profile/profile/Photos/myphotos");
   @override
   Widget build(BuildContext context) {

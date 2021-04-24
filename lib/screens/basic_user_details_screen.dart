@@ -116,10 +116,6 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
               return GoogleDobScreen();
             }
 
-            if (!accessCheck["account_success_page"]) {
-              print("In account success page");
-              return AccCreatedScreen();
-            }
             if (genderCheck["gender"].isEmpty) {
               print("In gender page");
               return GenderScreen();
@@ -141,6 +137,12 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
               print("In show me page");
               return ShowMeScreen();
             }
+
+            if (!accessCheck["account_success_page"]) {
+              print("In account success page");
+              return AccCreatedScreen();
+            }
+            
             return StreamBuilder<Position>(
               // ? time location
               stream: Geolocator.getPositionStream(

@@ -158,7 +158,7 @@ class _AboutMePopUpState extends State<AboutMePopUp> {
                   ),
                   onPressed: (){
                     if(widget.aboutMeController.text.isNotEmpty){
-                      ProfileAboutMeBackEnd.aboutMe(widget.aboutMeController.text);
+                      ProfileAboutMeBackEnd.aboutMe(widget.aboutMeController.text.trim());
                     }
                     Navigator.pop(context);
                   },

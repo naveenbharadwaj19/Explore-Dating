@@ -3,7 +3,6 @@ import 'package:explore/data/all_secure_storage.dart' show writeRFATA;
 import 'package:explore/serverless/firestore_signup.dart';
 import '../serverless/match_making.dart';
 import 'package:flutter/material.dart';
-
 class ShowMeScreen extends StatefulWidget {
   @override
   _ShowMeScreenState createState() => _ShowMeScreenState();
@@ -122,25 +121,27 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
             margin: const EdgeInsets.only(bottom: 20),
             // ignore: deprecated_member_use
             child: RaisedButton(
-                color: Color(0xffF8C80D),
-                textColor: Color(0xff121212),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    side: BorderSide(color: Color(0xffF8C80D))),
-                child: Text(
-                  "Confirm",
-                  style: const TextStyle(
-                    fontSize: 20,
-                    // fontWeight: FontWeight.w700,
-                  ),
+              color: Color(0xffF8C80D),
+              textColor: Color(0xff121212),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(color: Color(0xffF8C80D))),
+              child: Text(
+                "Confirm",
+                style: const TextStyle(
+                  fontSize: 20,
+                  // fontWeight: FontWeight.w700,
                 ),
-                onPressed: () {
+              ),
+              onPressed: () async{
+                if (selectedShowMe.isNotEmpty) {
                   MatchMakingCollection.addCurrentUserMM(selectedShowMe);
                   writeRFATA(selectedShowMe);
                   OnlyDuringSignupFirestore.updateShowMeFields(
                       selectedShowMe, context);
-                },
-              ),
+                }
+              },
+            ),
           ),
         ],
       ),

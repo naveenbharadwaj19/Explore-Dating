@@ -1,4 +1,5 @@
 // @dart=2.9
+import 'dart:async';
 import 'dart:convert' show utf8,json;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/blur_hash_img.dart';
@@ -10,7 +11,7 @@ class ChatScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white30,
+      color: Colors.white54,
       child: Center(
         child: IconButton(
           icon: Icon(
@@ -18,10 +19,11 @@ class ChatScreen extends StatelessWidget {
             size: 30,
             color: Colors.red,
           ),
-          onPressed: () {
+          onPressed: (){
             // bulkPhotoOperation();
             // 58956
             // checkNFSW();
+            // FlutterIsolate.spawn(isolateFunction,{1:"10",2:"20"});
           },
         ),
       ),
@@ -29,14 +31,17 @@ class ChatScreen extends StatelessWidget {
   }
 }
 
+
+
 // ! remove
 checkNFSW() async {
   try {
     String imgUrl =
-        "https://firebasestorage.googleapis.com/v0/b/explore-dating.appspot.com/o/Userphotos%2FvZVqU8MzSfPhIUJrAH78BAk69MH2%2Fbodyphotos%2Fimage_cropper_1613025375026.jpg?alt=media&token=ee7f9abd-e3ec-45d2-a4cf-65bbf63645a7";
+        "https://firebasestorage.googleapis.com/v0/b/explore-dating.appspot.com/o/test_nfsw%2Fsunny-leone-bday-20-139a.jpg?alt=media&token=ee793ff4-d2f3-4798-a212-6103bb81ba08";
     String api = "4e1479c2e46f75bda7e252dab7b9fc66";
+    String uriEncode = Uri.encodeComponent(imgUrl);
     Uri uri = Uri.parse(
-        "https://im-api1.webpurify.com/services/rest/?api_key=$api&format=json&method=webpurify.aim.imgcheck&cats=nudity,faces&imgurl=$imgUrl");
+        "https://im-api1.webpurify.com/services/rest/?api_key=$api&format=json&method=webpurify.aim.imgcheck&cats=nudity,faces,celebrities,scam&imgurl=$uriEncode");
 
     var response = await http.post(uri);
     var decodeResponse = utf8.decode(response.bodyBytes);
@@ -90,3 +95,15 @@ Future bulkPhotoOperation() async {
     print("Erro in bulk photo operation ${e.toString()}");
   }
 }
+
+
+// void isolateFunction(Map mymap)async{
+//   await Firebase.initializeApp();
+//   print("Done ... :)");
+//   var a = FirebaseAuth.instance.currentUser.uid;
+//   print(a);
+//   var names = await FirebaseFirestore.instance.collection("Users").get();
+//   names.docs.forEach((element) { 
+//     print(element.get("bio.name"));
+//   });
+// }

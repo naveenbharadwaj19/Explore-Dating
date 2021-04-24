@@ -30,47 +30,46 @@ class MatchMakingCollection {
       // get head and body photos
       try {
         DownloadCloudStoragePhotos.headPhotoDownload(uid).then((headPhoto) {
-          DownloadCloudStoragePhotos.bodyPhotoDownload(uid)
-              .then((bodyPhoto) async {
+          DownloadCloudStoragePhotos.bodyPhotoDownload(uid).then((bodyPhoto) {
             if (!headPhoto.contains("Cannot get image url") &&
                 !bodyPhoto.contains("Cannot get image url")) {
               // print("hp $headPhoto");
               // print("bp $bodyPhoto");
-              await encodeBlurHashImg(headPhoto).then((hashVal) {
+              encodeBlurHashImg(headPhoto).then((hashVal) {
                 headPhotoHash = hashVal;
-              });
+                encodeBlurHashImg(bodyPhoto).then((hashVal) async {
+                  bodyPhotoHash = hashVal;
+                  // print("bodyhash : $bodyPhotoHash : headhash : $headPhotoHash : bodyphoto : $bodyPhoto : headPhoto : $headPhoto");
+                  await menWomenCollection.add({
+                    "uid": uid,
+                    "show_me": selectedShowMe,
+                    "age": fetchDetails.get("bio.age"),
+                    "gender": fetchDetails.get("bio.gender"),
+                    "name": fetchDetails.get("bio.name"),
+                    "geohash_rounds": {
+                      "rh": homo,
+                    },
+                    "photos": {
+                      "current_head_photo": headPhoto,
+                      "current_head_photo_hash": headPhotoHash,
+                      "current_body_photo": bodyPhoto,
+                      "current_body_photo_hash": bodyPhotoHash,
+                    }
+                  });
+                  ProfileAboutMeBackEnd.storeProfileData(
+                      name: fetchDetails.get("bio.name"),
+                      age: fetchDetails.get("bio.age"),
+                      headPhotoHash: headPhotoHash,
+                      headPhotoUrl: headPhoto);
 
-              await encodeBlurHashImg(bodyPhoto).then((hashVal) {
-                bodyPhotoHash = hashVal;
+                  ProfilePhotosBackEnd.storePhotosInfo(
+                      bodyPhotoHash, bodyPhoto);
+                  print("Successfully created user document in matchmaking");
+                });
               });
-
-              await menWomenCollection.add({
-                "uid": uid,
-                "show_me": selectedShowMe,
-                "age": fetchDetails.get("bio.age"),
-                "gender": fetchDetails.get("bio.gender"),
-                "name": fetchDetails.get("bio.name"),
-                "geohash_rounds": {
-                  "rh": homo,
-                },
-                "photos": {
-                  "current_head_photo": headPhoto,
-                  "current_head_photo_hash": headPhotoHash,
-                  "current_body_photo": bodyPhoto,
-                  "current_body_photo_hash": bodyPhotoHash,
-                }
-              });
-               await ProfileAboutMeBackEnd.storeProfileData(
-                  name: fetchDetails.get("bio.name"),
-                  age: fetchDetails.get("bio.age"),
-                  headPhotoHash: headPhotoHash,
-                  headPhotoUrl: headPhoto);
-
-               await ProfilePhotosBackEnd.storePhotosInfo(bodyPhotoHash, bodyPhoto);
             }
           });
         });
-        print("Successfully created user document in matchmaking");
       } catch (error) {
         print(
             "Error in download_photos_storage file. Possible error cause in cloud storage ${error.toString()}");
@@ -88,13 +87,13 @@ class MatchMakingCollection {
             "current_body_photo": "Cannot get image url",
           }
         });
-        await ProfileAboutMeBackEnd.storeProfileData(
+        ProfileAboutMeBackEnd.storeProfileData(
             name: fetchDetails.get("bio.name"),
             age: fetchDetails.get("bio.age"),
             headPhotoHash: "",
             headPhotoUrl: "");
 
-        await ProfilePhotosBackEnd.storePhotosInfo("", "");
+        ProfilePhotosBackEnd.storePhotosInfo("", "");
       }
     } catch (error) {
       print("Error in creating user matchmaking : ${error.toString()}");

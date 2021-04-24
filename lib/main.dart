@@ -87,10 +87,9 @@ class _MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp(
-        // ? bodytext1 = main text color -> white , primary color -> black , accent color -> white , title -> domine , white color
-        // ? button color ->
+        
         debugShowCheckedModeBanner: false,
-        title: "Explore",
+        title: "Explore Dating",
         theme: ThemeData(
           fontFamily: "Nunito",
           primaryColor: Color(0xff121212),

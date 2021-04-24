@@ -391,6 +391,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.4+1"
+  flutter_isolate:
+    dependency: "direct main"
+    description:
+      name: flutter_isolate
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -620,6 +627,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  ntp:
+    dependency: "direct main"
+    description:
+      name: ntp
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   numberpicker:
     dependency: "direct main"
     description:

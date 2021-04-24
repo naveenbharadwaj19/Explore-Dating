@@ -51,6 +51,7 @@ dependencies:
   flare_flutter: ^2.0.6
   flutter_blurhash: ^0.5.0
   flutter_holo_date_picker: ^0.3.4+1
+  flutter_isolate: ^2.0.0
   flutter_secure_storage: ^4.1.0
   flutter_snake_navigationbar: ^0.5.0
   flutter_spinkit: ^5.0.0
@@ -65,6 +66,7 @@ dependencies:
   intl: ^0.17.0
   lottie: ^1.0.1
   modal_bottom_sheet: ^2.0.0
+  ntp: ^2.0.0
   numberpicker: ^2.0.1
   page_transition: ^1.1.7+2
   path_provider: ^2.0.1

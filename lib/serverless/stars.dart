@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:ntp/ntp.dart';
 
 class Stars {
   static Widget starAnimation() {
@@ -27,7 +28,9 @@ class Stars {
       final now = DateTime.now();
       String userUid = FirebaseAuth.instance.currentUser.uid;
       String oppositeUserUid = scrollUserDetails[index]["uid"];
-      String currentDate = DateFormat("dd-MM-yyyy").format(now);
+      String currentDate = DateFormat("dd-MM-yyyy").format(now); // device current date
+      // DateTime currentNTPDate = await NTP.now();
+      // String convertNTP = DateFormat("dd-MM-yyyy").format(currentNTPDate); // NTP date
       DocumentSnapshot checkDocinfo = await FirebaseFirestore.instance
           .doc("Users/$userUid/Stars/$currentDate")
           .get();
@@ -74,7 +77,8 @@ class Stars {
         }
       } else if (!checkDocinfo.exists) {
         // ? doc id do not exist
-        HapticFeedback.mediumImpact(); // vibrate when pressed
+        // HapticFeedback.mediumImpact();
+        vibrate(50); // vibrate when pressed
         String currentDateTime =
             DateFormat('dd-MM-yyyy:hh:mm:ss:a').format(now);
         String fullPath = checkDocinfo.reference.path;
