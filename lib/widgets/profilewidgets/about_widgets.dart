@@ -91,7 +91,7 @@ Widget _aboutMe(
           // ? about me textinput field
           margin: const EdgeInsets.only(top: 15, left: 30, right: 20),
           alignment: Alignment.topLeft,
-          height:  fetchedProfileData["about_me"].length <= 100 || fetchedProfileData["about_me"].isEmpty ? 160 : null, // if characters is less or equal 100 height -> 160 else -> adjust according to the text
+          height:  fetchedProfileData["about_me"].length <= 20 || fetchedProfileData["about_me"].isEmpty ? 160 : null, // if characters is less or equal 100 height -> 160 else -> adjust according to the text
           width: width,
           decoration: BoxDecoration(
             border: Border.all(color: yellow, width: 2),
