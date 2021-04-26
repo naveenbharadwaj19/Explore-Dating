@@ -6,7 +6,6 @@ import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/models/vibration.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ntp/ntp.dart';
