@@ -108,7 +108,7 @@ class _MyPhotos extends StatelessWidget {
       floatingActionButton: photosSnapShot.data["total_photos_uploaded"] >= 50
           ? null // photos uploaded is greather than or equal to 50 disable FAB
           : Consumer<ProfileState>(
-              builder: (context, profileState, child) => FloatingActionButton(
+              builder: (_, profileState, __) => FloatingActionButton(
                 backgroundColor: Color(0xCC121212), // 80 % opacity
                 splashColor: Colors.transparent,
                 child: Icon(
@@ -185,7 +185,7 @@ class _SetFeedDelete extends StatelessWidget {
               // ? delete icon
               margin: const EdgeInsets.all(5),
               child: Consumer<ProfileState>(
-                builder: (context, profileState, child) => AbsorbPointer(
+                builder: (_, profileState, __) => AbsorbPointer(
                   absorbing: profileState.bodyPhotoDeleteProcess
                       ? true
                       : false, // true when delete is processing

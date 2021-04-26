@@ -3,7 +3,6 @@
 // * order -> pets , creativity , sports , hangouts , staying in , film & tv , reading , musics ,food & drink , travelling , value & traits
 
 import 'package:explore/icons/profile_my_interests_icons_icons.dart';
-import 'package:flutter/material.dart';
 
 class MyInterestsData {
   static List<Map<String, dynamic>> pets = [
