@@ -98,7 +98,7 @@ class _MyPhotos extends StatelessWidget {
                     },
                   ),
                 ),
-                _feedDelete(photosSnapShot.data, index, context)
+                _SetFeedDelete(photosSnapShot.data, index),
               ],
             ),
           ),
@@ -131,51 +131,57 @@ class _MyPhotos extends StatelessWidget {
   }
 }
 
-Widget _feedDelete(dynamic fetchedPhotosData, int index, BuildContext context) {
-  return Align(
-    // ? feed ,delete
-    alignment: Alignment.topRight, // black box alignment
-    child: Container(
-      width: 100, // black box height
-      margin: const EdgeInsets.only(top: 20, right: 10), // control black box
-      decoration: BoxDecoration(
-        color: Color(0xE6121212), // 90 % opacity
-        borderRadius: const BorderRadius.all(
-          Radius.circular(60),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            // ? feed icon
-            margin: const EdgeInsets.all(7), // * if set to feed icon change to 5
-            child: GestureDetector(
-              child: Icon(
-                fetchedPhotosData["show_on_feeds.hash"] ==
-                        fetchedPhotosData["photos"][index]["hash"]
-                    ? EyeIcons.eye_1
-                    : EyeIcons.eye_slash,
-                size: 33,
-                color: fetchedPhotosData["show_on_feeds.hash"] ==
-                        fetchedPhotosData["photos"][index]["hash"]
-                    ? Color(0xffF8C80D)
-                    : Colors.white54,
-              ),
-              onLongPress: () {
-                // * long press to set a photo in feeds
-                String hash = fetchedPhotosData["photos"][index]["hash"];
-                String url = fetchedPhotosData["photos"][index]["url"];
-                // check if feed icon is active on selected photo
-                if (fetchedPhotosData["show_on_feeds.hash"] != hash) {
-                  ProfilePhotosBackEnd.updateShowOnFeedsData(hash, url);
-                  uploadCurrentBodyPhotoToCloudStorage(url, context);
-                  vibrate(10); // vibrate when pressed
-                  print("New feed set");
-                }
-              },
-            ),
+class _SetFeedDelete extends StatelessWidget {
+  final dynamic fetchedPhotosData;
+  final int index;
+  _SetFeedDelete(this.fetchedPhotosData, this.index);
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      // ? feed ,delete
+      alignment: Alignment.topRight, // black box alignment
+      child: Container(
+        width: 100, // black box height
+        margin: const EdgeInsets.only(top: 20, right: 10), // control black box
+        decoration: BoxDecoration(
+          color: Color(0xE6121212), // 90 % opacity
+          borderRadius: const BorderRadius.all(
+            Radius.circular(60),
           ),
-          Container(
+        ),
+        child: Row(
+          children: [
+            Container(
+              // ? feed icon
+              margin:
+                  const EdgeInsets.all(7), // * if set to feed icon change to 5
+              child: GestureDetector(
+                child: Icon(
+                  fetchedPhotosData["show_on_feeds.hash"] ==
+                          fetchedPhotosData["photos"][index]["hash"]
+                      ? EyeIcons.eye_1
+                      : EyeIcons.eye_slash,
+                  size: 33,
+                  color: fetchedPhotosData["show_on_feeds.hash"] ==
+                          fetchedPhotosData["photos"][index]["hash"]
+                      ? Color(0xffF8C80D)
+                      : Colors.white54,
+                ),
+                onLongPress: () {
+                  // * long press to set a photo in feeds
+                  String hash = fetchedPhotosData["photos"][index]["hash"];
+                  String url = fetchedPhotosData["photos"][index]["url"];
+                  // check if feed icon is active on selected photo
+                  if (fetchedPhotosData["show_on_feeds.hash"] != hash) {
+                    ProfilePhotosBackEnd.updateShowOnFeedsData(hash, url);
+                    uploadCurrentBodyPhotoToCloudStorage(url, context);
+                    vibrate(10); // vibrate when pressed
+                    print("New feed set");
+                  }
+                },
+              ),
+            ),
+            Container(
               // ? delete icon
               margin: const EdgeInsets.all(5),
               child: Consumer<ProfileState>(
@@ -225,11 +231,13 @@ Widget _feedDelete(dynamic fetchedPhotosData, int index, BuildContext context) {
                     },
                   ),
                 ),
-              )),
-        ],
+              ),
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
 // ? when FAB is pressed

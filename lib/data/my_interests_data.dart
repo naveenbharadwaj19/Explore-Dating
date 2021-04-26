@@ -54,8 +54,8 @@ class MyInterestsData {
     {"icon":ProfileMyInterestsIcons.yoga, "name": "Meditation", "is_selected": false},
     {"icon":ProfileMyInterestsIcons.surfing, "name": "Surfing", "is_selected": false},
     {"icon":ProfileMyInterestsIcons.swimming, "name": "Swimming", "is_selected": false},
-    // {"icon":ProfileMyInterestsIcons.dog, "name": "Tennis", "is_selected": false}, // ! missing icon
-    {"icon":ProfileMyInterestsIcons.volleyball_ball, "name": "Volleyball", "is_selected": false},
+    {"icon":ProfileMyInterestsIcons.tennis, "name": "Tennis", "is_selected": false},
+    {"icon":ProfileMyInterestsIcons.volleyball, "name": "Volleyball", "is_selected": false},
     {"icon":ProfileMyInterestsIcons.yoga, "name": "Yoga", "is_selected": false},
   ];
   static List<Map<String, dynamic>> hangouts = [
@@ -63,7 +63,7 @@ class MyInterestsData {
     {"icon": ProfileMyInterestsIcons.concerts, "name": "Concerts", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.festivals, "name": "Festivals", "is_selected": false},
     {
-      "icon": Icons.photo_album_outlined, // ! change
+      "icon": ProfileMyInterestsIcons.museums_galleries,
       "name": "Museums & \n galleries",
       "is_selected": false
     },
@@ -158,15 +158,16 @@ class MyInterestsData {
   ];
 
   static List<Map<String, dynamic>> foodDrink = [
-    {"icon": ProfileMyInterestsIcons.bar, "name": "Beer", "is_selected": false},
+    {"icon": ProfileMyInterestsIcons.beer, "name": "Beer", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.biryani, "name": "Biryani", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.coffee, "name": "Coffee", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.bar, "name": "Gin", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.noodles_pastas, "name": "Noodles", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.pizza, "name": "Pizza", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.sweet_tooth, "name": "Sweet tooth", "is_selected": false},
+     {"icon": ProfileMyInterestsIcons.vegan, "name": "Vegan", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.vegetarain, "name": "Vegetarian", "is_selected": false},
-    {"icon": ProfileMyInterestsIcons.bar, "name": "Whisky", "is_selected": false},
+    {"icon": ProfileMyInterestsIcons.whiskey, "name": "Whisky", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.bar, "name": "Wine", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.burger, "name": "Burger", "is_selected": false},
     {"icon": ProfileMyInterestsIcons.noodles_pastas, "name": "Pasta", "is_selected": false},

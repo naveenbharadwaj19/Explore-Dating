@@ -1,6 +1,7 @@
 // @dart=2.9
 // todo : my interests in about widgets
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:explore/data/my_interests_data.dart';
 import 'package:explore/serverless/profile_backend/abt_me_backend.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +61,7 @@ class _MyInterestsPopUpState extends State<MyInterestsPopUp> {
                   alignment: Alignment.topRight,
                   margin: const EdgeInsets.only(top: 10, right: 20, bottom: 10),
                   child: Text(
-                    "$timesInterestsClicked/6", // ! change to available interests
+                    "$timesInterestsClicked/6",
                     style: const TextStyle(fontSize: 18, color: Colors.white70),
                   ),
                 ),
@@ -148,64 +149,84 @@ Widget _interestsData(List<Map<String, dynamic>> interestsData, Color yellow,
     childAspectRatio: 3,
     children: List.generate(
       interestsData.length,
-      (index) => Container(
-        margin: const EdgeInsets.all(5),
-        // ignore: deprecated_member_use
-        child: RaisedButton.icon(
-          icon: Icon(interestsData[index]["icon"],
-              size: 30,
-              color: interestsData[index]["is_selected"]
-                  ? Color(0xff121212)
-                  : Colors.white70),// 70 % opacity
-          splashColor: Colors.transparent,
-          color: interestsData[index]["is_selected"]
-              ? Color(0xffF8C80D)
-              : Color(0xff121212),
-          textColor: interestsData[index]["is_selected"]
-              ? Color(0xff121212)
-              : Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: yellow, width: 2.0),
+      (index) => GestureDetector(
+        child: Container(
+          margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+          decoration: BoxDecoration(
+            color: interestsData[index]["is_selected"]
+                ? Color(0xffF8C80D)
+                : Color(0xff121212),
+            border: Border.all(color: yellow, width: 2),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(20),
+            ),
           ),
-          label: Text(
-            "${interestsData[index]["name"]}",
-            overflow: TextOverflow.fade,
-            style: const TextStyle(fontSize: 18),
+          child: Row(
+            children: [
+              Container(
+                // ? icons
+                margin: const EdgeInsets.only(left: 10),
+                child: Icon(
+                  interestsData[index]["icon"],
+                  color: interestsData[index]["is_selected"]
+                      ? Color(0xff121212)
+                      : Colors.white70, // 70 % opacity
+                  size: 35,
+                ),
+              ),
+              Expanded(
+                // ? names
+                child: Container(
+                  margin: const EdgeInsets.only(left: 5, right: 3, top: 5),
+                  child: AutoSizeText(
+                    "${interestsData[index]["name"]}",
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
+                    minFontSize: 16,
+                    maxFontSize: 18,
+                    style: TextStyle(
+                      color: interestsData[index]["is_selected"]
+                          ? Color(0xff121212)
+                          : Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          onPressed: () {
-            if (timesInterestsClicked != 6 &&
-                !interestsData[index]["is_selected"]) {
-              // update the button color and save the selected interests
-              selectedInterests.add({
-                "icon_codepoint": interestsData[index]["icon"].codePoint,
-                "name": interestsData[index]["name"]
-              });
-              print(interestsData[index]["name"]);
-              interestsData[index]["is_selected"] = true;
-              timesInterestsClicked += 1;
-              updateButton(index);
-            } else if (interestsData[index]["is_selected"]) {
-              // unselect and select new interests
-              int idx1;
-              // get the unselected index and delete
-              selectedInterests.forEach((element) {
-                if (element["name"] == interestsData[index]["name"]) {
-                  var idx = selectedInterests.indexOf(element);
-                  idx1 = idx;
-                }
-              });
-              if (idx1 != null) {
-                selectedInterests.removeAt(idx1);
-                print("Removed : ${interestsData[index]["name"]}");
-                interestsData[index]["is_selected"] = false;
-                timesInterestsClicked -= 1;
-                updateButton(index);
-              }
-            }
-            // print(selectedInterests);
-          },
         ),
+        onTap: () {
+          if (timesInterestsClicked != 6 &&
+              !interestsData[index]["is_selected"]) {
+            // update the button color and save the selected interests
+            selectedInterests.add({
+              "icon_codepoint": interestsData[index]["icon"].codePoint,
+              "name": interestsData[index]["name"]
+            });
+            print(interestsData[index]["name"]);
+            interestsData[index]["is_selected"] = true;
+            timesInterestsClicked += 1;
+            updateButton(index);
+          } else if (interestsData[index]["is_selected"]) {
+            // unselect and select new interests
+            int idx1;
+            // get the unselected index and delete
+            selectedInterests.forEach((element) {
+              if (element["name"] == interestsData[index]["name"]) {
+                var idx = selectedInterests.indexOf(element);
+                idx1 = idx;
+              }
+            });
+            if (idx1 != null) {
+              selectedInterests.removeAt(idx1);
+              print("Removed : ${interestsData[index]["name"]}");
+              interestsData[index]["is_selected"] = false;
+              timesInterestsClicked -= 1;
+              updateButton(index);
+            }
+          }
+          // print(selectedInterests);
+        },
       ),
     ),
   );
@@ -269,62 +290,62 @@ Widget _laterSaveButton(List selectedInterests, BuildContext context) {
                 ),
               ),
               onPressed: () {
-                if(selectedInterests.isNotEmpty){
+                if (selectedInterests.isNotEmpty) {
                   ProfileAboutMeBackEnd.myInterests(selectedInterests);
                 }
                 // loop each categories and set is_selected to false
                 MyInterestsData.pets.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.creativity.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.sports.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.hangouts.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.stayingIn.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.filmTv.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.reading.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.musics.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.foodDrink.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.travelling.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
                 MyInterestsData.valueTraits.forEach((element) {
-                  if(element["is_selected"] == true){
+                  if (element["is_selected"] == true) {
                     element["is_selected"] = false;
                   }
                 });
