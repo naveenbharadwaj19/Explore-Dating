@@ -233,7 +233,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                       Container(
                         // ! change to left : 10 if overflow error pop up
                         margin:
-                            const EdgeInsets.only(top: 35, left: 2, right: 5),
+                            const EdgeInsets.only(top: 35, left: 2, right: 2),
                         child: Row(
                           children: [
                             Container(
@@ -318,6 +318,7 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
                                         color: Color(0xffF8C80D), width: 1.5)),
                                 child: const Text(
                                   "Everyone",
+                                  overflow: TextOverflow.fade,
                                   style: const TextStyle(
                                     fontSize: 20,
                                     // fontWeight: FontWeight.w700,
