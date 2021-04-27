@@ -91,26 +91,16 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/app_background_img/welcome_bg.jpg
-    - assets/app_images/explore_logo.png
-    - assets/app_images/explore_black_logo.png
-    - assets/app_images/explore_org_logo.png
-    - assets/app_images/male.png
-    - assets/app_images/female.png
-    - assets/app_images/explore_plain_logo.png
-    - assets/app_background_img/welcome_bg_2.png
-    - assets/app_images/photo_img_bg.png
+    - assets/images/explore_logo.png
+    - assets/images/explore_black_logo.png
+    - assets/images/explore_org_logo.png
+    - assets/images/male.png
+    - assets/images/female.png
+    - assets/images/photo_img_bg.png
     - assets/svg/explore_logo.svg
     - assets/svg/google_icon.svg
-    - assets/svg/nothing_to_explore_2.svg
-    - assets/svg/email_verf_icon.svg
     - assets/animations/successCheck.flr
     - assets/animations/SearchEmail.flr
-    - assets/animations/location_pin.flr
-    - assets/animations/no_wifi.flr
-    - assets/animations/infinity.json
-    - assets/animations/heart1_trial.json
-    - assets/animations/heart2_trial.json
     - assets/animations/nothing_to_explore.json
     - assets/animations/location_pin.json
     - assets/animations/no_wifi.json
@@ -126,7 +116,8 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # Fonts
+
+  # ? Fonts
   fonts:
     - family: Domine
       fonts:
@@ -134,16 +125,11 @@ flutter:
         - asset: assets/fonts/Domine-Bold.ttf
           style: italic
 
-    - family: OpenSans
-      fonts:
-        - asset: assets/fonts/OpenSans-Light.ttf
-          weight: 700
-
     - family: Nunito
       fonts:
         - asset: assets/fonts/Nunito-Regular.ttf
 
-    # Icons
+    # ? Icons
     - family: MaleIcon
       fonts:
         - asset: assets/fonts/MaleIcon.ttf
@@ -175,10 +161,6 @@ flutter:
     - family: StarRoundedIcon
       fonts:
         - asset: assets/fonts/StarRoundedIcon.ttf
-
-    - family: FilterReport #noun icon
-      fonts:
-        - asset: assets/fonts/FilterReport.ttf
 
     - family: ReportFilterIcons
       fonts:

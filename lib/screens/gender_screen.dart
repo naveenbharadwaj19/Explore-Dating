@@ -30,8 +30,8 @@ class GenderScreen extends StatelessWidget {
             GenderSelection(
               maleText: "Men",
               femaleText: "Women",
-              maleImage: AssetImage("assets/app_images/male.png"),
-              femaleImage: AssetImage("assets/app_images/female.png"),
+              maleImage: AssetImage("assets/images/male.png"),
+              femaleImage: AssetImage("assets/images/female.png"),
               selectedGenderTextStyle: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,

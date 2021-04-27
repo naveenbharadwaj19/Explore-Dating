@@ -150,7 +150,7 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
   bool isLoading = false;
   bool isLoadingGoogle = false;
   final logoImage = Image.asset(
-    "assets/app_images/explore_org_logo.png",
+    "assets/images/explore_org_logo.png",
     fit: BoxFit.cover,
     // 200 , 170
     height: 200,

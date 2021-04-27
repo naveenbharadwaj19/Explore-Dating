@@ -61,7 +61,7 @@ class _PickPhotoScreenState extends State<PickPhotoScreen> {
           // ? dot image
           image: DecorationImage(
             image: AssetImage(
-              "assets/app_images/photo_img_bg.png",
+              "assets/images/photo_img_bg.png",
             ),
             fit: BoxFit.cover,
           ),

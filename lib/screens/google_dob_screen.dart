@@ -52,7 +52,7 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
               children: [
                 Container(
                   child: Image.asset(
-                    "assets/app_images/explore_org_logo.png",
+                    "assets/images/explore_org_logo.png",
                     fit: BoxFit.cover,
                     height: 200,
                     width: 170,

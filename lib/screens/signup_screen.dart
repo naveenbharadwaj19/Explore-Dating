@@ -24,7 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool agreeAge = false;
   bool agreeTerms = false;
   final logoImage = Image.asset(
-    "assets/app_images/explore_org_logo.png",
+    "assets/images/explore_org_logo.png",
     fit: BoxFit.cover,
     height: 200,
     width: 170,
