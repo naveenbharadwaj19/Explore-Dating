@@ -35,6 +35,7 @@ class _FromPopUpState extends State<FromPopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Where you from?",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,

@@ -30,7 +30,7 @@ class MatchMakingCollection {
       // get head and body photos
       try {
         DownloadCloudStoragePhotos.headPhotoDownload(uid).then((headPhoto) {
-          DownloadCloudStoragePhotos.bodyPhotoDownload(uid).then((bodyPhoto) {
+          DownloadCloudStoragePhotos.currentBodyPhotoDownload(uid).then((bodyPhoto) {
             if (!headPhoto.contains("Cannot get image url") &&
                 !bodyPhoto.contains("Cannot get image url")) {
               // print("hp $headPhoto");
@@ -147,7 +147,7 @@ class MatchMakingCollection {
                 .contains("Cannot get image url")) {
           print("photos field have error. So retrying to update them");
           DownloadCloudStoragePhotos.headPhotoDownload(uid).then((headPhoto) {
-            DownloadCloudStoragePhotos.bodyPhotoDownload(uid)
+            DownloadCloudStoragePhotos.currentBodyPhotoDownload(uid)
                 .then((bodyPhoto) async {
               if (!headPhoto.contains("Cannot get image url") &&
                   !bodyPhoto.contains("Cannot get image url")) {

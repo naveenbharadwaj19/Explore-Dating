@@ -288,6 +288,7 @@ Widget _education(Color yellow, BuildContext context, Color iconColor,
         alignment: Alignment.topLeft,
         child: const Text(
           "Education",
+          overflow: TextOverflow.fade,
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),

@@ -20,10 +20,7 @@ class ChatScreen extends StatelessWidget {
             color: Colors.red,
           ),
           onPressed: (){
-            // bulkPhotoOperation();
-            // 58956
             // checkNFSW();
-            // FlutterIsolate.spawn(isolateFunction,{1:"10",2:"20"});
           },
         ),
       ),
@@ -96,14 +93,3 @@ Future bulkPhotoOperation() async {
   }
 }
 
-
-// void isolateFunction(Map mymap)async{
-//   await Firebase.initializeApp();
-//   print("Done ... :)");
-//   var a = FirebaseAuth.instance.currentUser.uid;
-//   print(a);
-//   var names = await FirebaseFirestore.instance.collection("Users").get();
-//   names.docs.forEach((element) { 
-//     print(element.get("bio.name"));
-//   });
-// }

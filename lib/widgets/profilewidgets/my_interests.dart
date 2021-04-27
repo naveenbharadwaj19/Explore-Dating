@@ -46,6 +46,7 @@ class _MyInterestsPopUpState extends State<MyInterestsPopUp> {
                   alignment: Alignment.topCenter,
                   child: const Text(
                     "Choose Your Interests",
+                    overflow: TextOverflow.fade,
                     style: TextStyle(
                       fontSize: 24,
                       color: Colors.white,
@@ -124,6 +125,7 @@ Widget _categoryTitle(String categoryName) {
           margin: const EdgeInsets.only(top: 10),
           child: Text(
             categoryName,
+            overflow: TextOverflow.fade,
             style: const TextStyle(
               fontSize: 22,
               color: Colors.white70,
@@ -145,7 +147,7 @@ Widget _interestsData(List<Map<String, dynamic>> interestsData, Color yellow,
   return SliverGrid.count(
     crossAxisCount: 2,
     mainAxisSpacing: 7,
-    crossAxisSpacing: 10,
+    crossAxisSpacing: 3,
     childAspectRatio: 3,
     children: List.generate(
       interestsData.length,

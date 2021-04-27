@@ -44,6 +44,7 @@ class _EducationLevelPopUpState extends State<EducationLevelPopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Education Level",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,
@@ -269,6 +270,7 @@ class _SmokingPopUpState extends State<SmokingPopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Do you smoke?",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,
@@ -467,6 +469,7 @@ class _DrinkingPopUpState extends State<DrinkingPopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Do you drink?",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,
@@ -665,6 +668,7 @@ class _LookingForPopUpState extends State<LookingForPopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Looking for?",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,
@@ -890,6 +894,7 @@ class _ExercisePopUpState extends State<ExercisePopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "How often do you exercise?",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,
@@ -1087,6 +1092,7 @@ class _KidsPopUpState extends State<KidsPopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Kids",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,
@@ -1314,6 +1320,7 @@ class _ZodiacSignsPopUpState extends State<ZodiacSignsPopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Zodiac signs",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,

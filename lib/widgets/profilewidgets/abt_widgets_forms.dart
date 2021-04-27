@@ -46,6 +46,7 @@ class _AboutMePopUpState extends State<AboutMePopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Say something about yourself",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,
@@ -212,6 +213,7 @@ class _WorkTitlePopUpState extends State<WorkTitlePopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "Work",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,

@@ -47,6 +47,7 @@ class _HeightPopUpState extends State<HeightPopUp> {
             margin: const EdgeInsets.all(10),
             child: const Text(
               "What's your height?",
+              overflow: TextOverflow.fade,
               style: TextStyle(
                 fontSize: 24,
                 color: Colors.white,

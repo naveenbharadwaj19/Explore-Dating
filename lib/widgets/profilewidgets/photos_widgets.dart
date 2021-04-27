@@ -175,7 +175,7 @@ class _SetFeedDelete extends StatelessWidget {
                   if (fetchedPhotosData["show_on_feeds.hash"] != hash) {
                     ProfilePhotosBackEnd.updateShowOnFeedsData(hash, url);
                     uploadCurrentBodyPhotoToCloudStorage(url, context);
-                    vibrate(10); // vibrate when pressed
+                    vibrate(5); // vibrate when pressed
                     print("New feed set");
                   }
                 },

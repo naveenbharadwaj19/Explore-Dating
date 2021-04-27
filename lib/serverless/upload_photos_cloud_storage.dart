@@ -43,9 +43,9 @@ Future<void> uploadCurrentBodyPhotoToCloudStorage(
     final auth = FirebaseAuth.instance;
     final User user = auth.currentUser;
     final uid = user.uid;
-    String imgNameHead = "choosenbodyphoto.jpg";
+    String imgName = "choosenbodyphoto.jpg";
     var reference1 =
-        _storage.ref().child("Userphotos/$uid/currentbodyphoto/$imgNameHead");
+        _storage.ref().child("Userphotos/$uid/currentbodyphoto/$imgName");
     var random = Random(); // generate random
     Directory tempDir =
         await getTemporaryDirectory(); // get temporary path from temporary directory.
