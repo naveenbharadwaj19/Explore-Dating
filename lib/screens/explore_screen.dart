@@ -331,10 +331,10 @@ class _LowerBox extends StatelessWidget {
           color: Color(0xE6121212),
           borderRadius: const BorderRadius.all(Radius.circular(60)),
         ),
-        child: Consumer<PageViewLogic>(
-          builder: (context, pageViewLogic, child) => Row(
-            children: [
-              Container(
+        child: Row(
+          children: [
+            Consumer<PageViewLogic>(
+              builder: (_, pageViewLogic, __) => Container(
                 // ? heart icon
                 margin: const EdgeInsets.only(left: 20),
                 child: GestureDetector(
@@ -346,14 +346,16 @@ class _LowerBox extends StatelessWidget {
                           color: Colors.red,
                           size: heartIconSize,
                         ),
-                  onTap: () async {
+                  onTap: () {
                     print("Pressed heart idx of : $index");
-                    await Hearts.storeHeartInfo(index: index, context: context);
+                    Hearts.storeHeartInfo(index: index, context: context);
                     pageViewLogic.updateLowerBoxUi();
                   },
                 ),
               ),
-              Container(
+            ),
+            Consumer<PageViewLogic>(
+              builder: (_, pageViewLogic, __) => Container(
                 // ? star icon
                 margin: const EdgeInsets.only(left: 40, bottom: 3),
                 child: GestureDetector(
@@ -366,29 +368,29 @@ class _LowerBox extends StatelessWidget {
                           color: Color(0xffF8C80D),
                           size: starIconSize,
                         ),
-                  onTap: () async {
+                  onTap: () {
                     print("Pressed star idx of : $index");
-                    await Stars.storeStarInfo(index: index, context: context);
+                    Stars.storeStarInfo(index: index, context: context);
                     pageViewLogic.updateLowerBoxUi();
                   },
                 ),
               ),
-              Container(
-                // ? report icon
-                margin: const EdgeInsets.only(left: 30, top: 5),
-                child: GestureDetector(
-                  child: Icon(
-                    ReportFilterIcons.report_100_px_new,
-                    color: Colors.white54,
-                    size: reportIconSize,
-                  ),
-                  onTap: () {
-                    print("Pressed report $index");
-                  },
+            ),
+            Container(
+              // ? report icon
+              margin: const EdgeInsets.only(left: 30, top: 5),
+              child: GestureDetector(
+                child: Icon(
+                  ReportFilterIcons.report_100_px_new,
+                  color: Colors.white54,
+                  size: reportIconSize,
                 ),
+                onTap: () {
+                  print("Pressed report $index");
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

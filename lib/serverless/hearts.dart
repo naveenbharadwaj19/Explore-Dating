@@ -30,9 +30,10 @@ class Hearts {
       String oppositeUserUid = scrollUserDetails[index]["uid"];
       String currentDate = DateFormat("dd-MM-yyyy").format(now);
       DateTime currentNTPDate = await NTP.now();
-      String convertedNTP = DateFormat("dd-MM-yyyy").format(currentNTPDate); // NTP date
+      String convertedNTP =
+          DateFormat("dd-MM-yyyy").format(currentNTPDate); // NTP date
       // check if current date and ntp does not match
-      if(currentDate != convertedNTP){
+      if (currentDate != convertedNTP) {
         currentDate = convertedNTP; // overwrite ntp date to current date
       }
       DocumentSnapshot checkDocinfo = await FirebaseFirestore.instance
@@ -83,28 +84,32 @@ class Hearts {
         }
       } else if (!checkDocinfo.exists) {
         // ? doc id do not exist
-        String currentDateTime =
-            DateFormat('dd-MM-yyyy:hh:mm:ss:a').format(now);
-        String fullPath = checkDocinfo.reference.path;
-        DocumentReference heartInfo = FirebaseFirestore.instance.doc(fullPath);
-        // create data
-        await heartInfo.set({
-          "heart_pressed": FieldValue.arrayUnion([
-            {
-              "opposite_uid": oppositeUserUid,
-              "time": currentDateTime,
-            },
-          ]),
-          "press_limit": 1,
-          "latest_time": FieldValue.serverTimestamp(),
-        });
-        // update heart value and lock
-        scrollUserDetails[index]["heart"] = true;
-        scrollUserDetails[index]["lock_heart_star"] = true;
-        // notifications
-        Notifications.storeNotifications(
-            index: index, currentDateTime: currentDateTime);
-        print("heart info created in firestore");
+        if (!scrollUserDetails[index]["heart"] &&
+            !scrollUserDetails[index]["lock_heart_star"]) {
+          String currentDateTime =
+              DateFormat('dd-MM-yyyy:hh:mm:ss:a').format(now);
+          String fullPath = checkDocinfo.reference.path;
+          DocumentReference heartInfo =
+              FirebaseFirestore.instance.doc(fullPath);
+          // create data
+          await heartInfo.set({
+            "heart_pressed": FieldValue.arrayUnion([
+              {
+                "opposite_uid": oppositeUserUid,
+                "time": currentDateTime,
+              },
+            ]),
+            "press_limit": 1,
+            "latest_time": FieldValue.serverTimestamp(),
+          });
+          // update heart value and lock
+          scrollUserDetails[index]["heart"] = true;
+          scrollUserDetails[index]["lock_heart_star"] = true;
+          // notifications
+          Notifications.storeNotifications(
+              index: index, currentDateTime: currentDateTime);
+          print("heart info created in firestore");
+        }
       }
     } catch (error) {
       print("Error in storing heart info : ${error.toString()}");
