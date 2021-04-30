@@ -100,7 +100,7 @@ class _AccCreatedScreenState extends State<AccCreatedScreen> {
                     ),
                     onPressed: () {
                       // manageSigninLogin = false;
-                      OnlyDuringSignupFirestore.updateAccSuccPage(context);
+                      OnlyDuringSignupFirestore.updateAccSuccPage(context);                      
                     },
                   ),
                 ),

@@ -133,12 +133,11 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                   // fontWeight: FontWeight.w700,
                 ),
               ),
-              onPressed: () async{
-                if (selectedShowMe.isNotEmpty) {
+              onPressed: (){
+                if (selectedShowMe.isNotEmpty){
                   MatchMakingCollection.addCurrentUserMM(selectedShowMe);
                   writeRFATA(selectedShowMe);
-                  OnlyDuringSignupFirestore.updateShowMeFields(
-                      selectedShowMe, context);
+                  OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context);
                 }
               },
             ),

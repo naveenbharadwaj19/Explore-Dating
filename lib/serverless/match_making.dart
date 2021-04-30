@@ -1,6 +1,8 @@
 // @dart=2.9
 // todo Manage Matchmaking collection firestore
 // * mm/MM - matchmaking collection
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/serverless/download_photos_storage.dart';
@@ -30,41 +32,44 @@ class MatchMakingCollection {
       // get head and body photos
       try {
         DownloadCloudStoragePhotos.headPhotoDownload(uid).then((headPhoto) {
-          DownloadCloudStoragePhotos.currentBodyPhotoDownload(uid).then((bodyPhoto) {
+          DownloadCloudStoragePhotos.currentBodyPhotoDownload(uid)
+              .then((bodyPhoto) {
             if (!headPhoto.contains("Cannot get image url") &&
                 !bodyPhoto.contains("Cannot get image url")) {
               // print("hp $headPhoto");
               // print("bp $bodyPhoto");
-              encodeBlurHashImg(headPhoto).then((hashVal) {
+              encodeBlurHashImg(headPhoto).then((hashVal){
                 headPhotoHash = hashVal;
-                encodeBlurHashImg(bodyPhoto).then((hashVal) async {
+                encodeBlurHashImg(bodyPhoto).then((hashVal){
                   bodyPhotoHash = hashVal;
                   // print("bodyhash : $bodyPhotoHash : headhash : $headPhotoHash : bodyphoto : $bodyPhoto : headPhoto : $headPhoto");
-                  await menWomenCollection.add({
-                    "uid": uid,
-                    "show_me": selectedShowMe,
-                    "age": fetchDetails.get("bio.age"),
-                    "gender": fetchDetails.get("bio.gender"),
-                    "name": fetchDetails.get("bio.name"),
-                    "geohash_rounds": {
-                      "rh": homo,
-                    },
-                    "photos": {
-                      "current_head_photo": headPhoto,
-                      "current_head_photo_hash": headPhotoHash,
-                      "current_body_photo": bodyPhoto,
-                      "current_body_photo_hash": bodyPhotoHash,
-                    }
-                  });
-                  ProfileAboutMeBackEnd.storeProfileData(
-                      name: fetchDetails.get("bio.name"),
-                      age: fetchDetails.get("bio.age"),
-                      headPhotoHash: headPhotoHash,
-                      headPhotoUrl: headPhoto);
+                  Timer(Duration(seconds: 3), () async {
+                    await menWomenCollection.add({
+                      "uid": uid,
+                      "show_me": selectedShowMe,
+                      "age": fetchDetails.get("bio.age"),
+                      "gender": fetchDetails.get("bio.gender"),
+                      "name": fetchDetails.get("bio.name"),
+                      "geohash_rounds": {
+                        "rh": homo,
+                      },
+                      "photos": {
+                        "current_head_photo": headPhoto,
+                        "current_head_photo_hash": headPhotoHash,
+                        "current_body_photo": bodyPhoto,
+                        "current_body_photo_hash": bodyPhotoHash,
+                      }
+                    });
+                    ProfileAboutMeBackEnd.storeProfileData(
+                        name: fetchDetails.get("bio.name"),
+                        age: fetchDetails.get("bio.age"),
+                        headPhotoHash: headPhotoHash,
+                        headPhotoUrl: headPhoto);
 
-                  ProfilePhotosBackEnd.storePhotosInfo(
-                      bodyPhotoHash, bodyPhoto);
-                  print("Successfully created user document in matchmaking");
+                    ProfilePhotosBackEnd.storePhotosInfo(
+                        bodyPhotoHash, bodyPhoto);
+                    print("Successfully created user document in matchmaking");
+                  });
                 });
               });
             }
