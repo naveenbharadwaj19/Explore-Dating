@@ -1,6 +1,6 @@
 // @dart=2.9
 import 'dart:async';
-import 'dart:convert' show utf8,json;
+import 'dart:convert' show utf8, json;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -13,22 +13,16 @@ class ChatScreen extends StatelessWidget {
     return Container(
       color: Colors.white54,
       child: Center(
-        child: IconButton(
-          icon: Icon(
-            Icons.send,
-            size: 30,
-            color: Colors.red,
-          ),
-          onPressed: (){
-            // checkNFSW();
-          },
-        ),
-      ),
+          child: Container(
+            height: 150,
+            width: 150,
+              child: Image.network(
+        "https://firebasestorage.googleapis.com/v0/b/explore-dating.appspot.com/o/Userphotos%2F03Pp25egjLPFi1LXxZVvLI324iO2%2Fcurrentbodyphoto%2Fchoosenbodyphoto.jpg?alt=media&token=0e5d9281-e240-4c52-96ba-170192b1594e",
+        fit: BoxFit.cover,
+      ))),
     );
   }
 }
-
-
 
 // ! remove
 checkNFSW() async {
@@ -46,7 +40,6 @@ checkNFSW() async {
     print(response.statusCode);
     print(myJson);
     print(myJson["rsp"]["nudity"]);
-    
   } catch (e) {
     print("Error in nfsw : ${e.toString()}");
   }
@@ -92,4 +85,3 @@ Future bulkPhotoOperation() async {
     print("Erro in bulk photo operation ${e.toString()}");
   }
 }
-

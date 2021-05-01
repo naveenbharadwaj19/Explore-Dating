@@ -7,6 +7,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:explore/icons/gallery_icon_icons.dart';
 import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
+import 'package:explore/screens/profilescreen/other_user_pres_screen.dart';
 import 'package:explore/serverless/profile_backend/abt_me_backend.dart';
 import 'package:explore/serverless/profile_backend/upload_photos_prof.dart';
 import 'package:explore/widgets/profilewidgets/about_widgets.dart';
@@ -330,7 +331,7 @@ class _HeadPhotoPopUp extends StatelessWidget {
               ),
               onPressed: () {
                 print("Pressed preview");
-                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, OtherUserPrespectiveScreen.routeName);
               },
             ),
           ),

@@ -38,22 +38,102 @@ class _MyInterestsPopUpState extends State<MyInterestsPopUp> {
       height: height - 70,
       child: CustomScrollView(
         slivers: [
+          SliverAppBar(
+            pinned: true,
+            backgroundColor: Theme.of(context).primaryColor,
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            title: Container(
+              child: const Text(
+                "Choose Your Interests",
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                  fontSize: 22,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            actions: [
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: GestureDetector(
+                  child: Icon(
+                    Icons.check_circle_outline_rounded,
+                    color: Theme.of(context).buttonColor,
+                    size: 30,
+                  ),
+                  onTap: () {
+                    if (selectedInterests.isNotEmpty) {
+                      ProfileAboutMeBackEnd.myInterests(selectedInterests);
+                    }
+                    // loop each categories and set is_selected to false
+                    MyInterestsData.pets.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.creativity.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.sports.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.hangouts.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.stayingIn.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.filmTv.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.reading.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.musics.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.foodDrink.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.travelling.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    MyInterestsData.valueTraits.forEach((element) {
+                      if (element["is_selected"] == true) {
+                        element["is_selected"] = false;
+                      }
+                    });
+                    timesInterestsClicked = 0; // reset
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+
           SliverList(
             delegate: SliverChildListDelegate(
               [
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  alignment: Alignment.topCenter,
-                  child: const Text(
-                    "Choose Your Interests",
-                    overflow: TextOverflow.fade,
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
                 const Divider(
                   color: Colors.white54,
                 ),

@@ -8,6 +8,7 @@ import 'package:explore/providers/profile_state.dart';
 import 'package:explore/providers/show_me_state.dart';
 import 'package:explore/screens/basic_user_details_screen.dart';
 import 'package:explore/screens/explore_screen.dart';
+import 'package:explore/screens/profilescreen/other_user_pres_screen.dart';
 import 'package:explore/screens/signup_screen.dart';
 import 'package:explore/widgets/login_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -127,6 +128,7 @@ class _MyAppState extends State<MyApp> {
         routes: {
           // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
           ViewBodyPhoto.routeName: (context) => ViewBodyPhoto(),
+          OtherUserPrespectiveScreen.routeName : (context) => OtherUserPrespectiveScreen(),
         },
       ),
     );
