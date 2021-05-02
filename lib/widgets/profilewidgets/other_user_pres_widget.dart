@@ -172,7 +172,7 @@ Widget oUPSWarp1(dynamic aboutMeData, BuildContext context) {
 class OUPSWrap2 extends StatelessWidget {
   final dynamic aboutMeData;
   OUPSWrap2(this.aboutMeData);
-
+  
   List wrap2() {
     List<Map> toRemove = [];
     List wrap2Data = [
