@@ -12,12 +12,12 @@ import 'package:explore/data/temp/filter_datas.dart'
 import 'package:explore/data/temp/store_basic_match.dart'
     show scrollUserDetails;
 import 'package:explore/providers/pageview_logic.dart';
-import 'package:explore/serverless/connecting_users.dart';
-import 'package:explore/serverless/filters_info.dart';
-import 'package:explore/serverless/geohash_custom_radius.dart';
-import 'package:explore/serverless/notifications.dart';
+import 'package:explore/server/match_backend/connecting_users.dart';
+import 'package:explore/server/filters_info.dart';
+import 'package:explore/server/match_backend/geohash_custom_radius.dart';
+import 'package:explore/server/notifications.dart';
 import 'package:provider/provider.dart';
-import '../serverless/update_show_me.dart';
+import '../server/update_show_me.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 

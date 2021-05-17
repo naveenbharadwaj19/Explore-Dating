@@ -4,7 +4,7 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:explore/data/zodiac_signs.dart';
-import 'package:explore/serverless/profile_backend/abt_me_backend.dart';
+import 'package:explore/server/profile_backend/abt_me_backend.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 

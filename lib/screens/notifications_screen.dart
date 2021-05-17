@@ -4,7 +4,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:explore/models/disable_multi_touch.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/notifications_state.dart';
-import 'package:explore/serverless/notifications.dart';
+import 'package:explore/server/notifications.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -105,7 +105,7 @@ exports.notifyUsersFCM = functions.https.onCall(async (data, context) => {
     var token = data.token;
     var title = data.title.toString();
     var body = data.body.toString();
-    console.log("FCM token :" + token)
+    console.log("FCM token :" + token);
     var sendmessageFCM = await admin.messaging().send({
       token: token,
       notification: {
@@ -120,3 +120,30 @@ exports.notifyUsersFCM = functions.https.onCall(async (data, context) => {
     return "Push notification failed";
   }
 });
+
+// * automatic unmatch
+exports.automaticUnMatch = functions
+  .runWith({ memory: "256MB", timeoutSeconds: 180 })
+  .https.onCall(async (data, context) => {
+    try {
+      const uid = context.auth.uid;
+      var pathToDelete = data.deletePath;
+      // * loop the list
+      if (pathToDelete.length !== 0) {
+        pathToDelete.forEach(async (item, index) => {
+          await admin.firestore().doc(item).delete(); // delete chats/id/chats/room1
+          var overAllDoc = item.split("/")[1];
+          await admin
+            .firestore()
+            .doc("Chats/" + overAllDoc)
+            .delete(); // delete chats/id
+        });
+        console.log("Sucessfully deleted user " + uid + " chats");
+        return "Sucessfully deleted user " + uid + " chats";
+      }
+      return "Something went wrong in if statement";
+    } catch (error) {
+      console.log("Error in automatic unmatch : " + error.toString());
+      return "Cannot unmatch";
+    }
+  });

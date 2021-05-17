@@ -1,12 +1,12 @@
 // @dart=2.9
 import 'package:explore/icons/filter_icons.dart';
 import 'package:explore/models/spinner.dart';
-import 'package:explore/screens/chat_screen.dart';
-import 'package:explore/screens/explore_screen.dart';
+import 'package:explore/screens/chats/chat_screen.dart';
+import 'package:explore/screens/home/explore_screen.dart';
 import 'package:explore/widgets/filter_widget.dart';
 import 'package:explore/screens/notifications_screen.dart';
-import 'package:explore/screens/profilescreen/user_pres_screen.dart';
-import 'package:explore/screens/settings_screen.dart';
+import 'package:explore/screens/profile/user_pres_screen.dart';
+import 'package:explore/screens/settings/settings_screen.dart';
 import 'package:explore/widgets/bottom_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

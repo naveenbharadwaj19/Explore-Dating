@@ -1,9 +1,9 @@
 // @dart=2.9
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/assign_errors.dart';
-import 'package:explore/serverless/firestore_signup.dart';
-import 'package:explore/serverless/match_making.dart';
-import 'package:explore/serverless/profile_backend/abt_me_backend.dart';
+import 'package:explore/server/signup_backend/firestore_signup.dart';
+import 'package:explore/server/match_making.dart';
+import 'package:explore/server/profile_backend/abt_me_backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';

@@ -1,15 +1,18 @@
 // @dart=2.9
 
+
 import 'package:explore/models/spinner.dart';
 import 'package:explore/data/temp/auth_data.dart';
+import 'package:explore/providers/individual_chats_state.dart';
 import 'package:explore/providers/notifications_state.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/providers/profile_state.dart';
 import 'package:explore/providers/show_me_state.dart';
 import 'package:explore/screens/basic_user_details_screen.dart';
-import 'package:explore/screens/explore_screen.dart';
-import 'package:explore/screens/profilescreen/other_user_pres_screen.dart';
-import 'package:explore/screens/signup_screen.dart';
+import 'package:explore/screens/chats/individual_chat_screen.dart';
+import 'package:explore/screens/home/explore_screen.dart';
+import 'package:explore/screens/profile/other_user_pres_screen.dart';
+import 'package:explore/screens/signup_screens/signup_screen.dart';
 import 'package:explore/widgets/login_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -27,6 +30,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // FirebaseFirestore.instance.settings = Settings(host: "10.0.2.2:8080",sslEnabled: false);
   // runApp(MyApp());
   runApp(
     MultiProvider(
@@ -42,6 +46,9 @@ void main() async {
         ),
         ChangeNotifierProvider<ProfileState>(
           create: (context) => ProfileState(),
+        ),
+        ChangeNotifierProvider<IndividualChatState>(
+          create: (context) => IndividualChatState(),
         ),
       ],
       child: MyApp(),
@@ -128,7 +135,9 @@ class _MyAppState extends State<MyApp> {
         routes: {
           // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
           ViewBodyPhoto.routeName: (context) => ViewBodyPhoto(),
+          ViewPhoto.routeName : (context) => ViewPhoto(),
           OtherUserPrespectiveScreen.routeName : (context) => OtherUserPrespectiveScreen(),
+          IndividualChatScreen.routeName : (context) => IndividualChatScreen(),
         },
       ),
     );

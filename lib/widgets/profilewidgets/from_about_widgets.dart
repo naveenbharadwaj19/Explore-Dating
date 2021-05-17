@@ -1,7 +1,7 @@
 // @dart=2.9
 // todo from about widgets
 import 'package:csc_picker/csc_picker.dart';
-import 'package:explore/serverless/profile_backend/abt_me_backend.dart';
+import 'package:explore/server/profile_backend/abt_me_backend.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 

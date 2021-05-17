@@ -29,6 +29,7 @@ dependencies:
   app_settings: ^4.1.0
   auto_size_text: ^2.1.0
   blurhash: ^0.2.1
+  bubble: ^1.2.1
   cached_network_image: ^2.5.1
   change_app_package_name: ^0.1.2
   circular_check_box: ^1.0.4
@@ -52,6 +53,7 @@ dependencies:
   flutter_blurhash: ^0.5.0
   flutter_holo_date_picker: ^0.3.4+1
   flutter_isolate: ^2.0.0
+  flutter_linkify: ^5.0.2
   flutter_secure_storage: ^4.1.0
   flutter_snake_navigationbar: ^0.5.0
   flutter_spinkit: ^5.0.0
@@ -74,6 +76,7 @@ dependencies:
   provider: ^5.0.0
   random_string: ^2.1.0
   responsive_framework: ^0.1.0
+  url_launcher: ^6.0.3
   vibration: ^1.7.3
 
 dev_dependencies:
@@ -106,6 +109,7 @@ flutter:
     - assets/animations/no_wifi.json
     - assets/animations/heart_final.json
     - assets/animations/star_final.json
+    - assets/animations/no_message.json
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -131,51 +135,55 @@ flutter:
     # ? Icons
     - family: MaleIcon
       fonts:
-        - asset: assets/fonts/MaleIcon.ttf
+        - asset: assets/fonts/iconfonts/MaleIcon.ttf
 
     - family: FemaleIcon
       fonts:
-        - asset: assets/fonts/FemaleIcon.ttf
+        - asset: assets/fonts/iconfonts/FemaleIcon.ttf
 
     - family: OtherGenders
       fonts:
-        - asset: assets/fonts/OtherGenders.ttf
+        - asset: assets/fonts/iconfonts/OtherGenders.ttf
 
     - family: GalleryIcon
       fonts:
-        - asset: assets/fonts/GalleryIcon.ttf
+        - asset: assets/fonts/iconfonts/GalleryIcon.ttf
 
     - family: BottomNavigationBarIcons
       fonts:
-        - asset: assets/fonts/BottomNavigationBarIcons.ttf
+        - asset: assets/fonts/iconfonts/BottomNavigationBarIcons.ttf
 
     - family: Filter
       fonts:
-        - asset: assets/fonts/Filter.ttf
+        - asset: assets/fonts/iconfonts/Filter.ttf
 
     - family: HomeOrgIcon # alternative for home icon
       fonts:
-        - asset: assets/fonts/HomeOrgIcon.ttf
+        - asset: assets/fonts/iconfonts/HomeOrgIcon.ttf
 
     - family: StarRoundedIcon
       fonts:
-        - asset: assets/fonts/StarRoundedIcon.ttf
+        - asset: assets/fonts/iconfonts/StarRoundedIcon.ttf
 
     - family: ReportFilterIcons
       fonts:
-        - asset: assets/fonts/ReportFilterIcons.ttf
+        - asset: assets/fonts/iconfonts/ReportFilterIcons.ttf
 
     - family: ProfileIcons
       fonts:
-        - asset: assets/fonts/ProfileIcons.ttf
+        - asset: assets/fonts/iconfonts/ProfileIcons.ttf
 
     - family: ProfileMyInterestsIcons
       fonts:
-        - asset: assets/fonts/ProfileMyInterestsIcons.ttf
+        - asset: assets/fonts/iconfonts/ProfileMyInterestsIcons.ttf
 
     - family: EyeIcons
       fonts:
-        - asset: assets/fonts/EyeIcons.ttf
+        - asset: assets/fonts/iconfonts/EyeIcons.ttf
+
+    - family: HourGlass
+      fonts:
+        - asset: assets/fonts/iconfonts/HourGlass.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro
