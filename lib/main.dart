@@ -1,10 +1,7 @@
 // @dart=2.9
-
-
 import 'package:explore/models/spinner.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/providers/individual_chats_state.dart';
-import 'package:explore/providers/notifications_state.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/providers/profile_state.dart';
 import 'package:explore/providers/show_me_state.dart';
@@ -37,9 +34,6 @@ void main() async {
       providers: [
         ChangeNotifierProvider<PageViewLogic>(
           create: (context) => PageViewLogic(),
-        ),
-        ChangeNotifierProvider<NotificationsState>(
-          create: (context) => NotificationsState(),
         ),
         ChangeNotifierProvider<ShowMeState>(
           create: (context) => ShowMeState(),

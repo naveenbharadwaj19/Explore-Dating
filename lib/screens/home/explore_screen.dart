@@ -10,8 +10,6 @@ import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/server/match_backend/connecting_users.dart';
 import 'package:explore/server/match_backend/geohash_custom_radius.dart';
-import 'package:explore/server/star_report_backend/hearts.dart';
-import 'package:explore/server/notifications.dart';
 import 'package:explore/server/star_report_backend/stars.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -322,7 +320,7 @@ class _LowerBox extends StatelessWidget {
       // ? heart , star , report widgets
       child: Container(
         // ? control black box
-        width: 255,
+        width: 150,
         margin: const EdgeInsets.only(
           bottom: 20,
         ),
@@ -335,32 +333,10 @@ class _LowerBox extends StatelessWidget {
           children: [
             Consumer<PageViewLogic>(
               builder: (_, pageViewLogic, __) => Container(
-                // ? heart icon
-                margin: const EdgeInsets.only(left: 20),
-                child: GestureDetector(
-                  child: scrollUserDetails[index]["heart"] &&
-                          scrollUserDetails[index]["lock_heart_star"]
-                      ? Hearts.heartanimation()
-                      : Icon(
-                          Icons.favorite_border_rounded,
-                          color: Colors.red,
-                          size: heartIconSize,
-                        ),
-                  onTap: () {
-                    print("Pressed heart idx of : $index");
-                    Hearts.storeHeartInfo(index: index, context: context);
-                    pageViewLogic.updateLowerBoxUi();
-                  },
-                ),
-              ),
-            ),
-            Consumer<PageViewLogic>(
-              builder: (_, pageViewLogic, __) => Container(
                 // ? star icon
-                margin: const EdgeInsets.only(left: 40, bottom: 3),
+                margin: const EdgeInsets.only(left: 20, bottom: 3),
                 child: GestureDetector(
-                  child: scrollUserDetails[index]["star"] &&
-                          scrollUserDetails[index]["lock_heart_star"]
+                  child: scrollUserDetails[index]["star"]
                       ? Stars.starAnimation()
                       : Icon(
                           // Icons.star_border_outlined,
@@ -378,7 +354,7 @@ class _LowerBox extends StatelessWidget {
             ),
             Container(
               // ? report icon
-              margin: const EdgeInsets.only(left: 30, top: 5),
+              margin: const EdgeInsets.only(left: 13, top: 3.8),
               child: GestureDetector(
                 child: Icon(
                   ReportFilterIcons.report_100_px_new,
@@ -477,8 +453,6 @@ class _NothingToExploreScreen extends StatelessWidget {
                       ),
                       onPressed: () {
                         scrollUserDetails.clear(); // reset scroll details
-                        Notifications
-                            .resetLatestDocs(); // reset notifications doc
                         pageViewLogic.callConnectingUsers = true;
                         if (scrollUserDetails.isEmpty &&
                             streamRadius == 180 &&

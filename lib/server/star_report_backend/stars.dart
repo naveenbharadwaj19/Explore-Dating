@@ -24,7 +24,7 @@ class Stars {
   static Future<void> storeStarInfo(
       {@required index, @required BuildContext context}) async {
     try {
-      // * 5 R ,5 W
+      // * 7 R ,7 W
       final now = DateTime.now();
       String userUid = FirebaseAuth.instance.currentUser.uid;
       String oppositeUserUid = scrollUserDetails[index]["uid"];
@@ -56,8 +56,7 @@ class Stars {
             duration: Duration(seconds: 1),
           )..show(context);
         } else {
-          if (!scrollUserDetails[index]["star"] &&
-              !scrollUserDetails[index]["lock_heart_star"]) {
+          if (!scrollUserDetails[index]["star"]) {
             // trigger if user hasn't pressed star
             // HapticFeedback.mediumImpact(); // vibrate when pressed
             vibrate(50); // vibrate when pressed
@@ -78,15 +77,13 @@ class Stars {
             });
             // update star value and lock
             scrollUserDetails[index]["star"] = true;
-            scrollUserDetails[index]["lock_heart_star"] = true;
             print("star info updated in firestore");
             popUpChatBottomSheet(index, context);
           }
         }
       } else if (!checkDocinfo.exists) {
         // ? doc id do not exist
-        if (!scrollUserDetails[index]["star"] &&
-            !scrollUserDetails[index]["lock_heart_star"]) {
+        if (!scrollUserDetails[index]["star"]) {
           // HapticFeedback.mediumImpact();
           vibrate(50); // vibrate when pressed
           String currentDateTime =
@@ -106,7 +103,6 @@ class Stars {
           });
           // update star value and lock
           scrollUserDetails[index]["star"] = true;
-          scrollUserDetails[index]["lock_heart_star"] = true;
           print("star info created in firestore");
           popUpChatBottomSheet(index, context);
         }

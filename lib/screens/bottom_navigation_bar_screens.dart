@@ -4,7 +4,6 @@ import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/chats/chat_screen.dart';
 import 'package:explore/screens/home/explore_screen.dart';
 import 'package:explore/widgets/filter_widget.dart';
-import 'package:explore/screens/notifications_screen.dart';
 import 'package:explore/screens/profile/user_pres_screen.dart';
 import 'package:explore/screens/settings/settings_screen.dart';
 import 'package:explore/widgets/bottom_widgets.dart';
@@ -30,9 +29,8 @@ class _BottomNavigationBarScreensState
 
   final List widgetsTapped = [
     ExploreAppBarScreen(),
-    NotificationsScreen(),
-    UserPrespectiveScreen(),
     ChatScreen(),
+    UserPrespectiveScreen(),
     SettingsScreen()
   ];
 

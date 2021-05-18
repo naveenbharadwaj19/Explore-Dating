@@ -15,7 +15,6 @@ import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/server/match_backend/connecting_users.dart';
 import 'package:explore/server/filters_info.dart';
 import 'package:explore/server/match_backend/geohash_custom_radius.dart';
-import 'package:explore/server/notifications.dart';
 import 'package:provider/provider.dart';
 import '../server/update_show_me.dart';
 import 'package:flutter/material.dart';
@@ -397,7 +396,6 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
     filtersInformationUpdate(currentShowme, distanceKm.round(), ageValues);
     ConnectingUsers.resetLatestDocs(); // reset latest documents
     CustomRadiusGeoHash.resetLatestDocs(); // reset latest documents
-    Notifications.resetLatestDocs(); // reset latest documents
     scrollUserDetails.clear(); // clear scroll list // ? 2
     Navigator.pop(context);
     Flushbar(

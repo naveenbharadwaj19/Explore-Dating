@@ -18,19 +18,33 @@ Widget bottomWidgets(int index, Function tapped, BuildContext context) {
     unselectedItemColor: Colors.white,
     items: [
       BottomNavigationBarItem(
-        icon:  Icon(index == 0 ? HomeOrgIcon.home_icon_org_selected: HomeOrgIcon.home_icon_org_unselected,size: homeIconSize,),
+        icon: Icon(
+          index == 0
+              ? HomeOrgIcon.home_icon_org_selected
+              : HomeOrgIcon.home_icon_org_unselected,
+          size: homeIconSize,
+        ),
       ),
       BottomNavigationBarItem(
-        icon: Icon(index == 1 ? BottomNavigationBarIcons.bell_alt: BottomNavigationBarIcons.bell, size: iconSize),
+        icon: Icon(
+            index == 1
+                ? BottomNavigationBarIcons.chat_inv
+                : BottomNavigationBarIcons.chat,
+            size: iconSize),
       ),
       BottomNavigationBarItem(
-        icon: Icon(index == 2 ? BottomNavigationBarIcons.person : BottomNavigationBarIcons.person_outline, size: iconSize),
+        icon: Icon(
+            index == 2
+                ? BottomNavigationBarIcons.person
+                : BottomNavigationBarIcons.person_outline,
+            size: iconSize),
       ),
       BottomNavigationBarItem(
-        icon: Icon(index == 3 ? BottomNavigationBarIcons.chat_inv : BottomNavigationBarIcons.chat, size: iconSize),
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(index == 4 ? BottomNavigationBarIcons.cog : BottomNavigationBarIcons.cog_outline, size: iconSize),
+        icon: Icon(
+            index == 3
+                ? BottomNavigationBarIcons.cog
+                : BottomNavigationBarIcons.cog_outline,
+            size: iconSize),
       ),
     ],
   );
