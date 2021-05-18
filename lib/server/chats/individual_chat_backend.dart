@@ -1,12 +1,15 @@
 // @dart=2.9
 // todo individual chat backend
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/private/database_url_rtdb.dart';
 import 'package:explore/server/cloud_storage/delete_photos_cloud_storage.dart';
 import 'package:explore/server/cloud_storage/download_photos_storage.dart';
 import 'package:explore/server/cloud_storage/upload_photos_cloud_storage.dart';
 import 'package:explore/widgets/chats/url_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:ntp/ntp.dart';
 
@@ -14,6 +17,7 @@ class IndividualChatBackEnd {
   static Future<void> boomMessage(
       {@required String message,
       @required String path,
+      @required BuildContext context,
       @required String uid1}) async {
     // * opposite user message first time
     try {
@@ -32,7 +36,7 @@ class IndividualChatBackEnd {
           {
             "msg_content": message,
             "sender_uid": myUid,
-            "show_url_preview" : false,
+            "show_url_preview": false,
             "time_sent": nTPTime,
           }
         ]),
@@ -41,12 +45,26 @@ class IndividualChatBackEnd {
       print("Boom message stored successfully");
     } catch (e) {
       print("Error in boomMessage ${e.toString()}");
+      Flushbar(
+          messageText: Center(
+            child: const Text(
+              "Message failed to send",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(context);
     }
   }
 
   static Future<void> casualMessages(
       {@required String path,
       @required String message,
+      @required BuildContext context,
       bool messageHasUrl = false}) async {
     try {
       DocumentReference data = FirebaseFirestore.instance.doc(path);
@@ -85,7 +103,7 @@ class IndividualChatBackEnd {
                 {
                   "msg_content": message,
                   "sender_uid": myUid,
-                  "show_url_preview" : false,
+                  "show_url_preview": false,
                   "time_sent": nTPTime,
                 }
               ]),
@@ -110,14 +128,13 @@ class IndividualChatBackEnd {
                 headPhoto1: snapShot
                     .get("head_photos")
                     .last["head_photo"]); // create new room
-          }
-          else {
+          } else {
             transaction.update(data, {
               "messages": FieldValue.arrayUnion([
                 {
                   "msg_content": message,
                   "sender_uid": myUid,
-                  "show_url_preview" : false,
+                  "show_url_preview": false,
                   "time_sent": nTPTime,
                 }
               ]),
@@ -184,6 +201,19 @@ class IndividualChatBackEnd {
         }
       }
       print("Error in casual messages : ${e.toString()}");
+      Flushbar(
+          messageText: Center(
+            child: const Text(
+              "Message failed to send",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
+          backgroundColor: Color(0xff121212),
+          duration: Duration(seconds: 3),
+        )..show(context);
     }
   }
 
@@ -222,7 +252,7 @@ class IndividualChatBackEnd {
           {
             "msg_content": message,
             "sender_uid": myUid,
-            "show_url_preview" : false,
+            "show_url_preview": false,
             "time_sent": currentNTPTime,
           }
         ]),
@@ -263,7 +293,7 @@ class IndividualChatBackEnd {
           .then((photo) async {
         if (photo.isNotEmpty && !photo.contains("Cannot get image url")) {
           casualMessages(
-              path: path, message: photo); // upload the image url to db
+              path: path, message: photo,context: context); // upload the image url to db
           print("Photo url stored successfully in db");
         }
       });
@@ -283,6 +313,7 @@ class IndividualChatBackEnd {
           {
             "msg_content": photoUrl,
             "sender_uid": senderUid,
+            "show_url_preview": false,
             "time_sent": timeSent,
           }
         ])
@@ -291,6 +322,47 @@ class IndividualChatBackEnd {
       print("Photo deleted successfully");
     } catch (e) {
       print("Error in deleting photo from Db : ${e.toString()}");
+    }
+  }
+
+  static Future<void> detectTyping(String path, String myUid,
+      {bool isTyping = true}) async {
+    // rtdb
+    try {
+      String docId = path.split("/")[1]; // random auto id
+      if (isTyping) {
+        DatabaseReference db = FirebaseDatabase(databaseURL: dataBaseUrlRTDB)
+            .reference()
+            .child(docId);
+        await db.update({
+          myUid: true,
+        });
+      } else {
+        DatabaseReference db = FirebaseDatabase(databaseURL: dataBaseUrlRTDB)
+            .reference()
+            .child(docId);
+        await db.update({
+          myUid: false,
+        });
+      }
+    } catch (e) {
+      print("Error in detectTyping rtdb : ${e.toString()}");
+    }
+  }
+
+  static Future<void> storeTyping(String docId, String uid1, String uid2) async {
+    // rtdb
+    try {
+      DatabaseReference db = FirebaseDatabase(databaseURL: dataBaseUrlRTDB)
+          .reference()
+          .child(docId);
+      await db.update({
+        uid1: false,
+        uid2: false,
+      });
+      print("Stored typing info in rtdb successfully");
+    } catch (e) {
+      print("Error in storeTyping rtdb : ${e.toString()}");
     }
   }
 }

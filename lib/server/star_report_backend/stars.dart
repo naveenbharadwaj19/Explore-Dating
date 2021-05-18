@@ -4,6 +4,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/models/vibration.dart';
+import 'package:explore/screens/chats/pop_up_chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -42,7 +43,7 @@ class Stars {
       // ? check if document exist
       if (checkDocinfo.exists) {
         // ? doc id exist
-        if (checkDocinfo.get("press_limit") == 5) {
+        if (checkDocinfo.get("press_limit") == 7) {
           // check if user reached limit
           print("User reached the daily limit");
           Flushbar(
@@ -79,6 +80,7 @@ class Stars {
             scrollUserDetails[index]["star"] = true;
             scrollUserDetails[index]["lock_heart_star"] = true;
             print("star info updated in firestore");
+            popUpChatBottomSheet(index, context);
           }
         }
       } else if (!checkDocinfo.exists) {
@@ -106,6 +108,7 @@ class Stars {
           scrollUserDetails[index]["star"] = true;
           scrollUserDetails[index]["lock_heart_star"] = true;
           print("star info created in firestore");
+          popUpChatBottomSheet(index, context);
         }
       }
     } catch (error) {

@@ -5,27 +5,34 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
+import 'package:flutter_linkify/flutter_linkify.dart'
+    show LinkifyOptions, Linkify;
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 Future<Map> getUrlData(String url) async {
-  String key = "914e76fac753f34e8071ada2d85e52e5";
-  Uri uri = Uri.tryParse(url);
-  Uri linkPreviewUri =
-      Uri.tryParse("http://api.linkpreview.net/?key=$key&q=$uri");
-  var response = await http.get(linkPreviewUri);
-  if (response.statusCode == 200) {
-    Map jsonData = json.decode(response.body);
-    return jsonData;
+  try {
+    String key = "914e76fac753f34e8071ada2d85e52e5";
+    Uri uri = Uri.tryParse(url);
+    Uri linkPreviewUri =
+        Uri.tryParse("http://api.linkpreview.net/?key=$key&q=$uri");
+    var response = await http.get(linkPreviewUri);
+    if (response.statusCode == 200) {
+      Map jsonData = json.decode(response.body);
+      return jsonData;
+    }
+    return {"title": "Error 404", "image": "Error 404", "url": url};
+  } catch (e) {
+    print("Error in getUrlData : ${e.toString()}");
+    return {"title" : "Error 404","image" : "" , "url" : url};
   }
-  return {"title": "Error 404", "image": "Error 404", "url": url};
 }
 
 class PreviewUrl extends StatelessWidget {
   final Map urlData;
   PreviewUrl(this.urlData);
-  final String errorImageUrl = "https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png";
+  final String errorImageUrl =
+      "https://miro.medium.com/max/800/1*hFwwQAW45673VGKrMPE2qQ.png";
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,7 +44,9 @@ class PreviewUrl extends StatelessWidget {
             width: 200,
             margin: const EdgeInsets.only(top: 5),
             child: CachedNetworkImage(
-              imageUrl: urlData["image"].isEmpty ? errorImageUrl : urlData["image"].toString(),
+              imageUrl: urlData["image"].isEmpty
+                  ? errorImageUrl
+                  : urlData["image"].toString(),
               placeholder: (context, url) => Center(
                 child: whileHeadImageloadingSpinner(),
               ),
@@ -79,6 +88,7 @@ class PreviewUrl extends StatelessWidget {
               maxLines: 10,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
+              options: LinkifyOptions(humanize: false),
               linkStyle: const TextStyle(color: Colors.white70, fontSize: 18),
             ),
           ),

@@ -7,8 +7,9 @@ import 'package:flutter/foundation.dart';
 
 // ICS individual chat State
 class IndividualChatState extends ChangeNotifier {
-  void sendToBackEnd(Map docData, String sendType, String path,
-      {String onSubmittedText, TextEditingController messageController}) {
+
+  void sendToBackEnd({@required Map docData, @required String sendType,@required String path, @required BuildContext context,
+      String onSubmittedText, TextEditingController messageController}) {
     //  when pressed send in keyboard or send icon
     //  sendType = sendButton , sendKeyboard
     if (sendType == "sendButton") {
@@ -17,14 +18,14 @@ class IndividualChatState extends ChangeNotifier {
       String message = messageController.text.trim();
       if (docDataLen == 1 && message.isNotEmpty) {
         IndividualChatBackEnd.boomMessage(
-            message: message, path: path, uid1: docData["uid1"]);
-      } else if (message.isNotEmpty && message.contains("https") ||
-          message.contains("http")) {
+            message: message, path: path, uid1: docData["uid1"],context: context);
+      } else if (message.isNotEmpty && message.contains("https://") ||
+          message.contains("http://")) {
         // if message has url ink
         IndividualChatBackEnd.casualMessages(
-            path: path, message: message, messageHasUrl: true);
+            path: path, message: message,context: context,messageHasUrl: true);
       } else if (message.isNotEmpty) {
-        IndividualChatBackEnd.casualMessages(path: path, message: message);
+        IndividualChatBackEnd.casualMessages(path: path,message: message,context: context);
       }
     } else if (sendType == "sendKeyboard") {
       //  by keyboard
@@ -32,19 +33,17 @@ class IndividualChatState extends ChangeNotifier {
       String message = onSubmittedText.trim();
       if (docDataLen == 1 && message.isNotEmpty) {
         IndividualChatBackEnd.boomMessage(
-            message: message, path: path, uid1: docData["uid1"]);
-      } else if (message.isNotEmpty && message.contains("https") ||
-          message.contains("http")) {
+            message: message, path: path, uid1: docData["uid1"],context: context);
+      } else if (message.isNotEmpty && message.contains("https://") ||
+          message.contains("http://")) {
         // if message has url ink
         IndividualChatBackEnd.casualMessages(
-            path: path, message: message, messageHasUrl: true);
+            path: path, message: message,context: context,messageHasUrl: true);
       } else if (message.isNotEmpty) {
-        IndividualChatBackEnd.casualMessages(path: path, message: message);
+        IndividualChatBackEnd.casualMessages(path: path,message: message,context: context);
       }
     }
     messageController.clear(); // clear the message
   }
-
   
-
 }

@@ -179,6 +179,23 @@ class __MessageBoxState extends State<_MessageBox> {
                 maxLines: 2,
                 cursorColor: Colors.white,
                 cursorWidth: 3.0,
+                textInputAction: TextInputAction.send,
+                onSubmitted: (message){
+                  if (message.isNotEmpty) {
+                // print(message);
+                String name = scrollUserDetails[widget.index]["name"];
+                String uid = scrollUserDetails[widget.index]["uid"];
+                String oppositHeadPhotoUrl =
+                    scrollUserDetails[widget.index]["headphoto"];
+                String messageContent = message.trim();
+                storeChatData(
+                    oppositeName: name,
+                    oppositeUid: uid,
+                    messageContent: messageContent,
+                    oppositeHeadPhotoUrl: oppositHeadPhotoUrl);
+                Navigator.pop(context);
+              }
+                },
                 // ! Need to use input text as WORDSANS
                 style: const TextStyle(color: Colors.white, fontSize: 18),
                 keyboardType: TextInputType.text,
@@ -212,7 +229,7 @@ class __MessageBoxState extends State<_MessageBox> {
             ),
             onTap: () {
               if (sendController.text.isNotEmpty) {
-                print(sendController.text);
+                // print(sendController.text);
                 String name = scrollUserDetails[widget.index]["name"];
                 String uid = scrollUserDetails[widget.index]["uid"];
                 String oppositHeadPhotoUrl =

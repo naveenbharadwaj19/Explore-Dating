@@ -162,7 +162,7 @@ class ConnectingUsers {
       Stopwatch stopwatch = Stopwatch();
       // start timer
       stopwatch.start();
-      pageViewLogic.holdExexution.value = true;
+      pageViewLogic.holdExecution.value = true;
       await query.then((q) => q.docs.forEach((queryName) =>
           _unZipAndAddToScrollDetails(
               queryDataName: queryName,
@@ -170,7 +170,7 @@ class ConnectingUsers {
               nickName: nickName)));
       // stop timer
       stopwatch.stop();
-      pageViewLogic.holdExexution.value = false;
+      pageViewLogic.holdExecution.value = false;
       print("Time executed to load feeds : ${stopwatch.elapsed.inSeconds}");
     } catch (error) {
       print("Error in execution : ${error.toString()}");

@@ -10,11 +10,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/icons/gallery_icon_icons.dart';
 import 'package:explore/icons/report_filter_icons_icons.dart';
 import 'package:explore/models/spinner.dart';
+import 'package:explore/private/database_url_rtdb.dart';
 import 'package:explore/providers/individual_chats_state.dart';
 import 'package:explore/server/chats/individual_chat_backend.dart';
 import 'package:explore/widgets/chats/handle_photos_ind_chats.dart';
 import 'package:explore/widgets/chats/url_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -37,28 +39,6 @@ class _IndividualChatScreenState extends State<IndividualChatScreen> {
   Map docData;
   String path = "";
   ScrollController controller = ScrollController();
-  String latestTimestr = "";
-  DateTime latestTime;
-
-  void convertStrToDateTime() {
-    if (latestTimestr.isNotEmpty) {
-      latestTime = DateTime.tryParse(latestTimestr);
-    }
-  }
-
-  void getLatestDocs(AsyncSnapshot<dynamic> messageSnapShot) {
-    try {
-      latestTimestr = messageSnapShot
-          .data.docs[messageSnapShot.data.docs.length - 1]
-          .get("latest_time")
-          .toDate()
-          .toString();
-    } on RangeError {
-      print("No more docs to fetch");
-      latestTimestr = "";
-    }
-  }
-
   @override
   void dispose() {
     // ignore: todo
@@ -66,7 +46,6 @@ class _IndividualChatScreenState extends State<IndividualChatScreen> {
     super.dispose();
     docData.clear();
     path = "";
-    latestTimestr = "";
   }
 
   @override
@@ -75,7 +54,8 @@ class _IndividualChatScreenState extends State<IndividualChatScreen> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Theme.of(context).primaryColor,
-      appBar: _appBar(arugments["name"], arugments["head_photo"], context),
+      appBar: _appBar(myUid, arugments["name"], arugments["head_photo"],
+          arugments["path"], context),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(arugments["path"])
@@ -103,7 +83,6 @@ class _IndividualChatScreenState extends State<IndividualChatScreen> {
                 path: path,
                 myUid: myUid,
                 docData: docData,
-                latestTimestr: latestTimestr,
                 controller: controller,
               )),
               _Lower(docData, path, controller, scaffoldKey.currentContext),
@@ -115,8 +94,10 @@ class _IndividualChatScreenState extends State<IndividualChatScreen> {
   }
 }
 
-Widget _appBar(String name, String headPhoto, BuildContext context) {
+Widget _appBar(String myUid, String name, String headPhoto, String path,
+    BuildContext context) {
   // ? Top
+  String docId = path.split("/")[1];
   return AppBar(
     toolbarHeight: 80,
     backwardsCompatibility: false,
@@ -126,9 +107,8 @@ Widget _appBar(String name, String headPhoto, BuildContext context) {
           .light, // text brightness -> light for dark app -> vice versa
     ),
     backgroundColor: Theme.of(context).primaryColor,
-    title: Row(
+    title: Stack(
       children: [
-        // ? head photo , name
         Container(
           // ? head photo
           margin: const EdgeInsets.only(top: 5, left: 8),
@@ -145,6 +125,8 @@ Widget _appBar(String name, String headPhoto, BuildContext context) {
                   errorWidget: (context, url, error) => Center(
                     child: const Text(
                       "Error 500",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(color: Colors.white70, fontSize: 16),
                     ),
                   ),
@@ -159,7 +141,8 @@ Widget _appBar(String name, String headPhoto, BuildContext context) {
         ),
         Container(
           // ? name
-          margin: const EdgeInsets.only(left: 15),
+          margin: const EdgeInsets.only(top: 20, left: 85),
+          alignment: Alignment.topLeft,
           child: Text(
             name,
             maxLines: 1,
@@ -170,6 +153,41 @@ Widget _appBar(String name, String headPhoto, BuildContext context) {
               fontSize: 16,
             ),
           ),
+        ),
+        StreamBuilder(
+          stream: FirebaseDatabase(databaseURL: dataBaseUrlRTDB)
+              .reference()
+              .child(docId)
+              .onValue,
+          builder: (context, typingSnapShot) {
+            if (!typingSnapShot.hasData || typingSnapShot.hasError) {
+              print("Something went wrong in typing snapshot");
+              return Container();
+            }
+            bool isTyping;
+            Map data = typingSnapShot.data.snapshot.value;
+            // opposite user typing data
+            data.forEach((key, value) {
+              if (key != myUid) {
+                isTyping = value;
+              }
+            });
+            return Container(
+              // ? typing
+              margin: const EdgeInsets.only(top: 43, left: 85),
+              alignment: Alignment.topLeft,
+              child: Text(
+                isTyping ?? false ? "Typing..." : "",
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+              ),
+            );
+          },
         ),
       ],
     ),
@@ -198,16 +216,11 @@ class _Middle extends StatelessWidget {
   final Map docData;
   final String myUid;
   final ScrollController controller;
-  final String latestTimestr;
   final BuildContext contextP;
   final String path;
   _Middle(
-      {this.myUid,
-      this.path,
-      this.docData,
-      this.latestTimestr,
-      this.controller,
-      this.contextP});
+      {this.myUid, this.path, this.docData, this.controller, this.contextP});
+
   @override
   Widget build(BuildContext context) {
     Timer(
@@ -267,9 +280,9 @@ class _Lower extends StatefulWidget {
 
 class __LowerState extends State<_Lower> {
   TextEditingController messageController = TextEditingController();
+  String myUid = FirebaseAuth.instance.currentUser.uid;
   bool conversationLocked() {
     //  check if conversation is locked
-    String myUid = FirebaseAuth.instance.currentUser.uid;
     List canSend = widget.docData["can_send"];
     int index = canSend.indexWhere((e) => e["uid"] == myUid);
     bool permission = widget.docData["can_send"][index]["permission"];
@@ -327,9 +340,13 @@ class __LowerState extends State<_Lower> {
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (text) => individualChatState.sendToBackEnd(
-                      docData, "sendKeyboard", widget.path,
-                      onSubmittedText: text,
-                      messageController: messageController),
+                    docData: docData,
+                    sendType: "sendKeyboard",
+                    path: widget.path,
+                    onSubmittedText: text,
+                    messageController: messageController,
+                    context: context
+                  ),
                   onEditingComplete: () {}, // prevent keyboard from closing
                   onTap: () {
                     Timer(
@@ -337,6 +354,13 @@ class __LowerState extends State<_Lower> {
                         () => widget.controller.jumpTo(
                             widget.controller.position.maxScrollExtent));
                   }, // when textfield is tapped
+                  onChanged: (_) {
+                    IndividualChatBackEnd.detectTyping(widget.path, myUid);
+                    Timer(Duration(seconds: 2), () {
+                      IndividualChatBackEnd.detectTyping(widget.path, myUid,
+                          isTyping: false);
+                    });
+                  },
                   enabled: true,
                   minLines: 1,
                   maxLines: 3,
@@ -381,8 +405,12 @@ class __LowerState extends State<_Lower> {
                       : Theme.of(context).buttonColor,
                 ),
                 onTap: () => individualChatState.sendToBackEnd(
-                    docData, "sendButton", widget.path,
-                    messageController: messageController),
+                    docData: docData,
+                    sendType: "sendButton",
+                    path: widget.path,
+                    messageController: messageController,
+                    context: context,
+                    ),
               ),
             ),
           ),
@@ -499,7 +527,7 @@ class _TapToView extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(context, ViewPhoto.routeName,
             arguments: url); // open image
-        Timer(Duration(seconds: 10), () {
+        Timer(Duration(seconds: 11), () {
           if (myUid != senderUid) {
             IndividualChatBackEnd.deletePhotoFromDb(
                 url, senderUid, timeSent, path);

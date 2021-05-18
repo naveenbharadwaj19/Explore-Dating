@@ -8,7 +8,6 @@ import 'package:explore/icons/report_filter_icons_icons.dart';
 import 'package:explore/icons/star_rounded_icon_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/pageview_logic.dart';
-import 'package:explore/screens/chats/pop_up_chat_screen.dart';
 import 'package:explore/server/match_backend/connecting_users.dart';
 import 'package:explore/server/match_backend/geohash_custom_radius.dart';
 import 'package:explore/server/star_report_backend/hearts.dart';
@@ -103,7 +102,7 @@ class Feeds extends StatelessWidget {
           return loadFeeds();
         }
         return ValueListenableBuilder(
-            valueListenable: pageViewLogic.holdExexution,
+            valueListenable: pageViewLogic.holdExecution,
             builder: (_, value, child) {
               if (value) {
                 print("spinner 3");
@@ -370,10 +369,9 @@ class _LowerBox extends StatelessWidget {
                           size: starIconSize,
                         ),
                   onTap: () {
-                    print("Pressed star idx of : $index");
-                    // Stars.storeStarInfo(index: index, context: context);
-                    // pageViewLogic.updateLowerBoxUi();
-                    popUpChatBottomSheet(index,context); // ! remove
+                    // print("Pressed star idx of : $index");
+                    Stars.storeStarInfo(index: index, context: context);
+                    pageViewLogic.updateLowerBoxUi();
                   },
                 ),
               ),

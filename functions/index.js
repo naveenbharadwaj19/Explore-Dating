@@ -12,6 +12,8 @@ const runTimeForDUCS = { timeoutSeconds: 200, memory: "512MB" };
 const runTimeForIsdeletedField = { timeoutSeconds: 60, memory: "256MB" };
 
 const nearRegion = "asia-south1";
+
+const rtdbUrl = "https://explore-dating-default-rtdb.asia-southeast1.firebasedatabase.app/"
 // -------------------------------------------
 
 // exports.helloWorld = functions.https.onRequest((request, response) => {
@@ -132,11 +134,12 @@ exports.automaticUnMatch = functions
       if (pathToDelete.length !== 0) {
         pathToDelete.forEach(async (item, index) => {
           await admin.firestore().doc(item).delete(); // delete chats/id/chats/room1
-          var overAllDoc = item.split("/")[1];
+          var overAllDoc = item.split("/")[1]; // chats/autoid
           await admin
             .firestore()
             .doc("Chats/" + overAllDoc)
             .delete(); // delete chats/id
+          await admin.database().refFromURL(rtdbUrl).child(overAllDoc).remove(); // remove from rtdb
         });
         console.log("Sucessfully deleted user " + uid + " chats");
         return "Sucessfully deleted user " + uid + " chats";

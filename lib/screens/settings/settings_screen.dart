@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/server/handle_deletes_logout.dart';
-import 'package:explore/widgets/chats/url_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +10,7 @@ import 'package:flutter/material.dart';
 class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-          child: Center(
+    return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -65,12 +63,10 @@ class SettingsScreen extends StatelessWidget {
               iconSize: 50,
               onPressed: () {
                 // BulkOperations.deleteNotificationFieldBulk();
-                getUrlData("https").then((value) => print(value));
               },
             ),
           ],
         ),
-      ),
     );
   }
 }

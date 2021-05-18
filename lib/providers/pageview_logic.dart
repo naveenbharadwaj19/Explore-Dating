@@ -8,7 +8,7 @@ class PageViewLogic with ChangeNotifier {
   int pageStorageKeyNo = 1;
   bool holdFuture = true; // true -> hold future for 2 seconds
   bool screenMotion = false; // setting to true will rebuild
-  ValueNotifier<bool> holdExexution =
+  ValueNotifier<bool> holdExecution =
       ValueNotifier(true); // hold until feeds are fetched
   bool callConnectingUsers = true; // call connecting users from backend
   bool lowerboxUi = false;

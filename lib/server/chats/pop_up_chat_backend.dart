@@ -3,6 +3,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/all_secure_storage.dart';
+import 'package:explore/server/chats/individual_chat_backend.dart';
 import 'package:explore/server/cloud_storage/download_photos_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,12 +21,13 @@ void storeChatData(
   try {
     String myUid = FirebaseAuth.instance.currentUser.uid; // uid1
     FirebaseFirestore.instance.collection("Chats").add(
-        {"latest_time": FieldValue.serverTimestamp()}).then((docRef) async {
+        {}).then((docRef) async {
       // ! remove server time stamp in add
       String getGeneratedDocId = docRef.id;
+      IndividualChatBackEnd.storeTyping(getGeneratedDocId, myUid, oppositeUid); // store typing info
       DateTime currentNTPTime = await NTP.now(); // NTP timestamp
       DateTime expireTime = currentNTPTime
-          .add(Duration(hours: 2)); // 12hrs ahead // ! change to 12hrs
+          .add(Duration(hours: 12)); // 12hrs ahead
       DownloadCloudStoragePhotos.headPhotoDownload(myUid).then((headPhoto) {
         // head photo
         readValue("name").then((name) async {
