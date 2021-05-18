@@ -224,7 +224,7 @@ class _Middle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Timer(
-      Duration(milliseconds: 100),
+      Duration(milliseconds: 110),
       () => controller.jumpTo(controller.position.maxScrollExtent),
     );
     return ListView.builder(

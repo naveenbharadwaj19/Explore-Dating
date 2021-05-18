@@ -15,13 +15,13 @@ Future<Map> getUrlData(String url) async {
     String key = "914e76fac753f34e8071ada2d85e52e5";
     Uri uri = Uri.tryParse(url);
     Uri linkPreviewUri =
-        Uri.tryParse("http://api.linkpreview.net/?key=$key&q=$uri");
+        Uri.tryParse("https://api.linkpreview.net/?key=$key&q=$uri");
     var response = await http.get(linkPreviewUri);
     if (response.statusCode == 200) {
       Map jsonData = json.decode(response.body);
       return jsonData;
     }
-    return {"title": "Error 404", "image": "Error 404", "url": url};
+    return {"title": "Error 404", "image": "", "url": url};
   } catch (e) {
     print("Error in getUrlData : ${e.toString()}");
     return {"title" : "Error 404","image" : "" , "url" : url};
