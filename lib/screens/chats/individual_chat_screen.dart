@@ -2,6 +2,7 @@
 // todo individual chat screen
 
 import 'dart:async';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bubble/bubble.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,6 +11,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/icons/gallery_icon_icons.dart';
 import 'package:explore/icons/report_filter_icons_icons.dart';
 import 'package:explore/models/spinner.dart';
+import 'package:explore/models/vibration.dart';
 import 'package:explore/private/database_url_rtdb.dart';
 import 'package:explore/providers/individual_chats_state.dart';
 import 'package:explore/server/chats/individual_chat_backend.dart';
@@ -225,7 +227,13 @@ class _Middle extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(
       Duration(milliseconds: 110),
-      () => controller.jumpTo(controller.position.maxScrollExtent),
+      () {
+        controller.jumpTo(controller.position.maxScrollExtent);
+        Timer(
+          Duration(milliseconds: 100),
+          () => controller.jumpTo(controller.position.maxScrollExtent),
+        );
+      },
     );
     return ListView.builder(
       itemCount: docData["messages"].length,
@@ -252,14 +260,43 @@ class _Middle extends StatelessWidget {
                 : docData["messages"][index]["msg_content"]
                         .contains("https://firebasestorage.googleapis.com")
                     ? _TapToView(docData["messages"][index], path)
-                    : AutoSizeText(
-                        docData["messages"][index]["msg_content"].toString(),
-                        minFontSize: 18,
-                        maxFontSize: 18,
-                        maxLines: 15,
-                        textAlign: TextAlign.justify,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: Colors.white),
+                    : GestureDetector(
+                        child: AutoSizeText(
+                          docData["messages"][index]["msg_content"].toString(),
+                          minFontSize: 18,
+                          maxFontSize: 18,
+                          maxLines: 15,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        onLongPress: () {
+                          Clipboard.setData(ClipboardData(
+                                  text: docData["messages"][index]
+                                          ["msg_content"]
+                                      .toString()))
+                              .then(
+                            (_) {
+                              Flushbar(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                duration: Duration(seconds: 2),
+                                messageText: Center(
+                                  child: const Text(
+                                    "Message copied",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              )..show(context);
+                              vibrate(2); // when message is copied
+                              print("Copied to clipboard");
+                            },
+                          );
+                        },
                       ),
           ),
         );
@@ -340,13 +377,12 @@ class __LowerState extends State<_Lower> {
                   textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (text) => individualChatState.sendToBackEnd(
-                    docData: docData,
-                    sendType: "sendKeyboard",
-                    path: widget.path,
-                    onSubmittedText: text,
-                    messageController: messageController,
-                    context: context
-                  ),
+                      docData: docData,
+                      sendType: "sendKeyboard",
+                      path: widget.path,
+                      onSubmittedText: text,
+                      messageController: messageController,
+                      context: context),
                   onEditingComplete: () {}, // prevent keyboard from closing
                   onTap: () {
                     Timer(
@@ -405,12 +441,12 @@ class __LowerState extends State<_Lower> {
                       : Theme.of(context).buttonColor,
                 ),
                 onTap: () => individualChatState.sendToBackEnd(
-                    docData: docData,
-                    sendType: "sendButton",
-                    path: widget.path,
-                    messageController: messageController,
-                    context: context,
-                    ),
+                  docData: docData,
+                  sendType: "sendButton",
+                  path: widget.path,
+                  messageController: messageController,
+                  context: context,
+                ),
               ),
             ),
           ),

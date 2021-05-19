@@ -20,14 +20,16 @@ void storeChatData(
   // * uid 2 -> person who should respond within 12 hrs
   try {
     String myUid = FirebaseAuth.instance.currentUser.uid; // uid1
-    FirebaseFirestore.instance.collection("Chats").add(
-        {}).then((docRef) async {
+    FirebaseFirestore.instance.collection("Chats").add({
+      "uids": FieldValue.arrayUnion([myUid, oppositeUid]),
+    }).then((docRef) async {
       // ! remove server time stamp in add
       String getGeneratedDocId = docRef.id;
-      IndividualChatBackEnd.storeTyping(getGeneratedDocId, myUid, oppositeUid); // store typing info
+      IndividualChatBackEnd.storeTyping(
+          getGeneratedDocId, myUid, oppositeUid); // store typing info
       DateTime currentNTPTime = await NTP.now(); // NTP timestamp
-      DateTime expireTime = currentNTPTime
-          .add(Duration(hours: 12)); // 12hrs ahead
+      DateTime expireTime =
+          currentNTPTime.add(Duration(hours: 12)); // 12hrs ahead
       DownloadCloudStoragePhotos.headPhotoDownload(myUid).then((headPhoto) {
         // head photo
         readValue("name").then((name) async {
@@ -42,7 +44,7 @@ void storeChatData(
               "uids": FieldValue.arrayUnion([myUid, oppositeUid]),
               "expire_time": expireTime,
               "latest_time": FieldValue.serverTimestamp(),
-              "show_this" : true,
+              "show_this": true,
               "can_send": FieldValue.arrayUnion([
                 {"uid": myUid, "permission": false},
                 {"uid": oppositeUid, "permission": true}
@@ -51,7 +53,7 @@ void storeChatData(
                 {
                   "msg_content": messageContent,
                   "sender_uid": myUid,
-                  "show_url_preview" : false,
+                  "show_url_preview": false,
                   "time_sent": currentNTPTime,
                 }
               ]),
