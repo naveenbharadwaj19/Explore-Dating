@@ -42,7 +42,7 @@ Future<void> callnotifyUsersFCMFunction({String token}) async {
 }
 
 Future<void> automaticUnMatch(List<String> deletePath) async {
-  // ? push notification when pressed heart
+  // ? automatic unmatch after 12 hrs
   try {
     FirebaseFunctions function = FirebaseFunctions.instance;
     var callFunction = function.httpsCallable("automaticUnMatch");
@@ -50,7 +50,34 @@ Future<void> automaticUnMatch(List<String> deletePath) async {
       "deletePath" : deletePath
     }).then((value) => print(value.data));
   } catch (error) {
-    print("Error in https callable -> notifyUsersFCM : ${error.toString()}");
+    print("Error in https callable -> automaticUnMatch : ${error.toString()}");
   }
 }
 
+
+Future<void> unmatchIndividualChats(String path) async {
+  // ? delete all personal convo when user pressed unmatch
+  try {
+    FirebaseFunctions function = FirebaseFunctions.instance;
+    var callFunction = function.httpsCallable("unmatchIndividualChats");
+    callFunction({
+      "path" : path
+    }).then((value) => print(value.data));
+  } catch (error) {
+    print("Error in https callable -> unmatchIndividualChats : ${error.toString()}");
+  }
+}
+
+
+Future<void> replicateHeadPhoto(String headPhotoUrl) async {
+  // ? replicate head photo
+  try {
+    FirebaseFunctions function = FirebaseFunctions.instance;
+    var callFunction = function.httpsCallable("replicateHeadPhoto");
+    callFunction({
+      "headPhotoUrl" : headPhotoUrl
+    }).then((value) => print(value.data));
+  } catch (error) {
+    print("Error in https callable -> replicateHeadPhoto : ${error.toString()}");
+  }
+}

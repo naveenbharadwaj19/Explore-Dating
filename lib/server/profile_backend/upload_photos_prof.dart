@@ -6,6 +6,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/server/cloud_storage/download_photos_storage.dart';
+import 'package:explore/server/https_cloud_functions.dart';
 import 'package:explore/server/profile_backend/abt_me_backend.dart';
 import 'package:explore/server/profile_backend/prof_photos_backend.dart';
 import 'package:explore/server/cloud_storage/upload_photos_cloud_storage.dart';
@@ -92,6 +93,7 @@ class HandlePhotosForProfile {
                 encodeBlurHashImg(fetchedHeadPhoto).then((headPhotoHash) {
                   ProfileAboutMeBackEnd.uploadHeadPhoto(
                       headPhotoHash, fetchedHeadPhoto);
+                  replicateHeadPhoto(fetchedHeadPhoto); // * R - number docs retrieved , W - no of docs retrieved (max 100)
                   // show upload successful message to the user
                   Flushbar(
                     messageText: Center(
@@ -201,6 +203,7 @@ class HandlePhotosForProfile {
                 encodeBlurHashImg(fetchedHeadPhoto).then((headPhotoHash) {
                   ProfileAboutMeBackEnd.uploadHeadPhoto(
                       headPhotoHash, fetchedHeadPhoto);
+                  replicateHeadPhoto(fetchedHeadPhoto); // * R - number docs retrieved , W - no of docs retrieved (max 100)
                   // show upload successful message to the user
                   Flushbar(
                     messageText: Center(

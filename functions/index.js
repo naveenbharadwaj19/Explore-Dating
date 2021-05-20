@@ -1,19 +1,20 @@
-// * region - asia-south1 - Mumbai
+//  region - asia-south1 - Mumbai
 
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const { Storage } = require("@google-cloud/storage");
 admin.initializeApp();
 
-// * assign memory timeout , region here:
-// * DUCS -> deleteUserCloudStorage
+//  assign memory timeout , region here:
+//  DUCS -> deleteUserCloudStorage
 const runTimeForDUCS = { timeoutSeconds: 200, memory: "512MB" };
-// * run time for isdeleted field in firestore
+//  run time for isdeleted field in firestore
 const runTimeForIsdeletedField = { timeoutSeconds: 60, memory: "256MB" };
 
 const nearRegion = "asia-south1";
 
-const rtdbUrl = "https://explore-dating-default-rtdb.asia-southeast1.firebasedatabase.app/"
+const rtdbUrl =
+  "https://explore-dating-default-rtdb.asia-southeast1.firebasedatabase.app/";
 // -------------------------------------------
 
 // exports.helloWorld = functions.https.onRequest((request, response) => {
@@ -123,14 +124,14 @@ exports.notifyUsersFCM = functions.https.onCall(async (data, context) => {
   }
 });
 
-// * automatic unmatch
+//  automatic unmatch
 exports.automaticUnMatch = functions
   .runWith({ memory: "256MB", timeoutSeconds: 180 })
   .https.onCall(async (data, context) => {
     try {
       const uid = context.auth.uid;
       var pathToDelete = data.deletePath;
-      // * loop the list
+      //  loop the list
       if (pathToDelete.length !== 0) {
         pathToDelete.forEach(async (item, index) => {
           await admin.firestore().doc(item).delete(); // delete chats/id/chats/room1
@@ -148,5 +149,80 @@ exports.automaticUnMatch = functions
     } catch (error) {
       console.log("Error in automatic unmatch : " + error.toString());
       return "Cannot unmatch";
+    }
+  });
+
+// unmatch individual chats
+exports.unmatchIndividualChats = functions
+  .runWith({ memory: "256MB", timeoutSeconds: 180 })
+  .https.onCall(async (data, context) => {
+    try {
+      const uid = context.auth.uid;
+      var pathToDelete = data.path; // path to delete
+      var docId = pathToDelete.split("/")[1];
+      // get all room docs from the path
+      var getAllRooms = await admin.firestore().collection(pathToDelete).get();
+      getAllRooms.docs.forEach(async (item) => {
+        var deleteRoom = item.ref.path;
+        await admin.firestore().doc(deleteRoom).delete(); // delete rooms
+      });
+      await admin
+        .firestore()
+        .doc("Chats/" + docId)
+        .delete(); // delete the parent doc chats/auto-id
+      admin.database().refFromURL(rtdbUrl).child(docId).remove(); // delete doc if from rtdb
+      console.log("Successfully deleted personal chat of the user : " + uid);
+      return "Successfully deleted personal chat of the user : " + uid;
+    } catch (error) {
+      console.log("Error in unmatch individual chats : " + error.toString());
+      return "Cannot unmatch";
+    }
+  });
+
+  
+// upload head photo to starred users
+// replicate head photo
+exports.replicateHeadPhoto = functions
+  .runWith({ memory: "256MB", timeoutSeconds: 240 })
+  .https.onCall(async (data, context) => {
+    try {
+      const uid = context.auth.uid;
+      var headPhotoUrl = data.headPhotoUrl; // url of head photo
+      var query = await admin
+        .firestore()
+        .collectionGroup("Chats")
+        .where("uids", "array-contains", uid)
+        .where("show_this", "==", true)
+        .orderBy("latest_time", "desc")
+        .limit(100) // 100 max docs
+        .get();
+      var datas = [];
+      query.docs.forEach((item) => {
+        var path = item.ref.path; // path
+        var headPhotoList = item.get("head_photos"); // head photo list
+        var myheadPhotoData = headPhotoList.find((e) => e["uid"] === uid);
+        var oppositeHeadPhotoData = headPhotoList.find((e) => e["uid"] !== uid);
+        myheadPhotoData["head_photo"] = headPhotoUrl;
+        var mapData = {
+          path: path,
+          head_photos: [myheadPhotoData, oppositeHeadPhotoData],
+        };
+        datas.push(mapData); // append to list
+      });
+      if (datas.length > 0) {
+        // process batch is datas in not empty
+        let writeBatch = admin.firestore().batch();
+        datas.forEach(async (item) => {
+          // update the photo data to all the user chats
+          let doucmentRef = admin.firestore().doc(item["path"]); // chats/id/chats/rooms..
+          writeBatch.update(doucmentRef, { head_photos: item["head_photos"] }); // update the document
+        });
+        await writeBatch.commit(); // commit the batch
+        return `Head photo replicated in ${datas.length} chat docs of the user ${uid}`;
+      }
+      return `No head photo is replicated.No chat docs found of the user ${uid}`;
+    } catch (error) {
+      console.log("Error in replicate head photo: " + error.toString());
+      return "Cannot replicate head photo";
     }
   });

@@ -16,6 +16,7 @@ import 'package:explore/private/database_url_rtdb.dart';
 import 'package:explore/providers/individual_chats_state.dart';
 import 'package:explore/server/chats/individual_chat_backend.dart';
 import 'package:explore/widgets/chats/handle_photos_ind_chats.dart';
+import 'package:explore/widgets/chats/report_chats_widget.dart';
 import 'package:explore/widgets/chats/url_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -41,6 +42,7 @@ class _IndividualChatScreenState extends State<IndividualChatScreen> {
   Map docData;
   String path = "";
   ScrollController controller = ScrollController();
+
   @override
   void dispose() {
     // ignore: todo
@@ -203,11 +205,7 @@ Widget _appBar(String myUid, String name, String headPhoto, String path,
             size: 45,
             color: Colors.white70,
           ),
-          onTap: () {
-            print("report pop up");
-            // todo
-            // todo add report functions ...
-          },
+          onTap: () => reportChatPopUpsheet(path, context),
         ),
       ),
     ],

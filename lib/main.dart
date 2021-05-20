@@ -1,4 +1,5 @@
 // @dart=2.9
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/providers/individual_chats_state.dart';
@@ -28,6 +29,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   // FirebaseFirestore.instance.settings = Settings(host: "10.0.2.2:8080",sslEnabled: false);
+
   // runApp(MyApp());
   runApp(
     MultiProvider(
