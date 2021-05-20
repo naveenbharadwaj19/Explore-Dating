@@ -12,8 +12,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ConnectingUsers {
-  static int firstLimit = 10;
-  static int paginateLimit = 4;
+  static int firstLimit = 11;
+  static int paginateLimit = 5;
   static int latestAge;
   static String latestUid;
   static void resetLatestDocs() {
@@ -182,29 +182,31 @@ class ConnectingUsers {
       @required String nickName}) async {
     // unzip data and add to scroll
     try {
-      print(
-          "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")}");
-      // serialize data
-      Map<String, dynamic> serializeDetails = {
-        "uid": queryDataName.get("uid"),
-        "gender": queryDataName.get("gender"),
-        "show_me": queryDataName.get("show_me"),
-        "age": queryDataName.get("age"),
-        "name": queryDataName.get("name"),
-        "headphoto": queryDataName.get("photos.current_head_photo"),
-        "bodyphoto": queryDataName.get("photos.current_body_photo"),
-        "city_state":
-            "${queryDataName.get("city")},${queryDataName.get("state")}",
-        "star": false,
-        "hp_hash": queryDataName
-            .get("photos.current_head_photo_hash"), //headphoto hash
-        "bp_hash": queryDataName
-            .get("photos.current_body_photo_hash"), //bodyphoto hash
-      };
-      // add map to list
-      scrollUserDetails.add(serializeDetails);
-      // print("Scroll len : ${scrollUserDetails.length}");
-
+      if (queryDataName.get("uid") != ssValueUid) {
+        // execlude own profile
+        print(
+            "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")}");
+        // serialize data
+        Map<String, dynamic> serializeDetails = {
+          "uid": queryDataName.get("uid"),
+          "gender": queryDataName.get("gender"),
+          "show_me": queryDataName.get("show_me"),
+          "age": queryDataName.get("age"),
+          "name": queryDataName.get("name"),
+          "headphoto": queryDataName.get("photos.current_head_photo"),
+          "bodyphoto": queryDataName.get("photos.current_body_photo"),
+          "city_state":
+              "${queryDataName.get("city")},${queryDataName.get("state")}",
+          "star": false,
+          "hp_hash": queryDataName
+              .get("photos.current_head_photo_hash"), //headphoto hash
+          "bp_hash": queryDataName
+              .get("photos.current_body_photo_hash"), //bodyphoto hash
+        };
+        // add map to list
+        scrollUserDetails.add(serializeDetails);
+        // print("Scroll len : ${scrollUserDetails.length}");
+      }
     } catch (error) {
       print("Error in unzipping data -> whole country ${error.toString()}");
     }

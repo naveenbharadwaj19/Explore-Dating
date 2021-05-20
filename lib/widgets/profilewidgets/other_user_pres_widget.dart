@@ -291,7 +291,7 @@ Widget oUPSFrom(dynamic aboutMeData, BuildContext context) {
                       minFontSize: 18,
                       maxFontSize: 18,
                       maxLines: 3,
-                      overflow: TextOverflow.fade,
+                      overflow: TextOverflow.ellipsis,
                       style: const TextStyle(color: Colors.white),
                     ),
                   ),

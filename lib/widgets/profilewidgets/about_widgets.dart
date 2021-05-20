@@ -308,9 +308,9 @@ Widget _education(Color yellow, BuildContext context, Color iconColor,
                 educationPopUpBottomSheet(context, yellow);
               },
               child: Container(
-                height: fetchedProfileData["education"].length >= 16
-                    ? 65
-                    : 50, // normal height 50 if length of text is < 16 height = 65
+                height: fetchedProfileData["education"].length >= 18
+                    ? null
+                    : 50, // normal height 50 if length of text is < 16 height = null
                 width: width / 2,
                 margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.topLeft,
@@ -325,6 +325,7 @@ Widget _education(Color yellow, BuildContext context, Color iconColor,
                   alignment: Alignment.center,
                   child: Text(
                     "${fetchedProfileData["education"]}",
+                    maxLines: 4,
                     overflow: TextOverflow.fade,
                     style: const TextStyle(color: Colors.white, fontSize: 18),
                   ),
@@ -368,9 +369,9 @@ Widget _workTitle(Color yellow, BuildContext context, Color iconColor,
                 workTitlePopupBottomSheet(context, yellow);
               },
               child: Container(
-                height: fetchedProfileData["work"].length >= 16
-                    ? 65
-                    : 50, // normal height 50 if length of text is < 16 height = 65
+                height: fetchedProfileData["work"].length >= 18
+                    ? null
+                    : 50, // normal height 50 if length of text is < 16 height = null
                 width: width / 2,
                 margin: const EdgeInsets.only(left: 10),
                 alignment: Alignment.topLeft,
@@ -385,6 +386,7 @@ Widget _workTitle(Color yellow, BuildContext context, Color iconColor,
                   alignment: Alignment.center,
                   child: Text(
                     "${fetchedProfileData["work"]}",
+                    maxLines: 4,
                     overflow: TextOverflow.fade,
                     style: const TextStyle(color: Colors.white, fontSize: 18),
                   ),

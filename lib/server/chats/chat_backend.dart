@@ -32,7 +32,7 @@ class ChatBackEnd {
           .where("uids", arrayContains: myUid)
           .where("show_this", isEqualTo: true)
           .orderBy("latest_time", descending: true)
-          .limit(7)
+          .limit(10)
           .startAfter([latestTimeStr.isEmpty ? "" : latestTime]).get();
       // unzip
       query.docs.forEach((data) {
