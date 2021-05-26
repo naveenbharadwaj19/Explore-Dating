@@ -56,6 +56,7 @@ class ChatBackEnd {
             "automatic_unmatch": data.get("automatic_unmatch"),
             "last_message": data.get("messages").last["msg_content"],
             "sender_uid": data.get("messages").last["sender_uid"],
+            "opposite_uid" : data.get("names")[nameIdx]["uid"],
             "head_photo": data.get("head_photos")[headPhotoIdx]["head_photo"],
             "show_url_preview" : data.get("messages").last["show_url_preview"],
             "path": data.reference.parent.path,

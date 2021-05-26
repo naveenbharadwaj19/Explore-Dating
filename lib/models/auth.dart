@@ -119,10 +119,10 @@ class AuthenticationFirebase {
       TraceAuth.startTraceAuthLogin();
       userResult = await auth.signInWithEmailAndPassword(
           email: emailAddress.text, password: password.text);
-      DocumentReference updateIsLoggedin = FirebaseFirestore.instance.doc("Userstatus/${userResult.user.uid}");
+      DocumentReference updateIsLoggedin = FirebaseFirestore.instance.doc("Users/${userResult.user.uid}");
       //  writeValue("current_uid", userResult.user.uid);
       await updateIsLoggedin.update({
-        "isloggedin" : true
+        "is_loggedin" : true
       });
       TraceAuth.stopTraceAuthLogin();
       loadingOff();
@@ -305,9 +305,9 @@ class GoogleAuthenticationClass {
 
       }
       // writeValue("current_uid", user.user.uid);
-      DocumentReference updateLogin = FirebaseFirestore.instance.doc("Userstatus/${user.user.uid}");
+      DocumentReference updateLogin = FirebaseFirestore.instance.doc("Users/${user.user.uid}");
       await updateLogin.update({
-        "isloggedin" : true
+        "is_loggedin" : true
       });
       // stop trace auth
       TraceAuth.stopTraceAuthLogin();

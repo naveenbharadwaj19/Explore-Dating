@@ -8,9 +8,11 @@ import 'package:explore/icons/report_filter_icons_icons.dart';
 import 'package:explore/icons/star_rounded_icon_icons.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/pageview_logic.dart';
+import 'package:explore/screens/report/report_screen.dart';
 import 'package:explore/server/match_backend/connecting_users.dart';
 import 'package:explore/server/match_backend/geohash_custom_radius.dart';
 import 'package:explore/server/star_report_backend/stars.dart';
+import 'package:explore/widgets/report/report_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -358,11 +360,22 @@ class _LowerBox extends StatelessWidget {
               child: GestureDetector(
                 child: Icon(
                   ReportFilterIcons.report_100_px_new,
-                  color: Colors.white54,
+                  color: scrollUserDetails[index]["reported"] || scrollUserDetails[index]["lock_report"]
+                      ? Colors.red[700]
+                      : Colors.white54,
                   size: reportIconSize,
                 ),
                 onTap: () {
                   print("Pressed report $index");
+                  if(scrollUserDetails[index]["lock_report"]){
+                    cannotReportHereFlushBar(context);
+                  }
+                  else{
+                    reportBottomSheet(scrollUserDetails[index]["name"],
+                      scrollUserDetails[index]["uid"], context,
+                      index: index);
+                  }
+                  
                 },
               ),
             ),

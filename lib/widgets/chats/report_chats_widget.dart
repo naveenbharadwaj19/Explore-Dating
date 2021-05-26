@@ -2,22 +2,24 @@
 // todo when user press report button
 
 import 'dart:async';
-
+import 'package:explore/screens/report/report_screen.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-Future reportChatPopUpsheet(String path,BuildContext context) {
+Future reportChatPopUpsheet(String path,String name,String oppositeUid,BuildContext context) {
   return showBarModalBottomSheet(
       context: context,
       backgroundColor: Theme.of(context).primaryColor,
-      builder: (context) => _ReportChatPopUp(path,context));
+      builder: (context) => _ReportChatPopUp(path,name,oppositeUid,context));
 }
 
 class _ReportChatPopUp extends StatelessWidget {
   final String path;
+  final String name;
+  final String oppositeUid;
   final BuildContext contextP;
-  _ReportChatPopUp(this.path,this.contextP);
+  _ReportChatPopUp(this.path,this.name,this.oppositeUid,this.contextP);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,6 +73,8 @@ class _ReportChatPopUp extends StatelessWidget {
                 splashColor: Theme.of(context).buttonColor,
                 onPressed: () {
                   print("Pressed report & block");
+                  Navigator.pop(context);
+                  reportBottomSheet(name, oppositeUid, context,reportType: "chats");
                 },
               ),
             ),

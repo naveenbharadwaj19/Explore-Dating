@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/server/handle_deletes_logout.dart';
+import 'package:explore/server/star_report_backend/report.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -63,6 +64,7 @@ class SettingsScreen extends StatelessWidget {
               iconSize: 50,
               onPressed: () {
                 // BulkOperations.deleteNotificationFieldBulk();
+                Report.fakeProfile("jS7yZB5b3xOaokwSEXLI4wj46oZ2");
               },
             ),
           ],

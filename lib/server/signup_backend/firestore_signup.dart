@@ -43,10 +43,7 @@ class OnlyDuringSignupFirestore {
     // loadingOn();
     try {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid"); //Users
-      DocumentReference data2 =
-          FirebaseFirestore.instance.doc("Userstatus/$uid"); //Userstatus
-      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data"); // Filters
-      DocumentReference data4 = FirebaseFirestore.instance.doc("Notifications/$uid"); // Notifications
+      DocumentReference data2 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data"); // Filters
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -65,25 +62,17 @@ class OnlyDuringSignupFirestore {
           "gender": "",
         },
         "show_me": "",
+         "is_loggedin" : true,
+        "is_disabled" : false,
+        "is_delete" : false,
       });
       await data2.set({
-        "isloggedin": true,
-        "isdisabled": false,
-        "isdeleted": false,
-      });
-
-      await data3.set({
         "show_me" : "Everyone",
         "radius" : 180,
         "from_age" : 18,
         "to_age" : _findAge() // user current age
       });
 
-      await data4.set({
-        "received_hearts_info": FieldValue.arrayUnion([]),
-        "received_hearts_uid" : FieldValue.arrayUnion([]),
-        "uid" : uid,
-      });
       // Todo in future change this document field while other other screen:
       // {
       //       "m_f": "",
@@ -398,10 +387,7 @@ class GooglePath {
     // loadingOn();
     try {
       DocumentReference data = FirebaseFirestore.instance.doc("Users/$uid"); // Users
-      DocumentReference data2 =
-          FirebaseFirestore.instance.doc("Userstatus/$uid"); // Userstatus
-      DocumentReference data3 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data"); // Filters
-      DocumentReference data4 = FirebaseFirestore.instance.doc("Notifications/$uid"); // Notifications
+      DocumentReference data2 = FirebaseFirestore.instance.doc("Users/$uid/Filters/data"); // Filters
       await data.set({
         "access_check": {
           "top_notch_photo": false,
@@ -420,24 +406,15 @@ class GooglePath {
           "gender": "",
         },
         "show_me": "",
+        "is_loggedin" : true,
+        "is_disabled" : false,
+        "is_delete" : false,
       });
       await data2.set({
-        "isloggedin": true,
-        "isdisabled": false,
-        "isdeleted": false,
-      });
-
-      await data3.set({
         "show_me" : "Everyone",
         "radius" : 180,
         "from_age" : 18,
         "to_age" : 25 // default age when signing with google auth
-      });
-
-      await data4.set({
-        "received_hearts_info": FieldValue.arrayUnion([]),
-        "received_hearts_uid" : FieldValue.arrayUnion([]),
-        "uid" : uid,
       });
       // Todo in future change this document field while other other screen:
       // {

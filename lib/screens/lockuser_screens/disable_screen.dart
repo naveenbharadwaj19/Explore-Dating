@@ -5,8 +5,7 @@ import 'package:explore/server/handle_deletes_logout.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:flutter/material.dart';
 
-class UserAccountDisabled extends StatelessWidget {
-  // * when user account disabled
+class AccountDisabledScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -71,8 +70,8 @@ class UserAccountDisabled extends StatelessWidget {
                       fontSize: 16),
                 ),
                 onPressed: () {
-                  callUserDisableFunction();
                   logoutUser(context);
+                  callUserDisableFunction();
                 },
               ),
             ),

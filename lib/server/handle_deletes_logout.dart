@@ -84,8 +84,8 @@ Future<void> logoutUser(BuildContext context) async {
   final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
   // * logout current user
   DocumentReference logout = FirebaseFirestore.instance
-      .doc("Userstatus/${FirebaseAuth.instance.currentUser.uid}");
-  await logout.update({"isloggedin": false});
+      .doc("Users/${FirebaseAuth.instance.currentUser.uid}");
+  await logout.update({"is_loggedin": false});
   // * when user clicks logout button should navigate to welcome screen
   manageSigninLogin = false;
   pageViewLogic.callConnectingUsers = true; // reset connecting users

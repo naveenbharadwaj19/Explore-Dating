@@ -21,7 +21,7 @@ void storeChatData(
   try {
     String myUid = FirebaseAuth.instance.currentUser.uid; // uid1
     FirebaseFirestore.instance.collection("Chats").add({
-      "uids": FieldValue.arrayUnion([myUid, oppositeUid]),
+      "convo_uids": FieldValue.arrayUnion([myUid, oppositeUid]),
     }).then((docRef) async {
       // ! remove server time stamp in add
       String getGeneratedDocId = docRef.id;

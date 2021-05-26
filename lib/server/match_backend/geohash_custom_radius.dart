@@ -210,6 +210,8 @@ class CustomRadiusGeoHash {
           "city_state":
               "${queryDataName.get("city")},${queryDataName.get("state")}",
           "star": false,
+          "reported" : false,
+          "lock_report" : false,
           "hp_hash": queryDataName
               .get("photos.current_head_photo_hash"), //headphoto hash
           "bp_hash": queryDataName

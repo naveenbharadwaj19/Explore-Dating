@@ -75,8 +75,9 @@ class Stars {
               "press_limit": FieldValue.increment(1),
               "latest_time": FieldValue.serverTimestamp(),
             });
-            // update star value and lock
+            // update star value and lock report
             scrollUserDetails[index]["star"] = true;
+            scrollUserDetails[index]["lock_report"] = true;
             print("star info updated in firestore");
             popUpChatBottomSheet(index, context);
           }
@@ -101,8 +102,9 @@ class Stars {
             "press_limit": 1,
             "latest_time": FieldValue.serverTimestamp(),
           });
-          // update star value and lock
+          // update star value and lock report
           scrollUserDetails[index]["star"] = true;
+          scrollUserDetails[index]["lock_report"] = true;
           print("star info created in firestore");
           popUpChatBottomSheet(index, context);
         }

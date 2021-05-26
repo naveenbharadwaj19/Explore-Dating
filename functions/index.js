@@ -3,76 +3,24 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const { Storage } = require("@google-cloud/storage");
-admin.initializeApp();
-
-//  assign memory timeout , region here:
-//  DUCS -> deleteUserCloudStorage
-const runTimeForDUCS = { timeoutSeconds: 200, memory: "512MB" };
-//  run time for isdeleted field in firestore
-const runTimeForIsdeletedField = { timeoutSeconds: 60, memory: "256MB" };
+const topAdmin = require("./admin/admin");
+const deleteF = require("./delete")
+const reportF = require("./report")
 
 const nearRegion = "asia-south1";
+admin.initializeApp();
 
 const rtdbUrl =
   "https://explore-dating-default-rtdb.asia-southeast1.firebasedatabase.app/";
-// -------------------------------------------
 
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", { structuredData: true });
-//   response.send("Hello from Firebase!");
-// });
+// ? ----------------------------------------------------------------------------------------------------------
 
-// * delete user cloud storage
-exports.deleteUserCloudStorage = functions
-  .region(nearRegion)
-  .runWith(runTimeForDUCS)
-  .auth.user()
-  .onDelete(async (user) => {
-    try {
-      var userId = user.uid;
-      console.log("User id : " + userId);
-      // * declare bucket name
-      // ! check for project id while adding domain name :
-      const storage = new Storage({ projectId: "explore-dating" });
-      const bucket = storage.bucket("gs://explore-dating.appspot.com");
-      await bucket.deleteFiles({
-        force: true,
-        prefix: "Userphotos/" + userId,
-      });
-      console.log("Photos deleted successfully");
-    } catch (error) {
-      console.log("Error in processing : " + error.toString());
-    }
-  });
+exports.deleteUserCloudStorage = deleteF.deleteUserCloudStorage
+exports.deleteUserMatchMaking = deleteF.deleteUserMatchMaking
+exports.deleteUserAccount = deleteF.deleteUserAccount
+exports.deleteChatsTyping = deleteF.deleteChatsTyping
 
-// * deletes user match making details
-exports.deleteUserMatchMaking = functions
-  .region(nearRegion)
-  .runWith({ timeoutSeconds: 60, memory: "128MB" })
-  .firestore.document("Users/{userId}")
-  .onDelete(async (snap, context) => {
-    try {
-      var userId = snap.get("bio.user_id");
-      var gender = snap.get("bio.gender").toString();
-      console.log("User id : " + userId);
-      const searchCurrentUserDb = await admin
-        .firestore()
-        .collection("Matchmaking/simplematch/MenWomen")
-        .where("uid", "==", userId)
-        .get();
-      searchCurrentUserDb.docs.forEach((value) => {
-        var documentId = value.id;
-        var fullPath = value.ref.path;
-        console.log("Document id retrieved : " + documentId);
-        admin.firestore().doc(fullPath).delete();
-        console.log("Deleted user data in matchmaking");
-      });
-    } catch (error) {
-      console.log("Error :" + error.toString());
-    }
-  });
-
-// * disable user account
+//  disable user account
 exports.disableUserAccount = functions.https.onCall(async (data, context) => {
   try {
     const uid = context.auth.uid;
@@ -88,21 +36,7 @@ exports.disableUserAccount = functions.https.onCall(async (data, context) => {
   }
 });
 
-// * delete user account
-exports.deleteUserAccount = functions.https.onCall(async (data, context) => {
-  try {
-    const uid = context.auth.uid;
-    if (uid.length !== 0) {
-      console.log("User uid : " + uid);
-      await admin.auth().deleteUser(uid);
-      console.log("User account deleted successfully");
-    }
-  } catch (error) {
-    console.log("Error :" + error.toString());
-  }
-});
-
-// * send push notification when heart is pressed -> FCM
+//  send push notification when heart is pressed -> FCM
 exports.notifyUsersFCM = functions.https.onCall(async (data, context) => {
   try {
     var token = data.token;
@@ -123,7 +57,6 @@ exports.notifyUsersFCM = functions.https.onCall(async (data, context) => {
     return "Push notification failed";
   }
 });
-
 //  automatic unmatch
 exports.automaticUnMatch = functions
   .runWith({ memory: "256MB", timeoutSeconds: 180 })
@@ -179,7 +112,6 @@ exports.unmatchIndividualChats = functions
     }
   });
 
-  
 // upload head photo to starred users
 // replicate head photo
 exports.replicateHeadPhoto = functions
@@ -226,3 +158,16 @@ exports.replicateHeadPhoto = functions
       return "Cannot replicate head photo";
     }
   });
+
+exports.byAdmin1 = topAdmin.byAdmin1 
+// report functions
+exports.fakeProfile = reportF.fakeProfile
+exports.sexuallyExplicitContent = reportF.sexuallyExplicitContent
+exports.imagesOfViolenceTorture = reportF.imagesOfViolenceTorture
+exports.hateGroup = reportF.hateGroup 
+exports.illegalActivityAdvertising = reportF.illegalActivityAdvertising
+exports.profileUnder18 = reportF.profileUnder18
+exports.hateSpeech = reportF.hateSpeech
+exports.fakeLocation =  reportF.fakeLocation
+exports.againstExploreDating = reportF.againstExploreDating
+// ---

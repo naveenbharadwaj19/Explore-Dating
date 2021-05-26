@@ -6,8 +6,7 @@ import 'package:explore/server/handle_deletes_logout.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:flutter/material.dart';
 
-class WhenUserIdNotExistInFirestore extends StatelessWidget {
-  // * when users -> id - deleted , not found in firestore
+class AccountDeleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(

@@ -214,6 +214,7 @@ class _Chats extends StatelessWidget {
                           "head_photo": ChatBackEnd.chatData[index]
                               ["head_photo"],
                           "path": ChatBackEnd.chatData[index]["path"],
+                          "opposite_uid" : ChatBackEnd.chatData[index]["opposite_uid"],
                         }),
                   ),
                 );

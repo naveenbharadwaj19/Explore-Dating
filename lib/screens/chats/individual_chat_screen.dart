@@ -58,8 +58,7 @@ class _IndividualChatScreenState extends State<IndividualChatScreen> {
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: Theme.of(context).primaryColor,
-      appBar: _appBar(myUid, arugments["name"], arugments["head_photo"],
-          arugments["path"], context),
+      appBar: _appBar(myUid: myUid,name: arugments["name"],oppositeUid: arugments["opposite_uid"],path: arugments["path"],headPhoto: arugments["head_photo"],context: context),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection(arugments["path"])
@@ -98,10 +97,11 @@ class _IndividualChatScreenState extends State<IndividualChatScreen> {
   }
 }
 
-Widget _appBar(String myUid, String name, String headPhoto, String path,
-    BuildContext context) {
+Widget _appBar({@required String myUid, @required String name,@required String headPhoto, @required String path, @required String oppositeUid,
+    @required BuildContext context}) {
   // ? Top
   String docId = path.split("/")[1];
+  Provider.of<IndividualChatState>(context,listen: false).tempChatPath = path;
   return AppBar(
     toolbarHeight: 80,
     backwardsCompatibility: false,
@@ -205,7 +205,7 @@ Widget _appBar(String myUid, String name, String headPhoto, String path,
             size: 45,
             color: Colors.white70,
           ),
-          onTap: () => reportChatPopUpsheet(path, context),
+          onTap: () => reportChatPopUpsheet(path,name,oppositeUid,context),
         ),
       ),
     ],
