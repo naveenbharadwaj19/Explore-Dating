@@ -41,13 +41,13 @@ Future<void> callnotifyUsersFCMFunction({String token}) async {
   }
 }
 
-Future<void> automaticUnMatch(List<String> deletePath) async {
+Future<void> automaticUnMatch(List<Map<String,String>> deleteDatas) async {
   // ? automatic unmatch after 12 hrs
   try {
     FirebaseFunctions function = FirebaseFunctions.instance;
     var callFunction = function.httpsCallable("automaticUnMatch");
     callFunction({
-      "deletePath" : deletePath
+      "deleteDatas" : deleteDatas
     }).then((value) => print(value.data));
   } catch (error) {
     print("Error in https callable -> automaticUnMatch : ${error.toString()}");
@@ -55,13 +55,14 @@ Future<void> automaticUnMatch(List<String> deletePath) async {
 }
 
 
-Future<void> unmatchIndividualChats(String path) async {
+Future<void> unmatchIndividualChats(String path,String oppositeUid) async {
   // ? delete all personal convo when user pressed unmatch
   try {
     FirebaseFunctions function = FirebaseFunctions.instance;
     var callFunction = function.httpsCallable("unmatchIndividualChats");
     callFunction({
-      "path" : path
+      "path" : path,
+      "oppositeUid" : oppositeUid
     }).then((value) => print(value.data));
   } catch (error) {
     print("Error in https callable -> unmatchIndividualChats : ${error.toString()}");

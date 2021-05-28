@@ -1,6 +1,7 @@
 // todo manage all deletes of clients
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const { Storage } = require("@google-cloud/storage");
 const nearRegion = "asia-south1";
 
 const typingRTDBUrl =

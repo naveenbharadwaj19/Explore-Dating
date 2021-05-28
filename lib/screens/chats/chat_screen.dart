@@ -22,7 +22,7 @@ class _ChatScreenState extends State<ChatScreen> {
     // TODO: implement dispose
     super.dispose();
     ChatBackEnd.chatData.clear();
-    ChatBackEnd.storeUnMatchPath.clear();
+    ChatBackEnd.deleteDatas.clear();
     ChatBackEnd.showLoadingSpineer = true;
     ChatBackEnd.latestTimeStr = "";
   }

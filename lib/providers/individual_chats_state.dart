@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 // ICS individual chat State
 class IndividualChatState extends ChangeNotifier {
   String tempChatPath = ""; // temp path of the chat
+  String tempOppositeUid = "";  
   void sendToBackEnd({@required Map docData, @required String sendType,@required String path, @required BuildContext context,
       String onSubmittedText, TextEditingController messageController}) {
     //  when pressed send in keyboard or send icon

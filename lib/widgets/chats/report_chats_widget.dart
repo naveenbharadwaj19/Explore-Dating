@@ -44,7 +44,7 @@ class _ReportChatPopUp extends StatelessWidget {
                 onPressed: () {
                   print("Pressed unmatch");
                   if(path.isNotEmpty){
-                    unmatchIndividualChats(path); // * R - number of rooms , D - number of rooms
+                    unmatchIndividualChats(path,oppositeUid); // * R - number of rooms , D - number of rooms
                   }
                   int counter = 0;
                   Navigator.popUntil(context, (route){

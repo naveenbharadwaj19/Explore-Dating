@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/models/vibration.dart';
 import 'package:explore/screens/chats/pop_up_chat_screen.dart';
+import 'package:explore/server/star_report_backend/stars_rtdb.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -80,6 +81,7 @@ class Stars {
             scrollUserDetails[index]["lock_report"] = true;
             print("star info updated in firestore");
             popUpChatBottomSheet(index, context);
+            starsRTDB(oppositeUserUid);
           }
         }
       } else if (!checkDocinfo.exists) {

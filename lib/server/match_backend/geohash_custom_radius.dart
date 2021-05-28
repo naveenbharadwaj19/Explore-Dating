@@ -6,6 +6,7 @@ import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/filter_datas.dart' show newRadius;
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/providers/pageview_logic.dart';
+import 'package:explore/server/match_backend/exclude_users.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -196,30 +197,34 @@ class CustomRadiusGeoHash {
     try {
       if (queryDataName.get("uid") != ssValueUid) {
         // execlude own uid
-        print(
-            "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")}");
-        // serialize data
-        Map<String, dynamic> serializeDetails = {
-          "uid": queryDataName.get("uid"),
-          "gender": queryDataName.get("gender"),
-          "show_me": queryDataName.get("show_me"),
-          "age": queryDataName.get("age"),
-          "name": queryDataName.get("name"),
-          "headphoto": queryDataName.get("photos.current_head_photo"),
-          "bodyphoto": queryDataName.get("photos.current_body_photo"),
-          "city_state":
-              "${queryDataName.get("city")},${queryDataName.get("state")}",
-          "star": false,
-          "reported" : false,
-          "lock_report" : false,
-          "hp_hash": queryDataName
-              .get("photos.current_head_photo_hash"), //headphoto hash
-          "bp_hash": queryDataName
-              .get("photos.current_body_photo_hash"), //bodyphoto hash
-        };
-        // add map to list
-        scrollUserDetails.add(serializeDetails);
-        // print("Scroll len : ${scrollUserDetails.length}");
+        doNotShowUsers().then((excludeUsers) {
+          if (!excludeUsers.contains(queryDataName.get("uid"))) {
+            print(
+                "$nickName : ${queryDataName.get("name")} ${queryDataName.get("uid")} age : ${queryDataName.get("age")}");
+            // serialize data
+            Map<String, dynamic> serializeDetails = {
+              "uid": queryDataName.get("uid"),
+              "gender": queryDataName.get("gender"),
+              "show_me": queryDataName.get("show_me"),
+              "age": queryDataName.get("age"),
+              "name": queryDataName.get("name"),
+              "headphoto": queryDataName.get("photos.current_head_photo"),
+              "bodyphoto": queryDataName.get("photos.current_body_photo"),
+              "city_state":
+                  "${queryDataName.get("city")},${queryDataName.get("state")}",
+              "star": false,
+              "reported": false,
+              "lock_report": false,
+              "hp_hash": queryDataName
+                  .get("photos.current_head_photo_hash"), //headphoto hash
+              "bp_hash": queryDataName
+                  .get("photos.current_body_photo_hash"), //bodyphoto hash
+            };
+            // add map to list
+            scrollUserDetails.add(serializeDetails);
+            // print("Scroll len : ${scrollUserDetails.length}");
+          }
+        });
       }
     } catch (error) {
       print(

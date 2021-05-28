@@ -245,7 +245,8 @@ class _GreetReport extends StatelessWidget {
             child: const Text(
               "Thank you for reporting this account.Your feedback is important in helping us keep explore dating community safe.",
               maxLines: 5,
-              textAlign: TextAlign.start, // ! if alignment is not good change to center
+              textAlign: TextAlign
+                  .start, // ! if alignment is not good change to center
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
@@ -281,7 +282,10 @@ class _GreetReport extends StatelessWidget {
                   final String chatPath =
                       Provider.of<IndividualChatState>(context, listen: false)
                           .tempChatPath;
-                  unmatchIndividualChats(chatPath);
+                  final String oppostieUid =
+                      Provider.of<IndividualChatState>(context, listen: false)
+                          .tempOppositeUid;
+                  unmatchIndividualChats(chatPath, oppostieUid);
                   int popCount = 0;
                   Navigator.popUntil(context, (route) {
                     return popCount++ == 2;

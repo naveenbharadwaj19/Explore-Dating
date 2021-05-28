@@ -102,6 +102,7 @@ Widget _appBar({@required String myUid, @required String name,@required String h
   // ? Top
   String docId = path.split("/")[1];
   Provider.of<IndividualChatState>(context,listen: false).tempChatPath = path;
+  Provider.of<IndividualChatState>(context,listen: false).tempOppositeUid = oppositeUid;
   return AppBar(
     toolbarHeight: 80,
     backwardsCompatibility: false,

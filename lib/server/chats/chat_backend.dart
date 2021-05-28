@@ -10,7 +10,7 @@ class ChatBackEnd {
   static List chatData = []; // store all info of the chat
   static ValueNotifier<bool> processChatDatas =
       ValueNotifier(true); // hold execution
-  static List<String> storeUnMatchPath = [];
+  static List<Map<String,String>> deleteDatas = []; // store datas when automatic unmatch is triggered
   static String latestTimeStr = ""; // store the last time ascending
   static bool showLoadingSpineer = true;
 
@@ -40,9 +40,13 @@ class ChatBackEnd {
         // * check if time expired
         if (currentNTP.isAfter(expireTime) && data.get("automatic_unmatch")) {
           String path = data.reference.path;
-          // print("path to remove : $path");
-          // print(data.get("names").last);
-          storeUnMatchPath.add(path); // store the path to list
+          List uids = data.get("uids");
+          int oppositeUidIdx = uids.indexWhere((e) => e != myUid);
+          Map map = {"path" : path,"opposite_uid" : uids[oppositeUidIdx]};
+          // add map to the list
+          deleteDatas.add(map);
+
+          
         } else {
           // * get index of head_photo
           List headPhotos = data.get("head_photos");
@@ -66,9 +70,9 @@ class ChatBackEnd {
         }
       });
       // * call cloud function
-      if (storeUnMatchPath.isNotEmpty) {
-        print("Unmatching : ${storeUnMatchPath.length} users");
-        automaticUnMatch(storeUnMatchPath);
+      if (deleteDatas.isNotEmpty) {
+        print("Unmatching : ${deleteDatas.length} users");
+        automaticUnMatch(deleteDatas);
       }
       // * latest documents
       try {
