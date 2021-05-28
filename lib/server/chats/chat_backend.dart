@@ -2,6 +2,7 @@
 // todo : manage all chat screen backend
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/server/https_cloud_functions.dart';
+import 'package:explore/server/match_backend/exclude_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ntp/ntp.dart';
@@ -10,7 +11,8 @@ class ChatBackEnd {
   static List chatData = []; // store all info of the chat
   static ValueNotifier<bool> processChatDatas =
       ValueNotifier(true); // hold execution
-  static List<Map<String,String>> deleteDatas = []; // store datas when automatic unmatch is triggered
+  static List<Map<String, String>> deleteDatas =
+      []; // store datas when automatic unmatch is triggered
   static String latestTimeStr = ""; // store the last time ascending
   static bool showLoadingSpineer = true;
 
@@ -42,11 +44,9 @@ class ChatBackEnd {
           String path = data.reference.path;
           List uids = data.get("uids");
           int oppositeUidIdx = uids.indexWhere((e) => e != myUid);
-          Map map = {"path" : path,"opposite_uid" : uids[oppositeUidIdx]};
+          Map map = {"path": path, "opposite_uid": uids[oppositeUidIdx]};
           // add map to the list
           deleteDatas.add(map);
-
-          
         } else {
           // * get index of head_photo
           List headPhotos = data.get("head_photos");
@@ -54,15 +54,14 @@ class ChatBackEnd {
           //  * get index of name
           List names = data.get("names");
           int nameIdx = names.indexWhere((e) => e["uid"] != myUid);
-          // * map values
           Map mapValues = {
             "name": data.get("names")[nameIdx]["name"],
             "automatic_unmatch": data.get("automatic_unmatch"),
             "last_message": data.get("messages").last["msg_content"],
             "sender_uid": data.get("messages").last["sender_uid"],
-            "opposite_uid" : data.get("names")[nameIdx]["uid"],
+            "opposite_uid": data.get("names")[nameIdx]["uid"],
             "head_photo": data.get("head_photos")[headPhotoIdx]["head_photo"],
-            "show_url_preview" : data.get("messages").last["show_url_preview"],
+            "show_url_preview": data.get("messages").last["show_url_preview"],
             "path": data.reference.parent.path,
           };
           // * add to the list

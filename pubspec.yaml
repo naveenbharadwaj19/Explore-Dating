@@ -71,6 +71,7 @@ dependencies:
   modal_bottom_sheet: ^2.0.0
   ntp: ^2.0.0
   numberpicker: ^2.0.1
+  package_info: ^2.0.2
   page_transition: ^1.1.7+2
   path_provider: ^2.0.1
   pinput: ^1.2.0

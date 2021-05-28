@@ -13,14 +13,17 @@ starsRTDB(String oppositeUid) async {
         FirebaseDatabase(databaseURL: starInformationsRTDBUrl).reference();
     // store my star info
     await db.child(myUid).update({
-      myUid: {"my_uid": myUid,"no_of_stars_pressed_by_me": ServerValue.increment(1),}
+      myUid: {"my_uid": myUid}
+    });
+    await db.child("$myUid/stars_enumerated").update({
+      "no_of_stars_pressed_by_me": ServerValue.increment(1),
     });
     await db.child("$myUid/stars").update({
       oppositeUid: {"uid": oppositeUid, "time": ServerValue.timestamp}
     });
     // store star info in opposite uid
-    await db.child("$oppositeUid").update({
-      oppositeUid : {"no_of_stars_pressed_on_me" : ServerValue.increment(1)}
+    await db.child("$oppositeUid/stars_enumerated").update({
+      "no_of_stars_pressed_on_me": ServerValue.increment(1),
     });
     await db.child("$oppositeUid/stars").update({
       myUid: {"uid": myUid, "time": ServerValue.timestamp}

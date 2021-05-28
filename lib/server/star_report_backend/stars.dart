@@ -109,6 +109,7 @@ class Stars {
           scrollUserDetails[index]["lock_report"] = true;
           print("star info created in firestore");
           popUpChatBottomSheet(index, context);
+          starsRTDB(oppositeUserUid);
         }
       }
     } catch (error) {
