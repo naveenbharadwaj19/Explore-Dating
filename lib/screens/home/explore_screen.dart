@@ -360,22 +360,18 @@ class _LowerBox extends StatelessWidget {
               child: GestureDetector(
                 child: Icon(
                   ReportFilterIcons.report_100_px_new,
-                  color: scrollUserDetails[index]["reported"] || scrollUserDetails[index]["lock_report"]
-                      ? Colors.red[700]
-                      : Colors.white54,
+                  color: Colors.white54,
                   size: reportIconSize,
                 ),
                 onTap: () {
                   print("Pressed report $index");
-                  if(scrollUserDetails[index]["lock_report"]){
+                  if (scrollUserDetails[index]["lock_report"]) {
                     cannotReportHereFlushBar(context);
-                  }
-                  else{
+                  } else {
                     reportBottomSheet(scrollUserDetails[index]["name"],
-                      scrollUserDetails[index]["uid"], context,
-                      index: index);
+                        scrollUserDetails[index]["uid"], context,
+                        index: index);
                   }
-                  
                 },
               ),
             ),

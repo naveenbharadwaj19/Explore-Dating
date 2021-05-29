@@ -2,7 +2,6 @@
 // todo : manage all chat screen backend
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/server/https_cloud_functions.dart';
-import 'package:explore/server/match_backend/exclude_users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ntp/ntp.dart';
@@ -11,7 +10,7 @@ class ChatBackEnd {
   static List chatData = []; // store all info of the chat
   static ValueNotifier<bool> processChatDatas =
       ValueNotifier(true); // hold execution
-  static List<Map<String, String>> deleteDatas =
+  static List<Map> deleteDatas =
       []; // store datas when automatic unmatch is triggered
   static String latestTimeStr = ""; // store the last time ascending
   static bool showLoadingSpineer = true;

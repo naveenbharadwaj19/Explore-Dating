@@ -41,7 +41,7 @@ Future<void> callnotifyUsersFCMFunction({String token}) async {
   }
 }
 
-Future<void> automaticUnMatch(List<Map<String,String>> deleteDatas) async {
+Future<void> automaticUnMatch(List<Map> deleteDatas) async {
   // ? automatic unmatch after 12 hrs
   try {
     FirebaseFunctions function = FirebaseFunctions.instance;

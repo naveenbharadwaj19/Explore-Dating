@@ -4,6 +4,7 @@
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/server/handle_deletes_logout.dart';
 import 'package:explore/server/https_cloud_functions.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class AccountDeleteScreen extends StatelessWidget {
@@ -11,50 +12,58 @@ class AccountDeleteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        color: Color(0xff121212),
+        color: Theme.of(context).primaryColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               margin: const EdgeInsets.only(top: 25),
               child: const Icon(
-                Icons.block_flipped,
+                Icons.warning_rounded,
                 color: Color(0xffF8C80D),
-                size: 150,
+                size: 140,
               ),
             ),
             Spacer(),
             const Text(
-              "Error : 404",
-              style: const TextStyle(
+              "You account has been banned",
+              style: TextStyle(
                   color: Colors.white,
                   fontSize: 22,
-                  decoration: TextDecoration.none),
+                  fontWeight: FontWeight.w700),
             ),
             Padding(
               padding: EdgeInsets.all(10),
             ),
-            const Text(
-              "Your account has been deleted for violating our terms",
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  decoration: TextDecoration.none),
-            ),
             Container(
-              margin: const EdgeInsets.only(top: 20),
-              child: IconButton(
-                color: Colors.white,
-                iconSize: 35,
-                icon: const Icon(Icons.help),
-                onPressed: () {},
-                tooltip: "Help",
+              // rich text
+              child: RichText(
+                text: TextSpan(
+                  text: "Your account has been banned for violating our ",
+                  style: const TextStyle(fontSize: 18, color: Colors.white),
+                  children: [
+                    TextSpan(
+                        text: "Terms of Use",
+                        style: TextStyle(
+                          color: Theme.of(context).buttonColor,
+                          fontSize: 18,
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            print("tapped terms of use");
+                            // todo navigate to terms of use in web page
+                          }),
+                  ],
+                ),
+                maxLines: 4,
+                overflow: TextOverflow.fade,
+                textAlign: TextAlign.center,
               ),
             ),
             Spacer(),
             Container(
-              width: 125,
+              width: 130,
               margin: const EdgeInsets.only(bottom: 20),
               // ignore: deprecated_member_use
               child: RaisedButton(
@@ -64,11 +73,8 @@ class AccountDeleteScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     side: BorderSide(color: Color(0xffF8C80D))),
                 child: const Text(
-                  "Ok",
-                  style: const TextStyle(
-                      fontFamily: "Nunito",
-                      // fontWeight: FontWeight.w600,
-                      fontSize: 16),
+                  "Logout",
+                  style: TextStyle(fontSize: 18),
                 ),
                 onPressed: () {
                   // * delete Userstatus -> uid datas and navigate the user to welcome screen
