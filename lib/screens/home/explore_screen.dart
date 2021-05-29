@@ -215,10 +215,12 @@ class _TopBox extends StatelessWidget {
                   child: GestureDetector(
                     child: Text(
                       "${scrollUserDetails[index]["name"]},",
-                      style: const TextStyle(
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
                           fontSize: 20,
-                          color: Color(0xff121212),
-                          fontWeight: FontWeight.w500),
+                          color: Theme.of(context).primaryColor,
+                          fontWeight: FontWeight.w700),
                     ),
                     onTap: () {
                       print("Tapping $index");
@@ -230,10 +232,12 @@ class _TopBox extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 5),
                   child: Text(
                     "${scrollUserDetails[index]["age"]}",
-                    style: const TextStyle(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
                         fontSize: 20,
-                        color: Color(0xff121212),
-                        fontWeight: FontWeight.w500),
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
               ],
@@ -245,10 +249,12 @@ class _TopBox extends StatelessWidget {
             padding: EdgeInsets.only(left: 15),
             child: Text(
               "${scrollUserDetails[index]["city_state"]}",
-              style: const TextStyle(
-                  fontSize: 15,
-                  color: Color(0xff121212),
-                  fontWeight: FontWeight.w500),
+              maxLines: 1,
+              overflow: TextOverflow.clip,
+              style: TextStyle(
+                fontSize: 16,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
           ),
         ],
