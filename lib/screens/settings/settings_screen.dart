@@ -1,10 +1,12 @@
 // @dart=2.9
 // todo settings screen
+import 'package:explore/server/handle_deletes_logout.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:package_info/package_info.dart';
+import 'package:random_string/random_string.dart';
 
 class SettingsScreen extends StatelessWidget {
   final String emailAddress = FirebaseAuth.instance.currentUser.email;
@@ -163,9 +165,7 @@ class SettingsScreen extends StatelessWidget {
                           fontSize: 18,
                         ),
                       ),
-                      onPressed: () {
-                        // todo popup -> delete account
-                      },
+                      onPressed: () => _deleteAccountDialogueBox(context),
                     ),
                   ),
                 ),
@@ -195,9 +195,7 @@ class SettingsScreen extends StatelessWidget {
                           fontSize: 18,
                         ),
                       ),
-                      onPressed: () {
-                        // todo popup -> delete account
-                      },
+                      onPressed: () => logoutUser(context),
                     ),
                   ),
                 ),
@@ -240,13 +238,165 @@ class SettingsScreen extends StatelessWidget {
                   alignment: Alignment.bottomCenter,
                   margin: const EdgeInsets.only(top: 5),
                   child: Text(
-                    !packageSnapShot.hasData ? "" :"V ${packageSnapShot.data.version}",
+                    !packageSnapShot.hasData
+                        ? ""
+                        : "V ${packageSnapShot.data.version}",
                     style: TextStyle(fontSize: 16, color: Colors.white70),
                   ),
                 ),
               ],
             ),
           );
+        },
+      ),
+    );
+  }
+}
+
+void _deleteAccountDialogueBox(BuildContext context) {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final String randomString = randomAlphaNumeric(6);
+  Widget confirm = Container(
+    margin: const EdgeInsets.only(right: 15),
+    // ignore: deprecated_member_use
+    child: FlatButton(
+      splashColor:
+          Theme.of(context).buttonColor.withOpacity(0.8), // 80 % opacity
+      child: const Text(
+        "confirm",
+        style: const TextStyle(color: Colors.white, fontSize: 18),
+      ),
+      onPressed: () {
+        // todo logout user
+        // todo delete function here
+        if (formKey.currentState.validate()) {
+          print("validated account will be deleted....");
+        }
+      },
+    ),
+  );
+  Widget cancel = Container(
+    margin: const EdgeInsets.only(right: 15),
+    // ignore: deprecated_member_use
+    child: FlatButton(
+      splashColor:
+          Theme.of(context).buttonColor.withOpacity(0.8), // 80 % opacity
+      child: const Text(
+        "cancel",
+        style: const TextStyle(color: Colors.white, fontSize: 18),
+      ),
+      onPressed: () => Navigator.pop(context),
+    ),
+  );
+  AlertDialog showAlert = AlertDialog(
+    backgroundColor: Theme.of(context).primaryColor,
+    shape: RoundedRectangleBorder(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(20),
+      ),
+      side: BorderSide(color: Theme.of(context).buttonColor, width: 2),
+    ),
+    title: Text(
+      "Are you sure want to delete?",
+      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    ),
+    content: Form(
+      key: formKey,
+      child: Container(
+        // control column
+        height: 170,
+        child: Column(
+          children: [
+            Container(
+              // undone message
+              alignment: Alignment.topLeft,
+              margin: const EdgeInsets.only(top: 5, bottom: 10),
+              child: Text(
+                "This action cannot be undone",
+                maxLines: 1,
+                overflow: TextOverflow.fade,
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            Container(
+              // random alpha numberic
+              alignment: Alignment.topLeft,
+              margin: const EdgeInsets.only(top: 5, bottom: 8),
+              child: Text(
+                "Type `$randomString` to confirm",
+                maxLines: 1,
+                overflow: TextOverflow.fade,
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+            _ValidateDeleteForm(formKey, randomString),
+          ],
+        ),
+      ),
+    ),
+    actions: [cancel, confirm],
+  );
+
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return showAlert;
+      });
+}
+
+class _ValidateDeleteForm extends StatefulWidget {
+  final GlobalKey<FormState> formKey;
+  final String randomString;
+  _ValidateDeleteForm(this.formKey, this.randomString);
+  @override
+  _ValidateDeleteFormState createState() => _ValidateDeleteFormState();
+}
+
+class _ValidateDeleteFormState extends State<_ValidateDeleteForm> {
+  // final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  TextEditingController _controller = TextEditingController();
+  @override
+  void dispose() {
+    // ignore: todo
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: TextFormField(
+        controller: _controller,
+        enabled: true,
+        cursorColor: Colors.white,
+        cursorWidth: 3.0,
+        maxLines: 1,
+        style: const TextStyle(color: Colors.white, fontSize: 18),
+        keyboardType: TextInputType.text,
+        decoration: InputDecoration(
+            enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(
+                  color: Theme.of(context).buttonColor.withOpacity(0.8),
+                  width: 2),
+            ),
+            focusedBorder: UnderlineInputBorder(
+              borderSide:
+                  BorderSide(color: Theme.of(context).buttonColor, width: 2),
+            ),
+            hintText: "Type here...",
+            hintStyle: const TextStyle(
+                color: Colors.white54, fontWeight: FontWeight.w700),
+            errorMaxLines: 1,
+            errorStyle: const TextStyle(fontSize: 16)),
+        validator: (String value) {
+          if (value.length > 6) {
+            return "More than 6 characters";
+          } else if (value.isEmpty || value != widget.randomString) {
+            return "Characters does not match";
+          }
+          return null;
         },
       ),
     );
