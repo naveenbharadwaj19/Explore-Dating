@@ -169,7 +169,7 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                 print("ConnectionStatus : ${internetConnection.data}");
                 if (internetConnection.data == ConnectivityResult.none) {
                   print("Cannot find internet connection");
-                  return noInternetConnection(animationName2);
+                  return noInternetConnection(animationName2,context);
                 }
                 validateAndStoreUserDetails(
                     currentCoordinates.latitude, currentCoordinates.longitude);
