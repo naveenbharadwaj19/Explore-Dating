@@ -28,8 +28,8 @@ class GenderScreen extends StatelessWidget {
               padding: EdgeInsets.all(15),
             ),
             GenderSelection(
-              maleText: "Men",
-              femaleText: "Women",
+              maleText: "Man",
+              femaleText: "Woman",
               maleImage: AssetImage("assets/images/male.png"),
               femaleImage: AssetImage("assets/images/female.png"),
               selectedGenderTextStyle: const TextStyle(
@@ -127,7 +127,7 @@ class GenderScreen extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 25),
               child: const Text(
-                "Note : Once selected cannot be reversed",
+                "Note : This action cannot be undone",
                 style: const TextStyle(fontSize: 15, color: Colors.white),
               ),
             )
