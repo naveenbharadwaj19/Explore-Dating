@@ -72,7 +72,7 @@ Widget catchyText() {
     // ? catch text
     alignment: Alignment(-0.6, 0.0),
     child: Text(
-      "Ready to Explore ?",
+      "Ready to Explore?",
       style: const TextStyle(
           // fontFamily: "OpenSans",
           fontSize: 25,

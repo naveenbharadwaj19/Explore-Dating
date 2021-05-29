@@ -2,6 +2,8 @@
 // todo : DOB screen only during google auth
 
 import 'package:explore/data/temp/auth_data.dart' show ageM, dobM;
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import '../../server/signup_backend/firestore_signup.dart' show GooglePath;
 import 'package:explore/widgets/signup_widget.dart';
 import 'package:another_flushbar/flushbar.dart';
@@ -9,14 +11,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
 import 'package:intl/intl.dart';
 
-class GoogleDobScreen extends StatefulWidget {
+class DOBNameScreen extends StatefulWidget {
   @override
-  _GoogleDobScreenState createState() => _GoogleDobScreenState();
+  _DOBNameScreen createState() => _DOBNameScreen();
 }
 
-class _GoogleDobScreenState extends State<GoogleDobScreen> {
+class _DOBNameScreen extends State<DOBNameScreen> {
   bool agreeAge = false;
   bool agreeTerms = false;
+  TextEditingController nameController = TextEditingController(
+      text: FirebaseAuth.instance.currentUser.displayName ?? "");
 
   void toggleAge() {
     setState(() {
@@ -41,52 +45,30 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
   }
 
   @override
+  void dispose() {
+    // ignore: todo
+    // TODO: implement dispose
+    super.dispose();
+    nameController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        color: Color(0xff121212),
+        color: Theme.of(context).primaryColor,
         child: Column(
           children: [
-            Row(
-              // ? logo and text
-              children: [
-                Container(
-                  child: Image.asset(
-                    "assets/images/explore_org_logo.png",
-                    fit: BoxFit.cover,
-                    height: 200,
-                    width: 170,
-                  ),
-                ),
-                RichText(
-                  textAlign: TextAlign.right,
-                  text: TextSpan(children: [
-                    TextSpan(
-                      text: "Explore\n",
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 40,
-                          fontFamily: "Domine",
-                          decoration: TextDecoration.none),
-                    ),
-                    TextSpan(
-                      text: "Dating",
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontFamily: "Domine",
-                          decoration: TextDecoration.none),
-                    ),
-                  ]),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.all(20),
-            ),
-            DOBGoogle(),
+            _NameTextField(nameController), // name
+            _DOB(), // dob
             Container(
-              margin: const EdgeInsets.only(left: 5),
+              // cannot be undone message
+              alignment: Alignment.topLeft,
+              margin: const EdgeInsets.only(top: 10,left: 50),
+              child: const Text("Note: This action cannot be undone",style: TextStyle(fontSize: 16,color: Colors.white70),),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 5,left: 5),
               child: ageCondition(agreeAge, toggleAge),
             ),
             Container(
@@ -101,32 +83,30 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
                 margin: const EdgeInsets.only(bottom: 30),
                 // ignore: deprecated_member_use
                 child: RaisedButton(
-                  color: Color(0xffF8C80D),
-                  textColor: Color(0xff121212),
+                  color: Theme.of(context).buttonColor,
+                  textColor: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(color: Color(0xffF8C80D))),
+                      side: BorderSide(color: Theme.of(context).primaryColor)),
                   child: const Text(
                     "Continue",
                     style: const TextStyle(
                       fontSize: 20,
-                      // fontWeight: FontWeight.w700,
                     ),
                   ),
                   onPressed: () {
-                    if (dobM == null || dobM.isEmpty) {
+                    if (dobM == null || dobM.isEmpty || nameController.text.isEmpty) {
                       Flushbar(
-                        backgroundColor: Color(0xff121212),
+                        backgroundColor: Theme.of(context).primaryColor,
                         messageText: const Text(
-                          "Enter birth date",
+                          "Some fields are missing",
                           style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white),
+                              fontWeight: FontWeight.w700, color: Colors.white),
                         ),
                         duration: Duration(seconds: 3),
                       )..show(context);
                     } else if (agreeAge == true && agreeTerms == true) {
-                      GooglePath.updateDobGoogle(dobM, ageM);
+                      GooglePath.updateDobNameGoogle(dobM, ageM,nameController.text);
                     }
                   },
                 ),
@@ -139,17 +119,64 @@ class _GoogleDobScreenState extends State<GoogleDobScreen> {
   }
 }
 
-// ignore: must_be_immutable
-class DOBGoogle extends StatefulWidget {
-  // ? Date of birth
+class _NameTextField extends StatelessWidget {
+  final TextEditingController nameController;
+  _NameTextField(this.nameController);
+
   @override
-  _DOBGoogleState createState() => _DOBGoogleState();
+  Widget build(BuildContext context) {
+    return Container(
+      width: 300,
+      margin: const EdgeInsets.only(top: 100, left: 5, right: 40),
+      child: Align(
+        alignment: Alignment(-0.3, 0.0),
+        child: TextField(
+          controller: nameController,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(25), // max characters 25
+          ],
+          minLines: 1,
+          maxLines: 1,
+          cursorColor: Colors.white,
+          cursorWidth: 3.0,
+          // ! Need to use input text as WORDSANS
+          style: const TextStyle(color: Colors.white, fontSize: 18),
+          keyboardType: TextInputType.name,
+          textCapitalization: TextCapitalization.words,
+          textInputAction: TextInputAction.done,
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: const BorderSide(color: Colors.white, width: 2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Theme.of(context).buttonColor, width: 2),
+            ),
+            hintText: "Name",
+            hintStyle: const TextStyle(
+                color: Colors.white54, fontWeight: FontWeight.w700),
+          ),
+          onSubmitted: (String value) {
+            FocusManager.instance.primaryFocus.unfocus();
+          },
+        ),
+      ),
+    );
+  }
 }
 
-class _DOBGoogleState extends State<DOBGoogle> {
+// ignore: must_be_immutable
+class _DOB extends StatefulWidget {
+  // ? Date of birth
+  @override
+  _DOBState createState() => _DOBState();
+}
+
+class _DOBState extends State<_DOB> {
   DateTime today = DateTime.now();
 
-   int getAbove18Year(){
+  int getAbove18Year() {
     var now = new DateTime.now();
     String yearFormatter = DateFormat("y").format(now);
     int currentYear = int.parse(yearFormatter);
@@ -179,10 +206,10 @@ class _DOBGoogleState extends State<DOBGoogle> {
       initialDate: today,
       firstDate: DateTime(1940),
       dateFormat: "dd-MMMM-yyyy",
-      lastDate: DateTime(getAbove18Year(),today.month,today.day),
+      lastDate: DateTime(getAbove18Year(), today.month, today.day),
       looping: true,
-      backgroundColor: Color(0xff121212),
-      textColor: Color(0xffF8C80D),
+      backgroundColor: Theme.of(context).primaryColor,
+      textColor: Theme.of(context).buttonColor,
       titleText: "Select Your Date of Birth",
       cancelText: "Cancel",
       confirmText: "Ok",
@@ -205,33 +232,33 @@ class _DOBGoogleState extends State<DOBGoogle> {
         width: 300,
         decoration: ShapeDecoration(
             shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: Colors.white),
+          borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: Colors.white, width: 1.5),
         )),
         child: Row(
           children: [
             Container(
               padding: EdgeInsets.all(8),
               child: Text(
-                "D.O.B : ",
+                "Date of birth :",
                 style: const TextStyle(
-                    color: Colors.grey,
+                    color: Colors.white54,
                     fontWeight: FontWeight.w700,
                     fontSize: 20),
               ),
             ),
             // ignore: deprecated_member_use
             RaisedButton(
-              color: Color(0xffF8C80D),
-              textColor: Color(0xff121212),
+              color: Theme.of(context).buttonColor,
+              textColor: Theme.of(context).primaryColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7),
                   side: BorderSide(color: Color(0xffF8C80D))),
               child: Text(
-                findAge() < 18 ? "Enter age 18+" : formattedDate(),
-                style: const TextStyle(fontSize: 16
-                    // fontWeight: FontWeight.w700
-                    ),
+                findAge() < 18 ? "Select" : formattedDate(),
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+                style: const TextStyle(fontSize: 16),
               ),
               onPressed: () => _selectDate(context),
             ),

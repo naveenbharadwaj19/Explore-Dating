@@ -4,6 +4,7 @@
 
 import 'dart:io';
 // import 'package:explore/data/auth_data.dart'show dobM,ageM;
+import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/handle_photos.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -438,7 +439,7 @@ class GooglePath {
     // loadingOff();
   }
 
-  static Future<void> updateDobGoogle(String dateOfBirth, int age) async {
+  static Future<void> updateDobNameGoogle(String dateOfBirth, int age,String name) async {
     String uid = FirebaseAuth.instance.currentUser.uid;
     try {
       DocumentReference updateDob =
@@ -446,10 +447,11 @@ class GooglePath {
       await updateDob.update({
         "bio.dob": dateOfBirth,
         "bio.age": age,
+        "bio.name" : name
       });
       print("DOB , age updated");
       // * resetting memory of dob and age
-      // dobM = null;
+      dobM = null;
       // ageM = null;
     } catch (error) {
       print("Error : ${error.toString()}");

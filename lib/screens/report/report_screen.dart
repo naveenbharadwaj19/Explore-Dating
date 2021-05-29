@@ -1,6 +1,7 @@
 // @dart=2.9
 // todo report screen
 
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/widgets/report/report_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';

@@ -10,7 +10,7 @@ import 'package:explore/screens/lockuser_screens/disable_screen.dart';
 import 'package:explore/screens/signup_screens/emai_verf_screen.dart';
 import 'package:explore/screens/lockuser_screens/account_delete_screen.dart';
 import 'package:explore/screens/signup_screens/gender_screen.dart';
-import 'package:explore/screens/signup_screens/google_dob_screen.dart';
+import 'package:explore/screens/signup_screens/dob_name_screen.dart';
 import 'package:explore/screens/location_screen.dart';
 import 'package:explore/screens/bottom_navigation_bar_screens.dart';
 import 'package:explore/screens/no_internet_connection_screen.dart';
@@ -93,7 +93,7 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
         }
         if (dobCheck["dob"].isEmpty) {
           print("In dob page");
-          return GoogleDobScreen();
+          return DOBNameScreen();
         }
 
         if (genderCheck["gender"].isEmpty) {

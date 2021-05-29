@@ -331,45 +331,48 @@ class _DOBState extends State<DOB> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment(-0.3, 0.0),
-      child: Container(
-        margin: const EdgeInsets.only(top: 25),
-        height: 60,
-        width: 300,
-        decoration: ShapeDecoration(
-            shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-          side: BorderSide(color: Colors.white),
-        )),
-        child: Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(8),
-              child: Text(
-                "D.O.B : ",
-                style: const TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20),
-              ),
-            ),
-            // ignore: deprecated_member_use
-            RaisedButton(
-              color: Color(0xffF8C80D),
-              textColor: Color(0xff121212),
+    return Container(
+      margin: const EdgeInsets.only(top: 100),
+      child: Align(
+        alignment: Alignment(-0.3, 0.0),
+        child: Container(
+          margin: const EdgeInsets.only(top: 25),
+          height: 60,
+          width: 300,
+          decoration: ShapeDecoration(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7),
-                  side: BorderSide(color: Color(0xffF8C80D))),
-              child: Text(
-                _findAge() < 18 ? "Enter age 18+" : formattedDate(),
-                style: const TextStyle(fontSize: 16
-                    // fontWeight: FontWeight.w700
-                    ),
+            borderRadius: BorderRadius.circular(10),
+            side: BorderSide(color: Colors.white),
+          )),
+          child: Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(8),
+                child: Text(
+                  "D.O.B : ",
+                  style: const TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20),
+                ),
               ),
-              onPressed: () => _selectDate(context),
-            ),
-          ],
+              // ignore: deprecated_member_use
+              RaisedButton(
+                color: Color(0xffF8C80D),
+                textColor: Color(0xff121212),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(7),
+                    side: BorderSide(color: Color(0xffF8C80D))),
+                child: Text(
+                  _findAge() < 18 ? "Enter age 18+" : formattedDate(),
+                  style: const TextStyle(fontSize: 16
+                      // fontWeight: FontWeight.w700
+                      ),
+                ),
+                onPressed: () => _selectDate(context),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -392,7 +395,9 @@ Widget ageCondition(bool agreeAge, Function toogleAge) {
         Padding(
           padding: const EdgeInsets.all(15),
           child: Text(
-            "I agree i'm above 18+",
+            "I agree i'm above 18",
+            maxLines: 1,
+            overflow: TextOverflow.clip,
             style: const TextStyle(
                 color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
           ),
@@ -418,14 +423,18 @@ Widget termsAndConditions(bool tAndC, Function toogleTerms) {
          // ignore: deprecated_member_use
         FlatButton(
             child: Text(
-              "I agree to terms and conditions",
+              "I agree to the terms and conditions",
+              maxLines: 1,
+              overflow: TextOverflow.clip,
               style: const TextStyle(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   decoration: TextDecoration.underline),
             ),
-            onPressed: () {}),
+            onPressed: () {
+              // todo navigate to terms and conditions when pressed
+            }),
       ],
     ),
   );

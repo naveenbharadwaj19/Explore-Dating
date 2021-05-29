@@ -3,6 +3,7 @@
 import 'dart:async';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/providers/individual_chats_state.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/server/https_cloud_functions.dart';
@@ -13,18 +14,6 @@ import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
-enum ReportType {
-  fakeprofile,
-  sexuallyExplicitContent,
-  imagesOfViolenceTorture,
-  hateGroup,
-  illegalActivityAdvertising,
-  profileUnder18,
-  hateSpeech,
-  fakeLocation,
-  againstExploreDating,
-  notInterested
-}
 
 void validateReports(
   ReportType selectedReportType,
