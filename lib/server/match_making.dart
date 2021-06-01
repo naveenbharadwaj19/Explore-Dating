@@ -1,13 +1,10 @@
 // @dart=2.9
 // todo Manage Matchmaking collection firestore
 // * mm/MM - matchmaking collection
-import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/server/cloud_storage/download_photos_storage.dart';
-import 'package:explore/server/profile_backend/abt_me_backend.dart';
-import 'package:explore/server/profile_backend/prof_photos_backend.dart';
+import 'package:explore/server/https_cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart' show Geoflutterfire;
@@ -15,93 +12,18 @@ import 'package:geoflutterfire/geoflutterfire.dart' show Geoflutterfire;
 class MatchMakingCollection {
   static addCurrentUserMM(String selectedShowMe) async {
     try {
-      bool homo = false;
-      String headPhotoHash = "";
-      String bodyPhotoHash = "";
-      String uid = FirebaseAuth.instance.currentUser.uid;
-      // * create a user document in matchmaking collection
-      DocumentSnapshot fetchDetails =
-          await FirebaseFirestore.instance.doc("Users/$uid").get();
-      if (selectedShowMe == fetchDetails.get("bio.gender").toString()) {
-        homo = true;
-      }
-      print("homo $homo");
-
-      CollectionReference menWomenCollection = FirebaseFirestore.instance
-          .collection("Matchmaking/simplematch/MenWomen");
+      final String uid = FirebaseAuth.instance.currentUser.uid;
+      // createMatchMakingServerSide("", "",selectedShowMe); // * 1R,3W
       // get head and body photos
-      try {
         DownloadCloudStoragePhotos.headPhotoDownload(uid).then((headPhoto) {
           DownloadCloudStoragePhotos.currentBodyPhotoDownload(uid)
               .then((bodyPhoto) {
-            if (!headPhoto.contains("Cannot get image url") &&
-                !bodyPhoto.contains("Cannot get image url")) {
-              // print("hp $headPhoto");
-              // print("bp $bodyPhoto");
-              encodeBlurHashImg(headPhoto).then((hashVal){
-                headPhotoHash = hashVal;
-                encodeBlurHashImg(bodyPhoto).then((hashVal){
-                  bodyPhotoHash = hashVal;
-                  // print("bodyhash : $bodyPhotoHash : headhash : $headPhotoHash : bodyphoto : $bodyPhoto : headPhoto : $headPhoto");
-                  Timer(Duration(seconds: 3), () async {
-                    await menWomenCollection.add({
-                      "uid": uid,
-                      "show_me": selectedShowMe,
-                      "age": fetchDetails.get("bio.age"),
-                      "gender": fetchDetails.get("bio.gender"),
-                      "name": fetchDetails.get("bio.name"),
-                      "geohash_rounds": {
-                        "rh": homo,
-                      },
-                      "photos": {
-                        "current_head_photo": headPhoto,
-                        "current_head_photo_hash": headPhotoHash,
-                        "current_body_photo": bodyPhoto,
-                        "current_body_photo_hash": bodyPhotoHash,
-                      }
-                    });
-                    ProfileAboutMeBackEnd.storeProfileData(
-                        name: fetchDetails.get("bio.name"),
-                        age: fetchDetails.get("bio.age"),
-                        headPhotoHash: headPhotoHash,
-                        headPhotoUrl: headPhoto);
-
-                    ProfilePhotosBackEnd.storePhotosInfo(
-                        bodyPhotoHash, bodyPhoto);
-                    print("Successfully created user document in matchmaking");
-                  });
-                });
-              });
-            }
+                createMatchMakingServerSide(headPhoto, bodyPhoto,selectedShowMe); // * 1R,3W 
           });
         });
-      } catch (error) {
-        print(
-            "Error in download_photos_storage file. Possible error cause in cloud storage ${error.toString()}");
-        await menWomenCollection.add({
-          "uid": uid,
-          "show_me": selectedShowMe,
-          "age": fetchDetails.get("bio.age"),
-          "gender": fetchDetails.get("bio.gender"),
-          "name": fetchDetails.get("bio.name"),
-          "geohash_rounds": {
-            "rh": homo,
-          },
-          "photos": {
-            "current_head_photo": "Cannot get image Url",
-            "current_body_photo": "Cannot get image url",
-          }
-        });
-        ProfileAboutMeBackEnd.storeProfileData(
-            name: fetchDetails.get("bio.name"),
-            age: fetchDetails.get("bio.age"),
-            headPhotoHash: "",
-            headPhotoUrl: "");
-
-        ProfilePhotosBackEnd.storePhotosInfo("", "");
-      }
+    
     } catch (error) {
-      print("Error in creating user matchmaking : ${error.toString()}");
+      print("Error in creating user matchmaking client side : ${error.toString()}");
     }
   }
 

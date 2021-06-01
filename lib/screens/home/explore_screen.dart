@@ -25,10 +25,6 @@ import 'package:provider/provider.dart';
 //  ? lowerBox -> heart , star , report
 
 class ExploreScreen extends StatelessWidget {
-  // final Color yellow = Color(0xffF8C80D);
-  // final Color black = Color(0xff121212);
-  // final Color white = Color(0xffFFFFFF);
-
   @override
   Widget build(BuildContext context) {
     final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
@@ -439,9 +435,9 @@ class _NothingToExploreScreen extends StatelessWidget {
                 )),
                 Container(
                   // ? text message
-                  margin: const EdgeInsets.all(25),
+                  margin: const EdgeInsets.all(20),
                   child: const Text(
-                    "You've explored nearby people.\n Try again or change your filter.",
+                    "You've explored nearby people.\n Try again or change your filter or comeback later.",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                     textAlign: TextAlign.center,
                   ),
@@ -476,6 +472,8 @@ class _NothingToExploreScreen extends StatelessWidget {
                               "WC : Feeds are empty loading feeds -> nothing to explore widget");
                           ConnectingUsers.basicUserConnection(context);
                           pageViewLogic.callConnectingUsers = false;
+                          pageViewLogic.holdFuture = true;
+                          pageViewLogic.increment++;
                         }
                         if (scrollUserDetails.isEmpty &&
                             streamRadius != 180 &&
@@ -484,6 +482,8 @@ class _NothingToExploreScreen extends StatelessWidget {
                               "CR : Feeds are empty loading feeds within $streamRadius -> nothing to explore widget");
                           ConnectingUsers.basicUserConnection(context);
                           pageViewLogic.callConnectingUsers = false;
+                          pageViewLogic.holdFuture = true;
+                          pageViewLogic.increment++;
                         }
                       },
                     ),

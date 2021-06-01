@@ -7,16 +7,17 @@ const topAdmin = require("./admin/admin");
 const deleteF = require("./client/delete");
 const reportF = require("./client/report");
 const chatsF = require("./client/chat")
+const matchmakingF = require("./client/matchmaking")
 
 const nearRegion = "asia-south1";
 admin.initializeApp();
 
 // ? ----------------------------------------------------------------------------------------------------------
-
+// deletes
 exports.deleteUserCloudStorage = deleteF.deleteUserCloudStorage;
 exports.deleteUserMatchMaking = deleteF.deleteUserMatchMaking;
 exports.deleteUserAccount = deleteF.deleteUserAccount;
-exports.deleteChatsTyping = deleteF.deleteChatsTyping;
+exports.iterateUserDelete = deleteF.iterateUserDelete
 //  disable user account
 exports.disableUserAccount = functions.https.onCall(async (data, context) => {
   try {
@@ -55,7 +56,7 @@ exports.notifyUsersFCM = functions.https.onCall(async (data, context) => {
 });
 
 // chats
-exports.automaticUnMathc = chatsF.automaticUnMatch
+exports.automaticUnMatch = chatsF.automaticUnMatch
 exports.unmatchIndividualChats = chatsF.unmatchIndividualChats
 exports.replicateHeadPhotos = chatsF.replicateHeadPhoto
 // ----
@@ -72,3 +73,6 @@ exports.hateSpeech = reportF.hateSpeech;
 exports.fakeLocation = reportF.fakeLocation;
 exports.againstExploreDating = reportF.againstExploreDating;
 // ---
+
+// matchmaking
+exports.createMatchMakingData = matchmakingF.createMatchMakingData

@@ -119,8 +119,7 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
           // ? time location
           stream: Geolocator.getPositionStream(
             desiredAccuracy: LocationAccuracy.best,
-            intervalDuration: Duration(seconds: 60),
-            // ! change interval duration to min (3min or 5min) before deployment
+            intervalDuration: Duration(minutes: 3),
           ),
           builder: (context, locationSnapShot) {
             if (locationSnapShot.connectionState == ConnectionState.waiting) {
@@ -151,7 +150,7 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
               return LocationScreen(
                   updatedOpenCloseLocation: updateLocationBool);
             }
-            // ? reason assigning false is because when user in current state the bool check will always be true . Until user restart / kills the app
+            //  reason assigning false because when user in current state the bool check will always be true . Until user restart / kill the app
             openCloseLocationPage = false;
 
             return StreamBuilder<ConnectivityResult>(

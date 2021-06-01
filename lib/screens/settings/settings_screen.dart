@@ -1,6 +1,7 @@
 // @dart=2.9
 // todo settings screen
-import 'package:explore/server/handle_deletes_logout.dart';
+import 'package:explore/server/handle_logout.dart';
+import 'package:explore/server/https_cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,196 +57,203 @@ class SettingsScreen extends StatelessWidget {
           if (packageSnapShot.connectionState == ConnectionState.waiting) {
             return Container();
           }
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  // email address title
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.only(top: 20, left: 60),
-                  child: Text(
-                    "Email address",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Theme.of(context).buttonColor,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Container(
-                  // email address
-                  width: double.infinity,
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.only(top: 20, left: 60),
-                  child: Text(
-                    emailAddress,
-                    maxLines: 1,
-                    overflow: TextOverflow.fade,
-                    style: const TextStyle(fontSize: 18, color: Colors.white),
-                  ),
-                ),
-                Container(
-                  // current login method title
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.only(top: 20, left: 60),
-                  child: Text(
-                    "Current login method",
-                    style: TextStyle(
-                        fontSize: 18,
-                        color: Theme.of(context).buttonColor,
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                Container(
-                  // current login method title
-                  alignment: Alignment.topLeft,
-                  margin: const EdgeInsets.only(top: 20, left: 60),
-                  child: Text(
-                    currentLoginMethod,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+          return Column(
+            children: [
+              Container(
+                // email address title
+                alignment: Alignment.topLeft,
+                margin: const EdgeInsets.only(top: 20, left: 60),
+                child: Text(
+                  "Email address",
+                  style: TextStyle(
                       fontSize: 18,
-                      color: Colors.white,
-                    ),
+                      color: Theme.of(context).buttonColor,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+              Container(
+                // email address
+                width: double.infinity,
+                alignment: Alignment.topLeft,
+                margin: const EdgeInsets.only(top: 20, left: 60),
+                child: Text(
+                  emailAddress,
+                  maxLines: 1,
+                  overflow: TextOverflow.fade,
+                  style: const TextStyle(fontSize: 18, color: Colors.white),
+                ),
+              ),
+              Container(
+                // current login method title
+                alignment: Alignment.topLeft,
+                margin: const EdgeInsets.only(top: 20, left: 60),
+                child: Text(
+                  "Current login method",
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).buttonColor,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+              Container(
+                // current login method title
+                alignment: Alignment.topLeft,
+                margin: const EdgeInsets.only(top: 20, left: 60),
+                child: Text(
+                  currentLoginMethod,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Colors.white,
                   ),
                 ),
-                Container(
-                  // privacy policy button
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(top: 30, left: 50),
-                  child: Container(
-                    height: 60,
-                    // ignore: deprecated_member_use
-                    child: RaisedButton(
-                      color: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).buttonColor,
-                      splashColor: Colors.white54,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                              color: Theme.of(context).buttonColor, width: 2)),
-                      child: const Text(
-                        "Privacy Policy",
-                        maxLines: 1,
-                        overflow: TextOverflow.fade,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
+              ),
+              Container(
+                // privacy policy button
+                width: double.infinity,
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(top: 30, left: 50),
+                child: Container(
+                  height: 60,
+                  // ignore: deprecated_member_use
+                  child: RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    textColor: Theme.of(context).buttonColor,
+                    splashColor: Colors.white54,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(
+                            color: Theme.of(context).buttonColor, width: 2)),
+                    child: const Text(
+                      "Privacy Policy",
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      onPressed: () {
-                        // todo navigate to website privacy policy
-                      },
                     ),
+                    onPressed: () {
+                      // todo navigate to website privacy policy
+                    },
                   ),
                 ),
-                Container(
-                  // delete account button
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(top: 25, left: 50),
-                  child: Container(
-                    height: 60,
-                    // ignore: deprecated_member_use
-                    child: RaisedButton(
-                      color: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).buttonColor,
-                      splashColor: Colors.red[600],
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                              color: Theme.of(context).buttonColor, width: 2)),
-                      child: const Text(
-                        "Delete Account",
-                        maxLines: 1,
-                        overflow: TextOverflow.fade,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
+              ),
+              Container(
+                // delete account button
+                width: double.infinity,
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(top: 25, left: 50),
+                child: Container(
+                  height: 60,
+                  // ignore: deprecated_member_use
+                  child: RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    textColor: Theme.of(context).buttonColor,
+                    splashColor: Colors.red[600],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(
+                            color: Theme.of(context).buttonColor, width: 2)),
+                    child: const Text(
+                      "Delete Account",
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      onPressed: () => _deleteAccountDialogueBox(context),
                     ),
+                    onPressed: () => _deleteAccountDialogueBox(context),
                   ),
                 ),
-                Container(
-                  // logout button
-                  width: double.infinity,
-                  alignment: Alignment.centerLeft,
-                  margin: const EdgeInsets.only(top: 25, left: 50),
-                  child: Container(
-                    height: 60,
-                    width: 150,
-                    // ignore: deprecated_member_use
-                    child: RaisedButton(
-                      color: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).buttonColor,
-                      splashColor: Colors.white54,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(
-                              color: Theme.of(context).buttonColor, width: 2)),
-                      child: const Text(
-                        "Logout",
-                        maxLines: 1,
-                        overflow: TextOverflow.fade,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
+              ),
+              Container(
+                // logout button
+                width: double.infinity,
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(top: 25, left: 50),
+                child: Container(
+                  height: 60,
+                  width: 160,
+                  // ignore: deprecated_member_use
+                  child: RaisedButton(
+                    color: Theme.of(context).primaryColor,
+                    textColor: Theme.of(context).buttonColor,
+                    splashColor: Colors.white54,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        side: BorderSide(
+                            color: Theme.of(context).buttonColor, width: 2)),
+                    child: const Text(
+                      "Logout",
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                      onPressed: () => logoutUser(context),
                     ),
+                    onPressed: () => logoutUser(context),
                   ),
                 ),
-                Container(
-                  // made from love text
-                  width: double.infinity,
+              ),
+              Expanded(
+                child: Align(
                   alignment: Alignment.bottomCenter,
-                  margin: const EdgeInsets.only(top: 40),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        // text
-                        child: const Text(
-                          "Made with",
+                  child: Container(
+                    // made from love text
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(top: 40),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          // text
+                          child: const Text(
+                            "Made with",
+                            style:
+                                TextStyle(color: Colors.white70, fontSize: 16),
+                          ),
+                        ),
+                        Container(
+                          // heart animation
+                          margin: const EdgeInsets.only(left: 2),
+                          child: Lottie.asset(
+                            "assets/animations/heart_final.json",
+                            fit: BoxFit.cover,
+                            height: 40,
+                            width: 40,
+                          ),
+                        ),
+                        const Text(
+                          "from India",
+                          maxLines: 1,
+                          overflow: TextOverflow.fade,
                           style: TextStyle(color: Colors.white70, fontSize: 16),
                         ),
-                      ),
-                      Container(
-                        // heart animation
-                        margin: const EdgeInsets.only(left: 2),
-                        child: Lottie.asset(
-                          "assets/animations/heart_final.json",
-                          fit: BoxFit.cover,
-                          height: 40,
-                          width: 40,
-                        ),
-                      ),
-                      const Text(
-                        "from India",
-                        maxLines: 1,
-                        overflow: TextOverflow.fade,
-                        style: TextStyle(color: Colors.white70, fontSize: 16),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-                Container(
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
                   // app version
-                  alignment: Alignment.bottomCenter,
                   margin: const EdgeInsets.only(top: 5),
                   child: Text(
                     !packageSnapShot.hasData
                         ? ""
                         : "V ${packageSnapShot.data.version}",
+                        maxLines: 1,
+                        overflow: TextOverflow.clip,
                     style: TextStyle(fontSize: 16, color: Colors.white70),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),
@@ -267,10 +275,10 @@ void _deleteAccountDialogueBox(BuildContext context) {
         style: const TextStyle(color: Colors.white, fontSize: 18),
       ),
       onPressed: () {
-        // todo logout user
-        // todo delete function here
         if (formKey.currentState.validate()) {
-          print("validated account will be deleted....");
+          Navigator.pop(context);
+          logoutUser(context);
+          callUserDeleteFunction();
         }
       },
     ),

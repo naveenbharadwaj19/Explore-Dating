@@ -7,43 +7,10 @@ const nearRegion = "asia-south1";
 const typingRTDBUrl =
   "https://explore-dating-default-rtdb.asia-southeast1.firebasedatabase.app/";
 
-// delete chats data nad typing data in rtdb
-exports.deleteChatsTyping = functions
-  .region(nearRegion)
-  .runWith({ memory: "256MB", timeoutSeconds: 200 })
-  .auth.user()
-  .onDelete(async (user) => {
-    try {
-      var counter = 0; // track how many docs deleted
-      var firestore = admin.firestore();
-      var rtdb = admin.database();
-      var datas = await firestore
-        .collectionGroup("Chats")
-        .where("uids", "array-contains", user.uid)
-        .limit(100)
-        .get(); // only 100 docs
-      // ! batch writing is not working
-      var batch = firestore.batch();
-      datas.docs.forEach(async (item) => {
-        var deepPath = item.ref.path; // chats/auto-id/chats/rooms...
-        var outerPath = deepPath.split("/")[1]; // auto-id
-        batch.delete(deepPath);
-        batch.delete(`Chats/${outerPath}`);
-        await rtdb.refFromURL(typingRTDBUrl).child(outerPath).remove(); // remove typing data from rtdb
-        counter++;
-      });
-      await batch.commit(); // ! batch writing is not working
-      console.log(
-        `${counter} deleted from chats and typing of the user ${user.uid}`
-      );
-    } catch (error) {
-      console.log(
-        `Error in deletation of chats and typing of the user ${
-          user.uid
-        } : ${error.toString()}`
-      );
-    }
-  });
+const reportRTDBUrl =
+  "https://report-block.asia-southeast1.firebasedatabase.app/";
+const starsRTDBUrl =
+  "https://star-informations.asia-southeast1.firebasedatabase.app/";
 
 //  delete user cloud storage
 exports.deleteUserCloudStorage = functions
@@ -108,3 +75,90 @@ exports.deleteUserAccount = functions.https.onCall(async (data, context) => {
     console.log("Error :" + error.toString());
   }
 });
+
+// delete -> chats,stars rtdb,reports rtdb, chatphotos storage
+exports.iterateUserDelete = functions
+  .region(nearRegion)
+  .runWith({ memory: "512MB", timeoutSeconds: 240 })
+  .firestore.document("Users/{userId}")
+  .onDelete(async (snap, context) => {
+    try {
+      const uid = snap.get("bio.user_id");
+      var storeDocIDs = [];
+      // chats
+      const firestore = admin.firestore();
+      var datas = await firestore
+        .collectionGroup("Chats")
+        .where("uids", "array-contains", uid)
+        .where("show_this", "==", true)
+        .orderBy("latest_time","desc")
+        .limit(500)
+        .get();
+      var batch = firestore.batch();
+      datas.docs.forEach((item) => {
+        var path = item.ref.path;
+        let documentRef = firestore.doc(path);
+        var docId = item.ref.path.split("/")[1];
+        storeDocIDs.push(docId);
+        // update the docs
+        batch.update(documentRef, {
+          show_this: false,
+        });
+      });
+      await batch.commit();
+      deleteStarsInfo(uid);
+      deleteReportInfo(uid);
+      deleteTypingRTDB(storeDocIDs);
+      deleteChatPhotos(storeDocIDs);
+      console.log("Iterate delete success");
+    } catch (error) {
+      console.log(`Error in iterateUserDelete : ${error.toString()}`);
+    }
+  });
+
+/**
+ * @param  {string} uid
+ */
+async function deleteStarsInfo(uid) {
+  try {
+    var db = admin.app().database(starsRTDBUrl).ref();
+    await db.child(uid).remove();
+  } catch (error) {
+    console.log(`Error in deleteStarsInfo : ${error.toString()}`);
+  }
+}
+/**
+ * @param  {string} uid
+ */
+async function deleteReportInfo(uid) {
+  try {
+    var db = admin.app().database(reportRTDBUrl).ref();
+    await db.child(`explicit_reports/${uid}`).remove();
+    await db.child(`gross_reports/${uid}`).remove();
+  } catch (error) {
+    console.log(`Error in deleteReportsInfo rtdb : ${error.toString()}`);
+  }
+}
+
+async function deleteTypingRTDB(docIds) {
+  try {
+    var db = admin.app().database(typingRTDBUrl).ref();
+    docIds.forEach(async (item) => {
+      await db.child(item).remove();
+    });
+  } catch (error) {
+    console.log(`Error in deleteTypingRTDB rtdb : ${error.toString()}`);
+  }
+}
+
+async function deleteChatPhotos(docIds) {
+  try {
+    const storage = new Storage({ projectId: "explore-dating" });
+    const bucket = storage.bucket("gs://explore-dating.appspot.com");
+    docIds.forEach(async (item) => {
+      await bucket.deleteFiles({ force: true, prefix: `Chatphotos/${item}` });
+    });
+  } catch (error) {
+    console.log(`Error in deleteChatPhotos storage : ${error.toString()}`);
+  }
+}

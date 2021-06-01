@@ -10,6 +10,7 @@ class AccCreatedScreen extends StatefulWidget {
   @override
   _AccCreatedScreenState createState() => _AccCreatedScreenState();
 }
+
 class _AccCreatedScreenState extends State<AccCreatedScreen> {
   final String _animationName = "SuccessCheck";
   bool openContinueButton = false;
@@ -76,36 +77,32 @@ class _AccCreatedScreenState extends State<AccCreatedScreen> {
               child: Container(
                 width: 180,
                 margin: const EdgeInsets.only(bottom: 30),
-                child: AbsorbPointer(
-                  absorbing: !openContinueButton ? true : false, // will set after 2 seconds
-                  // ignore: deprecated_member_use
-                  child: RaisedButton(
-                    color: !openContinueButton
-                        ? Color(0x80F8C80D)
-                        : Color(0xffF8C80D),
-                    textColor: Color(0xff121212),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        side: BorderSide(
-                          color: !openContinueButton
-                              ? Color(0x80F8C80D)
-                              : Color(0xffF8C80D),
-                        )),
-                    child: Text(
-                      "Continue",
-                      style: TextStyle(
-                        fontSize: 20,
-                        // fontWeight: FontWeight.w700,
+                
+                child: !openContinueButton
+                    ? Container()
+                    // ignore: deprecated_member_use
+                    : RaisedButton(
+                        color: Color(0xffF8C80D),
+                        textColor: Color(0xff121212),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            side: BorderSide(
+                              color: Color(0xffF8C80D),
+                            )),
+                        child: Text(
+                          "Continue",
+                          style: TextStyle(
+                            fontSize: 20,
+                            // fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        onPressed: () {
+                          // manageSigninLogin = false;
+                          OnlyDuringSignupFirestore.updateAccSuccPage(context);
+                        },
                       ),
-                    ),
-                    onPressed: () {
-                      // manageSigninLogin = false;
-                      OnlyDuringSignupFirestore.updateAccSuccPage(context);                      
-                    },
-                  ),
-                ),
               ),
-            )
+            ),
           ],
         ),
       ),

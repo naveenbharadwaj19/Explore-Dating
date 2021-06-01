@@ -128,7 +128,7 @@ class _PhotoOptions {
     return showBarModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        color: Colors.white,
+        color:  Theme.of(context).primaryColor,
         height: 300,
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
@@ -143,10 +143,11 @@ class _PhotoOptions {
                 icon: Icon(
                   Icons.camera_alt_rounded,
                   size: 40,
+                  color: Theme.of(context).buttonColor,
                 ),
-                splashColor: Color(0xff121212),
-                color: Color(0xff121212),
-                textColor: Color(0xffF8C80D),
+                splashColor: Colors.transparent,
+                color: Colors.white,
+                textColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -176,10 +177,11 @@ class _PhotoOptions {
                 icon: Icon(
                   GalleryIcon.picture,
                   size: 40,
+                  color: Theme.of(context).buttonColor,
                 ),
-                splashColor: Color(0xff121212),
-                color: Color(0xff121212),
-                textColor: Color(0xffF8C80D),
+                splashColor: Colors.transparent,
+                color: Colors.white,
+                textColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -207,7 +209,7 @@ class _PhotoOptions {
     return showBarModalBottomSheet(
       context: context,
       builder: (context) => Container(
-        color: Colors.white,
+        color: Theme.of(context).primaryColor,
         height: 300,
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.center,
@@ -222,10 +224,11 @@ class _PhotoOptions {
                 icon: Icon(
                   Icons.camera_alt_rounded,
                   size: 40,
+                  color: Theme.of(context).buttonColor,
                 ),
-                splashColor: Color(0xff121212),
-                color: Color(0xff121212),
-                textColor: Color(0xffF8C80D),
+                splashColor: Colors.transparent,
+                color: Colors.white,
+                textColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -255,10 +258,11 @@ class _PhotoOptions {
                 icon: Icon(
                   GalleryIcon.picture,
                   size: 40,
+                  color: Theme.of(context).buttonColor,
                 ),
-                splashColor: Color(0xff121212),
-                color: Color(0xff121212),
-                textColor: Color(0xffF8C80D),
+                splashColor: Colors.transparent,
+                color: Colors.white,
+                textColor: Theme.of(context).primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),

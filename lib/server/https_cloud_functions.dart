@@ -20,7 +20,7 @@ Future<void> callUserDeleteFunction() async {
     FirebaseFunctions disableFunction = FirebaseFunctions.instance;
     var callFunction = disableFunction.httpsCallable("deleteUserAccount");
     await callFunction();
-    print("deleteUserAccount function is triggered");
+    print("Delete account process is triggered");
   } catch (error) {
     print("Error in https callable : ${error.toString()}");
   }
@@ -80,5 +80,21 @@ Future<void> replicateHeadPhoto(String headPhotoUrl) async {
     }).then((value) => print(value.data));
   } catch (error) {
     print("Error in https callable -> replicateHeadPhoto : ${error.toString()}");
+  }
+}
+
+
+Future<void> createMatchMakingServerSide(String headPhoto,String bodyPhoto,String selectedShowMe) async {
+  // ? create matchmaking,profile,profilephotos
+  try {
+    FirebaseFunctions function = FirebaseFunctions.instance;
+    var callFunction = function.httpsCallable("createMatchMakingData");
+    callFunction({
+      "headPhoto" : headPhoto,
+      "bodyPhoto" : bodyPhoto,
+      "selectedShowMe" : selectedShowMe 
+    }).then((value) => print(value.data));
+  } catch (error) {
+    print("Error in https callable -> createMatchMakingServerSide : ${error.toString()}");
   }
 }
