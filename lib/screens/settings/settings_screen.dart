@@ -116,6 +116,7 @@ class SettingsScreen extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 30, left: 50),
                 child: Container(
                   height: 60,
+                  width: 160,
                   // ignore: deprecated_member_use
                   child: RaisedButton(
                     color: Theme.of(context).primaryColor,

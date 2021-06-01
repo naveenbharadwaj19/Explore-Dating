@@ -16,10 +16,12 @@ import 'package:explore/screens/bottom_navigation_bar_screens.dart';
 import 'package:explore/screens/no_internet_connection_screen.dart';
 import 'package:explore/screens/signup_screens/pick_photos_screen.dart';
 import 'package:explore/screens/signup_screens/show_me_screen.dart';
+import 'package:explore/server/update_show_me.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
+
 class BasicDetailsScreens extends StatefulWidget {
   static const routeName = "basic-details";
 
@@ -104,8 +106,13 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
           print("In photo page");
           return PickPhotoScreen();
         }
-        if (userSnapShot.data["show_me"].isEmpty ||
-            userSnapShot.data["show_me"] == null) {
+        if (userSnapShot.data["show_me"] == null) {
+          print("ShowMe is null");
+          showMeNull();
+          return Center(child: loadingSpinner());
+        }
+
+        if (userSnapShot.data["show_me"].isEmpty) {
           print("In show me page");
           return ShowMeScreen();
         }
@@ -168,7 +175,7 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                 print("ConnectionStatus : ${internetConnection.data}");
                 if (internetConnection.data == ConnectivityResult.none) {
                   print("Cannot find internet connection");
-                  return noInternetConnection(animationName2,context);
+                  return noInternetConnection(animationName2, context);
                 }
                 validateAndStoreUserDetails(
                     currentCoordinates.latitude, currentCoordinates.longitude);
