@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ntp/ntp.dart';
 
 class Report {
-  static String _myUid = FirebaseAuth.instance.currentUser.uid;
   static Future<void> fakeProfile(String oppositeUid) async {
+    String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
       ReportRTDB.reportAndBlock(oppositeUid, "Fake profile");
       DateTime nTPTimeStamp = await NTP.now();
@@ -19,7 +19,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -36,7 +36,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
@@ -48,7 +48,9 @@ class Report {
 
   static Future<void> sexualExplicitContent(String oppositeUid) async {
     // parent of inapporiate content
+     String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
+     
       ReportRTDB.reportAndBlock(oppositeUid, "Sexual explicit content");
       DateTime nTPTimeStamp = await NTP.now();
       String fakeProfilePath =
@@ -59,7 +61,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -76,7 +78,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
@@ -88,6 +90,7 @@ class Report {
 
   static Future<void> imagesOfViolenceTorture(String oppositeUid) async {
     // parent of inapporiate content
+     String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
       ReportRTDB.reportAndBlock(oppositeUid, "Images of violence and torture");
       DateTime nTPTimeStamp = await NTP.now();
@@ -99,7 +102,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -116,7 +119,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
@@ -128,6 +131,7 @@ class Report {
 
   static Future<void> hateGroup(String oppositeUid) async {
     // parent of inapporiate content
+     String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
       ReportRTDB.reportAndBlock(oppositeUid, "Hate group");
       DateTime nTPTimeStamp = await NTP.now();
@@ -139,7 +143,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -156,7 +160,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
@@ -168,6 +172,7 @@ class Report {
 
   static Future<void> illegalActivityAdvertising(String oppositeUid) async {
     // parent of inapporiate content
+     String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
       ReportRTDB.reportAndBlock(
           oppositeUid, "Illegal activity and advertising");
@@ -180,7 +185,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -197,7 +202,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
@@ -208,6 +213,7 @@ class Report {
   }
 
   static Future<void> profileUnder18(String oppositeUid) async {
+     String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
       ReportRTDB.reportAndBlock(oppositeUid, "Profile under 18");
       DateTime nTPTimeStamp = await NTP.now();
@@ -219,7 +225,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -236,7 +242,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
@@ -247,6 +253,7 @@ class Report {
   }
 
   static Future<void> hateSpeech(String oppositeUid) async {
+     String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
       ReportRTDB.reportAndBlock(oppositeUid, "Hate speech");
       DateTime nTPTimeStamp = await NTP.now();
@@ -258,7 +265,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -275,7 +282,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
@@ -286,6 +293,7 @@ class Report {
   }
 
   static Future<void> fakeLocation(String oppositeUid) async {
+     String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
       ReportRTDB.reportAndBlock(oppositeUid, "Spoofing location");
       DateTime nTPTimeStamp = await NTP.now();
@@ -297,7 +305,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -314,7 +322,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
@@ -326,6 +334,7 @@ class Report {
 
   static Future<void> againstExploreDating(
       String oppositeUid, String explicitReason) async {
+         String myUid = FirebaseAuth.instance.currentUser.uid;
     try {
       ReportRTDB.reportAndBlock(oppositeUid, explicitReason);
       DateTime nTPTimeStamp = await NTP.now();
@@ -337,7 +346,7 @@ class Report {
         "reported_me": FieldValue.increment(1),
         "red_flag": FieldValue.arrayUnion([
           {
-            "reported_uid": _myUid,
+            "reported_uid": myUid,
             "reported_time": nTPTimeStamp,
           }
         ]),
@@ -354,7 +363,7 @@ class Report {
         await flageUser.set({
           "reported_me": FieldValue.increment(1),
           "red_flag": FieldValue.arrayUnion([
-            {"reported_uid": _myUid, "reported_time": nTPTimeStamp}
+            {"reported_uid": myUid, "reported_time": nTPTimeStamp}
           ]),
         });
         print("No red flag collection found so created one");
