@@ -2,6 +2,7 @@
 // todo when user press report button
 
 import 'dart:async';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/screens/report/report_screen.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +75,7 @@ class _ReportChatPopUp extends StatelessWidget {
                 onPressed: () {
                   print("Pressed report & block");
                   Navigator.pop(context);
-                  reportBottomSheet(name, oppositeUid, context,reportType: "chats");
+                  reportBottomSheet(name, oppositeUid, context,reportType: "chats",previewType: PreviewType.individualChat);
                 },
               ),
             ),

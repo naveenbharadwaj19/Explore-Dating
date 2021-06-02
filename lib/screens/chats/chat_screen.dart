@@ -2,8 +2,10 @@
 // todo chat screen
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:explore/icons/hour_glass_icons.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/chats/individual_chat_screen.dart';
+import 'package:explore/screens/profile/other_user_pres_screen.dart';
 import 'package:explore/server/chats/chat_backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -149,10 +151,14 @@ class _Chats extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              onLongPress: () {
-                                // todo navigate to preview
-                                print("Preview");
-                              },
+                              onLongPress: () => Navigator.pushNamed(
+                                  context, OtherUserPrespectiveScreen.routeName,
+                                  arguments: {
+                                    "uid": ChatBackEnd.chatData[index]
+                                        ["opposite_uid"],
+                                    "preview_type": PreviewType.chats,
+                                    "index": 9999
+                                  }),
                             ),
                           ),
                           Container(
@@ -214,7 +220,8 @@ class _Chats extends StatelessWidget {
                           "head_photo": ChatBackEnd.chatData[index]
                               ["head_photo"],
                           "path": ChatBackEnd.chatData[index]["path"],
-                          "opposite_uid" : ChatBackEnd.chatData[index]["opposite_uid"],
+                          "opposite_uid": ChatBackEnd.chatData[index]
+                              ["opposite_uid"],
                         }),
                   ),
                 );

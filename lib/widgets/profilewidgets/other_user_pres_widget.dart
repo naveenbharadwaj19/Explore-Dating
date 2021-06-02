@@ -2,6 +2,8 @@
 // todo : Widgets of other user prespective
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:explore/icons/profile_icons_icons.dart';
+import 'package:explore/models/all_enums.dart';
+import 'package:explore/screens/home/explore_screen.dart' show LowerBox;
 import 'package:flutter/material.dart';
 
 Widget oUPSAboutMe(dynamic aboutMeData, BuildContext context) {
@@ -172,7 +174,7 @@ Widget oUPSWarp1(dynamic aboutMeData, BuildContext context) {
 class OUPSWrap2 extends StatelessWidget {
   final dynamic aboutMeData;
   OUPSWrap2(this.aboutMeData);
-  
+
   List wrap2() {
     List<Map> toRemove = [];
     List wrap2Data = [
@@ -347,21 +349,23 @@ class OtherUserPrespectiveScreenTitles {
           aboutMeData["looking_for"].isEmpty &&
           aboutMeData["kids"].isEmpty &&
           aboutMeData["zodiac_signs"].isEmpty) {
-            status = true;
-          }
+        status = true;
+      }
       return status;
     }
 
     return SliverToBoxAdapter(
-      child: checkTitleStatus() ? Container() : Container(
-        margin: const EdgeInsets.only(top: 30, left: 35),
-        alignment: Alignment.centerLeft,
-        child: const Text(
-          "My basic info",
-          overflow: TextOverflow.fade,
-          style: TextStyle(color: Colors.white70, fontSize: 18),
-        ),
-      ),
+      child: checkTitleStatus()
+          ? Container()
+          : Container(
+              margin: const EdgeInsets.only(top: 30, left: 35),
+              alignment: Alignment.centerLeft,
+              child: const Text(
+                "My basic info",
+                overflow: TextOverflow.fade,
+                style: TextStyle(color: Colors.white70, fontSize: 18),
+              ),
+            ),
     );
   }
 
@@ -404,5 +408,18 @@ class OtherUserPrespectiveScreenTitles {
         style: TextStyle(color: Colors.white70, fontSize: 18),
       ),
     );
+  }
+}
+
+Widget starReport(PreviewType previewType, int index) {
+  if (PreviewType.feeds == previewType) {
+    return SliverToBoxAdapter(
+        child: Center(
+            child: Container(
+                margin: const EdgeInsets.only(top: 10),
+                child: LowerBox(index, previewType: previewType))));
+  } else {
+    // if preview type is not equal to feeds
+    return SliverToBoxAdapter(child: Container());
   }
 }

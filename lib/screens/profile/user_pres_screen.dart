@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:explore/icons/gallery_icon_icons.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/profile/other_user_pres_screen.dart';
@@ -331,7 +332,11 @@ class _HeadPhotoPopUp extends StatelessWidget {
               ),
               onPressed: () {
                 print("Pressed preview");
-                Navigator.pushReplacementNamed(context, OtherUserPrespectiveScreen.routeName);
+                Navigator.pushReplacementNamed(context, OtherUserPrespectiveScreen.routeName,arguments: {
+                  "uid" : FirebaseAuth.instance.currentUser.uid,
+                  "preview_type" : PreviewType.previewOwnProfile,
+                  "index" : 9999 // user will not reach this index number in feeds
+                });
               },
             ),
           ),

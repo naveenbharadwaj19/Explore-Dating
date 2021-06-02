@@ -7,13 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 Future reportBottomSheet(String name, String oppositeUid, BuildContext context,
-    {int index, String reportType = "feeds"}) {
+    {int index, String reportType = "feeds",@required PreviewType previewType}) {
   // types of report -> chats , feeds
   // default report type feeds
   return showBarModalBottomSheet(
     backgroundColor: Theme.of(context).primaryColor,
     context: context,
-    builder: (context) => _ReportScreen(name, oppositeUid, index, reportType),
+    builder: (context) => _ReportScreen(name, oppositeUid, index, reportType,previewType),
   );
 }
 
@@ -22,7 +22,8 @@ class _ReportScreen extends StatelessWidget {
   final String oppositeUid;
   final int index;
   final String reportType;
-  _ReportScreen(this.name, this.oppositeUid, this.index, this.reportType);
+  final PreviewType previewType;
+  _ReportScreen(this.name, this.oppositeUid, this.index, this.reportType,this.previewType);
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -80,7 +81,7 @@ class _ReportScreen extends StatelessWidget {
                     name, oppositeUid, "as fake profile", context,
                     selectedReportType: ReportType.fakeprofile,
                     index: index,
-                    reportType: reportType),
+                    reportType: reportType,previewType: previewType),
               ),
             ),
             const Divider(
@@ -101,7 +102,7 @@ class _ReportScreen extends StatelessWidget {
                 splashColor: Theme.of(context).buttonColor,
                 onPressed: () => _reportInapporiateContentBottomSheet(
                     name, oppositeUid, context,
-                    index: index, reportType: reportType),
+                    index: index, reportType: reportType,previewType: previewType),
               ),
             ),
             const Divider(
@@ -124,7 +125,7 @@ class _ReportScreen extends StatelessWidget {
                     name, oppositeUid, "as under age", context,
                     selectedReportType: ReportType.profileUnder18,
                     index: index,
-                    reportType: reportType),
+                    reportType: reportType,previewType: previewType),
               ),
             ),
             const Divider(
@@ -147,7 +148,7 @@ class _ReportScreen extends StatelessWidget {
                     name, oppositeUid, "for outspreading hate speech", context,
                     selectedReportType: ReportType.hateSpeech,
                     index: index,
-                    reportType: reportType),
+                    reportType: reportType,previewType: previewType),
               ),
             ),
             const Divider(
@@ -170,7 +171,7 @@ class _ReportScreen extends StatelessWidget {
                     name, oppositeUid, "for spoofing location", context,
                     selectedReportType: ReportType.fakeLocation,
                     index: index,
-                    reportType: reportType),
+                    reportType: reportType,previewType: previewType),
               ),
             ),
             const Divider(
@@ -191,7 +192,7 @@ class _ReportScreen extends StatelessWidget {
                 splashColor: Theme.of(context).buttonColor,
                 onPressed: () => againstExploreDatingBottomSheet(
                     name, oppositeUid, context,
-                    index: index, reportType: reportType),
+                    index: index, reportType: reportType,previewType: previewType),
               ),
             ),
             const Divider(
@@ -215,7 +216,7 @@ class _ReportScreen extends StatelessWidget {
                     pressedNotInterested: true,
                     selectedReportType: ReportType.notInterested,
                     index: index,
-                    reportType: reportType),
+                    reportType: reportType,previewType: previewType),
               ),
             ),
           ],
@@ -227,12 +228,12 @@ class _ReportScreen extends StatelessWidget {
 
 Future _reportInapporiateContentBottomSheet(
     String name, String oppositeUid, BuildContext context,
-    {int index, String reportType}) {
+    {int index, String reportType,@required PreviewType previewType}) {
   return showBarModalBottomSheet(
     backgroundColor: Theme.of(context).primaryColor,
     context: context,
     builder: (context) =>
-        _ReportInapporiateContent(name, oppositeUid, index, reportType),
+        _ReportInapporiateContent(name, oppositeUid, index, reportType,previewType),
   );
 }
 
@@ -241,8 +242,9 @@ class _ReportInapporiateContent extends StatelessWidget {
   final String oppositeUid;
   final int index;
   final String reportType;
+  final PreviewType previewType;
   _ReportInapporiateContent(
-      this.name, this.oppositeUid, this.index, this.reportType);
+      this.name, this.oppositeUid, this.index, this.reportType,this.previewType);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -300,7 +302,7 @@ class _ReportInapporiateContent extends StatelessWidget {
                   selectedReportType: ReportType.sexuallyExplicitContent,
                   pressedInapporiateContent: true,
                   index: index,
-                  reportType: reportType),
+                  reportType: reportType,previewType: previewType),
             ),
           ),
           const Divider(
@@ -324,7 +326,7 @@ class _ReportInapporiateContent extends StatelessWidget {
                   selectedReportType: ReportType.imagesOfViolenceTorture,
                   pressedInapporiateContent: true,
                   index: index,
-                  reportType: reportType),
+                  reportType: reportType,previewType: previewType),
             ),
           ),
           const Divider(
@@ -348,7 +350,7 @@ class _ReportInapporiateContent extends StatelessWidget {
                   selectedReportType: ReportType.hateGroup,
                   pressedInapporiateContent: true,
                   index: index,
-                  reportType: reportType),
+                  reportType: reportType,previewType: previewType),
             ),
           ),
           const Divider(
@@ -372,7 +374,7 @@ class _ReportInapporiateContent extends StatelessWidget {
                   selectedReportType: ReportType.illegalActivityAdvertising,
                   pressedInapporiateContent: true,
                   index: index,
-                  reportType: reportType),
+                  reportType: reportType,previewType: previewType),
             ),
           ),
         ],
@@ -387,7 +389,7 @@ Future _reportSubmitBottomSheet(
     bool pressedInapporiateContent = false,
     int index,
     String reportType,
-    @required ReportType selectedReportType}) {
+    @required ReportType selectedReportType, @required PreviewType previewType}) {
   return showBarModalBottomSheet(
     backgroundColor: Theme.of(context).primaryColor,
     context: context,
@@ -399,7 +401,7 @@ Future _reportSubmitBottomSheet(
         pressedInapporiateContent,
         selectedReportType,
         index,
-        reportType),
+        reportType,previewType),
   );
 }
 
@@ -412,6 +414,7 @@ class _ReportSubmit extends StatelessWidget {
   final ReportType selectedReportType;
   final int index;
   final String reportType;
+  final PreviewType previewType;
   _ReportSubmit(
       this.name,
       this.oppositeUid,
@@ -420,7 +423,9 @@ class _ReportSubmit extends StatelessWidget {
       this.pressedInapporiateContent,
       this.selectedReportType,
       this.index,
-      this.reportType);
+      this.reportType,
+      this.previewType
+      );
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -502,7 +507,7 @@ class _ReportSubmit extends StatelessWidget {
                     oppositeUid,
                   );
                   greetReportFeedBackBottomSheet(reportType, context,
-                      index: index);
+                      index: index,previewType: previewType);
                 } else {
                   int popCount = 0;
                   Navigator.popUntil(context, (route) {
@@ -510,7 +515,7 @@ class _ReportSubmit extends StatelessWidget {
                   });
                   validateReports(selectedReportType, oppositeUid);
                   greetReportFeedBackBottomSheet(reportType, context,
-                      index: index);
+                      index: index,previewType: previewType);
                 }
               },
             ),

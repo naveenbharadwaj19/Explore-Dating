@@ -3,6 +3,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/vibration.dart';
 import 'package:explore/screens/chats/pop_up_chat_screen.dart';
 import 'package:explore/server/star_report_backend/stars_rtdb.dart';
@@ -23,7 +24,7 @@ class Stars {
   }
 
   static Future<void> storeStarInfo(
-      {@required index, @required BuildContext context}) async {
+      {@required index,@required PreviewType previewType ,@required BuildContext context}) async {
     try {
       // * 7 R ,7 W
       final now = DateTime.now();
@@ -80,7 +81,7 @@ class Stars {
             scrollUserDetails[index]["star"] = true;
             scrollUserDetails[index]["lock_report"] = true;
             print("star info updated in firestore");
-            popUpChatBottomSheet(index, context);
+            popUpChatBottomSheet(index,previewType ,context);
             starsRTDB(oppositeUserUid);
           }
         }
@@ -108,7 +109,7 @@ class Stars {
           scrollUserDetails[index]["star"] = true;
           scrollUserDetails[index]["lock_report"] = true;
           print("star info created in firestore");
-          popUpChatBottomSheet(index, context);
+          popUpChatBottomSheet(index,previewType ,context);
           starsRTDB(oppositeUserUid);
         }
       }

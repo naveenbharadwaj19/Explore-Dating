@@ -14,7 +14,6 @@ import 'package:flutter/services.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
-
 void validateReports(
   ReportType selectedReportType,
   String oppositeUid,
@@ -43,12 +42,12 @@ void validateReports(
 
 Future againstExploreDatingBottomSheet(
     String name, String oppositeUid, BuildContext context,
-    {int index, String reportType}) {
+    {int index, String reportType, @required PreviewType previewType}) {
   return showBarModalBottomSheet(
       backgroundColor: Theme.of(context).primaryColor,
       context: context,
-      builder: (context) =>
-          _AgainstExploreDating(name, oppositeUid, index, reportType));
+      builder: (context) => _AgainstExploreDating(
+          name, oppositeUid, index, reportType, previewType));
 }
 
 class _AgainstExploreDating extends StatefulWidget {
@@ -56,8 +55,9 @@ class _AgainstExploreDating extends StatefulWidget {
   final String oppositeUid;
   final int index;
   final String reportType;
-  _AgainstExploreDating(
-      this.name, this.oppositeUid, this.index, this.reportType);
+  final PreviewType previewType;
+  _AgainstExploreDating(this.name, this.oppositeUid, this.index,
+      this.reportType, this.previewType);
 
   @override
   __AgainstExploreDatingState createState() => __AgainstExploreDatingState();
@@ -188,7 +188,7 @@ class __AgainstExploreDatingState extends State<_AgainstExploreDating> {
                   Report.againstExploreDating(
                       widget.oppositeUid, _controller.text.trim());
                   greetReportFeedBackBottomSheet(widget.reportType, context,
-                      index: widget.index);
+                      index: widget.index, previewType: widget.previewType);
                 }
               },
             ),
@@ -200,19 +200,20 @@ class __AgainstExploreDatingState extends State<_AgainstExploreDating> {
 }
 
 Future greetReportFeedBackBottomSheet(String reportType, BuildContext context,
-    {int index}) {
+    {int index, @required PreviewType previewType}) {
   return showBarModalBottomSheet(
       isDismissible: false,
       enableDrag: false,
       backgroundColor: Theme.of(context).primaryColor,
       context: context,
-      builder: (context) => _GreetReport(reportType, index));
+      builder: (context) => _GreetReport(reportType, index, previewType));
 }
 
 class _GreetReport extends StatelessWidget {
   final String reportType;
   final int index;
-  _GreetReport(this.reportType, this.index);
+  final PreviewType previewType;
+  _GreetReport(this.reportType, this.index, this.previewType);
   @override
   Widget build(BuildContext context) {
     final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
@@ -261,11 +262,22 @@ class _GreetReport extends StatelessWidget {
                   pageViewLogic.holdExecution.value = true;
                   scrollUserDetails
                       .removeAt(index); // remove reported user from the list
-                  Timer(
-                      Duration(seconds: 1),
-                      () => pageViewLogic.holdExecution.value =
-                          false); // stop execution
-                  Navigator.pop(context);
+                  if (PreviewType.feeds == previewType) {
+                    Timer(
+                        Duration(seconds: 1),
+                        () => pageViewLogic.holdExecution.value =
+                            false); // stop execution
+                    int countPopScreen = 0;
+                    Navigator.popUntil(context, (route) {
+                      return countPopScreen++ == 2;
+                    });
+                  } else {
+                    Timer(
+                        Duration(seconds: 1),
+                        () => pageViewLogic.holdExecution.value =
+                            false); // stop execution
+                    Navigator.pop(context);
+                  }
                 } else if (reportType.contains("chats")) {
                   print("Reported via chats");
                   final String chatPath =
@@ -303,7 +315,7 @@ Widget cannotReportHereFlushBar(BuildContext context) {
         "You can report in conversation",
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: Colors.white, fontSize: 18),
+        style: TextStyle(color: Colors.white, fontSize: 16),
       ),
     ),
     duration: Duration(seconds: 2),

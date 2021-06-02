@@ -6,8 +6,10 @@ import 'package:explore/data/temp/filter_datas.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/icons/report_filter_icons_icons.dart';
 import 'package:explore/icons/star_rounded_icon_icons.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/pageview_logic.dart';
+import 'package:explore/screens/profile/other_user_pres_screen.dart';
 import 'package:explore/screens/report/report_screen.dart';
 import 'package:explore/server/match_backend/connecting_users.dart';
 import 'package:explore/server/match_backend/geohash_custom_radius.dart';
@@ -181,24 +183,33 @@ class _TopBox extends StatelessWidget {
             // ? head photo
             margin: const EdgeInsets.only(top: 10, left: 15),
             alignment: Alignment.topLeft,
-            child: CircleAvatar(
-              radius: 40,
-              backgroundColor: Color(0xff121212),
-              child: ClipOval(
-                child: CachedNetworkImage(
-                  imageUrl: scrollUserDetails[index]["headphoto"].toString(),
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => BlurHash(
-                    hash: scrollUserDetails[index]["hp_hash"],
-                    imageFit: BoxFit.cover,
-                    color: Color(0xff121212).withOpacity(0),
-                    curve: Curves.slowMiddle,
-                    // image: scrollUserDetails[index]["headphoto"].toString(),
+            child: GestureDetector(
+              child: CircleAvatar(
+                radius: 40,
+                backgroundColor: Color(0xff121212),
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: scrollUserDetails[index]["headphoto"].toString(),
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => BlurHash(
+                      hash: scrollUserDetails[index]["hp_hash"],
+                      imageFit: BoxFit.cover,
+                      color: Color(0xff121212).withOpacity(0),
+                      curve: Curves.slowMiddle,
+                      // image: scrollUserDetails[index]["headphoto"].toString(),
+                    ),
+                    errorWidget: (context, url, error) =>
+                        whileHeadImageloadingSpinner(),
                   ),
-                  errorWidget: (context, url, error) =>
-                      whileHeadImageloadingSpinner(),
                 ),
               ),
+              onTap: () => Navigator.pushNamed(
+                  context, OtherUserPrespectiveScreen.routeName,
+                  arguments: {
+                    "uid": scrollUserDetails[index]["uid"],
+                    "preview_type": PreviewType.feeds,
+                    "index": index
+                  }),
             ),
           ),
           Container(
@@ -295,8 +306,13 @@ class _MiddleBox extends StatelessWidget {
                   ),
                 ),
               ),
-              onTap: () => Navigator.pushNamed(context, ViewBodyPhoto.routeName,
-                  arguments: scrollUserDetails[index]["bodyphoto"].toString()),
+              onTap: () => Navigator.pushNamed(
+                  context, OtherUserPrespectiveScreen.routeName,
+                  arguments: {
+                    "uid": scrollUserDetails[index]["uid"],
+                    "preview_type": PreviewType.feeds,
+                    "index": index
+                  }),
             ),
           ),
           // ? lower box inside image
@@ -304,7 +320,7 @@ class _MiddleBox extends StatelessWidget {
             child: Align(
                 alignment:
                     height < 700 ? Alignment.bottomCenter : Alignment(0.0, 1.0),
-                child: _LowerBox(index)),
+                child: LowerBox(index)),
           ),
         ],
       ),
@@ -312,9 +328,10 @@ class _MiddleBox extends StatelessWidget {
   }
 }
 
-class _LowerBox extends StatelessWidget {
+class LowerBox extends StatelessWidget {
   final int index;
-  _LowerBox(this.index);
+  final PreviewType previewType;
+  LowerBox(this.index, {this.previewType});
   final double heartIconSize = 50;
   final double reportIconSize = 65;
   final double starIconSize = 40;
@@ -350,7 +367,10 @@ class _LowerBox extends StatelessWidget {
                         ),
                   onTap: () {
                     // print("Pressed star idx of : $index");
-                    Stars.storeStarInfo(index: index, context: context);
+                    Stars.storeStarInfo(
+                        index: index,
+                        previewType: previewType,
+                        context: context);
                     pageViewLogic.updateLowerBoxUi();
                   },
                 ),
@@ -372,7 +392,7 @@ class _LowerBox extends StatelessWidget {
                   } else {
                     reportBottomSheet(scrollUserDetails[index]["name"],
                         scrollUserDetails[index]["uid"], context,
-                        index: index);
+                        index: index,previewType: previewType);
                   }
                 },
               ),

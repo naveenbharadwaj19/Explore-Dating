@@ -2,11 +2,11 @@
 // todo : Other user prespective screen
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/home/explore_screen.dart';
 import 'package:explore/widgets/profilewidgets/other_user_pres_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
@@ -25,12 +25,14 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 // * 2 R
 class OtherUserPrespectiveScreen extends StatelessWidget {
   static const routeName = "other-user-prespective";
-  final profileAboutMeDatas = FirebaseFirestore.instance
-      .doc("Users/${FirebaseAuth.instance.currentUser.uid}/Profile/profile");
-  final profilePhotosData = FirebaseFirestore.instance.doc(
-      "Users/${FirebaseAuth.instance.currentUser.uid}/Profile/profile/Photos/myphotos");
+
   @override
   Widget build(BuildContext context) {
+    final arugments = ModalRoute.of(context).settings.arguments as Map;
+    final profileAboutMeDatas = FirebaseFirestore.instance
+        .doc("Users/${arugments["uid"]}/Profile/profile");
+    final profilePhotosData = FirebaseFirestore.instance
+        .doc("Users/${arugments["uid"]}/Profile/profile/Photos/myphotos");
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -93,8 +95,14 @@ class OtherUserPrespectiveScreen extends StatelessWidget {
                   child: loadingSpinner(),
                 );
               }
-              return _SliverList(
-                  aboutMeData: aboutMeData.data, photosData: photosData.data);
+              return !aboutMeData.data.exists || !photosData.data.exists
+                  ? _errorMessage(context)
+                  : _SliverList(
+                      aboutMeData: aboutMeData.data,
+                      photosData: photosData.data,
+                      previewType: arugments["preview_type"],
+                      index: arugments["index"],
+                    );
             },
           );
         },
@@ -235,7 +243,6 @@ class _OUPSMiddle extends StatelessWidget {
   }
 }
 
-
 class _OUPSLower extends StatelessWidget {
   // ? body photos
   final dynamic photosData;
@@ -262,7 +269,7 @@ class _OUPSLower extends StatelessWidget {
             child: Container(),
           )
         : SliverPadding(
-            padding: const EdgeInsets.only(top: 25,left: 10,right: 10),
+            padding: const EdgeInsets.only(top: 25, left: 10, right: 10),
             sliver: SliverGrid.extent(
               maxCrossAxisExtent: 150,
               crossAxisSpacing: 5,
@@ -309,17 +316,24 @@ class _OUPSLower extends StatelessWidget {
 
 class _SliverList extends StatelessWidget {
   // ? sliver list to mangage the scroll
-  // entry point for preview 
+  // entry point for preview
   final dynamic aboutMeData;
   final dynamic photosData;
-  _SliverList({@required this.aboutMeData, @required this.photosData});
+  final PreviewType previewType;
+  final int index;
+  _SliverList(
+      {@required this.aboutMeData,
+      @required this.photosData,
+      @required this.previewType,
+      @required this.index});
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
         _OUPSTop(aboutMeData), // head photo , name ...
         _OUPSMiddle(photosData), // current body photo
-        oUPSAboutMe(aboutMeData, context), // about me ,title wraped inside the widget
+        oUPSAboutMe(
+            aboutMeData, context), // about me ,title wraped inside the widget
         OtherUserPrespectiveScreenTitles.myInterestsTitle(aboutMeData), // title
         oUPSMyInterest(aboutMeData, context), // my interests
         OtherUserPrespectiveScreenTitles.myBasicInfoTitle(aboutMeData),
@@ -328,7 +342,40 @@ class _SliverList extends StatelessWidget {
         OtherUserPrespectiveScreenTitles.albumTitle(photosData), // title
         _OUPSLower(photosData), // group of body photos aka album
         oUPSFrom(aboutMeData, context), // from,title wraped inside the widget
+        starReport(previewType, index), // star and report
       ],
     );
   }
+}
+
+Widget _errorMessage(BuildContext context) {
+  return Center(
+    child: Container(
+      margin: const EdgeInsets.all(5),
+      child: RichText(
+        text: TextSpan(
+          text:
+              "Something went wrong.This might happen if profile was deleted.If you see this message often ",
+          style: TextStyle(color: Colors.white, fontSize: 16),
+          children: [
+            TextSpan(
+              text: "report as bug ",
+              style: TextStyle(
+                  color: Theme.of(context).buttonColor,
+                  fontSize: 16,
+                  decoration: TextDecoration.underline),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  // todo link report bug forum
+                  print("open report bug forum");
+                },
+            ),
+          ],
+        ),
+        textAlign: TextAlign.center,
+        maxLines: 4,
+        overflow: TextOverflow.clip,
+      ),
+    ),
+  );
 }

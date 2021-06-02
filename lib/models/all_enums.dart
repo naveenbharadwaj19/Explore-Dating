@@ -19,3 +19,11 @@ enum AuthenticationType{
   google,
   faceBook
 }
+
+
+enum PreviewType{
+  feeds,
+  chats,
+  individualChat,
+  previewOwnProfile
+}

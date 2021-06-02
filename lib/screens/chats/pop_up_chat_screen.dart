@@ -3,6 +3,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:explore/data/temp/store_basic_match.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/server/chats/pop_up_chat_backend.dart';
 import 'package:flutter/material.dart';
@@ -10,19 +11,21 @@ import 'package:flutter/services.dart';
 import 'package:flutter_blurhash/flutter_blurhash.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-Future popUpChatBottomSheet(int index, BuildContext context) {
+Future popUpChatBottomSheet(
+    int index, PreviewType previewType, BuildContext context) {
   return showBarModalBottomSheet(
     backgroundColor: Theme.of(context).primaryColor,
     context: context,
     isDismissible: false,
     enableDrag: false,
-    builder: (context) => _PopUpChat(index),
+    builder: (context) => _PopUpChat(index,previewType),
   );
 }
 
 class _PopUpChat extends StatelessWidget {
   final int index;
-  _PopUpChat(this.index);
+  final PreviewType previewType;
+  _PopUpChat(this.index, this.previewType);
   @override
   Widget build(BuildContext context) {
     final double keyboardVisible = MediaQuery.of(context).viewInsets.bottom;
@@ -44,7 +47,7 @@ class _PopUpChat extends StatelessWidget {
                     // ? title
                     margin: const EdgeInsets.only(left: 15),
                     child: const Text(
-                      "Something here",
+                      "Something here", // ! this title doesn't make sense
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.white,
@@ -71,7 +74,14 @@ class _PopUpChat extends StatelessWidget {
                             oppositeUid: uid,
                             oppositeName: name,
                             oppositeHeadPhotoUrl: oppositHeadPhotoUrl);
-                        Navigator.pop(context);
+                        if (PreviewType.feeds == previewType) {
+                          int countPopScreen = 0;
+                          Navigator.popUntil(context, (route) {
+                            return countPopScreen++ == 2;
+                          });
+                        } else {
+                          Navigator.pop(context);
+                        }
                       },
                     ),
                   ),
@@ -85,31 +95,24 @@ class _PopUpChat extends StatelessWidget {
             Container(
               // ? head photo
               margin: const EdgeInsets.only(top: 20),
-              child: GestureDetector(
-                child: CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Color(0xff121212),
-                  child: ClipOval(
-                    child: CachedNetworkImage(
-                      imageUrl:
-                          scrollUserDetails[index]["headphoto"].toString(),
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => BlurHash(
-                        hash: scrollUserDetails[index]["hp_hash"],
-                        imageFit: BoxFit.cover,
-                        color: Color(0xff121212).withOpacity(0),
-                        curve: Curves.slowMiddle,
-                        // image: scrollUserDetails[index]["headphoto"].toString(),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          whileHeadImageloadingSpinner(),
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: Color(0xff121212),
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: scrollUserDetails[index]["headphoto"].toString(),
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => BlurHash(
+                      hash: scrollUserDetails[index]["hp_hash"],
+                      imageFit: BoxFit.cover,
+                      color: Color(0xff121212).withOpacity(0),
+                      curve: Curves.slowMiddle,
+                      // image: scrollUserDetails[index]["headphoto"].toString(),
                     ),
+                    errorWidget: (context, url, error) =>
+                        whileHeadImageloadingSpinner(),
                   ),
                 ),
-                onTap: () {
-                  // todo : show preview
-                  print("Preview");
-                },
               ),
             ),
             Container(
@@ -134,7 +137,7 @@ class _PopUpChat extends StatelessWidget {
             keyboardVisible == 0.0
                 ? Spacer()
                 : Container(margin: const EdgeInsets.only(top: 10, bottom: 10)),
-            _MessageBox(index),
+            _MessageBox(index,previewType),
           ],
         ),
       ),
@@ -144,7 +147,8 @@ class _PopUpChat extends StatelessWidget {
 
 class _MessageBox extends StatefulWidget {
   final int index;
-  _MessageBox(this.index);
+  final PreviewType previewType;
+  _MessageBox(this.index, this.previewType);
 
   @override
   __MessageBoxState createState() => __MessageBoxState();
@@ -180,21 +184,28 @@ class __MessageBoxState extends State<_MessageBox> {
                 cursorColor: Colors.white,
                 cursorWidth: 3.0,
                 textInputAction: TextInputAction.send,
-                onSubmitted: (message){
+                onSubmitted: (message) {
                   if (message.isNotEmpty) {
-                // print(message);
-                String name = scrollUserDetails[widget.index]["name"];
-                String uid = scrollUserDetails[widget.index]["uid"];
-                String oppositHeadPhotoUrl =
-                    scrollUserDetails[widget.index]["headphoto"];
-                String messageContent = message.trim();
-                storeChatData(
-                    oppositeName: name,
-                    oppositeUid: uid,
-                    messageContent: messageContent,
-                    oppositeHeadPhotoUrl: oppositHeadPhotoUrl);
-                Navigator.pop(context);
-              }
+                    // print(message);
+                    String name = scrollUserDetails[widget.index]["name"];
+                    String uid = scrollUserDetails[widget.index]["uid"];
+                    String oppositHeadPhotoUrl =
+                        scrollUserDetails[widget.index]["headphoto"];
+                    String messageContent = message.trim();
+                    storeChatData(
+                        oppositeName: name,
+                        oppositeUid: uid,
+                        messageContent: messageContent,
+                        oppositeHeadPhotoUrl: oppositHeadPhotoUrl);
+                    if (PreviewType.feeds == widget.previewType) {
+                      int countPopScreen = 0;
+                      Navigator.popUntil(context, (route) {
+                        return countPopScreen++ == 2;
+                      });
+                    } else {
+                      Navigator.pop(context);
+                    }
+                  }
                 },
                 // ! Need to use input text as WORDSANS
                 style: const TextStyle(color: Colors.white, fontSize: 18),
@@ -240,7 +251,14 @@ class __MessageBoxState extends State<_MessageBox> {
                     oppositeUid: uid,
                     messageContent: messageContent,
                     oppositeHeadPhotoUrl: oppositHeadPhotoUrl);
-                Navigator.pop(context);
+                if (PreviewType.feeds == widget.previewType) {
+                  int countPopScreen = 0;
+                  Navigator.popUntil(context, (route) {
+                    return countPopScreen++ == 2;
+                  });
+                } else {
+                  Navigator.pop(context);
+                }
               }
             },
           ),

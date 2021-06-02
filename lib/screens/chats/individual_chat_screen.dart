@@ -10,10 +10,12 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/icons/gallery_icon_icons.dart';
 import 'package:explore/icons/report_filter_icons_icons.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/models/vibration.dart';
 import 'package:explore/private/database_url_rtdb.dart';
 import 'package:explore/providers/individual_chats_state.dart';
+import 'package:explore/screens/profile/other_user_pres_screen.dart';
 import 'package:explore/server/chats/individual_chat_backend.dart';
 import 'package:explore/widgets/chats/handle_photos_ind_chats.dart';
 import 'package:explore/widgets/chats/report_chats_widget.dart';
@@ -138,10 +140,11 @@ Widget _appBar({@required String myUid, @required String name,@required String h
                 ),
               ),
             ),
-            onTap: () {
-              // todo navigate to preview
-              print("Preview");
-            },
+            onTap: () => Navigator.pushNamed(context, OtherUserPrespectiveScreen.routeName,arguments: {
+              "uid" : oppositeUid,
+              "preview_type" : PreviewType.individualChat,
+              "index" : 9999
+            }),
           ),
         ),
         Container(
