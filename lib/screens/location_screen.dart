@@ -133,13 +133,18 @@ class _LocationScreenState extends State<LocationScreen> {
                     builder: (context) => Container(
                           height: 150,
                           child: Center(
-                            child: Text(
-                              // ! Use proper message before deployment
-                              "We need location to find the best matches around you",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                // fontWeight: FontWeight.w600,
+                            child: Container(
+                              margin: const EdgeInsets.all(7),
+                              child: const Text(
+                                "Your location will be used to show nearby matches around you",
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                overflow: TextOverflow.clip,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  // fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),
