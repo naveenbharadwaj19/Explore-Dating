@@ -7,6 +7,7 @@ import 'package:explore/data/temp/filter_datas.dart' show newRadius;
 import 'package:explore/data/temp/store_basic_match.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/server/match_backend/exclude_users.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -172,7 +173,9 @@ class CustomRadiusGeoHash {
     try {
       final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
       Stopwatch stopwatch = Stopwatch();
+      final Trace loadFeedsCustomGeoHash = FirebasePerformance.instance.newTrace("load_feeds_custom_geohash");
       // start timer
+      await loadFeedsCustomGeoHash.start();
       stopwatch.start();
       pageViewLogic.holdExecution.value = true;
       await query.then((q) => q.docs.forEach((queryName) =>
@@ -182,6 +185,7 @@ class CustomRadiusGeoHash {
               nickName: nickName)));
       // stop timer
       stopwatch.stop();
+      await loadFeedsCustomGeoHash.stop();
       pageViewLogic.holdExecution.value = false;
       print("Time executed to load feeds : ${stopwatch.elapsed.inSeconds}");
     } catch (error) {

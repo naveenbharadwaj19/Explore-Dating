@@ -9,6 +9,7 @@ import 'package:explore/data/temp/store_basic_match.dart'
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/server/match_backend/exclude_users.dart';
 import 'package:explore/server/match_backend/geohash_custom_radius.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
@@ -160,7 +161,9 @@ class ConnectingUsers {
     try {
       final pageViewLogic = Provider.of<PageViewLogic>(context, listen: false);
       Stopwatch stopwatch = Stopwatch();
+      final Trace loadFeedsCountry = FirebasePerformance.instance.newTrace("load_feeds_country");
       // start timer
+      await loadFeedsCountry.start();
       stopwatch.start();
       pageViewLogic.holdExecution.value = true;
       await query.then((q) => q.docs.forEach((queryName) =>
@@ -170,6 +173,7 @@ class ConnectingUsers {
               nickName: nickName)));
       // stop timer
       stopwatch.stop();
+      await loadFeedsCountry.stop();
       pageViewLogic.holdExecution.value = false;
       print("Time executed to load feeds : ${stopwatch.elapsed.inSeconds}");
     } catch (error) {

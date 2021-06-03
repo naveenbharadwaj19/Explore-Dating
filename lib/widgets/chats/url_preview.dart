@@ -16,7 +16,9 @@ Future<Map> getUrlData(String url) async {
     Uri uri = Uri.tryParse(url);
     Uri linkPreviewUri =
         Uri.tryParse("https://api.linkpreview.net/?key=$key&q=$uri");
+
     var response = await http.get(linkPreviewUri);
+
     if (response.statusCode == 200) {
       Map jsonData = json.decode(response.body);
       return jsonData;

@@ -4,21 +4,21 @@
 import 'package:firebase_performance/firebase_performance.dart';
 
 class TraceAuth {
-  static void startTraceAuthLogin() {
+  static void startTraceAuthLogin() async{
     try {
       final Trace loginAuthTrace =
-          FirebasePerformance.instance.newTrace("trace_auth");
-      loginAuthTrace.start();
+          FirebasePerformance.instance.newTrace("traceauth");
+      await loginAuthTrace.start();
     } catch (error) {
       print("Error in tracing auth login : ${error.toString()}");
     }
   }
 
-  static void stopTraceAuthLogin() {
+  static void stopTraceAuthLogin() async{
     try {
       final Trace loginAuthTrace =
-          FirebasePerformance.instance.newTrace("trace_auth");
-      loginAuthTrace.stop();
+          FirebasePerformance.instance.newTrace("traceauth");
+      await loginAuthTrace.stop();
     } catch (error) {
       print("Error in tracing auth login : ${error.toString()}");
     }
