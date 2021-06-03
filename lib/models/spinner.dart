@@ -11,6 +11,13 @@ Widget loadingSpinner() {
   );
 }
 
+Widget loadingSpinnerForPickPhotosScreen(BuildContext context){
+  return SpinKitCubeGrid(
+    color: Theme.of(context).buttonColor,
+    size: 30,
+  );
+}
+
 Widget whileHeadImageloadingSpinner() {
   return const SpinKitCubeGrid(
     color: Colors.white,

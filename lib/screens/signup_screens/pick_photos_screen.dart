@@ -76,7 +76,7 @@ class _PickPhotoScreenState extends State<PickPhotoScreen> {
               // ? confirm button
               width: 180,
               // ignore: deprecated_member_use
-              child: isLoading == true ? loadingSpinner() : RaisedButton(
+              child: isLoading == true ? loadingSpinnerForPickPhotosScreen(context) : RaisedButton(
                 color: Color(0xffF8C80D),
                 textColor: Color(0xff121212),
                 shape: RoundedRectangleBorder(

@@ -1,5 +1,5 @@
 // @dart=2.9
-// todo Ml
+// todo Ml for pick photo screen
 import 'package:explore/models/assign_errors.dart';
 import '../server/signup_backend/firestore_signup.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
@@ -15,12 +15,15 @@ Future<void> detectHeadPhotoAndStoreToCloud(
     BuildContext context) async {
       loadinOn();
   try {
-    if (imagePathHead.isNotEmpty || imagePathHead != null) {
-      FirebaseVisionImage ml = FirebaseVisionImage.fromFilePath(imagePathHead);
-      FaceDetector detectFaces = FirebaseVision.instance.faceDetector();
-      var processedFaces = await detectFaces.processImage(ml);
+    if (imagePathHead.isNotEmpty || imagePathHead != null || imagePathBody.isNotEmpty || imagePathBody != null) {
+      FirebaseVisionImage ml = FirebaseVisionImage.fromFilePath(imagePathHead); // head photo
+      FaceDetector detectHeadFace = FirebaseVision.instance.faceDetector();
+      FirebaseVisionImage ml2 = FirebaseVisionImage.fromFilePath(imagePathBody); // body photo
+      FaceDetector detectBodyFace = FirebaseVision.instance.faceDetector();
+      var processedHeadFace = await detectHeadFace.processImage(ml);
+      var processBodyFace = await detectBodyFace.processImage(ml2);
 
-      if (processedFaces.isEmpty) {
+      if (processedHeadFace.isEmpty || processBodyFace.isEmpty) {
         print("No face detected");
         Flushbar(
           messageText:const Text(
@@ -34,11 +37,11 @@ Future<void> detectHeadPhotoAndStoreToCloud(
             color: Colors.white,
             tooltip: "help",
             onPressed: () {
-              // * navigate to the website why we don't accept
+              // todo navigate to the website why we don't accept
             },
           ),
         )..show(context);
-      } else if (processedFaces.isNotEmpty) {
+      } else if (processedHeadFace.isNotEmpty && processBodyFace.isNotEmpty) {
         // * when face is detected
         print("Face detected ...");
         uploadPhotosTocloudStorageFirstTime(
