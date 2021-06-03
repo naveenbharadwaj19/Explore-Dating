@@ -3,6 +3,7 @@
 import 'package:explore/server/handle_logout.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
@@ -248,8 +249,8 @@ class SettingsScreen extends StatelessWidget {
                     !packageSnapShot.hasData
                         ? ""
                         : "V ${packageSnapShot.data.version}",
-                        maxLines: 1,
-                        overflow: TextOverflow.clip,
+                    maxLines: 1,
+                    overflow: TextOverflow.clip,
                     style: TextStyle(fontSize: 16, color: Colors.white70),
                   ),
                 ),

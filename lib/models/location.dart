@@ -6,6 +6,7 @@ import 'package:explore/server/match_making.dart';
 import 'package:explore/server/profile_backend/abt_me_backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:another_flushbar/flushbar.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geoflutterfire/geoflutterfire.dart' show Geoflutterfire;
@@ -119,7 +120,7 @@ class LocationModel {
         print("Location details stored & updated all over the database");
         print("Event triggered in : 1 - Users/-/location 2 - Profile 3 - Matchmaking");
       }
-    } catch (error) {
+    } catch (error,stackTrace) {
       print("Error in fetching address : ${error.toString()}");
       Flushbar(
         messageText: Text(
@@ -130,6 +131,8 @@ class LocationModel {
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
       )..show(context);
+      await FirebaseCrashlytics.instance.recordError(error, stackTrace,reason: "Error in fetching location & address");
+      FirebaseCrashlytics.instance.setUserIdentifier(FirebaseAuth.instance.currentUser.uid);
     }
   }
 
