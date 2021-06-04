@@ -8,8 +8,11 @@ const { loadImage, createCanvas } = require("canvas");
 const { encode } = require("blurhash");
 
 exports.createMatchMakingData = functions
-  .runWith({ memory: "256MB", timeoutSeconds: 100})
+  .runWith({ memory: "256MB", timeoutSeconds: 100 })
   .https.onCall(async (data, context) => {
+    // output -> 200 ok 1 -> head,body,hash completed
+    // output -> 200 ok 2 -> head,body url exists and processing without hash
+    // output -> 200 ok 3 -> no head,body,hash found.processing without images
     var headPhoto = data.headPhoto;
     var bodyPhoto = data.bodyPhoto;
     var selectedShowMe = data.selectedShowMe;
@@ -27,8 +30,8 @@ exports.createMatchMakingData = functions
     var createMatchMakingDoc = fireStore.collection(
       `Matchmaking/simplematch/MenWomen`
     );
-    headPhotoHash = await blurHashImageUrl(headPhoto)
-    bodyPhotoHash = await blurHashImageUrl(bodyPhoto)
+    headPhotoHash = await blurHashImageUrl(headPhoto);
+    bodyPhotoHash = await blurHashImageUrl(bodyPhoto);
     if (
       !headPhotoHash.includes("Cannot hash image") &&
       !bodyPhotoHash.includes("Cannot hash image") &&
@@ -60,35 +63,68 @@ exports.createMatchMakingData = functions
         headPhotoHash
       );
       storeProfilePhotosInfo(uid, bodyPhotoHash, bodyPhoto);
-      console.log("200 ok");
+      console.log("200 ok 1");
     } else {
       console.log(
-        "Something went wrong in getting photos & hash.Processing with else statement"
+        "Something went wrong.First trying if head and body url exists in else statement"
       );
-      // create matchmaking doc
-      await createMatchMakingDoc.add({
-        uid: uid,
-        show_me: selectedShowMe,
-        age: fetchUserData.get("bio.age"),
-        gender: fetchUserData.get("bio.gender"),
-        name: fetchUserData.get("bio.name"),
-        geohash_rounds: {
-          rh: homo,
-        },
-        photos: {
-          current_head_photo: "Cannot get image url",
-          current_body_photo: "Cannot get image url",
-        },
-      });
-      storeProfileData(
-        fetchUserData.get("bio.name"),
-        uid,
-        fetchUserData.get("bio.age"),
-        "",
-        ""
-      );
-      storeProfilePhotosInfo(uid, "", "");
-      console.log("200 ok");
+      // if head and body photo url exists
+      if (
+        !headPhoto.includes("Cannot get image url") &&
+        !bodyPhoto.includes("Cannot get image url")
+      ) {
+        console.log("Found head and body url.Processing without hash...");
+        // create matchmaking doc
+        await createMatchMakingDoc.add({
+          uid: uid,
+          show_me: selectedShowMe,
+          age: fetchUserData.get("bio.age"),
+          gender: fetchUserData.get("bio.gender"),
+          name: fetchUserData.get("bio.name"),
+          geohash_rounds: {
+            rh: homo,
+          },
+          photos: {
+            current_head_photo: "Cannot get image url",
+            current_body_photo: "Cannot get image url",
+          },
+        });
+        storeProfileData(
+          fetchUserData.get("bio.name"),
+          uid,
+          fetchUserData.get("bio.age"),
+          "",
+          ""
+        );
+        storeProfilePhotosInfo(uid, "", "");
+        console.log("200 ok 2");
+      } else {
+        console.log("No head,body url exists & No hash found");
+        // create matchmaking doc
+        await createMatchMakingDoc.add({
+          uid: uid,
+          show_me: selectedShowMe,
+          age: fetchUserData.get("bio.age"),
+          gender: fetchUserData.get("bio.gender"),
+          name: fetchUserData.get("bio.name"),
+          geohash_rounds: {
+            rh: homo,
+          },
+          photos: {
+            current_head_photo: "Cannot get image url",
+            current_body_photo: "Cannot get image url",
+          },
+        });
+        storeProfileData(
+          fetchUserData.get("bio.name"),
+          uid,
+          fetchUserData.get("bio.age"),
+          "",
+          ""
+        );
+        storeProfilePhotosInfo(uid, "", "");
+        console.log("200 ok 3");
+      }
     }
     return 200;
   });

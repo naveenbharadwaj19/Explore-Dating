@@ -9,7 +9,7 @@ import 'package:explore/providers/show_me_state.dart';
 import 'package:explore/screens/basic_user_details_screen.dart';
 import 'package:explore/screens/chats/individual_chat_screen.dart';
 import 'package:explore/screens/home/explore_screen.dart';
-import 'package:explore/screens/profile/other_user_pres_screen.dart';
+import 'package:explore/screens/profile/preview_screen.dart';
 import 'package:explore/screens/signup_screens/signup_screen.dart';
 import 'package:explore/widgets/login_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -132,7 +132,7 @@ class _MyAppState extends State<MyApp> {
           // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
           ViewBodyPhoto.routeName: (context) => ViewBodyPhoto(),
           ViewPhoto.routeName : (context) => ViewPhoto(),
-          OtherUserPrespectiveScreen.routeName : (context) => OtherUserPrespectiveScreen(),
+          PreviewScreen.routeName : (context) => PreviewScreen(),
           IndividualChatScreen.routeName : (context) => IndividualChatScreen(),
         },
       ),

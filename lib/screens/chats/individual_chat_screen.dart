@@ -15,7 +15,7 @@ import 'package:explore/models/spinner.dart';
 import 'package:explore/models/vibration.dart';
 import 'package:explore/private/database_url_rtdb.dart';
 import 'package:explore/providers/individual_chats_state.dart';
-import 'package:explore/screens/profile/other_user_pres_screen.dart';
+import 'package:explore/screens/profile/preview_screen.dart';
 import 'package:explore/server/chats/individual_chat_backend.dart';
 import 'package:explore/widgets/chats/handle_photos_ind_chats.dart';
 import 'package:explore/widgets/chats/report_chats_widget.dart';
@@ -140,7 +140,7 @@ Widget _appBar({@required String myUid, @required String name,@required String h
                 ),
               ),
             ),
-            onTap: () => Navigator.pushNamed(context, OtherUserPrespectiveScreen.routeName,arguments: {
+            onTap: () => Navigator.pushNamed(context, PreviewScreen.routeName,arguments: {
               "uid" : oppositeUid,
               "preview_type" : PreviewType.individualChat,
               "index" : 9999

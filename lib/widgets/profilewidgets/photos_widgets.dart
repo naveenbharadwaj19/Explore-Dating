@@ -85,7 +85,14 @@ class _MyPhotos extends StatelessWidget {
                         // image: scrollUserDetails[index]["headphoto"],
                       ),
                       errorWidget: (context, url, error) => Center(
-                        child: loadingSpinner(),
+                        child: Text("Upload different photo",
+                            maxLines: 2,
+                            textAlign: TextAlign.center,
+                            overflow: TextOverflow.clip,
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 16,
+                            )),
                       ),
                     ),
                     onTap: () {

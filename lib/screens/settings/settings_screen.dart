@@ -57,7 +57,7 @@ class SettingsScreen extends StatelessWidget {
           if (packageSnapShot.connectionState == ConnectionState.waiting) {
             return Container();
           }
-          return Column(
+          return  Column(
             children: [
               Container(
                 // email address title

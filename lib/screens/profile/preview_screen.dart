@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/home/explore_screen.dart';
-import 'package:explore/widgets/profilewidgets/other_user_pres_widget.dart';
+import 'package:explore/widgets/profilewidgets/preview_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,8 +23,8 @@ import 'package:flutter_blurhash/flutter_blurhash.dart';
 // * title font color -> white70
 
 // * 2 R
-class OtherUserPrespectiveScreen extends StatelessWidget {
-  static const routeName = "other-user-prespective";
+class PreviewScreen extends StatelessWidget {
+  static const routeName = "preview";
 
   @override
   Widget build(BuildContext context) {

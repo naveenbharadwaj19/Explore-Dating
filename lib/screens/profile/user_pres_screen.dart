@@ -8,7 +8,7 @@ import 'package:explore/icons/gallery_icon_icons.dart';
 import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
-import 'package:explore/screens/profile/other_user_pres_screen.dart';
+import 'package:explore/screens/profile/preview_screen.dart';
 import 'package:explore/server/profile_backend/abt_me_backend.dart';
 import 'package:explore/server/profile_backend/upload_photos_prof.dart';
 import 'package:explore/widgets/profilewidgets/about_widgets.dart';
@@ -24,7 +24,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 // * overall CRUD for user perspective page
 // * 13R,13W -> about me widget
 // * 1R,1W -> for head photo upload
-// * 1 R - > everytime user navigates to profile 
+// * 1 R - > everytime user navigates to profile
 // * No of R , No W , evertime a body photo is uploaded , deleted max -> 50 photos (50W,50R)
 
 class UserPrespectiveScreen extends StatelessWidget {
@@ -124,7 +124,17 @@ class UserPrespectiveScreen extends StatelessWidget {
                                           // image: scrollUserDetails[index]["headphoto"].toString(),
                                         ),
                                         errorWidget: (context, url, error) =>
-                                            whileHeadImageloadingSpinner(),
+                                            Center(
+                                          child: const Text(
+                                              "Upload different photo",
+                                              maxLines: 2,
+                                              textAlign: TextAlign.center,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 14,
+                                              )),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -332,11 +342,14 @@ class _HeadPhotoPopUp extends StatelessWidget {
               ),
               onPressed: () {
                 print("Pressed preview");
-                Navigator.pushReplacementNamed(context, OtherUserPrespectiveScreen.routeName,arguments: {
-                  "uid" : FirebaseAuth.instance.currentUser.uid,
-                  "preview_type" : PreviewType.previewOwnProfile,
-                  "index" : 9999 // user will not reach this index number in feeds
-                });
+                Navigator.pushReplacementNamed(
+                    context, PreviewScreen.routeName,
+                    arguments: {
+                      "uid": FirebaseAuth.instance.currentUser.uid,
+                      "preview_type": PreviewType.previewOwnProfile,
+                      "index":
+                          9999 // user will not reach this index number in feeds
+                    });
               },
             ),
           ),

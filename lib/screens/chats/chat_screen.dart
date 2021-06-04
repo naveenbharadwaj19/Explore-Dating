@@ -5,7 +5,7 @@ import 'package:explore/icons/hour_glass_icons.dart';
 import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/chats/individual_chat_screen.dart';
-import 'package:explore/screens/profile/other_user_pres_screen.dart';
+import 'package:explore/screens/profile/preview_screen.dart';
 import 'package:explore/server/chats/chat_backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -152,7 +152,7 @@ class _Chats extends StatelessWidget {
                                 ),
                               ),
                               onLongPress: () => Navigator.pushNamed(
-                                  context, OtherUserPrespectiveScreen.routeName,
+                                  context, PreviewScreen.routeName,
                                   arguments: {
                                     "uid": ChatBackEnd.chatData[index]
                                         ["opposite_uid"],

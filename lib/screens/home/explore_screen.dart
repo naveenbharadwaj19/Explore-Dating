@@ -9,7 +9,7 @@ import 'package:explore/icons/star_rounded_icon_icons.dart';
 import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/providers/pageview_logic.dart';
-import 'package:explore/screens/profile/other_user_pres_screen.dart';
+import 'package:explore/screens/profile/preview_screen.dart';
 import 'package:explore/screens/report/report_screen.dart';
 import 'package:explore/server/match_backend/connecting_users.dart';
 import 'package:explore/server/match_backend/geohash_custom_radius.dart';
@@ -204,7 +204,7 @@ class _TopBox extends StatelessWidget {
                 ),
               ),
               onTap: () => Navigator.pushNamed(
-                  context, OtherUserPrespectiveScreen.routeName,
+                  context, PreviewScreen.routeName,
                   arguments: {
                     "uid": scrollUserDetails[index]["uid"],
                     "preview_type": PreviewType.feeds,
@@ -307,7 +307,7 @@ class _MiddleBox extends StatelessWidget {
                 ),
               ),
               onTap: () => Navigator.pushNamed(
-                  context, OtherUserPrespectiveScreen.routeName,
+                  context, PreviewScreen.routeName,
                   arguments: {
                     "uid": scrollUserDetails[index]["uid"],
                     "preview_type": PreviewType.feeds,
