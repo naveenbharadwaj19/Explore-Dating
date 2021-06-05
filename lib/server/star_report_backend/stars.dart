@@ -24,7 +24,9 @@ class Stars {
   }
 
   static Future<void> storeStarInfo(
-      {@required index,@required PreviewType previewType ,@required BuildContext context}) async {
+      {@required index,
+      @required PreviewType previewType,
+      @required BuildContext context}) async {
     try {
       // * 7 R ,7 W
       final now = DateTime.now();
@@ -51,12 +53,20 @@ class Stars {
           Flushbar(
             backgroundColor: Color(0xff121212),
             messageText: const Text(
-              // ! change text message
-              "Limit exceeded 2",
-              style: TextStyle(color: Colors.white),
+              "You have exceeded your daily limit! You cannot star anyone else today.Try again tomorrow.",
+              maxLines: 2,
+              overflow: TextOverflow.clip,
+              textAlign: TextAlign.justify,
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
-            duration: Duration(seconds: 1),
+            duration: Duration(seconds: 3),
           )..show(context);
+        } else if (checkDocinfo.get("press_limit") > 8) {
+          // manipulating stars
+          // delete account
+          DocumentReference userData =
+              FirebaseFirestore.instance.doc("Users/$userUid");
+          await userData.update({"is_delete": true});
         } else {
           if (!scrollUserDetails[index]["star"]) {
             // trigger if user hasn't pressed star
@@ -81,7 +91,7 @@ class Stars {
             scrollUserDetails[index]["star"] = true;
             scrollUserDetails[index]["lock_report"] = true;
             print("star info updated in firestore");
-            popUpChatBottomSheet(index,previewType ,context);
+            popUpChatBottomSheet(index, previewType, context);
             starsRTDB(oppositeUserUid);
           }
         }
@@ -109,7 +119,7 @@ class Stars {
           scrollUserDetails[index]["star"] = true;
           scrollUserDetails[index]["lock_report"] = true;
           print("star info created in firestore");
-          popUpChatBottomSheet(index,previewType ,context);
+          popUpChatBottomSheet(index, previewType, context);
           starsRTDB(oppositeUserUid);
         }
       }
