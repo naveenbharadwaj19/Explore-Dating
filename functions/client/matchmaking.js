@@ -8,7 +8,7 @@ const { loadImage, createCanvas } = require("canvas");
 const { encode } = require("blurhash");
 
 exports.createMatchMakingData = functions
-  .runWith({ memory: "256MB", timeoutSeconds: 100 })
+  .runWith({ memory: "512MB", timeoutSeconds: 100 })
   .https.onCall(async (data, context) => {
     // output -> 200 ok 1 -> head,body,hash completed
     // output -> 200 ok 2 -> head,body url exists and processing without hash
@@ -132,8 +132,9 @@ exports.createMatchMakingData = functions
 // blur hash image url
 async function blurHashImageUrl(imageUrl) {
   try {
+    console.time("hash time")
     const getImageData = (image) => {
-      const canvas = createCanvas(image.width, image.height, "jpg");
+      const canvas = createCanvas(image.width, image.height);
       const context = canvas.getContext("2d");
       context.drawImage(image, 0, 0);
       return context.getImageData(0, 0, image.width, image.height);
@@ -147,6 +148,7 @@ async function blurHashImageUrl(imageUrl) {
       4,
       3
     );
+    console.timeEnd("hash time")
     return hash;
   } catch (error) {
     console.log(`Error in hasing image url : ${error.toString()}`);
