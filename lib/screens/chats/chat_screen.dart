@@ -251,10 +251,10 @@ class _NoMessage extends StatelessWidget {
             // ? text
             margin: const EdgeInsets.only(top: 30),
             child: const Text(
-              "---------- Ux writing----------",
+              "You have no new messages",
               textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              overflow: TextOverflow.clip,
               style: TextStyle(color: Colors.white, fontSize: 16),
             ),
           ),

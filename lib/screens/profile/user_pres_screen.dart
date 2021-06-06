@@ -406,9 +406,10 @@ class _AlertDialogue extends StatelessWidget {
             const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       content: const Text(
-        "To get potential matches some fields are missing out fill them.",
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.fade,
+        "To get potential matches please fill out the missing fields",
+        maxLines: 2,
+        textAlign: TextAlign.justify,
+        overflow: TextOverflow.clip,
         style: const TextStyle(color: Colors.white, fontSize: 18),
       ),
       actions: [sure],

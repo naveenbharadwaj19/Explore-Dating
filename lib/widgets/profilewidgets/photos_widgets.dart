@@ -367,7 +367,9 @@ class _AlertDialogue extends StatelessWidget {
             style: const TextStyle(
                 color: Color(0xCCF8C80D), fontSize: 18), // 80 % opacity
           ),
-          onPressed: () {}),
+          onPressed: () {
+            // todo  Navigate to web photo rules
+          }),
     );
     AlertDialog showAlert = AlertDialog(
       backgroundColor: Theme.of(context).primaryColor,
@@ -382,12 +384,40 @@ class _AlertDialogue extends StatelessWidget {
         style:
             const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
-      content: const Text(
-        // ! explain how photos work
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        textAlign: TextAlign.center,
-        overflow: TextOverflow.fade,
-        style: const TextStyle(color: Colors.white, fontSize: 18),
+      content: RichText(
+        text: TextSpan(
+          style: TextStyle(color: Colors.white, fontSize: 16),
+          children: [
+            const TextSpan(text: "Press and hold the eye"),
+            const WidgetSpan(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 7, top: 10, right: 10),
+                child: Icon(
+                  EyeIcons.eye_slash,
+                  color: Colors.white54,
+                  size: 25,
+                ),
+              ),
+            ),
+            const TextSpan(
+                text:
+                    "to choose the picture you'd like others to see from your profile."),
+            const TextSpan(text: "\n \nPlease note that"),
+            WidgetSpan(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 7, top: 12, right: 10),
+                child: Icon(EyeIcons.eye_1,
+                    size: 25, color: Theme.of(context).buttonColor),
+              ),
+            ),
+            const TextSpan(
+                text:
+                    "picture will be highlighted when someone views your profile"),
+          ],
+        ),
+        textAlign: TextAlign.left,
+        maxLines: 10,
+        overflow: TextOverflow.clip,
       ),
       actions: [learnMore, sure],
     );
