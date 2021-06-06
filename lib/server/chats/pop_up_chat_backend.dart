@@ -23,7 +23,6 @@ void storeChatData(
     FirebaseFirestore.instance.collection("Chats").add({
       "convo_uids": FieldValue.arrayUnion([myUid, oppositeUid]),
     }).then((docRef) async {
-      // ! remove server time stamp in add
       String getGeneratedDocId = docRef.id;
       IndividualChatBackEnd.storeTyping(
           getGeneratedDocId, myUid, oppositeUid); // store typing info

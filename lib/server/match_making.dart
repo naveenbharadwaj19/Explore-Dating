@@ -18,7 +18,7 @@ class MatchMakingCollection {
         DownloadCloudStoragePhotos.headPhotoDownload(uid).then((headPhoto) {
           DownloadCloudStoragePhotos.currentBodyPhotoDownload(uid)
               .then((bodyPhoto) {
-                createMatchMakingServerSide(headPhoto, bodyPhoto,selectedShowMe); // * 1R,3W 
+                createMatchMakingCF(headPhoto, bodyPhoto,selectedShowMe); // * 1R,3W 
           });
         });
     

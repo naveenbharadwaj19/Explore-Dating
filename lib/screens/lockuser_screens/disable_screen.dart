@@ -1,7 +1,7 @@
 // @dart=2.9
 // todo When user account doest exist
 
-import 'package:explore/server/handle_logout.dart';
+import 'package:explore/models/logout.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:flutter/material.dart';
 
@@ -72,7 +72,7 @@ class AccountDisabledScreen extends StatelessWidget {
                 ),
                 onPressed: () {
                   logoutUser(context);
-                  callUserDisableFunction();
+                  disableUser();
                 },
               ),
             ),

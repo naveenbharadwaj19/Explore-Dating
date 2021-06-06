@@ -289,7 +289,7 @@ class IndividualChatBackEnd {
     try {
       await uploadPhotosOfIndividualChatToCloudStorage(
           photoPath, path, context); // upload photo
-      DownloadCloudStoragePhotos.individualPhotoDownload(photoPath, path)
+      DownloadCloudStoragePhotos.individualChatPhotoDownload(photoPath, path)
           .then((photo) async {
         if (photo.isNotEmpty && !photo.contains("Cannot get image url")) {
           casualMessages(
@@ -318,7 +318,7 @@ class IndividualChatBackEnd {
           }
         ])
       });
-      deletePhotoChatsFromCloudStorage(photoUrl);
+      deleteChatPhotosFromCloudStorage(photoUrl);
       print("Photo deleted successfully");
     } catch (e) {
       print("Error in deleting photo from Db : ${e.toString()}");

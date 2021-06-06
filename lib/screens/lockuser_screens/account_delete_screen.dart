@@ -2,7 +2,7 @@
 // todo When user account doest exist
 
 import 'package:explore/data/all_secure_storage.dart';
-import 'package:explore/server/handle_logout.dart';
+import 'package:explore/models/logout.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +79,7 @@ class AccountDeleteScreen extends StatelessWidget {
                 onPressed: () {
                   // * delete Userstatus -> uid datas and navigate the user to welcome screen
                   logoutUser(context);
-                  callUserDeleteFunction();
+                  deleteUser();
                   deleteAll(); // ! not deleting properly
                 },
               ),

@@ -31,24 +31,3 @@ Future<List<String>> doNotShowUsers() async {
     return [];
   }
 }
-
-
-Future<List<String>> doNotShowReportedUsers()async{
-  try {
-    String myUid = FirebaseAuth.instance.currentUser.uid;
-    DatabaseReference db =
-        FirebaseDatabase(databaseURL: reportBlockRTDBUrl).reference();
-     List<String> reportedIds = [];
-     // get report ids
-    var reportDatas =
-        await db.child("gross_reports/$myUid/report_blocked_uids").once();
-    Map reportMap =
-        reportDatas.value ?? {}; // report datas as map if null empty map
-    reportMap.forEach((k, v) => reportedIds.add(k));
-    // remove duplicates
-    return reportedIds.toSet().toList();
-  } catch (error) {
-    print("Error in doNotShowReportedUsers : ${error.toString()}");
-    return [];
-  }
-}

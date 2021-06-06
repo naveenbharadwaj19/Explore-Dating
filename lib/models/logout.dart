@@ -1,5 +1,5 @@
 // @dart=2.9
-// todo : Handle all deletes and logout
+// todo : logout user
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/temp/auth_data.dart';

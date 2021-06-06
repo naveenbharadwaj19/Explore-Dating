@@ -6,19 +6,19 @@ import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/models/location.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-Map<String, dynamic> currentLoggedinUserDetails = {
-  "current_uid": "",
-  "gender": "",
-  "show_me": "",
-  "age": "",
-  "geohash": "",
-  "radius": "",
-  "from_age": "",
-  "to_age": "",
-};
+// Map<String, dynamic> currentLoggedinUserDetails = {
+//   "current_uid": "",
+//   "gender": "",
+//   "show_me": "",
+//   "age": "",
+//   "geohash": "",
+//   "radius": "",
+//   "from_age": "",
+//   "to_age": "",
+// };
 
 // * check if any fields from current loggedin user details is missing
-validateAndStoreUserDetails(double latitude, double longitude) {
+storeUserDetailsSharedPref(double latitude, double longitude) {
   try {
     String uid = FirebaseAuth.instance.currentUser.uid;
     String ontimeHash =

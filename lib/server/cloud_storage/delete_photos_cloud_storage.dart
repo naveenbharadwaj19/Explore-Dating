@@ -27,7 +27,7 @@ Future<void> deleteBodyPhotoFromCloudStorage(
   }
 }
 
-Future<void> deletePhotoChatsFromCloudStorage(
+Future<void> deleteChatPhotosFromCloudStorage(
     String url) async {
   try {
     FirebaseStorage _storage = FirebaseStorage.instance;

@@ -47,7 +47,7 @@ class DownloadCloudStoragePhotos {
       return errorUrl;
     }
   }
-  static Future<String> individualPhotoDownload(
+  static Future<String> individualChatPhotoDownload(
       String imgName,String docIdName) async {
     // * recently uploaded photo in chats
     try {

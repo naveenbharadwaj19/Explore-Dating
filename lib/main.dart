@@ -6,7 +6,7 @@ import 'package:explore/providers/individual_chats_state.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/providers/profile_state.dart';
 import 'package:explore/providers/show_me_state.dart';
-import 'package:explore/screens/basic_user_details_screen.dart';
+import 'package:explore/screens/stream_user_screen.dart';
 import 'package:explore/screens/chats/individual_chat_screen.dart';
 import 'package:explore/screens/home/explore_screen.dart';
 import 'package:explore/screens/profile/preview_screen.dart';
@@ -122,7 +122,7 @@ class _MyAppState extends State<MyApp> {
                 return loadingSpinner();
               }
               if (snapShot1.hasData) {
-                return BasicDetailsScreens();
+                return StreamScreens();
               }
               return manageSigninLogin == false
                   ? WelcomeLoginScreen(pressedSignin: pressedSignIn)

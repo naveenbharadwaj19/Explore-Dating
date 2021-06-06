@@ -1,6 +1,6 @@
 // @dart=2.9
 // todo settings screen
-import 'package:explore/server/handle_logout.dart';
+import 'package:explore/models/logout.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -279,7 +279,7 @@ void _deleteAccountDialogueBox(BuildContext context) {
         if (formKey.currentState.validate()) {
           Navigator.pop(context);
           logoutUser(context);
-          callUserDeleteFunction();
+          deleteUser();
         }
       },
     ),

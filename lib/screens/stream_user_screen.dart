@@ -2,7 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:explore/data/temp/filter_datas.dart';
-import 'package:explore/models/current_user_details.dart';
+import 'package:explore/models/user_shared_pref.dart';
 import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/signup_screens/acc_create_screen.dart';
@@ -22,14 +22,14 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
 
-class BasicDetailsScreens extends StatefulWidget {
+class StreamScreens extends StatefulWidget {
   static const routeName = "basic-details";
 
   @override
-  _BasicDetailsScreensState createState() => _BasicDetailsScreensState();
+  _StreamScreensState createState() => _StreamScreensState();
 }
 
-class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
+class _StreamScreensState extends State<StreamScreens> {
   final String animationName2 = "NoWifi";
   bool openCloseLocationPage = false;
 
@@ -177,7 +177,7 @@ class _BasicDetailsScreensState extends State<BasicDetailsScreens> {
                   print("Cannot find internet connection");
                   return noInternetConnection(animationName2, context);
                 }
-                validateAndStoreUserDetails(
+                storeUserDetailsSharedPref(
                     currentCoordinates.latitude, currentCoordinates.longitude);
                 fetchFiltersData();
                 return BottomNavigationBarScreens();

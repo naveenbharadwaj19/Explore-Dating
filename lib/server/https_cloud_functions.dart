@@ -3,7 +3,7 @@
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-Future<void> callUserDisableFunction() async {
+Future<void> disableUser() async {
   // ? when triggred user account is disabled
   try {
     FirebaseFunctions disableFunction = FirebaseFunctions.instance;
@@ -15,7 +15,7 @@ Future<void> callUserDisableFunction() async {
   }
 }
 
-Future<void> callUserDeleteFunction() async {
+Future<void> deleteUser() async {
   // ? when triggred user account is deleted
   try {
     FirebaseFunctions disableFunction = FirebaseFunctions.instance;
@@ -78,7 +78,7 @@ Future<void> replicateHeadPhoto(String headPhotoUrl) async {
   }
 }
 
-Future<void> createMatchMakingServerSide(
+Future<void> createMatchMakingCF(
     String headPhoto, String bodyPhoto, String selectedShowMe) async {
   // ? create matchmaking,profile,profilephotos
   try {
