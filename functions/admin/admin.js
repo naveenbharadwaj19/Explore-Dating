@@ -7,19 +7,21 @@ const nearRegion = "asia-south1";
 
 exports.byAdmin1 = functions.region(nearRegion).https.onRequest(async(req,res) =>{
   // todo write what this function does
-  // ? update uids to convo_uids in chats/auto-id
+  // ? add new field in access check of users data
   try {
     if(req.method === "GET"){
       var firestore = admin.firestore()
       const FieldValue = admin.firestore.FieldValue
-      var datas = await firestore.collection("Chats").get()
+      var datas = await firestore.collection("Users").get()
+      var batch = firestore.batch()
       datas.docs.forEach((item)=>{
-        var documentRef = item.ref.path
-        firestore.doc(documentRef).update({
-          "uids" : FieldValue.delete()
+        var path = item.ref.path;
+        var documentRef = firestore.doc(path)
+        batch.update(documentRef,{
+          "access_check.get_started" : false,
         })
-        
       })
+      await batch.commit()
       res.status(200).send("Success")
     }
     else{

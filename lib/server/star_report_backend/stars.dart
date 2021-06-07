@@ -53,7 +53,7 @@ class Stars {
           Flushbar(
             backgroundColor: Color(0xff121212),
             messageText: const Text(
-              "You have exceeded your daily limit! You cannot star anyone else today.Try again tomorrow.",
+              "You have exceeded your daily limit! You cannot Star anyone else today.Try again tomorrow.",
               maxLines: 2,
               overflow: TextOverflow.clip,
               textAlign: TextAlign.justify,

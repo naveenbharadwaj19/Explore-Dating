@@ -12,7 +12,7 @@ import 'package:random_string/random_string.dart';
 class SettingsScreen extends StatelessWidget {
   final String emailAddress = FirebaseAuth.instance.currentUser.email;
   final String currentLoginMethod =
-      FirebaseAuth.instance.currentUser.providerData.first.providerId;
+      FirebaseAuth.instance.currentUser.providerData.first.providerId.replaceAll(".com", "");
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +100,7 @@ class SettingsScreen extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 margin: const EdgeInsets.only(top: 20, left: 60),
                 child: Text(
-                  currentLoginMethod,
+                  "${currentLoginMethod[0].toUpperCase()}${currentLoginMethod.substring(1)}", // first letter capital
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(

@@ -51,6 +51,7 @@ class OnlyDuringSignupFirestore {
           "body_photo": false,
           "email_address_verified": false,
           "account_success_page": false,
+          "get_started" : false,
         },
         "bio": {
           "user_id": uid,
@@ -395,6 +396,7 @@ class GooglePath {
           "body_photo": false,
           "email_address_verified": true,
           "account_success_page": false,
+          "get_started" : false,
         },
         "bio": {
           "user_id": userUid,

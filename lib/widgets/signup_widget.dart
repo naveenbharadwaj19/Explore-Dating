@@ -393,7 +393,7 @@ Widget ageCondition(bool agreeAge, Function toogleAge) {
           onChanged: (val) => toogleAge(),
         ),
         Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.all(8),
           child: Text(
             "I agree i'm above 18",
             maxLines: 1,
@@ -421,18 +421,21 @@ Widget termsAndConditions(bool tAndC, Function toogleTerms) {
           onChanged: (val) => toogleTerms(),
         ),
          // ignore: deprecated_member_use
-        FlatButton(
-            child: Text(
-              "I agree to the terms and conditions",
-              maxLines: 1,
-              overflow: TextOverflow.clip,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  decoration: TextDecoration.underline),
+        GestureDetector(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                "I agree to the terms and conditions",
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    decoration: TextDecoration.underline),
+              ),
             ),
-            onPressed: () {
+            onTap: () {
               // todo navigate to terms and conditions when pressed
             }),
       ],

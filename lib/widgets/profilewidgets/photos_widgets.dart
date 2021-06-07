@@ -221,7 +221,7 @@ class _SetFeedDelete extends StatelessWidget {
                         _showAlertDialogDelete(
                           context,
                           "Access Denied",
-                          "Cannot delete set another photo to show in feed and try again",
+                          "Cannot delete this photo is highlighted",
                         );
                       } else {
                         // show alert dialog if user click yes delete the photo
@@ -363,7 +363,7 @@ class _AlertDialogue extends StatelessWidget {
       child: FlatButton(
           splashColor: Color(0x4DF8C80D), // 30 % opacity
           child: const Text(
-            "Learn More",
+            "More",
             style: const TextStyle(
                 color: Color(0xCCF8C80D), fontSize: 18), // 80 % opacity
           ),
@@ -494,6 +494,7 @@ void _showAlertDialogDelete(BuildContext context, String title, String content,
     content: Text(
       content,
       textAlign: TextAlign.start,
+      maxLines: 5,
       overflow: TextOverflow.fade,
       style: const TextStyle(color: Colors.white, fontSize: 18),
     ),

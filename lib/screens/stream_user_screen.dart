@@ -14,6 +14,7 @@ import 'package:explore/screens/signup_screens/dob_name_screen.dart';
 import 'package:explore/screens/location_screen.dart';
 import 'package:explore/screens/bottom_navigation_bar_screens.dart';
 import 'package:explore/screens/no_internet_connection_screen.dart';
+import 'package:explore/screens/signup_screens/get_started_screen.dart';
 import 'package:explore/screens/signup_screens/pick_photos_screen.dart';
 import 'package:explore/screens/signup_screens/show_me_screen.dart';
 import 'package:explore/server/update_show_me.dart';
@@ -120,6 +121,10 @@ class _StreamScreensState extends State<StreamScreens> {
         if (!accessCheck["account_success_page"]) {
           print("In account success page");
           return AccCreatedScreen();
+        }
+        if(!accessCheck["get_started"]){
+          print("In get started page");
+          return GetStartedScreen();
         }
 
         return StreamBuilder<Position>(
