@@ -18,6 +18,7 @@ exports.deleteUserCloudStorage = deleteF.deleteUserCloudStorage;
 exports.deleteUserMatchMaking = deleteF.deleteUserMatchMaking;
 exports.deleteUserAccount = deleteF.deleteUserAccount;
 exports.iterateUserDelete = deleteF.iterateUserDelete
+exports.adminDeleteUsers = topAdmin.adminDeleteUsers
 //  disable user account
 exports.disableUserAccount = functions.https.onCall(async (data, context) => {
   try {
