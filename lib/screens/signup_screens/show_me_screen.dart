@@ -35,7 +35,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
       child: Column(
         children: [
           Container(
-              margin: const EdgeInsets.symmetric(vertical: 40),
+              margin: const EdgeInsets.symmetric(vertical: 50),
               child: Text(
                 "-Show me-",
                 style: const TextStyle(

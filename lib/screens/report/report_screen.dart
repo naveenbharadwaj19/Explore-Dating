@@ -184,7 +184,7 @@ class _ReportScreen extends StatelessWidget {
               // ignore: deprecated_member_use
               child: FlatButton(
                 child: const Text(
-                  "Against explore dating",
+                  "Against Explore Dating",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: Colors.white, fontSize: 18),

@@ -75,10 +75,10 @@ Please be polite and respectful towards other and follow community guidelines. W
                   Container(
                     // content
                     margin: EdgeInsets.only(
-                        top: index == 0 ? 130 : 60, left: 10, right: 7),
+                        top: index == 0 ? 130 : 60, left: 25, right: 15),
                     child: Text(
                       overView[index]["content"],
-                      maxLines: 15,
+                      maxLines: 17,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.clip,
                       style: const TextStyle(

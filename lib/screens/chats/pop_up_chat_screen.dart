@@ -47,7 +47,7 @@ class _PopUpChat extends StatelessWidget {
                     // ? title
                     margin: const EdgeInsets.only(left: 15),
                     child: const Text(
-                      "Something here", // ! this title doesn't make sense
+                      "Introduce yourself",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.white,
@@ -125,7 +125,7 @@ class _PopUpChat extends StatelessWidget {
             ),
             Container(
               // ? disapper info
-              margin: const EdgeInsets.only(top: 30, left: 5, right: 5),
+              margin: const EdgeInsets.only(top: 30, left: 20, right: 15),
               child: Text(
                 "Will unmatch if ${scrollUserDetails[index]["name"]} didn't respond within 12hrs",
                 textAlign: TextAlign.center,

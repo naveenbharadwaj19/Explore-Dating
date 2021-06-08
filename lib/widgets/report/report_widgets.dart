@@ -117,11 +117,11 @@ class __AgainstExploreDatingState extends State<_AgainstExploreDating> {
           ),
           Container(
             // what makes user thinks ?
-            margin: const EdgeInsets.only(top: 15, bottom: 10),
+            margin: const EdgeInsets.only(top: 15, bottom: 10,left: 20,right: 10),
             child: Text(
               "What makes you think ${widget.name} is against explore dating community?.Tell us more what happended.",
-              maxLines: 5,
-              textAlign: TextAlign.center,
+              maxLines: 6,
+              textAlign: TextAlign.start,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(color: Colors.white, fontSize: 18),
             ),
@@ -231,12 +231,11 @@ class _GreetReport extends StatelessWidget {
           Container(
             // greet feedback
             margin:
-                const EdgeInsets.only(top: 40, left: 10, right: 5, bottom: 10),
+                const EdgeInsets.only(top: 40, left: 15, right: 10, bottom: 8),
             child: const Text(
-              "Thank you for reporting this account.Your feedback is important in helping us keep explore dating community safe.",
+              "Thank you for reporting this account.Your feedback is important in helping us keep Explore Dating community safe.",
               maxLines: 5,
-              textAlign: TextAlign
-                  .start, // ! if alignment is not good change to center
+              textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),

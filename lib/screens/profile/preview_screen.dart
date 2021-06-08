@@ -351,7 +351,7 @@ class _SliverList extends StatelessWidget {
 Widget _errorMessage(BuildContext context) {
   return Center(
     child: Container(
-      margin: const EdgeInsets.all(5),
+      margin: const EdgeInsets.all(15),
       child: RichText(
         text: TextSpan(
           text:
@@ -373,7 +373,7 @@ Widget _errorMessage(BuildContext context) {
           ],
         ),
         textAlign: TextAlign.center,
-        maxLines: 4,
+        maxLines: 5,
         overflow: TextOverflow.clip,
       ),
     ),
