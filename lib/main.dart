@@ -1,7 +1,6 @@
 // @dart=2.9
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/spinner.dart';
-import 'package:explore/data/temp/auth_data.dart';
 import 'package:explore/providers/individual_chats_state.dart';
 import 'package:explore/providers/pageview_logic.dart';
 import 'package:explore/providers/profile_state.dart';
@@ -10,8 +9,7 @@ import 'package:explore/screens/stream_user_screen.dart';
 import 'package:explore/screens/chats/individual_chat_screen.dart';
 import 'package:explore/screens/home/explore_screen.dart';
 import 'package:explore/screens/profile/preview_screen.dart';
-import 'package:explore/screens/signup_screens/signup_screen.dart';
-import 'package:explore/widgets/login_widgets.dart';
+import 'package:explore/widgets/startup_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +46,8 @@ void main() async {
         ),
       ],
       child: MyApp(),
-    ),);
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -57,18 +56,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  void pressedSignIn() {
-    setState(() {
-      manageSigninLogin = true;
-    });
-  }
-
-  void pressedLogIn() {
-    setState(() {
-      manageSigninLogin = false;
-    });
-  }
-
   @override
   // ? Check setstate disposed properly
   void setState(fn) {
@@ -91,7 +78,6 @@ class _MyAppState extends State<MyApp> {
         }
       },
       child: MaterialApp(
-        
         debugShowCheckedModeBanner: false,
         title: "Explore Dating",
         theme: ThemeData(
@@ -105,7 +91,7 @@ class _MyAppState extends State<MyApp> {
               ),
               headline1: TextStyle(fontFamily: "Domine", color: Colors.white)),
         ),
-        builder : (context, widget) => ResponsiveWrapper.builder(
+        builder: (context, widget) => ResponsiveWrapper.builder(
           // ? warp all the heights and widths according to screen automatically
           widget,
           defaultScale: true,
@@ -124,38 +110,30 @@ class _MyAppState extends State<MyApp> {
               if (snapShot1.hasData) {
                 return StreamScreens();
               }
-              return manageSigninLogin == false
-                  ? WelcomeLoginScreen(pressedSignin: pressedSignIn)
-                  : SignUpScreen(pressedLogIn);
+              return StartUpScreen();
             }),
         routes: {
           // WelcomeLoginScreen.routeName : (context) => PageTransition(child: null, type: null),
           ViewBodyPhoto.routeName: (context) => ViewBodyPhoto(),
-          ViewPhoto.routeName : (context) => ViewPhoto(),
-          PreviewScreen.routeName : (context) => PreviewScreen(),
-          IndividualChatScreen.routeName : (context) => IndividualChatScreen(),
+          ViewPhoto.routeName: (context) => ViewPhoto(),
+          PreviewScreen.routeName: (context) => PreviewScreen(),
+          IndividualChatScreen.routeName: (context) => IndividualChatScreen(),
         },
       ),
     );
   }
 }
 
-class WelcomeLoginScreen extends StatefulWidget {
-  static const routeName = "login-screen";
-  final Function pressedSignin;
-  WelcomeLoginScreen({this.pressedSignin});
+class StartUpScreen extends StatefulWidget {
+  static const routeName = "startup-screen";
 
   @override
-  _WelcomeLoginScreenState createState() => _WelcomeLoginScreenState();
+  _StartUpScreenState createState() => _StartUpScreenState();
 }
 
-class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController emailAddress = TextEditingController();
-  final TextEditingController password = TextEditingController();
-  bool showPasswordText = false;
-  bool isLoading = false;
+class _StartUpScreenState extends State<StartUpScreen> {
   bool isLoadingGoogle = false;
+  bool isLoadingFb = false;
   final logoImage = Image.asset(
     "assets/images/explore_org_logo.png",
     fit: BoxFit.cover,
@@ -164,47 +142,32 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
     width: 170,
   );
 
-  void toggle() {
-    setState(() {
-      showPasswordText = !showPasswordText;
-    });
-  }
-
-  void loadingOn() {
-    setState(() {
-      isLoading = true;
-    });
-  }
-
-  void loadingOff() {
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   void loadingOnGoogle() {
     setState(() {
       isLoadingGoogle = true;
     });
   }
 
-  void loadingOffGoole() {
+  void loadingOffGoogle() {
     setState(() {
       isLoadingGoogle = false;
     });
   }
 
-  @override
-  void dispose() {
-    // ignore: todo
-    // TODO: implement dispose
-    super.dispose();
-    emailAddress.dispose();
-    password.dispose();
+  void loadingOnFb() {
+    setState(() {
+      isLoadingFb = true;
+    });
+  }
+
+  void loadingOffFb() {
+    setState(() {
+      isLoadingFb = false;
+    });
   }
 
   @override
-  // * precache image to reduce the loading time
+  //  precache image to reduce the loading time
   void didChangeDependencies() {
     // ignore: todo
     // TODO: implement didChangeDependencies
@@ -224,44 +187,30 @@ class _WelcomeLoginScreenState extends State<WelcomeLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Material(
-        color: Theme.of(context).primaryColor,
-        child: Container(
-          child: Form(
-            key: formKey,
-            child: Column(
-              children: [
-                navigateToWebLink(),
-                logoAppName(logoImage),
-                // addDatingText(),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                ),
-                greetText(),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                ),
-                catchyText(),
-                emailTextField(emailAddress),
-                passwordTextField(showPasswordText, toggle, password),
-                forgotPassword(formKey, emailAddress, context),
-                loginButton(
-                    formKey: formKey,
-                    emailAddress: emailAddress,
-                    password: password,
-                    loadingOn: loadingOn,
-                    loadingOff: loadingOff,
-                    isloading: isLoading,
-                    context: context),
-                googleSignUp(
-                    isLoadingGoogle, loadingOnGoogle, loadingOffGoole, context),
-                navigateToSignUpPage(context, widget.pressedSignin),
-                // navigateToWebLink()
-              ],
-            ),
-          ),
-        ),
+    return Material(
+      color: Theme.of(context).primaryColor,
+      child: Column(
+        children: [
+          navigateToWebSite(),
+          logoAppName(logoImage),
+          greetText(),
+          catchyText(),
+          Spacer(),
+          googleButton(
+              isLoadingGoogle: isLoadingGoogle,
+              loadingOnGoogle: loadingOnGoogle,
+              loadingOffGoogle: loadingOffGoogle,
+              context: context), // google auth
+          faceBookButton(
+              isloadingFb: isLoadingFb,
+              loadingOnFb: loadingOnFb,
+              loadingOffFb: loadingOffFb,
+              context: context), // facebook auth
+          Spacer(),
+          faceBookInfo(),
+          Spacer(),
+          bottomButtons(),
+        ],
       ),
     );
   }

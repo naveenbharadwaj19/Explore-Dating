@@ -7,7 +7,6 @@ import 'package:explore/models/location.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/signup_screens/acc_create_screen.dart';
 import 'package:explore/screens/lockuser_screens/disable_screen.dart';
-import 'package:explore/screens/signup_screens/emai_verf_screen.dart';
 import 'package:explore/screens/lockuser_screens/account_delete_screen.dart';
 import 'package:explore/screens/signup_screens/gender_screen.dart';
 import 'package:explore/screens/signup_screens/dob_name_screen.dart';
@@ -89,10 +88,6 @@ class _StreamScreensState extends State<StreamScreens> {
         if (userSnapShot.data["is_disabled"] == true) {
           print("Account disabled page");
           return AccountDisabledScreen();
-        }
-        if (!accessCheck["email_address_verified"]) {
-          print("In email verification");
-          return EmailVerificationScreen();
         }
         if (dobCheck["dob"].isEmpty) {
           print("In dob page");

@@ -1,6 +1,6 @@
 // @dart=2.9
 import 'dart:async';
-import 'package:explore/server/signup_backend/firestore_signup.dart';
+import 'package:explore/server/signup_process.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 
@@ -97,8 +97,7 @@ class _AccCreatedScreenState extends State<AccCreatedScreen> {
                           ),
                         ),
                         onPressed: () {
-                          // manageSigninLogin = false;
-                          OnlyDuringSignupFirestore.updateAccSuccPage(context);
+                          SignUpProcess.updateAccSuccPage(context);
                         },
                       ),
               ),

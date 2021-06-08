@@ -1,11 +1,11 @@
 // @dart=2.9
 // todo : DOB screen only during google auth
 
+import 'package:circular_check_box/circular_check_box.dart';
 import 'package:explore/data/temp/auth_data.dart' show ageM, dobM;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import '../../server/signup_backend/firestore_signup.dart' show GooglePath;
-import 'package:explore/widgets/signup_widget.dart';
+import '../../server/signup_process.dart' show SignUpProcess;
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/date_picker.dart';
@@ -64,16 +64,19 @@ class _DOBNameScreen extends State<DOBNameScreen> {
             Container(
               // cannot be undone message
               alignment: Alignment.topLeft,
-              margin: const EdgeInsets.only(top: 10,left: 50),
-              child: const Text("Note: This action cannot be undone",style: TextStyle(fontSize: 16,color: Colors.white70),),
+              margin: const EdgeInsets.only(top: 10, left: 50),
+              child: const Text(
+                "Note: This action cannot be undone",
+                style: TextStyle(fontSize: 16, color: Colors.white70),
+              ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 5,left: 5),
-              child: ageCondition(agreeAge, toggleAge),
+              margin: const EdgeInsets.only(top: 5, left: 5),
+              child: _ageCondition(agreeAge, toggleAge),
             ),
             Container(
               margin: const EdgeInsets.only(left: 5),
-              child: termsAndConditions(agreeTerms, toogleTerms),
+              child: _termsAndConditions(agreeTerms, toogleTerms),
             ),
             Spacer(),
             Align(
@@ -95,7 +98,9 @@ class _DOBNameScreen extends State<DOBNameScreen> {
                     ),
                   ),
                   onPressed: () {
-                    if (dobM == null || dobM.isEmpty || nameController.text.isEmpty) {
+                    if (dobM == null ||
+                        dobM.isEmpty ||
+                        nameController.text.isEmpty) {
                       Flushbar(
                         backgroundColor: Theme.of(context).primaryColor,
                         messageText: const Text(
@@ -106,7 +111,8 @@ class _DOBNameScreen extends State<DOBNameScreen> {
                         duration: Duration(seconds: 3),
                       )..show(context);
                     } else if (agreeAge == true && agreeTerms == true) {
-                      GooglePath.updateDobNameGoogle(dobM, ageM,nameController.text);
+                      SignUpProcess.updateDobName(
+                          dobM, ageM, nameController.text);
                     }
                   },
                 ),
@@ -151,7 +157,8 @@ class _NameTextField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(color: Theme.of(context).buttonColor, width: 2),
+              borderSide:
+                  BorderSide(color: Theme.of(context).buttonColor, width: 2),
             ),
             hintText: "Name",
             hintStyle: const TextStyle(
@@ -267,4 +274,68 @@ class _DOBState extends State<_DOB> {
       ),
     );
   }
+}
+
+Widget _ageCondition(bool agreeAge, Function toogleAge) {
+  return Container(
+    margin: const EdgeInsets.only(top: 15, left: 25),
+    child: Row(
+      children: [
+        CircularCheckBox(
+          // ? circle check box
+          value: agreeAge,
+          checkColor: Color(0xffF8C80D),
+          activeColor: Color(0xff121212),
+          inactiveColor: Colors.white,
+          onChanged: (val) => toogleAge(),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Text(
+            "I agree i'm above 18",
+            maxLines: 1,
+            overflow: TextOverflow.clip,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+Widget _termsAndConditions(bool tAndC, Function toogleTerms) {
+  return Container(
+    margin: const EdgeInsets.only(top: 5, left: 25),
+    child: Row(
+      children: [
+        CircularCheckBox(
+          // ? circle check box
+          value: tAndC,
+          checkColor: Color(0xffF8C80D),
+          activeColor: Color(0xff121212),
+          inactiveColor: Colors.white,
+          onChanged: (val) => toogleTerms(),
+        ),
+        // ignore: deprecated_member_use
+        GestureDetector(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                "I agree to the terms and conditions",
+                maxLines: 1,
+                overflow: TextOverflow.clip,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    decoration: TextDecoration.underline),
+              ),
+            ),
+            onTap: () {
+              // todo navigate to terms and conditions when pressed
+            }),
+      ],
+    ),
+  );
 }

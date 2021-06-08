@@ -17,7 +17,7 @@ enum ReportType {
 
 enum AuthenticationType{
   google,
-  faceBook
+  facebook
 }
 
 

@@ -119,7 +119,7 @@ class HandlePhotosForProfile {
         print("Error : ${error.toString()}");
         Flushbar(
           messageText: Text(
-            AssignErrors.exphpml004,
+            AssignErrors.edml004,
             style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
@@ -229,7 +229,7 @@ class HandlePhotosForProfile {
         print("Error : ${error.toString()}");
         Flushbar(
           messageText: Text(
-            AssignErrors.exphpml004,
+            AssignErrors.edml004,
             style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
@@ -343,7 +343,7 @@ class HandlePhotosForProfile {
         print("Error : ${error.toString()}");
         Flushbar(
           messageText: Text(
-            AssignErrors.exphpml004,
+            AssignErrors.edml004,
             style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),
@@ -458,7 +458,7 @@ class HandlePhotosForProfile {
         print("Error : ${error.toString()}");
         Flushbar(
           messageText: Text(
-            AssignErrors.exphpml004,
+            AssignErrors.edml004,
             style: const TextStyle(color: Colors.white),
           ),
           backgroundColor: Color(0xff121212),

@@ -1,6 +1,6 @@
 // @dart=2.9
 import 'package:explore/data/temp/auth_data.dart';
-import '../../server/signup_backend/firestore_signup.dart';
+import '../../server/signup_process.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:gender_selection/gender_selection.dart';
@@ -56,12 +56,11 @@ class GenderScreen extends StatelessWidget {
                   print("Selected : Men");
                   selectedGender = "Men";
                   selectedGenderM = selectedGender;
-                  // OnlyDuringSignupFirestore.updateGenderPage("Male", context);
+                  
                 } else if (gender.toString() == Gender.Female.toString()) {
                   print("Selected : Women");
                   selectedGender = "Women";
                   selectedGenderM = selectedGender;
-                  // OnlyDuringSignupFirestore.updateGenderPage("Female", context);
                 }
               },
             ),
@@ -117,7 +116,7 @@ class GenderScreen extends StatelessWidget {
                       duration: Duration(seconds: 2),
                     )..show(context);
                   } else {
-                    OnlyDuringSignupFirestore.updateGenderPage(
+                    SignUpProcess.updateGenderPage(
                         selectedGender, context);
                   }
                 },

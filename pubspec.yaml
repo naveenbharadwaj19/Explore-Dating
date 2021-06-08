@@ -52,6 +52,7 @@ dependencies:
   firebase_storage: ^8.0.0
   flare_flutter: ^2.0.6
   flutter_blurhash: ^0.5.0
+  flutter_facebook_auth: ^3.4.1
   flutter_holo_date_picker: ^0.3.4+1
   flutter_linkify: ^5.0.2
   flutter_secure_storage: ^4.2.0
@@ -105,7 +106,6 @@ flutter:
     - assets/images/photo_img_bg.png
     # ? svg
     - assets/svg/explore_logo.svg
-    - assets/svg/google_icon.svg
     - assets/svg/rules_card.svg
     - assets/svg/scroll.svg
     - assets/svg/globe.svg
@@ -194,6 +194,10 @@ flutter:
     - family: HourGlass
       fonts:
         - asset: assets/fonts/iconfonts/HourGlass.ttf
+
+    - family: AuthIcons
+      fonts:
+        - asset: assets/fonts/iconfonts/AuthIcons.ttf
         # - asset: assets/fonts/Domine-Bold.ttf
         # style: italic
   #   - family: Trajan Pro

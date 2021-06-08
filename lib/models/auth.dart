@@ -1,335 +1,228 @@
 // @dart=2.9
-import 'package:explore/data/temp/auth_data.dart';
+import 'package:explore/models/all_enums.dart';
 import 'package:explore/models/assign_errors.dart';
-import '../server/signup_backend/firestore_signup.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/spinner.dart';
+import 'package:explore/server/signup_process.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthenticationFirebase {
-  static void signInUser(
-      {@required String emailAddress,
-      @required String password,
-      @required Function loadingOn,
-      @required Function loadingOff,
-      // @required String username,
-      @required BuildContext ctx}) async {
-    final auth = FirebaseAuth.instance;
-    UserCredential userResult;
-
-    try {
-      loadingOn();
-   
-      userResult = await auth.createUserWithEmailAndPassword(
-          email: emailAddress, password: password);
-      await OnlyDuringSignupFirestore.signUpWrite(
-          loadingOn: loadingOn,
-          loadingOff: loadingOff,
-          emailaddess: emailAddressM,
-          // username: userNameM,
-          dob: dobM,
-          name: nameM,
-          context: ctx);
-      // writeValue("current_uid", userResult.user.uid);
-      loadingOff();
-
-      // ! change emailaddress to user emailaddress while deployment & when user kills the app and open the email verf
-      // ! page and hit send code again username will be availabe as it was not in memory fix it
-      // sendMail("claw2020@gmail.com", generateFourDigitCode());
-    } on PlatformException catch (err) {
-      var message = 'An error occurred, please check your credentials!';
-
-      if (err.message != null) {
-        message = err.message;
-      }
-
-      Flushbar(
-        backgroundColor: Color(0xff121212),
-        messageText: Text(
-          message.toString(),
-          style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
-        ),
-        duration: Duration(seconds: 3),
-      )..show(ctx);
-
-      loadingOff();
-    } catch (err) {
-      print("Error : $err");
-      if (err.toString().contains(
-          "The email address is already in use by another account.")) {
-        Flushbar(
-          messageText: const Text(
-            "Email address exist",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(ctx);
-      } else if (err.toString().contains(
-          " The password is invalid or the user does not have a password.")) {
-        Flushbar(
-          messageText: const Text(
-            "Incorrect password",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(ctx);
-      } else {
-        Flushbar(
-          messageText: const Text(
-            "Something went wrong try again",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(ctx);
-      }
-      loadingOff();
-    }
-  }
-
-  static void loginUser(
-      {@required TextEditingController emailAddress,
-      @required TextEditingController password,
-      @required Function loadingOn,
-      @required Function loadingOff,
-      @required BuildContext ctx}) async {
-    final auth = FirebaseAuth.instance;
-    UserCredential userResult;
-    try {
-      loadingOn();
-     
-      userResult = await auth.signInWithEmailAndPassword(
-          email: emailAddress.text, password: password.text);
-      DocumentReference updateIsLoggedin = FirebaseFirestore.instance.doc("Users/${userResult.user.uid}");
-      //  writeValue("current_uid", userResult.user.uid);
-      await updateIsLoggedin.update({
-        "is_loggedin" : true
-      });
-      loadingOff();
-      print("User logged in...");
-    } on PlatformException catch (err) {
-      var message = 'An error occurred, please check your credentials!';
-
-      if (err.message != null) {
-        message = err.message;
-      }
-
-      Flushbar(
-        backgroundColor: Color(0xff121212),
-        messageText: Text(
-          message.toString(),
-          style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
-        ),
-        duration: Duration(seconds: 3),
-      )..show(ctx);
-
-      loadingOff();
-    } catch (err) {
-      print("Error : $err");
-      if (err.toString().contains(
-          "The email address is already in use by another account.")) {
-        Flushbar(
-          messageText: const Text(
-            "Email address exist",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(ctx);
-      } else if (err.toString().contains(
-          "The password is invalid or the user does not have a password.")) {
-        Flushbar(
-          messageText: const Text(
-            "Incorrect password",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(ctx);
-      } else if (err.toString().contains(
-          "There is no user record corresponding to this identifier. The user may have been deleted")) {
-        Flushbar(
-          messageText: const Text(
-            "Account does not exist create one",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(ctx);
-      } else if (err.toString().contains(
-          "The user account has been disabled by an administrator.")) {
-        Flushbar(
-          messageText: const Text(
-            "Account is disabled",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(ctx);
-      } else {
-        Flushbar(
-          messageText: const Text(
-            "Something went wrong try again",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(ctx);
-      }
-      loadingOff();
-    }
-  }
-
-  static resetPassword(
-      TextEditingController emailAddress, BuildContext context) async {
-    final auth = FirebaseAuth.instance;
-    UserCredential userResult;
-
-    try {
-      await auth.sendPasswordResetEmail(email: emailAddress.text);
-      Flushbar(
-        messageText:const Text(
-          "Check provided email address",
-          style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              color: Colors.white),
-        ),
-        backgroundColor: Color(0xff121212),
-        duration: Duration(seconds: 3),
-      )..show(context);
-    } catch (error) {
-      print(error.toString());
-      if (error.toString().contains(
-          "There is no user record corresponding to this identifier. The user may have been deleted")) {
-        Flushbar(
-          messageText: const Text(
-            "Cannot reset account does not exist",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(context);
-      } else {
-        Flushbar(
-          messageText: const Text(
-            "Something went wrong try again later",
-            style: const TextStyle(
-
-                fontWeight: FontWeight.w700,
-                color: Colors.white),
-          ),
-          backgroundColor: Color(0xff121212),
-          duration: Duration(seconds: 3),
-        )..show(context);
-      }
-    }
-  }
-}
-
-class GoogleAuthenticationClass {
-  // * Google auth
-  static signinWithGoogle(Function loadingOnGoogle,Function loadingOffGoogle,BuildContext context) async {
+class GoogleAuthentication {
+  //  Google auth
+  static signinWithGoogle(Function loadingOnGoogle, Function loadingOffGoogle,
+      BuildContext context) async {
     loadingOnGoogle();
     try {
-      // * Trigger the authentication flow
+      // Trigger the authentication flow
       final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
-      // * Obtain the auth details from the request
+      // Obtain the auth details from the request
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
-      
-      // * Create a new credential
+
+      // Create a new credential
       final GoogleAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      //  * Once signed in, return the UserCredential
-      UserCredential user = await FirebaseAuth.instance.signInWithCredential(credential);
+      //  Once signed in, return the UserCredential
+      UserCredential user =
+          await FirebaseAuth.instance.signInWithCredential(credential);
       // print("display name : ${user.user.displayName} , emailaddress : ${user.user.email}");
-      print("Using Google authentication");
-      // * Pass the error : it will take some millisecond to create a user in firestore
+      print("Via Google authentication");
+      //  supress the error : it will take some millisecond to create a user in firestore
       ErrorWidget.builder = ((e) {
         print("Bad document during google auth error suppressed");
-          return Center(
+        return Center(
           child: loadingSpinner(),
-           );
-          });
-      // * Check for Uid exist in firestore
-      DocumentSnapshot checkUserUid = await FirebaseFirestore.instance.doc("Users/${user.user.uid}").get();
-      if(!checkUserUid.exists){
-        // * no Uid exist so creating one
-        print("No uid stored in firestore creating one...");
-        await GooglePath.signInWithGoogle(context,user.user.displayName,user.user.email,user.user.uid);
-
-      }
-      // writeValue("current_uid", user.user.uid);
-      DocumentReference updateLogin = FirebaseFirestore.instance.doc("Users/${user.user.uid}");
-      await updateLogin.update({
-        "is_loggedin" : true
+        );
       });
-      // stop trace auth
+      //  Check if used data exists
+      DocumentSnapshot checkUserUid =
+          await FirebaseFirestore.instance.doc("Users/${user.user.uid}").get();
+      if (!checkUserUid.exists) {
+        // no Uid exist so creating one
+        print("No user found so creating one...");
+        await createUserData(AuthenticationType.google, context,
+            user.user.displayName, user.user.email, user.user.uid);
+      } else if (checkUserUid.exists) {
+        DocumentReference updateLogin =
+            FirebaseFirestore.instance.doc("Users/${user.user.uid}");
+        await updateLogin.update({"is_loggedin": true});
+      }
+    } on PlatformException catch (err) {
+      var message = 'An error occurred, please check your credentials!';
+
+      if (err.message != null) {
+        message = err.message;
+      }
+      Flushbar(
+        backgroundColor: Theme.of(context).primaryColor,
+        messageText: Text(
+          message.toString(),
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+          style: const TextStyle(
+              fontWeight: FontWeight.w700, color: Colors.white, fontSize: 16),
+        ),
+        duration: Duration(seconds: 3),
+      )..show(context);
+
+      loadingOffGoogle();
     } catch (error) {
       print("Error : ${error.toString()}");
       if (error.toString().contains(
           "The user account has been disabled by an administrator.")) {
         Flushbar(
           messageText: const Text(
-            "Account is disabled",
-            style: const TextStyle(
-                color: Colors.white),
+            "Account is suspended",
+            style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
-          backgroundColor: Color(0xff121212),
+          backgroundColor: Theme.of(context).primaryColor,
           duration: Duration(seconds: 3),
         )..show(context);
-      }else{
+      } else if (error.toString().contains(
+          "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.")) {
+        Flushbar(
+          messageText: const Text(
+            "Email address exist",
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          duration: Duration(seconds: 3),
+        )..show(context);
+      } else if (error
+          .toString()
+          .contains("The getter 'authentication' was called on null.")) {
+        print("Google token called null.Can ignore this message...");
+      } else {
         Flushbar(
           messageText: Text(
-            AssignErrors.expgogauth006,
-            style: const TextStyle(
-                color: Colors.white),
+            AssignErrors.edpgogauth006,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
-          backgroundColor: Color(0xff121212),
+          backgroundColor: Theme.of(context).primaryColor,
           duration: Duration(seconds: 3),
         )..show(context);
       }
     }
     loadingOffGoogle();
+  }
+}
+
+class FacebookAuthentication {
+  static Future signinFacebook(
+      Function loadingOnFb, Function loadingOffFb, BuildContext context) async {
+    loadingOnFb();
+    try {
+      final LoginResult fbResult = await FacebookAuth.instance.login();
+      // Create a credential from the access token
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(fbResult.accessToken.token);
+      final List<String> allowedPermissions = fbResult
+          .accessToken.grantedPermissions; // permissions allowed by the user
+      if (!allowedPermissions.contains("email")) {
+        // check if email permisssion is not granted
+        print("Some permissions are denied by the user Fb");
+        Flushbar(
+          messageText: const Text(
+            "Some permissions are missing please allow them",
+            maxLines: 2,
+            overflow: TextOverflow.fade,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          duration: Duration(seconds: 3),
+        )..show(context);
+      } else {
+        // permissions are granted
+        // Once signed in, return the UserCredential
+        final UserCredential user = await FirebaseAuth.instance
+            .signInWithCredential(facebookAuthCredential);
+
+        print("Via Facebook authentication");
+        //  suppress the error : it will take some millisecond to create a user in firestore
+        ErrorWidget.builder = ((e) {
+          print("Bad document during fb auth error suppressed");
+          return Center(
+            child: loadingSpinner(),
+          );
+        });
+        //  Check if used data exists
+        DocumentSnapshot checkUserUid = await FirebaseFirestore.instance
+            .doc("Users/${user.user.uid}")
+            .get();
+        if (!checkUserUid.exists) {
+          // no Uid exist so creating one
+          print("No user found so creating one...");
+          await createUserData(AuthenticationType.facebook, context,
+              user.user.displayName, user.user.email, user.user.uid);
+        } else if (checkUserUid.exists) {
+          DocumentReference updateLogin =
+              FirebaseFirestore.instance.doc("Users/${user.user.uid}");
+          await updateLogin.update({"is_loggedin": true});
+        }
+      }
+    } on PlatformException catch (err) {
+      var message = 'An error occurred, please check your credentials!';
+
+      if (err.message != null) {
+        message = err.message;
+      }
+      Flushbar(
+        backgroundColor: Theme.of(context).primaryColor,
+        messageText: Text(
+          message.toString(),
+          maxLines: 1,
+          overflow: TextOverflow.fade,
+          style: const TextStyle(
+              fontWeight: FontWeight.w700, color: Colors.white, fontSize: 16),
+        ),
+        duration: Duration(seconds: 3),
+      )..show(context);
+
+      loadingOffFb();
+    } catch (error) {
+      print("Error : ${error.toString()}");
+      if (error.toString().contains(
+          "The user account has been disabled by an administrator.")) {
+        Flushbar(
+          messageText: const Text(
+            "Account is suspended",
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          duration: Duration(seconds: 3),
+        )..show(context);
+      } else if (error.toString().contains(
+          "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.")) {
+        Flushbar(
+          messageText: const Text(
+            "Email address exist",
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          duration: Duration(seconds: 3),
+        )..show(context);
+      } else if (error
+          .toString()
+          .contains("The getter 'token' was called on null.")) {
+        print("Fb token called null.Can ignore this message...");
+      } else {
+        Flushbar(
+          messageText: Text(
+            AssignErrors.edfbauth007,
+            style: const TextStyle(color: Colors.white, fontSize: 16),
+          ),
+          backgroundColor: Theme.of(context).primaryColor,
+          duration: Duration(seconds: 3),
+        )..show(context);
+      }
+    }
+    loadingOffFb();
   }
 }

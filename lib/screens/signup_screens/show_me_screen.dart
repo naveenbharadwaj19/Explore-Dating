@@ -1,6 +1,6 @@
 // @dart=2.9
 import 'package:explore/data/all_secure_storage.dart' show writeRFATA;
-import 'package:explore/server/signup_backend/firestore_signup.dart';
+import 'package:explore/server/signup_process.dart';
 import '../../server/match_making.dart';
 import 'package:flutter/material.dart';
 class ShowMeScreen extends StatefulWidget {
@@ -137,7 +137,7 @@ class _ShowMeScreenState extends State<ShowMeScreen> {
                 if (selectedShowMe.isNotEmpty){
                   MatchMakingCollection.addCurrentUserMM(selectedShowMe);
                   writeRFATA(selectedShowMe);
-                  OnlyDuringSignupFirestore.updateShowMeFields(selectedShowMe,context);
+                  SignUpProcess.updateShowMeFields(selectedShowMe,context);
                 }
               },
             ),

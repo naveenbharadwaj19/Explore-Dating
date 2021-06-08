@@ -10,7 +10,7 @@ import 'package:package_info/package_info.dart';
 import 'package:random_string/random_string.dart';
 
 class SettingsScreen extends StatelessWidget {
-  final String emailAddress = FirebaseAuth.instance.currentUser.email;
+  final String emailAddress = FirebaseAuth.instance.currentUser.email ?? "Email address not found";
   final String currentLoginMethod =
       FirebaseAuth.instance.currentUser.providerData.first.providerId.replaceAll(".com", "");
   @override

@@ -1,7 +1,7 @@
 // @dart=2.9
 // todo Ml for pick photo screen
 import 'package:explore/models/assign_errors.dart';
-import '../server/signup_backend/firestore_signup.dart';
+import '../server/signup_process.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
@@ -52,7 +52,7 @@ Future<void> detectHeadPhotoAndStoreToCloud(
     print("Error : ${error.toString()}");
     Flushbar(
       messageText: Text(
-        AssignErrors.exphpml004,
+        AssignErrors.edml004,
         style: const TextStyle(color: Colors.white),
       ),
       backgroundColor: Color(0xff121212),

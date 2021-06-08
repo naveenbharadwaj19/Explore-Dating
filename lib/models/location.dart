@@ -1,7 +1,7 @@
 // @dart=2.9
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/assign_errors.dart';
-import 'package:explore/server/signup_backend/firestore_signup.dart';
+import 'package:explore/server/signup_process.dart';
 import 'package:explore/server/match_making.dart';
 import 'package:explore/server/profile_backend/abt_me_backend.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,7 +69,7 @@ class LocationModel {
       print("Error in fetching coordinates : ${error.toString()}");
       Flushbar(
         messageText: Text(
-          "Error ${AssignErrors.expcod002}",
+          "Error ${AssignErrors.edcod002}",
           style:
               const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
@@ -109,7 +109,7 @@ class LocationModel {
       if (address.isNotEmpty || address != null) {
         Placemark addressFirst = address.first;
         // documents where location need to be updated
-        OnlyDuringSignupFirestore.getLocationAddressAndCoordinates(
+        SignUpProcess.getLocationAddressAndCoordinates(
             latitude: latitude,
             longitude: longitude,
             address: addressFirst,
@@ -124,7 +124,7 @@ class LocationModel {
       print("Error in fetching address : ${error.toString()}");
       Flushbar(
         messageText: Text(
-          "Error ${AssignErrors.expAdd001}",
+          "Error ${AssignErrors.edAdd001}",
           style:
               const TextStyle(fontWeight: FontWeight.w700, color: Colors.white),
         ),
