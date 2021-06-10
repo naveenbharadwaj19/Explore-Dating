@@ -27,6 +27,10 @@ apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.chrisney.enigma'
+
+enigma.enabled = true
+enigma.injectFakeKeys = true
 
 android {
     compileSdkVersion 30
