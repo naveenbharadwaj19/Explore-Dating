@@ -212,7 +212,7 @@ class _SetFeedDelete extends StatelessWidget {
                         _showAlertDialogDelete(
                           context,
                           "",
-                          "To get good connections we need at least one photo",
+                          "Please include at least one photo in order to have better chances at getting connections",
                         );
                       }
                       if (fetchedPhotosData["show_on_feeds.hash"] == hash ||
@@ -221,7 +221,7 @@ class _SetFeedDelete extends StatelessWidget {
                         _showAlertDialogDelete(
                           context,
                           "Access Denied",
-                          "Cannot delete this photo is highlighted",
+                          "Highlighted pictures cannot be deleted.Please choose another photo as a highlight to delete this one",
                         );
                       } else {
                         // show alert dialog if user click yes delete the photo

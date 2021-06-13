@@ -149,7 +149,7 @@ Widget faceBookInfo() {
   return Container(
     alignment: Alignment.bottomCenter,
     margin: const EdgeInsets.only(bottom: 7),
-    child: const Text("We never post to Facebook",
+    child: const Text("We never post on Facebook",
         style: TextStyle(color: Colors.white70, fontSize: 14)),
   );
 }

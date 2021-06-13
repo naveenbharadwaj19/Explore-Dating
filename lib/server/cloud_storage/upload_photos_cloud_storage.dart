@@ -105,8 +105,9 @@ Future<void> uploadPhotosOfIndividualChatToCloudStorage(
     docIdName = docIdName.split("/")[1]; // get doc id from the path
     String imgName = photoPath.split("/").last;
     var reference1 = _storage.ref("Chatphotos/$docIdName/$imgName");
-
-    await reference1.putFile(File(photoPath));
+    SettableMetadata metadata =
+        SettableMetadata(customMetadata: {"id": docIdName}); // create metadata
+    await reference1.putFile(File(photoPath), metadata);
     print("Photo uploaded in chatphotos folder under $docIdName");
   } catch (error) {
     print("Error : ${error.toString()}");

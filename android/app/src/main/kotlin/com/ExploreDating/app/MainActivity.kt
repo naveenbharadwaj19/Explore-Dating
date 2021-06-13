@@ -1,4 +1,4 @@
-package com.company.Explore_Dating
+package com.ExploreDating.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -135,7 +135,7 @@ class _StartUpScreenState extends State<StartUpScreen> {
   bool isLoadingGoogle = false;
   bool isLoadingFb = false;
   final logoImage = Image.asset(
-    "assets/images/explore_org_logo.png",
+    "assets/images/explore_dating.png",
     fit: BoxFit.cover,
     // 200 , 170
     height: 200,
