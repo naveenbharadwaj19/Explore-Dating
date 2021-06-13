@@ -1,24 +1,24 @@
 {
   "project_info": {
     "project_number": "915100224193",
-    "firebase_url": "https://explore-dating-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    "firebase_url": "https://explore-dating-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "explore-dating",
     "storage_bucket": "explore-dating.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:915100224193:android:0b0a6710fd3db930ce2240",
+        "mobilesdk_app_id": "1:915100224193:android:1f425efba9ac050bce2240",
         "android_client_info": {
-          "package_name": "com.company.Explore_Dating"
+          "package_name": "com.ExploreDating.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "915100224193-i3ej3jre6k49anlmeul70pbvrmqn7jou.apps.googleusercontent.com",
+          "client_id": "915100224193-lbgnujf4lmnn578no4k5f6qgvt856gte.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.company.Explore_Dating",
+            "package_name": "com.ExploreDating.app",
             "certificate_hash": "ae7abcc7ffb972a80d1178578bbb8ef8700fd87e"
           }
         },
