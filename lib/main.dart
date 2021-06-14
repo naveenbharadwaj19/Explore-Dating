@@ -50,22 +50,7 @@ void main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  // ? Check setstate disposed properly
-  void setState(fn) {
-    // ignore: todo
-    // TODO: implement setState
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -85,11 +70,11 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Color(0xff121212),
           accentColor: Colors.white,
           buttonColor: Color(0xffF8C80D),
-          textTheme: TextTheme(
+          textTheme: const TextTheme(
               bodyText1: TextStyle(
                 color: Colors.white,
               ),
-              headline1: TextStyle(fontFamily: "Domine", color: Colors.white)),
+              headline1: const TextStyle(fontFamily: "Domine", color: Colors.white)),
         ),
         builder: (context, widget) => ResponsiveWrapper.builder(
           // ? warp all the heights and widths according to screen automatically
