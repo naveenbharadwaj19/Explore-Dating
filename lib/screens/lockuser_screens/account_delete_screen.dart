@@ -80,7 +80,7 @@ class AccountDeleteScreen extends StatelessWidget {
                   // * delete Userstatus -> uid datas and navigate the user to welcome screen
                   logoutUser(context);
                   deleteUser();
-                  deleteAll(); // ! not deleting properly
+                  deleteAll(); // ! problem in deletation secure storage
                 },
               ),
             ),

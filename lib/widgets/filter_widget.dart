@@ -55,8 +55,6 @@ class _FilterBottomSheetWidgetsState extends State<FilterBottomSheetWidgets> {
     return SingleChildScrollView(
       child: Container(
         color: Color(0xff121212),
-        // ! commented out height because whole widget is under scroll view
-        // height: 600,
         child: Column(
           children: [
             Container(

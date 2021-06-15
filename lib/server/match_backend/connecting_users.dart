@@ -1,6 +1,5 @@
 // @dart=2.9
-// todo : Algorithm for getting matched user id
-// ! entry point for connecting users (simplematch)
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/data/all_secure_storage.dart';
 import 'package:explore/data/temp/filter_datas.dart' show newRadius;

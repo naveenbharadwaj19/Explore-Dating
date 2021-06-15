@@ -72,8 +72,7 @@ class _MyPhotos extends StatelessWidget {
                   // ? body photos
                   child: GestureDetector(
                     child: CachedNetworkImage(
-                      // ! change to mediaquery height and width if any problem arise in photos
-                      // height: MediaQuery.of(context).size.height,
+               
                       height: double.infinity,
                       width: double.infinity,
                       imageUrl: photosSnapShot.data["photos"][index]["url"],

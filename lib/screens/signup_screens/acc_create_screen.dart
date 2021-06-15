@@ -72,7 +72,6 @@ class _AccCreatedScreenState extends State<AccCreatedScreen> {
             ),
             Spacer(),
             Align(
-              // ! Place continue button in center of the screen
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: 180,

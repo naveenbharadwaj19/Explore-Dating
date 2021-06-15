@@ -288,7 +288,6 @@ class _MiddleBox extends StatelessWidget {
                   bottomRight: const Radius.circular(30),
                 ),
                 child: CachedNetworkImage(
-                  // ! change to mediaquery height and width if any problem arise in photos
                   // height: MediaQuery.of(context).size.height,
                   height: double.infinity,
                   width: double.infinity,

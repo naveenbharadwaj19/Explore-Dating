@@ -116,7 +116,7 @@ Widget _aboutMe(
 Widget _myInterests(
     Color yellow, BuildContext context, dynamic fetchedProfileData) {
   final double width = MediaQuery.of(context).size.width;
-  final String fontFamily = "ProfileMyInterestsIcons"; // ! change the fontfamily
+  final String fontFamily = "ProfileMyInterestsIcons";
   List myInterests = fetchedProfileData["my_interests"];
   return Column(
     children: [

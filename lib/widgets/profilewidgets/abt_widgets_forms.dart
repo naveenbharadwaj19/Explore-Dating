@@ -62,7 +62,6 @@ class _AboutMePopUpState extends State<AboutMePopUp> {
               alignment: Alignment(-0.3, 0.0),
               child: Container(
                 width: 300,
-                // ! Need to use mediaquery to fix the width to avoid pixel overflow
                 margin: const EdgeInsets.only(top: 30, left: 20),
                 child: Container(
                   child: TextField(
@@ -229,7 +228,7 @@ class _WorkTitlePopUpState extends State<WorkTitlePopUp> {
             child: Container(
               height: 60,
               width: 300,
-              // ! Need to use mediaquery to fix the width to avoid pixel overflow
+             
               margin: const EdgeInsets.only(top: 30, left: 20),
               child: TextField(
                 controller: workTitleController,
@@ -392,7 +391,7 @@ class _EducationPopUpState extends State<EducationPopUp> {
             child: Container(
               height: 60,
               width: 300,
-              // ! Need to use mediaquery to fix the width to avoid pixel overflow
+              
               margin: const EdgeInsets.only(top: 30, left: 20),
               child: TextField(
                 controller: educationController,

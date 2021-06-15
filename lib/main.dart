@@ -27,7 +27,7 @@ import 'package:responsive_framework/responsive_framework.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // FirebaseFirestore.instance.settings = Settings(host: "10.0.2.2:8080",sslEnabled: false);
+  // FirebaseFirestore.instance.settings = Settings(host: "10.0.2.2:8080",sslEnabled: false); // ! comment out before production
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(
     MultiProvider(

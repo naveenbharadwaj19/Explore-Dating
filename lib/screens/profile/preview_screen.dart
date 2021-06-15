@@ -172,7 +172,7 @@ class _OUPSTop extends StatelessWidget {
             ),
             Container(
               // ? location
-              // ! might cause pixel overflow
+            
               margin: const EdgeInsets.only(top: 15),
               child: Container(
                 alignment: Alignment.center,
@@ -212,8 +212,7 @@ class _OUPSMiddle extends StatelessWidget {
               Radius.circular(30),
             ),
             child: CachedNetworkImage(
-              // ! change to mediaquery height and width if any problem arise in photos
-              // height: MediaQuery.of(context).size.height,
+          
               width: double.infinity,
               imageUrl: photosData["show_on_feeds"]["url"],
               fit: BoxFit.cover,

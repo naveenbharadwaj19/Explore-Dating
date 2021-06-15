@@ -91,7 +91,7 @@ class _LocationScreenState extends State<LocationScreen> {
                           borderRadius: BorderRadius.circular(20),
                           side: BorderSide(color: Color(0xffF8C80D))),
                       child: Text(
-                        // ! check permission spelling properly
+                       
                         check ? "Open settings" : "Allow permission",
                         textAlign: TextAlign.center,
                         style: const TextStyle(
