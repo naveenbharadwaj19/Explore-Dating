@@ -1,5 +1,6 @@
 // @dart=2.9
 // todo settings screen
+import 'package:explore/models/all_urls.dart';
 import 'package:explore/models/logout.dart';
 import 'package:explore/server/https_cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -135,9 +136,7 @@ class SettingsScreen extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
-                    onPressed: () {
-                      // todo navigate to website privacy policy
-                    },
+                    onPressed: () => launchPrivacyPolicy(),
                   ),
                 ),
               ),

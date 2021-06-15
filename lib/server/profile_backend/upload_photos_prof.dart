@@ -3,6 +3,7 @@
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:app_settings/app_settings.dart';
+import 'package:explore/models/all_urls.dart';
 import 'package:explore/models/assign_errors.dart';
 import 'package:explore/models/blur_hash_img.dart';
 import 'package:explore/server/cloud_storage/download_photos_storage.dart';
@@ -75,9 +76,7 @@ class HandlePhotosForProfile {
                 icon: const Icon(Icons.help_rounded),
                 color: Colors.white,
                 tooltip: "help",
-                onPressed: () {
-                  // * navigate to the website why we don't accept
-                },
+                onPressed: () => launchPhotoRules()
               ),
             )..show(contextP);
           } else if (processedFaces.isNotEmpty) {
@@ -185,9 +184,7 @@ class HandlePhotosForProfile {
                 icon: const Icon(Icons.help_rounded),
                 color: Colors.white,
                 tooltip: "help",
-                onPressed: () {
-                  // * navigate to the website why we don't accept
-                },
+                onPressed: () => launchPhotoRules(),
               ),
             )..show(contextP);
           } else if (processedFaces.isNotEmpty) {
@@ -297,9 +294,7 @@ class HandlePhotosForProfile {
                 icon: const Icon(Icons.help_rounded),
                 color: Colors.white,
                 tooltip: "help",
-                onPressed: () {
-                  // * navigate to the website why we don't accept
-                },
+                onPressed: () => launchPhotoRules(),
               ),
             )..show(contextP);
             stopBodyPhotoProcess();
@@ -412,9 +407,7 @@ class HandlePhotosForProfile {
                 icon: const Icon(Icons.help_rounded),
                 color: Colors.white,
                 tooltip: "help",
-                onPressed: () {
-                  // * navigate to the website why we don't accept
-                },
+                onPressed: () => launchPhotoRules(),
               ),
             )..show(contextP);
             stopBodyPhotoProcess();

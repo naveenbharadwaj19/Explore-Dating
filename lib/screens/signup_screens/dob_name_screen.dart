@@ -3,7 +3,9 @@
 
 import 'package:circular_check_box/circular_check_box.dart';
 import 'package:explore/data/temp/auth_data.dart' show ageM, dobM;
+import 'package:explore/models/all_urls.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import '../../server/signup_process.dart' show SignUpProcess;
 import 'package:another_flushbar/flushbar.dart';
@@ -291,12 +293,12 @@ Widget _ageCondition(bool agreeAge, Function toogleAge) {
         ),
         Padding(
           padding: const EdgeInsets.all(8),
-          child: Text(
+          child: const Text(
             "I agree i'm above 18",
             maxLines: 1,
             overflow: TextOverflow.clip,
-            style: const TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.w700),
+            style: TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.w700),
           ),
         )
       ],
@@ -317,24 +319,28 @@ Widget _termsAndConditions(bool tAndC, Function toogleTerms) {
           inactiveColor: Colors.white,
           onChanged: (val) => toogleTerms(),
         ),
-        // ignore: deprecated_member_use
-        GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text(
-                "I agree to the terms and conditions",
-                maxLines: 1,
-                overflow: TextOverflow.clip,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    decoration: TextDecoration.underline),
-              ),
+        Padding(
+          padding: const EdgeInsets.only(left: 8),
+          child: RichText(
+            text: TextSpan(
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700),
+              children: [
+                const TextSpan(text: "I agree to the "),
+                TextSpan(
+                  text: "terms and conditions",
+                  style: TextStyle(decoration: TextDecoration.underline),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () => launchTermsAndConditions(),
+                ),
+              ],
             ),
-            onTap: () {
-              // todo navigate to terms and conditions when pressed
-            }),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
       ],
     ),
   );

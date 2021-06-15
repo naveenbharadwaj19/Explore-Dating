@@ -1,5 +1,6 @@
 // @dart=2.9
 import 'package:explore/icons/auth_icons_icons.dart';
+import 'package:explore/models/all_urls.dart';
 import 'package:explore/models/auth.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:flutter/material.dart';
@@ -187,9 +188,7 @@ Widget bottomButtons() {
               color: Colors.white70,
             ),
             tooltip: "Help",
-            onPressed: () {
-              // todo navigate to web FAQ
-            },
+            onPressed: () => launchFaq(),
           ),
         ),
         Container(
@@ -204,9 +203,7 @@ Widget bottomButtons() {
                 color: Colors.white70,
               ),
               tooltip: "Report bug",
-              onPressed: () {
-                // todo navigate to report bug
-              }),
+              onPressed: () => reportBug()),
         ),
       ],
     ),

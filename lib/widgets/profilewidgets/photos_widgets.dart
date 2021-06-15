@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/icons/eye_icons_icons.dart';
 import 'package:explore/icons/gallery_icon_icons.dart';
+import 'package:explore/models/all_urls.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/models/vibration.dart';
 import 'package:explore/providers/profile_state.dart';
@@ -367,9 +368,7 @@ class _AlertDialogue extends StatelessWidget {
             style: const TextStyle(
                 color: Color(0xCCF8C80D), fontSize: 18), // 80 % opacity
           ),
-          onPressed: () {
-            // todo  Navigate to web photo rules
-          }),
+          onPressed: () => launchPhotoRules()),
     );
     AlertDialog showAlert = AlertDialog(
       backgroundColor: Theme.of(context).primaryColor,

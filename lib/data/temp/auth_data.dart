@@ -6,5 +6,5 @@ String  emailAddressM;
 String  passwordM;
 String  dobM;
 String selectedGenderM = "";
-String  storeGeneratedCode = "0000"; // ! empty the string
+String  storeGeneratedCode = "0000";
 int  ageM;

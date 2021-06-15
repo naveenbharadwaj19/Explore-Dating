@@ -176,7 +176,6 @@ class _StartUpScreenState extends State<StartUpScreen> {
       color: Theme.of(context).primaryColor,
       child: Column(
         children: [
-          navigateToWebSite(),
           logoAppName(logoImage),
           greetText(),
           catchyText(),

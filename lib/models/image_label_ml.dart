@@ -1,5 +1,6 @@
 // @dart=2.9
 // todo Ml for pick photo screen
+import 'package:explore/models/all_urls.dart';
 import 'package:explore/models/assign_errors.dart';
 import '../server/signup_process.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
@@ -36,9 +37,7 @@ Future<void> detectHeadPhotoAndStoreToCloud(
             icon: const Icon(Icons.help_rounded),
             color: Colors.white,
             tooltip: "help",
-            onPressed: () {
-              // todo navigate to the website why we don't accept
-            },
+            onPressed: () => launchPhotoRules(),
           ),
         )..show(context);
       } else if (processedHeadFace.isNotEmpty && processBodyFace.isNotEmpty) {
