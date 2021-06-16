@@ -3,6 +3,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:explore/models/all_enums.dart';
+import 'package:explore/models/all_urls.dart';
 import 'package:explore/models/spinner.dart';
 import 'package:explore/screens/home/explore_screen.dart';
 import 'package:explore/widgets/profilewidgets/preview_widget.dart';
@@ -364,10 +365,7 @@ Widget _errorMessage(BuildContext context) {
                   fontSize: 16,
                   decoration: TextDecoration.underline),
               recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  // todo link report bug forum
-                  print("open report bug forum");
-                },
+                ..onTap = () => reportBug(),
             ),
           ],
         ),

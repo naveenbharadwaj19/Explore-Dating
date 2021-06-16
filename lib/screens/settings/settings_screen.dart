@@ -228,7 +228,7 @@ class SettingsScreen extends StatelessWidget {
                           ),
                         ),
                         const Text(
-                          "from India",
+                          "in India",
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           style: TextStyle(color: Colors.white70, fontSize: 16),

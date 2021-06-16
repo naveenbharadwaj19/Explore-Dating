@@ -221,7 +221,7 @@ class _SetFeedDelete extends StatelessWidget {
                         _showAlertDialogDelete(
                           context,
                           "Access Denied",
-                          "Highlighted pictures cannot be deleted.Please choose another photo as a highlight to delete this one",
+                          "Highlighted picture cannot be deleted.Please choose another photo as a highlight to delete this one",
                         );
                       } else {
                         // show alert dialog if user click yes delete the photo
