@@ -34,8 +34,8 @@ Future<void> detectHeadPhotoAndStoreToCloud(
           backgroundColor: Color(0xff121212),
           duration: Duration(seconds: 3),
           mainButton: IconButton(
-            icon: const Icon(Icons.help_rounded),
-            color: Colors.white,
+            icon: const Icon(Icons.lightbulb),
+            color: Theme.of(context).buttonColor,
             tooltip: "help",
             onPressed: () => launchPhotoRules(),
           ),

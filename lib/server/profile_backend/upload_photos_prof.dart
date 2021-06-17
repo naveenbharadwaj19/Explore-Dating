@@ -73,11 +73,10 @@ class HandlePhotosForProfile {
               backgroundColor: Color(0xff121212),
               duration: Duration(seconds: 3),
               mainButton: IconButton(
-                icon: const Icon(Icons.help_rounded),
-                color: Colors.white,
-                tooltip: "help",
-                onPressed: () => launchPhotoRules()
-              ),
+                  icon: const Icon(Icons.lightbulb),
+                  color: Theme.of(contextP).buttonColor,
+                  tooltip: "help",
+                  onPressed: () => launchPhotoRules()),
             )..show(contextP);
           } else if (processedFaces.isNotEmpty) {
             // * when face is detected
@@ -92,7 +91,8 @@ class HandlePhotosForProfile {
                 encodeBlurHashImg(fetchedHeadPhoto).then((headPhotoHash) {
                   ProfileAboutMeBackEnd.uploadHeadPhoto(
                       headPhotoHash, fetchedHeadPhoto);
-                  replicateHeadPhoto(fetchedHeadPhoto); // * R - number docs retrieved , W - no of docs retrieved (max 100)
+                  replicateHeadPhoto(
+                      fetchedHeadPhoto); // * R - number docs retrieved , W - no of docs retrieved (max 100)
                   // show upload successful message to the user
                   Flushbar(
                     messageText: Center(
@@ -181,8 +181,8 @@ class HandlePhotosForProfile {
               backgroundColor: Color(0xff121212),
               duration: Duration(seconds: 3),
               mainButton: IconButton(
-                icon: const Icon(Icons.help_rounded),
-                color: Colors.white,
+                icon: const Icon(Icons.lightbulb),
+                color: Theme.of(contextP).buttonColor,
                 tooltip: "help",
                 onPressed: () => launchPhotoRules(),
               ),
@@ -200,7 +200,8 @@ class HandlePhotosForProfile {
                 encodeBlurHashImg(fetchedHeadPhoto).then((headPhotoHash) {
                   ProfileAboutMeBackEnd.uploadHeadPhoto(
                       headPhotoHash, fetchedHeadPhoto);
-                  replicateHeadPhoto(fetchedHeadPhoto); // * R - number docs retrieved , W - no of docs retrieved (max 100)
+                  replicateHeadPhoto(
+                      fetchedHeadPhoto); // * R - number docs retrieved , W - no of docs retrieved (max 100)
                   // show upload successful message to the user
                   Flushbar(
                     messageText: Center(
@@ -291,8 +292,8 @@ class HandlePhotosForProfile {
               backgroundColor: Color(0xff121212),
               duration: Duration(seconds: 3),
               mainButton: IconButton(
-                icon: const Icon(Icons.help_rounded),
-                color: Colors.white,
+                icon: const Icon(Icons.lightbulb),
+                color: Theme.of(contextP).buttonColor,
                 tooltip: "help",
                 onPressed: () => launchPhotoRules(),
               ),
@@ -404,8 +405,8 @@ class HandlePhotosForProfile {
               backgroundColor: Color(0xff121212),
               duration: Duration(seconds: 3),
               mainButton: IconButton(
-                icon: const Icon(Icons.help_rounded),
-                color: Colors.white,
+                icon: const Icon(Icons.lightbulb),
+                color: Theme.of(contextP).buttonColor,
                 tooltip: "help",
                 onPressed: () => launchPhotoRules(),
               ),

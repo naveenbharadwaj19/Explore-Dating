@@ -80,7 +80,7 @@ class SettingsScreen extends StatelessWidget {
                 child: Text(
                   emailAddress,
                   maxLines: 1,
-                  overflow: TextOverflow.fade,
+                  overflow: TextOverflow.clip,
                   style: const TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
@@ -242,11 +242,11 @@ class SettingsScreen extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   // app version
-                  margin: const EdgeInsets.only(top: 5),
+                  margin: const EdgeInsets.only(top: 5,bottom: 3),
                   child: Text(
                     !packageSnapShot.hasData
                         ? ""
-                        : "V ${packageSnapShot.data.version}",
+                        : "Version ${packageSnapShot.data.version}",
                     maxLines: 1,
                     overflow: TextOverflow.clip,
                     style: TextStyle(fontSize: 16, color: Colors.white70),

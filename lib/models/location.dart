@@ -61,7 +61,7 @@ class LocationModel {
       currentPosition = geo;
       print(currentPosition);
       if (currentPosition != null) {
-        updateLocationAllOverTheDataBase(
+        _updateLocationAllOverTheDataBase(
             currentPosition.latitude, currentPosition.longitude, context);
         updatedOpenCloseLocation();
       }
@@ -78,7 +78,8 @@ class LocationModel {
       )..show(context);
     }
   }
-  static Future<Position>  getLatitudeAndLongitude() async {
+
+  static Future<Position> getLatitudeAndLongitude() async {
     // * get latitude and longitude
     Position currentPosition;
     try {
@@ -97,7 +98,7 @@ class LocationModel {
     }
   }
 
-  static Future<void> updateLocationAllOverTheDataBase(
+  static Future<void> _updateLocationAllOverTheDataBase(
       // * store location in required documents
       // * central hub -> store , update location all over the database
       double latitude,
@@ -118,9 +119,10 @@ class LocationModel {
             latitude, longitude, addressFirst); //* 1R,1 W
         ProfileAboutMeBackEnd.updateProfileLocation(addressFirst);
         print("Location details stored & updated all over the database");
-        print("Event triggered in : 1 - Users/-/location 2 - Profile 3 - Matchmaking");
+        print(
+            "Event triggered in : 1 - Users/-/location 2 - Profile 3 - Matchmaking");
       }
-    } catch (error,stackTrace) {
+    } catch (error, stackTrace) {
       print("Error in fetching address : ${error.toString()}");
       Flushbar(
         messageText: Text(
@@ -131,8 +133,10 @@ class LocationModel {
         backgroundColor: Color(0xff121212),
         duration: Duration(seconds: 3),
       )..show(context);
-      await FirebaseCrashlytics.instance.recordError(error, stackTrace,reason: "Error in fetching location & address");
-      FirebaseCrashlytics.instance.setUserIdentifier(FirebaseAuth.instance.currentUser.uid);
+      await FirebaseCrashlytics.instance.recordError(error, stackTrace,
+          reason: "Error in fetching location & address");
+      FirebaseCrashlytics.instance
+          .setUserIdentifier(FirebaseAuth.instance.currentUser.uid);
     }
   }
 
@@ -171,25 +175,39 @@ class LocationModel {
   static checkUserLocation(
       {double latitude, double longitude, BuildContext context}) async {
     // * will update if user geo hash gets changed
-    // * 2R , 3W (CRUD of checkUserLocation , updateLocationALlOverTheDataBase)
+    // * 3R , 3W (CRUD of checkUserLocation , updateLocationALlOverTheDataBase)
     try {
       String fetchHash = myGeoHash(latitude: latitude, longitude: longitude);
+      String uid = FirebaseAuth.instance.currentUser.uid;
       print("GeoHash : $fetchHash");
       var fetchedLocationDocData = await FirebaseFirestore.instance
           .doc(
               "Users/${FirebaseAuth.instance.currentUser.uid}/Userlocation/fetchedlocation")
           .get(); // * 1 R
+      var checkMMLocation = await FirebaseFirestore.instance
+          .collection("Matchmaking/simplematch/MenWomen")
+          .where("uid", isEqualTo: uid)
+          .limit(1)
+          .get(); // * 1 R
+
       if (fetchedLocationDocData.exists == false) {
         // no Users/--/Userlocation /fetchedlocation document found
         print("No Userlocation collection found so creating one...");
-        updateLocationAllOverTheDataBase(latitude, longitude, context);
+        _updateLocationAllOverTheDataBase(latitude, longitude, context);
       }
       // note : if Users/--/USerlocation/fetchedlocation is not updated to new location this will trigger below line
       // and update the new location all over the database
       // check if stored geohash in Users/--/Userlocation is not equal not current geohash
-      if (fetchedLocationDocData.get("current_coordinates.geohash") != fetchHash) {
-        print("User level geohash has been changed so updating new location all over the database");
-        updateLocationAllOverTheDataBase(latitude, longitude, context);
+      if (fetchedLocationDocData.get("current_coordinates.geohash") !=
+          fetchHash) {
+        print(
+            "User level geohash has been changed so updating new location all over the database");
+        _updateLocationAllOverTheDataBase(latitude, longitude, context);
+      }
+      if(checkMMLocation.docs.first.data()["current_coordinates"] == null){
+        // No location data found in MM
+        print("No location data found in MM so creating one...");
+        _updateLocationAllOverTheDataBase(latitude, longitude, context);
       }
     } catch (error) {
       print("Error in userlocation : ${error.toString()}");
